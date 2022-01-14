@@ -1,10 +1,11 @@
 <%-- 
-    Document   : Hearder
-    Created on : Jan 9, 2022, 4:45:47 PM
+    Document   : LandingPage
+    Created on : Jan 9, 2022, 5:20:23 PM
     Author     : Admin
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -12,6 +13,7 @@
         <title>JSP Page</title>
     </head>
     <body>
-        <h1>Hearder Hello World!</h1>
+       
+        <h1>Hello World!</h1>
     </body>
 </html>
