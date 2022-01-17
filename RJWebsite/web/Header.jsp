@@ -9,12 +9,12 @@
 <!DOCTYPE html>
 <html>
     <head>
-<!--        <meta charset="utf-8">
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <link href="bootstrap-4.6.1-dist/css/bootstrap.min.css" media="all" type="text/css" rel="stylesheet">
-        <script src="bootstrap-4.6.1-dist/jQuery/jquery-3.6.0.min.js"></script>
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1">-->
+        <!--        <meta charset="utf-8">
+                <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+                <link href="bootstrap-4.6.1-dist/css/bootstrap.min.css" media="all" type="text/css" rel="stylesheet">
+                <script src="bootstrap-4.6.1-dist/jQuery/jquery-3.6.0.min.js"></script>
+                <meta http-equiv="X-UA-Compatible" content="IE=edge">
+                <meta name="viewport" content="width=device-width, initial-scale=1">-->
         <title>Header</title>
     </head>
     <body>
@@ -30,7 +30,7 @@
                         <a class="nav-link" href="#">My Profile</a>
                     </li>
                     <li class="nav-item ml-3">
-                        <a class="nav-link" href="#">I'm Recruter</a>
+                        <a class="nav-link" href="#">I'm Recruiter</a>
                     </li>
 
                     <li class="nav-item ml-3">
@@ -60,6 +60,15 @@
                     <li class="nav-item ml-3">
                         <a class="nav-link" href="#">Blog</a>
                     </li>
+                    <li class="nav-item ml-3">
+                        <a class="nav-link" href="#">Recruitment Posted</a>
+                    </li>
+                    <li class="nav-item ml-3">
+                        <a class="nav-link" href="#">Searching Candidate</a>
+                    </li>
+                    <li class="nav-item ml-3">
+                        <a class="nav-link" href="#">Company Profile</a>
+                    </li>
                     <li class="nav-item ml-3 ">
                         <svg xmlns="http://www.w3.org/2000/svg" width=25 height="25" fill="currentColor" class="bi bi-person-circle"viewBox="0 0 16 16"  >
                         <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
@@ -67,14 +76,14 @@
                         </svg>
                     </li>
                     <li class="nav-item ml-3">
-                     <button type="button" class="btn btn-primary">Login</button>
+                        <button type="button" class="btn btn-primary">Login</button>
                     </li>
                     <li class="nav-item ml-3">
-                       <button type="button" class="btn btn-outline-primary">Register</button>
+                        <button type="button" class="btn btn-outline-primary">Register</button>
                     </li>
                 </ul>
             </div>
         </nav>
-<!--        <script src="bootstrap-4.6.1-dist/js/bootstrap.min.js"></script>-->
+        <!--        <script src="bootstrap-4.6.1-dist/js/bootstrap.min.js"></script>-->
     </body>
 </html>
