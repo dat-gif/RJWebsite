@@ -55,9 +55,11 @@
                 <div class="col p-1  mt-1">
                     <jsp:include page="component/CardInfo.jsp"/>
                 </div>
-                <div class="col p-1 mt-1">
-                    <jsp:include page="component/CardInfo.jsp"/>
-                </div>
+             
+            </div>
+            <div class="row justify-content-center mt-4">
+                <jsp:include page="component/Pagination.jsp"/>
+            </div>
 
         </main>
 
