@@ -16,8 +16,8 @@
                     <h5 class="card-text ">CompanyName</h5>
                 </div>
                 <ul class="list-group list-group-flush text-center">
-                    <li class="list-group-item">Java, SQL</li>
-                    <li class="list-group-item text-primary">Up to 3000$</li>
+                    <li class="list-group-item">Java, SQL <br/><p class="text-info">Up to 3000$</p> </li>
+
                 </ul>
 
             </div>
