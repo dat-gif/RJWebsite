@@ -1,6 +1,6 @@
 <%-- 
-    Document   : Dashboard
-    Created on : Jan 18, 2022, 9:44:38 PM
+    Document   : CandiateDashboard
+    Created on : Jan 18, 2022, 11:27:19 PM
     Author     : admin
 --%>
 
@@ -10,7 +10,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>JSP Page</title>
-         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link href="bootstrap-4.6.1-dist/css/bootstrap.min.css" media="all" type="text/css" rel="stylesheet">
         <script src="bootstrap-4.6.1-dist/jQuery/jquery-3.6.0.min.js"></script>
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -81,30 +81,16 @@
             </a>
           </li>
         </ul>
-          
       </div>
     </nav>
-
-    <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4">
-     
-      <div class= "container-fluid">
-   <div class = "box">
-       <div class="col">
-           <h4>110</h4>
-           <h5>Number of candidates</h5>
-       </div>
-       <div class="col">
-           <h4>110</h4>
-           <h5>Number of candidates</h5>
-       </div>
-       <div class="col">
-           <h4>110</h4>
-           <h5>Number of candidates</h5>
-       </div> 
-   </div>
+      <main role="main" class="searchcontainer">
+        <div class="input-group">
+            <input type="search" class="form-control  rounded border-secondary" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
+            <button type="button" class="btn btn-outline-primary ml-1">search</button>
+        </div>
     </main>
   </div>
 </div>
-       <script src="bootstrap-4.6.1-dist/js/bootstrap.min.js"></script>
+        <script src="bootstrap-4.6.1-dist/js/bootstrap.min.js"></script>
     </body>
 </html>
