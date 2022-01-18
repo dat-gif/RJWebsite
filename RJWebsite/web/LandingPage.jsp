@@ -18,9 +18,10 @@
         <title>Welcome</title>
     </head>
     <body>
- <header> 
-        <jsp:include page="component/Header.jsp"/>
-</header>
+        <header> 
+            <jsp:include page="component/Header.jsp"/>
+        </header>
+
         <div
             class="text-center bg-image"
             style="
@@ -41,6 +42,7 @@
             </div>
         </div>
         <main class="container mt-5">
+            <h2 class="text-center text-capitalize">new recruitment</h2>
             <div class="row row-cols-4 align-content-center">
                 <div class="col p-1 mt-1">
                     <jsp:include page="component/CardInfo.jsp"/>

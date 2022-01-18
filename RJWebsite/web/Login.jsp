@@ -37,8 +37,6 @@
                             <label class="form-label" for="form1Example2">Password</label>
                             <input type="password" id="form1Example2" class="form-control" />
                         </div>
-
-
                         <div class="row mb-4">
                             <div class="col d-flex justify-content-center">
 
