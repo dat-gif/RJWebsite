@@ -30,6 +30,7 @@ public class LandingPage extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try {
+            System.out.println("yes");
             request.getRequestDispatcher("LandingPage.jsp").forward(request, response);
         } catch (Exception e) {
         }

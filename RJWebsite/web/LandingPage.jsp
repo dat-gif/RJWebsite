@@ -19,8 +19,49 @@
         <title>Welcome</title>
     </head>
     <body>
-        <jsp:include page="Header.jsp"/>
-        <h1>Hello World!</h1>
+
+        <jsp:include page="component/Header.jsp"/>
+
+        <div
+            class="text-center bg-image"
+            style="
+            background-image: url('https://mdbcdn.b-cdn.net/img/new/slides/041.webp');
+            background-size: cover;
+            "
+            >
+            <div class="mask" style="background-color: rgba(0, 0, 0, 0.6); height: 40rem; ">
+                <div class="d-flex justify-content-center align-items-center h-100">
+                    <div class="text-white">
+                        <h1 class="mb-3"> Thousand of IT job are waiting for you</h1>
+                        <h4 class="mb-3">Create profile and join us now</h4>
+                        <a class="btn btn-md btn-primary" href="#!" role="button"
+                           >Create profile</a
+                        >
+                    </div>
+                </div>
+            </div>
+        </div>
+        <main class="container mt-5">
+            <div class="row row-cols-4 align-content-center">
+                <div class="col p-1 mt-1">
+                    <jsp:include page="component/CardInfo.jsp"/>
+                </div>
+                <div class="col p-1  mt-1">
+                    <jsp:include page="component/CardInfo.jsp"/>
+                </div>
+                <div class="col p-1  mt-1">
+                    <jsp:include page="component/CardInfo.jsp"/>
+                </div>
+                <div class="col p-1  mt-1">
+                    <jsp:include page="component/CardInfo.jsp"/>
+                </div>
+                <div class="col p-1 mt-1">
+                    <jsp:include page="component/CardInfo.jsp"/>
+                </div>
+
+        </main>
+
+        <jsp:include page="component/Footer.jsp"/>
         <script src="bootstrap-4.6.1-dist/js/bootstrap.min.js"></script>
     </body>
 </html>
