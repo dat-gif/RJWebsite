@@ -9,7 +9,6 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <meta charset="utf-8">
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link href="bootstrap-4.6.1-dist/css/bootstrap.min.css" media="all" type="text/css" rel="stylesheet">
         <script src="bootstrap-4.6.1-dist/jQuery/jquery-3.6.0.min.js"></script>
@@ -19,9 +18,9 @@
         <title>Welcome</title>
     </head>
     <body>
-
+ <header> 
         <jsp:include page="component/Header.jsp"/>
-
+</header>
         <div
             class="text-center bg-image"
             style="
@@ -55,12 +54,11 @@
                 <div class="col p-1  mt-1">
                     <jsp:include page="component/CardInfo.jsp"/>
                 </div>
-             
+
             </div>
             <div class="row justify-content-center mt-4">
                 <jsp:include page="component/Pagination.jsp"/>
             </div>
-
         </main>
 
         <jsp:include page="component/Footer.jsp"/>
