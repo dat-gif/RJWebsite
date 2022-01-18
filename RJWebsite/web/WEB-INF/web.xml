@@ -16,6 +16,10 @@
         <servlet-name>RegisterController</servlet-name>
         <servlet-class>control.RegisterController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>SeachingJobController</servlet-name>
+        <servlet-class>control.SeachingJobController</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>LandingPage</servlet-name>
         <url-pattern>/landingpage</url-pattern>
@@ -27,6 +31,10 @@
     <servlet-mapping>
         <servlet-name>RegisterController</servlet-name>
         <url-pattern>/register</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SeachingJobController</servlet-name>
+        <url-pattern>/seachingjob</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

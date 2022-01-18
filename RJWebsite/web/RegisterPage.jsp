@@ -21,7 +21,7 @@
         <main class="container-fluid mt-3 mb-3">
             <div class="row row-cols-2 justify-content-center align-items-center">
                 <div class="col no-gutters">
-                    <img src="https://picsum.photos/1000/1000" class="img-fluid" alt="alt"/>
+                    <img src="https://picsum.photos/1000/1000" class="img-fluid w-100" alt="alt"/>
                 </div>
                 <div class="col-5 p-5 " >
                     <!-- Candidate register -->
