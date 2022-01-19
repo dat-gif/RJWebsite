@@ -26,10 +26,10 @@
             <!-- Searching -->
             <div class="row row-cols-2 ">
                 <div class="col align-self-center"> 
-                    <h3 class="text-capitalize display-4">Searching for IT job...</h3>
+                    <h3 class="text-capitalize display-4 mb-4">Searching for IT job...</h3>
                     <div class="input-group">
                         <input type="search" class="form-control  rounded border-secondary" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
-                        <button type="button" class="btn btn-outline-primary ml-1">search</button>
+                        <button type="button" class="btn btn-outline-primary mx-3">search</button>
                     </div>
                     <div class="d-flex mt-3 ">
                         <select class="form-select mr-2 border-secondary rounded w-25 form-control ">
@@ -52,25 +52,18 @@
             <hr class="my-4"/>
             <!-- Result -->
             <div class="row row-cols-4 align-content-center ">
-                <div class="col p-1 mt-1">
-                    <jsp:include page="component/CardInfo.jsp"/>
-                </div>
-                <div class="col p-1  mt-1">
-                    <jsp:include page="component/CardInfo.jsp"/>
-                </div>
-                <div class="col p-1  mt-1">
-                    <jsp:include page="component/CardInfo.jsp"/>
-                </div>
-                <div class="col p-1  mt-1">
-                    <jsp:include page="component/CardInfo.jsp"/>
-                </div>
-
+                <c:forEach begin="0" end="12" var="0">
+                    <div class="col p-1 mt-1">
+                        <jsp:include page="component/CardInfo.jsp"/>
+                    </div>
+                </c:forEach>
             </div>
+            <!-- Phan trang -->
             <div class="row justify-content-center mt-4 mb-4">
                 <jsp:include page="component/Pagination.jsp"/>
             </div>
         </main>
-
+        <!-- Footer -->
         <jsp:include page="component/Footer.jsp"/>
         <script src="bootstrap-4.6.1-dist/js/bootstrap.min.js"></script>
     </body>
