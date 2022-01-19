@@ -32,6 +32,10 @@
         <servlet-name>SeachingJobController</servlet-name>
         <servlet-class>control.SeachingJobController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>CandidateApplyJobController</servlet-name>
+        <servlet-class>control.CandidateApplyJobController</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>LandingPage</servlet-name>
         <url-pattern>/landingpage</url-pattern>
@@ -52,9 +56,17 @@
         <servlet-name>SeachingJobController</servlet-name>
         <url-pattern>/seachingjob</url-pattern>
     </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CandidateApplyJobController</servlet-name>
+        <url-pattern>/candidateapplyjob</url-pattern>
+    </servlet-mapping>
     <session-config>
         <session-timeout>
             30
         </session-timeout>
+        <servlet-mapping>
+            <servlet-name>SeachingCompanyController</servlet-name>
+            <url-pattern>/seachingcompany</url-pattern>
+        </servlet-mapping>
     </session-config>
 </web-app>
