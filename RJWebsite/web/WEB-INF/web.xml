@@ -36,6 +36,10 @@
         <servlet-name>CandidateApplyJobController</servlet-name>
         <servlet-class>control.CandidateApplyJobController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>FollowCompanyController</servlet-name>
+        <servlet-class>control.FollowCompanyController</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>LandingPage</servlet-name>
         <url-pattern>/landingpage</url-pattern>
@@ -59,6 +63,10 @@
     <servlet-mapping>
         <servlet-name>CandidateApplyJobController</servlet-name>
         <url-pattern>/candidateapplyjob</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>FollowCompanyController</servlet-name>
+        <url-pattern>/followcompany</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
