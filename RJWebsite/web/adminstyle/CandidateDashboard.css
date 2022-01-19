@@ -3,9 +3,10 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to c
 Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css to edit this template
 */
 /* 
-    Created on : Jan 18, 2022, 10:08:56 PM
+    Created on : Jan 19, 2022, 10:04:22 PM
     Author     : admin
 */
+
 .box{
     margin-top: 20px;
     width: 1500px;
@@ -23,4 +24,34 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css
 }
 .box .col h4{
     margin-top: 28px;
+}
+#sidebarMenu{
+    float: left
+}
+.content{
+    
+    width: 1550px;
+    text-align: center;
+    height: 200px;
+    height: 1000px;
+}
+.searchcontainer{
+    margin-top: 50px;
+    width: 700px;
+}
+.table{
+    margin-top: 40px;
+}
+.action{
+    width: 500px;
+    text-align: center;
+}
+.table #a1{
+    margin-right: 100px;
+}
+.table #a3{
+    margin-left: 100px;
+}
+.table td{
+    height: 90px;
 }
