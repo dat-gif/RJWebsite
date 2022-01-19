@@ -44,19 +44,14 @@
 
         <main class="container mt-5">
             <h2 class="text-center text-capitalize">new recruitment</h2>
+
             <div class="row row-cols-4 align-content-center">
-                <div class="col p-1 mt-1">
-                    <jsp:include page="component/CardInfo.jsp"/>
-                </div>
-                <div class="col p-1  mt-1">
-                    <jsp:include page="component/CardInfo.jsp"/>
-                </div>
-                <div class="col p-1  mt-1">
-                    <jsp:include page="component/CardInfo.jsp"/>
-                </div>
-                <div class="col p-1  mt-1">
-                    <jsp:include page="component/CardInfo.jsp"/>
-                </div>
+                <c:forEach begin="1" end="12" var="o"> 
+                    <div class="col p-1 mt-1">
+                        <jsp:include page="component/CardInfo.jsp"/>
+                    </div>
+                </c:forEach>  
+
 
             </div>
             <div class="row justify-content-center mt-4 mb-4">

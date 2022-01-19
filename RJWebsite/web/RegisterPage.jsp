@@ -89,7 +89,7 @@
 
 
                         <!-- Submit button -->
-                        <button type="submit" class="btn btn-primary btn-block">Sign in</button>
+                        <button type="submit" class="btn btn-primary btn-block">Register Account</button>
                     </form>
                 </div>
             </div>

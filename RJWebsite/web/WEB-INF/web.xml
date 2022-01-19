@@ -20,6 +20,18 @@
         <servlet-name>SeachingJobController</servlet-name>
         <servlet-class>control.SeachingJobController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>SeachingConpanyController</servlet-name>
+        <servlet-class>control.SeachingConpanyController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>SeachingCompanyController</servlet-name>
+        <servlet-class>control.SeachingCompanyController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>SeachingJobController</servlet-name>
+        <servlet-class>control.SeachingJobController</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>LandingPage</servlet-name>
         <url-pattern>/landingpage</url-pattern>
@@ -31,6 +43,10 @@
     <servlet-mapping>
         <servlet-name>RegisterController</servlet-name>
         <url-pattern>/register</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SeachingCompanyController</servlet-name>
+        <url-pattern>/seachingcompany</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>SeachingJobController</servlet-name>
