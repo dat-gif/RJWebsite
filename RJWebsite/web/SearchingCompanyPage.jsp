@@ -26,7 +26,7 @@
             <!-- Searching -->
             <div class="row row-cols-2 ">
                 <div class="col align-self-center"> 
-                    <h3 class="text-capitalize display-4 mb-4">Searching for IT job...</h3>
+                    <h3 class="text-capitalize display-4 mb-4">Searching for IT Company...</h3>
                     <div class="input-group">
                         <input type="search" class="form-control rounded border-secondary" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
                         <button type="button" class="btn btn-outline-primary mx-3">search</button>
@@ -48,7 +48,7 @@
             <!-- Result -->
             <div class="row row-cols-4 align-content-center ">
                 <c:forEach begin="0" end="12" var="0">
-                    <div class="col p-1 mt-1">
+                    <div class="col p-2 mt-1">
                         <jsp:include page="component/CardInfo.jsp"/>
                     </div>
                 </c:forEach>

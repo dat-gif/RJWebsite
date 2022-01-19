@@ -53,7 +53,7 @@
             <!-- Result -->
             <div class="row row-cols-4 align-content-center ">
                 <c:forEach begin="0" end="12" var="0">
-                    <div class="col p-1 mt-1">
+                    <div class="col p-2 mt-1">
                         <jsp:include page="component/CardInfo.jsp"/>
                     </div>
                 </c:forEach>
