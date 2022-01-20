@@ -44,7 +44,7 @@ public class FollowCompanyController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-                try {
+        try {
             request.getRequestDispatcher("FollowCompanyPage.jsp").forward(request, response);
         } catch (Exception e) {
         }

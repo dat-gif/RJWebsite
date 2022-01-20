@@ -9,9 +9,9 @@
 <html>
     <body>
         <footer>
-            <div class="text-center p-4" style="background-color: rgba(0, 0, 0, 0.05);">
+            <div class="text-center p-4" style="background-color: rgb(242, 242, 242);">
                 © 2022 Copyright:
-                <a class="text-reset fw-bold" href="https://mdbootstrap.com/">SE1511-Group 6 - R&J</a>
+                <a class="text-reset fw-bold" href="https://github.com/dat-gif/RJWebsite">SE1511-Group 6 - R&J</a>
             </div>
         </footer>
     </body>
