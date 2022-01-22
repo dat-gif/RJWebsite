@@ -22,9 +22,12 @@
                 </div>
                 <ul class="list-group list-group-flush text-center">
                     <li class="list-group-item">
-                        <c:if test="${!empty param.arraySkill}">
+                        <!-- Array skill -->
+                        <c:if test="${fn:length(param.arraySkill) gt 2}">
                             <c:forEach items="${param.arraySkill}" var="skill">
-                                <span><c:out value="${skill} ,"/>
+                                <c:set var="test" value="${fn:replace(skill, '[', '')}"/>
+                                <span>
+                                    <c:out value="${fn:replace(test, ']', '')}"/>&nbsp;
                                 </span>
                             </c:forEach>
                         </c:if>

@@ -10,12 +10,10 @@ import context.DBContext;
 import entity.Job;
 import entity.Recruiter;
 import entity.Skill;
-import java.sql.Array;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  *
@@ -205,7 +203,7 @@ public class JobDAO implements IJob {
             }
         } catch (Exception e) {
             System.out.println("get skill :" + e);
-        }
+        }            
         return skillName;
     }
 // Test JobDao
