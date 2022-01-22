@@ -6,6 +6,8 @@
 package IDao;
 
 import entity.Job;
+import entity.Recruiter;
+import entity.Skill;
 import java.util.ArrayList;
 
 /**
@@ -13,9 +15,15 @@ import java.util.ArrayList;
  * @author Admin
  */
 public interface IJob {
-/**
- * Get first 12 job record in database
- * @return 
- */
-    ArrayList<Job> getJobLandingPage();
+
+    public ArrayList<Job> getJobLandingPage();
+
+    public ArrayList<Skill> getSkillByJobId(int jobId);
+
+    public ArrayList<String> getSkillNameByJobId(int jobId);
+
+    public Recruiter getRecruterById(int recruterId);
+
+    public Recruiter getRecruiterIdNameById(int recruterId);
+
 }

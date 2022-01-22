@@ -5,6 +5,9 @@
  */
 package entity;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  *
  * @author Admin
@@ -12,7 +15,7 @@ package entity;
 public class Job {
 
     private int jId;
-    private int recId;
+    private Recruiter recruiter;
     private String title;
     private String description;
     private String salaryRange;
@@ -20,15 +23,16 @@ public class Job {
     private String role;
     private String experience;
     private String location;
-    private String hire_date;
+    private String hireDate;
+    private ArrayList<Skill> skillList;
+    private List<String> skillListName; // 
     private boolean status;
 
     public Job() {
     }
 
-    public Job(int jId, int recId, String title, String description, String salaryRange, String quantity, String role, String experience, String location, String hire_date, boolean status) {
+    public Job(int jId, String title, String description, String salaryRange, String quantity, String role, String experience, String location, String hireDate, boolean status) {
         this.jId = jId;
-        this.recId = recId;
         this.title = title;
         this.description = description;
         this.salaryRange = salaryRange;
@@ -36,7 +40,7 @@ public class Job {
         this.role = role;
         this.experience = experience;
         this.location = location;
-        this.hire_date = hire_date;
+        this.hireDate = hireDate;
         this.status = status;
     }
 
@@ -46,14 +50,6 @@ public class Job {
 
     public void setjId(int jId) {
         this.jId = jId;
-    }
-
-    public int getRecId() {
-        return recId;
-    }
-
-    public void setRecId(int recId) {
-        this.recId = recId;
     }
 
     public String getTitle() {
@@ -113,11 +109,11 @@ public class Job {
     }
 
     public String getHire_date() {
-        return hire_date;
+        return hireDate;
     }
 
-    public void setHire_date(String hire_date) {
-        this.hire_date = hire_date;
+    public void setHire_date(String hireDate) {
+        this.hireDate = hireDate;
     }
 
     public boolean isStatus() {
@@ -128,9 +124,46 @@ public class Job {
         this.status = status;
     }
 
+    public String getHireDate() {
+        return hireDate;
+    }
+
+    public void setHireDate(String hireDate) {
+        this.hireDate = hireDate;
+    }
+
+    public ArrayList<Skill> getSkillList() {
+        return skillList;
+    }
+
+    public void setSkillList(ArrayList<Skill> skillList) {
+        this.skillList = skillList;
+    }
+
+    public Recruiter getRecruiter() {
+        return recruiter;
+    }
+
+    public void setRecruiter(Recruiter recruiter) {
+        this.recruiter = recruiter;
+    }
+
+    public List<String> getSkillListName() {
+        return skillListName;
+    }
+
+    public void setSkillListName(List<String> skillListName) {
+        this.skillListName = skillListName;
+    }
+
+   
+
+ 
+
+
     @Override
     public String toString() {
-        return "Job{" + "jId=" + jId + ", recId=" + recId + ", title=" + title + ", description=" + description + ", salaryRange=" + salaryRange + ", quantity=" + quantity + ", role=" + role + ", experience=" + experience + ", location=" + location + ", hire_date=" + hire_date + ", status=" + status + '}';
+        return "Job{" + "jId=" + jId + ", recruiter=" + recruiter.getName() + ", title=" + title + ", salaryRange=" + salaryRange + ", quantity=" + quantity + ", role=" + role + ", experience=" + experience + ", location=" + location + ", hireDate=" + hireDate + ", status=" + status + '}';
     }
 
 }
