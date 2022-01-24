@@ -20,7 +20,7 @@ import java.util.ArrayList;
  * @author Admin
  */
 public class JobDAO implements IJob {
-    
+
     Connection conn = null;//ket noi sql
     PreparedStatement ps = null; //truyen querry sang sql
     ResultSet rs = null; //nhan tra ve, với các func gọi chéo nhau, nên tạo rs riêng
@@ -33,7 +33,7 @@ public class JobDAO implements IJob {
     @Override
     public ArrayList<Job> getJobLandingPage() {
         ArrayList<Job> list = new ArrayList<>();
-        
+
         String query = "SELECT TOP (12) [job_id]\n"
                 + "      ,[recruiter_id]\n"
                 + "      ,[title]\n"
@@ -62,8 +62,7 @@ public class JobDAO implements IJob {
                         rs.getString("hire_date").trim(),
                         rs.getBoolean("status")
                 );
-                
-                job.setSkillList(getSkillByJobId(job.getjId()));
+
                 job.setSkillListName(getSkillNameByJobId(job.getjId()));
                 job.setRecruiter(getRecruiterIdNameById(rs.getInt("recruiter_id")));
                 list.add(job);
@@ -88,7 +87,7 @@ public class JobDAO implements IJob {
                 + "  inner join job_skill on job.job_id = job_skill.job_id\n"
                 + "  inner join skill on job_skill.skill_id= skill.skill_id\n"
                 + "  where job.job_id= ? ";
-        
+
         try {
             conn = new DBContext().getConnection();
             ps = conn.prepareStatement(query);
@@ -153,7 +152,7 @@ public class JobDAO implements IJob {
             System.err.println(e);
         }
         return null;
-        
+
     }
 
     /**
@@ -184,7 +183,7 @@ public class JobDAO implements IJob {
         }
         return null;
     }
-    
+
     @Override
     public ArrayList<String> getSkillNameByJobId(int jobId) {
         ArrayList<String> skillName = new ArrayList<>();
@@ -193,7 +192,7 @@ public class JobDAO implements IJob {
                 + "  inner join job_skill on job.job_id = job_skill.job_id\n"
                 + "  inner join skill on job_skill.skill_id= skill.skill_id\n"
                 + "  where job.job_id= ? ";
-        
+
         try {
             conn = new DBContext().getConnection();
             ps = conn.prepareStatement(query);
@@ -213,9 +212,79 @@ public class JobDAO implements IJob {
         IJob jobDao = new JobDAO();
         ArrayList<Job> testList = jobDao.getJobLandingPage();
         for (Job job : testList) {
-            
+
             System.out.println(job.toString());
         }
         System.out.println(testList.size());
+    }
+
+    @Override
+    public ArrayList<Job> getAllJob() {
+        ArrayList<Job> list = new ArrayList<>();
+        String query = "SELECT [job_id]\n"
+                + "      ,[recruiter_id]\n"
+                + "      ,[title]\n"
+                + "      ,[description]\n"
+                + "      ,[salary_range]\n"
+                + "      ,[quantity]\n"
+                + "      ,[role]\n"
+                + "      ,[experience]\n"
+                + "      ,[location]\n"
+                + "      ,[hire_date]\n"
+                + "      ,[status]\n"
+                + "  FROM [SWP391].[dbo].[job]";
+        try {
+            conn = new DBContext().getConnection();
+            ps = conn.prepareStatement(query);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Job job = new Job(rs.getInt("job_id"),
+                        rs.getString("title").trim(),
+                        rs.getString("description").trim(),
+                        rs.getString("salary_range").trim(),
+                        rs.getString("quantity").trim(),
+                        rs.getString("role").trim(),
+                        rs.getString("experience").trim(),
+                        rs.getString("location").trim(),
+                        rs.getString("hire_date").trim(),
+                        rs.getBoolean("status")
+                );
+                job.setSkillListName(getSkillNameByJobId(job.getjId()));
+                job.setRecruiter(getRecruiterIdNameById(rs.getInt("recruiter_id")));
+                list.add(job);
+            }
+        } catch (Exception e) {
+            System.out.println("Bug :" + e);
+        }
+        return list;
+    }
+
+    @Override
+    public ArrayList<Skill> getAllSkill() {
+        ArrayList<Skill> skillList = new ArrayList<>();
+        String query = "SELECT  [skill_id]\n"
+                + "      ,[name]\n"
+                + "      ,[description]\n"
+                + "      ,[question]\n"
+                + "      ,[icon]\n"
+                + "      ,[status]\n"
+                + "      ,[createAt]\n"
+                + "      ,[updateAt]\n"
+                + "  FROM [SWP391].[dbo].[skill] ";
+
+        try {
+            conn = new DBContext().getConnection();
+            ps = conn.prepareStatement(query);    
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                skillList.add(new Skill(rs.getInt("skill_id"),
+                        rs.getNString("name"),
+                        rs.getNString("icon"),
+                        rs.getNString("description")));
+            }
+        } catch (Exception e) {
+            System.out.println("get skill :" + e);
+        }
+        return skillList;
     }
 }
