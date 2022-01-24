@@ -20,7 +20,7 @@ import java.util.ArrayList;
  * @author Admin
  */
 public class JobDAO implements IJob {
-
+    
     Connection conn = null;//ket noi sql
     PreparedStatement ps = null; //truyen querry sang sql
     ResultSet rs = null; //nhan tra ve, với các func gọi chéo nhau, nên tạo rs riêng
@@ -33,7 +33,7 @@ public class JobDAO implements IJob {
     @Override
     public ArrayList<Job> getJobLandingPage() {
         ArrayList<Job> list = new ArrayList<>();
-
+        
         String query = "SELECT TOP (12) [job_id]\n"
                 + "      ,[recruiter_id]\n"
                 + "      ,[title]\n"
@@ -62,7 +62,7 @@ public class JobDAO implements IJob {
                         rs.getString("hire_date").trim(),
                         rs.getBoolean("status")
                 );
-
+                
                 job.setSkillList(getSkillByJobId(job.getjId()));
                 job.setSkillListName(getSkillNameByJobId(job.getjId()));
                 job.setRecruiter(getRecruiterIdNameById(rs.getInt("recruiter_id")));
@@ -88,7 +88,7 @@ public class JobDAO implements IJob {
                 + "  inner join job_skill on job.job_id = job_skill.job_id\n"
                 + "  inner join skill on job_skill.skill_id= skill.skill_id\n"
                 + "  where job.job_id= ? ";
-
+        
         try {
             conn = new DBContext().getConnection();
             ps = conn.prepareStatement(query);
@@ -153,7 +153,7 @@ public class JobDAO implements IJob {
             System.err.println(e);
         }
         return null;
-
+        
     }
 
     /**
@@ -166,6 +166,7 @@ public class JobDAO implements IJob {
     public Recruiter getRecruiterIdNameById(int recruiterId) {
         String query = " SELECT recruiter.recruiter_id\n"
                 + "      ,recruiter.name\n"
+                + "      ,recruiter.avatar\n"
                 + " FROM [SWP391].[dbo].[job]\n"
                 + " inner join recruiter on recruiter.recruiter_id = job.recruiter_id\n"
                 + " where job.job_id= ?";
@@ -176,14 +177,14 @@ public class JobDAO implements IJob {
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 return new Recruiter(rs.getInt("recruiter_id"),
-                        rs.getString("name").trim());
+                        rs.getString("name").trim(), rs.getString("avatar"));
             }
         } catch (Exception e) {
             System.err.println(e);
         }
         return null;
     }
-
+    
     @Override
     public ArrayList<String> getSkillNameByJobId(int jobId) {
         ArrayList<String> skillName = new ArrayList<>();
@@ -192,7 +193,7 @@ public class JobDAO implements IJob {
                 + "  inner join job_skill on job.job_id = job_skill.job_id\n"
                 + "  inner join skill on job_skill.skill_id= skill.skill_id\n"
                 + "  where job.job_id= ? ";
-
+        
         try {
             conn = new DBContext().getConnection();
             ps = conn.prepareStatement(query);
@@ -203,7 +204,7 @@ public class JobDAO implements IJob {
             }
         } catch (Exception e) {
             System.out.println("get skill :" + e);
-        }            
+        }
         return skillName;
     }
 // Test JobDao
@@ -212,7 +213,7 @@ public class JobDAO implements IJob {
         IJob jobDao = new JobDAO();
         ArrayList<Job> testList = jobDao.getJobLandingPage();
         for (Job job : testList) {
-
+            
             System.out.println(job.toString());
         }
         System.out.println(testList.size());

@@ -29,9 +29,10 @@ public class Recruiter {
     public Recruiter() {
     }
 
-    public Recruiter(int recruiterId, String name) {
+    public Recruiter(int recruiterId, String name, String avatar) {
         this.recruiterId = recruiterId;
         this.name = name;
+        this.avatar= avatar;
     }
 
     public Recruiter(int recruiterId, String name, String address, String avatar, String banner, String phone, String website, String description, String employeeQuantity, String contacterName, String contacterPhone, Date createAt, Date updateAt) {

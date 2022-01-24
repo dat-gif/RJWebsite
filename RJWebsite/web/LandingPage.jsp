@@ -47,11 +47,13 @@
             <div class="row row-cols-4 align-content-center">
                 <c:forEach items="${listJob}" var="job"> 
                     <div class="col p-1 mt-1">
+                        <% request.setCharacterEncoding("utf-8");%>
                         <jsp:include page="component/CardInfo.jsp">
                             <jsp:param name="title1" value="${job.getTitle()}"/>
                             <jsp:param name="title2" value="${job.recruiter.getName()}"/>
                             <jsp:param name="arraySkill" value="${job.skillListName}"/>
                             <jsp:param name="text2" value="${job.salaryRange}"/>
+                            <jsp:param name="img" value="${job.recruiter.getAvatar()}"/>
                         </jsp:include>
                     </div>
                 </c:forEach>  
