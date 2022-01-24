@@ -5,8 +5,17 @@
  */
 package control;
 
+import IDao.ICity;
+import IDao.IJob;
+import dao.CityDAO;
+import dao.JobDAO;
+import entity.City;
+import entity.Job;
+import entity.Skill;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -44,7 +53,15 @@ public class SeachingJobController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        IJob daoJob = new JobDAO();
+        ICity daoCity = new CityDAO();
         try {
+            List<Job> listJob = daoJob.getJobLandingPage();
+            List<Skill> listSkill = daoJob.getAllSkill();
+            List<City> listCity = daoCity.getAllCity();
+            request.setAttribute("cityList", listCity);
+            request.setAttribute("listSkill", listSkill);
+            request.setAttribute("listJob", listJob);
             request.getRequestDispatcher("SearchingJobPage.jsp").forward(request, response);
         } catch (Exception e) {
         }
