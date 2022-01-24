@@ -27,23 +27,26 @@
             <div class="row row-cols-2 ">
                 <div class="col align-self-center"> 
                     <h3 class="text-capitalize display-4 mb-4">Searching for IT job...</h3>
-                    <div class="input-group">
-                        <input type="search" class="form-control  rounded border-secondary" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
-                        <button type="button" class="btn btn-outline-primary mx-3">search</button>
-                    </div>
-                    <div class="d-flex mt-3 ">
-                        <select class="form-select mr-2 border-secondary rounded w-25 form-control ">
-                            <option value="1">One</option>
-                            <option value="2">Two</option>
-                            <option value="3">Three</option>
-                        </select>    
-                        <select class="form-select rounded border-secondary rounded w-25 form-control" >
-                            <option value="1">One</option>
-                            <option value="2">Two</option>
-                            <option value="3">Three</option>
-                        </select>   
-                    </div>
+                    <!-- Searching Form -->
+                    <form action="search" method="post">
+                        <div class="input-group">
+                            <input type="search" name="txtSearch" class="form-control  rounded border-secondary" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
+                            <button type="submit" class="btn btn-outline-primary mx-3">search</button>
+                        </div>
+                        <div class="d-flex mt-3 ">
+                            <select name="citySelect" class="form-select mr-2 border-secondary rounded w-25 form-control ">
+                                <c:forEach items="${listCity}" var="city">
+                                    <option value="${city.getName()}">${city.getName()}</option>
+                                </c:forEach>
 
+                            </select>    
+                            <select name="skillSelect" class="form-select rounded border-secondary rounded w-25 form-control" >
+                                <c:forEach items="${listSkill}" var="skill">
+                                    <option value="${skill.getName()}">${skill.getName()}</option>
+                                </c:forEach>
+                            </select>   
+                        </div>
+                    </form>
                 </div>
                 <div class="col p-0 align-self-center">
                     <img src="https://picsum.photos/500/300" class="img-fluid w-100 " alt="alt"/>
@@ -52,11 +55,18 @@
             <hr class="my-4"/>
             <!-- Result -->
             <div class="row row-cols-4 align-content-center ">
-                <c:forEach begin="0" end="12" var="0">
-                    <div class="col p-2 mt-1">
-                        <jsp:include page="component/CardInfo.jsp"/>
+                <c:forEach items="${listJob}" var="job"> 
+                    <div class="col p-1 mt-1">
+                        <% request.setCharacterEncoding("utf-8");%>
+                        <jsp:include page="component/CardInfo.jsp">
+                            <jsp:param name="title1" value="${job.getTitle()}"/>
+                            <jsp:param name="title2" value="${job.recruiter.getName()}"/>
+                            <jsp:param name="arraySkill" value="${job.skillListName}"/>
+                            <jsp:param name="text2" value="${job.salaryRange}"/>
+                            <jsp:param name="img" value="${job.recruiter.getAvatar()}"/>
+                        </jsp:include>
                     </div>
-                </c:forEach>
+                </c:forEach>  
             </div>
             <!-- Phan trang -->
             <div class="row justify-content-center mt-4 mb-4">
