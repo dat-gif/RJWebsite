@@ -41,6 +41,7 @@ public class CityDAO implements ICity {
                 allCity.add(new City(rs.getString("city"), rs.getString("province")));
             }
         } catch (Exception e) {
+            System.err.println(e);
         }
         return allCity;
     }
