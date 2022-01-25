@@ -53,13 +53,14 @@ public class SeachingJobController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        String txtSearch = request.getParameter("txt");
         IJob daoJob = new JobDAO();
         ICity daoCity = new CityDAO();
         try {
             List<Job> listJob = daoJob.getJobLandingPage();
             List<Skill> listSkill = daoJob.getAllSkill();
             List<City> listCity = daoCity.getAllCity();
-            request.setAttribute("cityList", listCity);
+            request.setAttribute("listCity", listCity);
             request.setAttribute("listSkill", listSkill);
             request.setAttribute("listJob", listJob);
             request.getRequestDispatcher("SearchingJobPage.jsp").forward(request, response);
@@ -78,7 +79,11 @@ public class SeachingJobController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        request.setCharacterEncoding("UTF-8");
+        String txtSearch = request.getParameter("txtSearch");
+        String citySelect = request.getParameter("citySelect");
+        String skillSelect = request.getParameter("skillSelect");
+        System.out.println(txtSearch + citySelect + skillSelect);
     }
 
     /**
