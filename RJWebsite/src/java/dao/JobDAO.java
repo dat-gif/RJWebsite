@@ -14,6 +14,11 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 /**
  *
@@ -208,16 +213,11 @@ public class JobDAO implements IJob {
     }
 // Test JobDao
 
-    public static void main(String[] args) {
-        IJob jobDao = new JobDAO();
-        ArrayList<Job> testList = jobDao.getJobLandingPage();
-        for (Job job : testList) {
-
-            System.out.println(job.toString());
-        }
-        System.out.println(testList.size());
-    }
-
+    /**
+     * Get all job record in database
+     *
+     * @return ArrayList<Job>
+     */
     @Override
     public ArrayList<Job> getAllJob() {
         ArrayList<Job> list = new ArrayList<>();
@@ -274,7 +274,7 @@ public class JobDAO implements IJob {
 
         try {
             conn = new DBContext().getConnection();
-            ps = conn.prepareStatement(query);    
+            ps = conn.prepareStatement(query);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 skillList.add(new Skill(rs.getInt("skill_id"),
@@ -287,4 +287,66 @@ public class JobDAO implements IJob {
         }
         return skillList;
     }
+
+    /**
+     *
+     * Change from string type to list type
+     *
+     * @param string
+     * @return List<String>
+     */
+    public List<String> changeStringToListAndSort(String string) {
+        string = string.trim();
+        String[] arrayString = string.split("");
+        List<String> unSortList = new ArrayList<String>();
+        List<String> sortList = new ArrayList<>();
+        Collections.addAll(unSortList, arrayString);
+        while (unSortList.size() > 0) {
+            String longest = unSortList.stream().
+                    max(Comparator.comparingInt(String::length)).get();
+            sortList.add(longest);
+            unSortList.remove(unSortList.indexOf(longest));
+        }
+        return sortList;
+    }
+
+    public static void main(String[] args) {
+//        IJob jobDao = new JobDAO();
+//        ArrayList<Job> testList = jobDao.getJobLandingPage();
+//        for (Job job : testList) {
+//
+//            System.out.println(job.toString());
+//        }
+//        System.out.println(testList.size());
+        String[] animalNames = {"cat", "rabbit", "horse", "goat", "rooster", "ooooooooooooooo", "aaaaaaaaaaaaaaa"};
+        List<String> strings = new ArrayList<String>();
+        Collections.addAll(strings, animalNames);
+        List<String> sortList = new ArrayList<>();
+//
+        while (strings.size() > 0) {
+            String longest = strings.stream().
+                    max(Comparator.comparingInt(String::length)).get();
+            sortList.add(longest);
+            strings.remove(strings.indexOf(longest));
+        }
+//        String longest = strings.stream().
+//                max(Comparator.comparingInt(String::length)).get();
+//        sortList.add(longest);
+//        System.out.println(strings.indexOf(longest));
+//        strings.remove(strings.indexOf(longest));
+
+        for (String string : sortList) {
+            System.out.println(string);
+        }
+    }
+
+    @Override
+    public ArrayList<Job> searhingJob(String txtSearch, String skillName, String cityName) {
+            ArrayList<Job> list = new ArrayList<>();
+            String query="";
+            String query1="";
+            String query2="";
+            return list;
+    }
+
 }

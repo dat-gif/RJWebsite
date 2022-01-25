@@ -8,6 +8,7 @@ package IDao;
 import entity.Job;
 import entity.Recruiter;
 import entity.Skill;
+import java.sql.Array;
 import java.util.ArrayList;
 
 /**
@@ -16,14 +17,20 @@ import java.util.ArrayList;
  */
 public interface IJob {
 
+    public ArrayList<Job> getAllJob();
+
     public ArrayList<Job> getJobLandingPage();
 
     public ArrayList<Skill> getSkillByJobId(int jobId);
+
+    public ArrayList<Skill> getAllSkill();
 
     public ArrayList<String> getSkillNameByJobId(int jobId);
 
     public Recruiter getRecruterById(int recruterId);
 
     public Recruiter getRecruiterIdNameById(int recruterId);
+
+    public ArrayList<Job> searhingJob(String txtSearch, String skillName, String cityName);
 
 }

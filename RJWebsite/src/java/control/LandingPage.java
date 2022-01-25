@@ -4,8 +4,11 @@
  */
 package control;
 
+import IDao.IJob;
+import dao.JobDAO;
+import entity.Job;
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -30,8 +33,14 @@ public class LandingPage extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try {
+            IJob daoJob = new JobDAO();
+            List<Job> listJob = daoJob.getJobLandingPage();
+            
+            request.setAttribute("listJob", listJob);
+           
             request.getRequestDispatcher("LandingPage.jsp").forward(request, response);
         } catch (Exception e) {
+            System.out.println(e);
         }
 
     }
