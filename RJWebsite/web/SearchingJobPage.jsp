@@ -28,7 +28,7 @@
                 <div class="col align-self-center"> 
                     <h3 class="text-capitalize display-4 mb-4">Searching for IT job...</h3>
                     <!-- Searching Form -->
-                    <form action="search" method="post">
+                    <form action="seachingjob" method="post">
                         <div class="input-group">
                             <input type="search" name="txtSearch" class="form-control  rounded border-secondary" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
                             <button type="submit" class="btn btn-outline-primary mx-3">search</button>
@@ -47,6 +47,7 @@
                             </select>   
                         </div>
                     </form>
+              
                 </div>
                 <div class="col p-0 align-self-center">
                     <img src="https://picsum.photos/500/300" class="img-fluid w-100 " alt="alt"/>
