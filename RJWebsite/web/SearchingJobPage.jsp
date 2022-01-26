@@ -42,7 +42,7 @@
                             </select>    
                             <select name="skillSelect" class="form-select rounded border-secondary rounded w-25 form-control" >
                                 <c:forEach items="${listSkill}" var="skill">
-                                    <option value="${skill.getName()}">${skill.getName()}</option>
+                                    <option value="${skill.getId}">${skill.getName()}</option>
                                 </c:forEach>
                             </select>   
                         </div>

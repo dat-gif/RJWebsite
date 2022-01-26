@@ -341,12 +341,118 @@ public class JobDAO implements IJob {
     }
 
     @Override
-    public ArrayList<Job> searhingJob(String txtSearch, String skillName, String cityName) {
-            ArrayList<Job> list = new ArrayList<>();
-            String query="";
-            String query1="";
-            String query2="";
-            return list;
+    public ArrayList<Job> searhingJob(String txtSearch, String skillValue, String cityValue) {
+        ArrayList<Job> list = new ArrayList<>();
+        String createTempTable = "CREATE TABLE #TempTable (job_id INT\n"
+                + "      ,recruiter_id NVARCHAR(MAX)\n"
+                + "      ,[title] NVARCHAR(MAX)\n"
+                + "      ,[description] NVARCHAR(MAX)\n"
+                + "      ,[salary_range] NVARCHAR(MAX)\n"
+                + "      ,[quantity] NVARCHAR(MAX)\n"
+                + "      ,[role] NVARCHAR(MAX)\n"
+                + "      ,[experience] NVARCHAR(MAX)\n"
+                + "      ,[location] NVARCHAR(MAX)\n"
+                + "      ,[hire_date] NVARCHAR(MAX)\n"
+                + "      ,[questions] NVARCHAR(MAX)\n"
+                + "      ,[status] bit\n"
+                + "      ,[createAt] date\n"
+                + "      ,[updateAt] date\n"
+                + "	 ) ";
+
+        if (txtSearch.isEmpty()) {
+            if (skillValue.isEmpty() && cityValue.isEmpty()) { // nhớ để value place holde = trống
+                list = getAllJob();
+                return list;
+            } else {
+                list = getJobBySkillAndCity(skillValue, cityValue);
+                return list;
+            }
+
+        }
+        String mainQuery = "";
+        String queryGetAll = "select * from #TempTable";
+        String queryUnion = "";
+        String queryCity = "";
+        String querySkill = "";
+        return list;
+    }
+
+    /**
+     * Get Job List if user only enter city and skill value
+     *
+     * @param skillValue
+     * @param cityValue
+     * @return
+     */
+
+    @Override
+    public ArrayList<Job> getJobBySkillAndCity(String skillValue, String cityValue) {
+        ArrayList<Job> list = new ArrayList<>();
+        String mainQuery = "select DISTINCT job.[job_id]\n"
+                + "      ,job.[recruiter_id]\n"
+                + "      ,job.[title]\n"
+                + "      ,job.[description]\n"
+                + "      ,job.[salary_range]\n"
+                + "      ,job.[quantity]\n"
+                + "      ,job.[role]\n"
+                + "      ,job.[experience]\n"
+                + "      ,job.[location]\n"
+                + "      ,job.[hire_date]\n"
+                + "      ,job.[questions]\n"
+                + "      ,job.[status]\n"
+                + "      ,job.[createAt]\n"
+                + "      ,job.[updateAt]\n"
+                + "from job\n";
+        String skillJoinQuery = "inner join job_skill on job_skill.job_id = job.job_id\n"
+                + "inner join skill on job_skill.skill_id = skill.skill_id\n";
+        // City of job in database can get by recruiter info
+        String cityJoinQuery = "inner join recruiter on recruiter.recruiter_id = job.recruiter_id\n";
+        String queryWhere = "where ";
+
+        if (!skillValue.equalsIgnoreCase("All")) {
+            mainQuery = mainQuery.concat(skillJoinQuery);
+            queryWhere = queryWhere + "skill.skill_id = ?";
+        }
+        if (!cityValue.equalsIgnoreCase("All")) {
+            mainQuery = mainQuery.concat(cityJoinQuery);
+            queryWhere = queryWhere + "recruiter.city like ?";
+        }
+        mainQuery = mainQuery.concat(queryWhere);
+
+        int countCondition = 1;
+        try {
+            conn = new DBContext().getConnection();
+            ps = conn.prepareStatement(mainQuery);
+            if (!skillValue.equalsIgnoreCase("All")) {
+                ps.setString(countCondition, skillValue);
+                countCondition++;
+            }
+            if (!cityValue.equalsIgnoreCase("All")) {
+                ps.setString(countCondition, cityValue);
+                countCondition++;
+            }
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Job job = new Job(rs.getInt("job_id"),
+                        rs.getString("title").trim(),
+                        rs.getString("description").trim(),
+                        rs.getString("salary_range").trim(),
+                        rs.getString("quantity").trim(),
+                        rs.getString("role").trim(),
+                        rs.getString("experience").trim(),
+                        rs.getString("location").trim(),
+                        rs.getString("hire_date").trim(),
+                        rs.getBoolean("status")
+                );
+                job.setSkillListName(getSkillNameByJobId(job.getjId()));
+                job.setRecruiter(getRecruiterIdNameById(rs.getInt("recruiter_id")));
+                list.add(job);
+            }
+        } catch (Exception e) {
+            System.err.println("Job City Skill" + e);
+        }
+
+        return list;
     }
 
 }

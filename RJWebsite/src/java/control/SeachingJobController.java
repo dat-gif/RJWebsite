@@ -8,6 +8,7 @@ package control;
 import IDao.ICity;
 import IDao.IJob;
 import dao.CityDAO;
+import dao.DAO;
 import dao.JobDAO;
 import entity.City;
 import entity.Job;
@@ -83,6 +84,19 @@ public class SeachingJobController extends HttpServlet {
         String txtSearch = request.getParameter("txtSearch");
         String citySelect = request.getParameter("citySelect");
         String skillSelect = request.getParameter("skillSelect");
+        ArrayList<Job> listJob = new ArrayList<>();
+        JobDAO dao = new JobDAO();
+        if (txtSearch.isEmpty()) {
+            if (!skillSelect.equalsIgnoreCase("All") || !citySelect.equalsIgnoreCase("All")) {
+                listJob = dao.getJobBySkillAndCity(skillSelect, citySelect);
+            } else {
+                listJob = dao.getAllJob();
+            }
+
+        } else {
+
+        }
+        request.setAttribute("listJob", listJob);
         System.out.println(txtSearch + citySelect + skillSelect);
     }
 

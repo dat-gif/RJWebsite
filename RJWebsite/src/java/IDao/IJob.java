@@ -18,6 +18,7 @@ import java.util.ArrayList;
 public interface IJob {
 
     public ArrayList<Job> getAllJob();
+    public ArrayList<Job> getJobBySkillAndCity(String skillValue, String cityValue);
 
     public ArrayList<Job> getJobLandingPage();
 
@@ -31,6 +32,6 @@ public interface IJob {
 
     public Recruiter getRecruiterIdNameById(int recruterId);
 
-    public ArrayList<Job> searhingJob(String txtSearch, String skillName, String cityName);
+    public ArrayList<Job> searhingJob(String txtSearch, String skillValue, String cityValue);
 
 }
