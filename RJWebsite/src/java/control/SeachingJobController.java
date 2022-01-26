@@ -81,23 +81,29 @@ public class SeachingJobController extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
+        IJob daoJob = new JobDAO();
+        ICity daoCity = new CityDAO();
         String txtSearch = request.getParameter("txtSearch");
         String citySelect = request.getParameter("citySelect");
         String skillSelect = request.getParameter("skillSelect");
         ArrayList<Job> listJob = new ArrayList<>();
-        JobDAO dao = new JobDAO();
+        List<Skill> listSkill = daoJob.getAllSkill();
+        List<City> listCity = daoCity.getAllCity();
+        request.setAttribute("listCity", listCity);
+        request.setAttribute("listSkill", listSkill);
         if (txtSearch.isEmpty()) {
             if (!skillSelect.equalsIgnoreCase("All") || !citySelect.equalsIgnoreCase("All")) {
-                listJob = dao.getJobBySkillAndCity(skillSelect, citySelect);
+                listJob = daoJob.getJobBySkillAndCity(skillSelect, citySelect);
             } else {
-                listJob = dao.getAllJob();
+                listJob = daoJob.getAllJob();
             }
 
         } else {
 
         }
         request.setAttribute("listJob", listJob);
-        System.out.println(txtSearch + citySelect + skillSelect);
+        request.getRequestDispatcher("SearchingJobPage.jsp").forward(request, response);
+        System.out.println(txtSearch + ".." + citySelect + ".." + skillSelect);
     }
 
     /**

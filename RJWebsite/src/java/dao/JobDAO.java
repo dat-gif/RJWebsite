@@ -384,7 +384,6 @@ public class JobDAO implements IJob {
      * @param cityValue
      * @return
      */
-
     @Override
     public ArrayList<Job> getJobBySkillAndCity(String skillValue, String cityValue) {
         ArrayList<Job> list = new ArrayList<>();
@@ -412,6 +411,9 @@ public class JobDAO implements IJob {
         if (!skillValue.equalsIgnoreCase("All")) {
             mainQuery = mainQuery.concat(skillJoinQuery);
             queryWhere = queryWhere + "skill.skill_id = ?";
+            if (!cityValue.equalsIgnoreCase("All")) {
+                queryWhere = queryWhere + " and";
+            }
         }
         if (!cityValue.equalsIgnoreCase("All")) {
             mainQuery = mainQuery.concat(cityJoinQuery);
@@ -428,9 +430,10 @@ public class JobDAO implements IJob {
                 countCondition++;
             }
             if (!cityValue.equalsIgnoreCase("All")) {
-                ps.setString(countCondition, cityValue);
+                ps.setString(countCondition, '%' + cityValue + '%');
                 countCondition++;
             }
+            System.out.println(mainQuery);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 Job job = new Job(rs.getInt("job_id"),

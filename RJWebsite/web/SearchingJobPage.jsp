@@ -35,19 +35,26 @@
                         </div>
                         <div class="d-flex mt-3 ">
                             <select name="citySelect" class="form-select mr-2 border-secondary rounded w-25 form-control ">
+                                <option selected="selected" value="All" >
+                                    Location (All)
+                                </option>
+
                                 <c:forEach items="${listCity}" var="city">
                                     <option value="${city.getName()}">${city.getName()}</option>
                                 </c:forEach>
 
                             </select>    
                             <select name="skillSelect" class="form-select rounded border-secondary rounded w-25 form-control" >
+                                <option selected="selected" value="All" >
+                                    All Skill
+                                </option>
                                 <c:forEach items="${listSkill}" var="skill">
-                                    <option value="${skill.getId}">${skill.getName()}</option>
+                                    <option value="${skill.getId()}">${skill.getName()}</option>
                                 </c:forEach>
                             </select>   
                         </div>
                     </form>
-              
+
                 </div>
                 <div class="col p-0 align-self-center">
                     <img src="https://picsum.photos/500/300" class="img-fluid w-100 " alt="alt"/>
