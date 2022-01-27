@@ -39,7 +39,7 @@ public class SeachingJobController extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
+        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -89,7 +89,7 @@ public class SeachingJobController extends HttpServlet {
         ArrayList<Job> listJob = new ArrayList<>();
         List<Skill> listSkill = daoJob.getAllSkill();
         List<City> listCity = daoCity.getAllCity();
-
+        
         if (txtSearch.isEmpty()) {
             // if user not iput search text but still using filter
             if (!skillSelect.equalsIgnoreCase("All") || !citySelect.equalsIgnoreCase("All")) {
@@ -100,13 +100,14 @@ public class SeachingJobController extends HttpServlet {
                 // if user not input search text or filter
                 listJob = daoJob.getAllJob();
             }
-
+            
         } else {
-
+            
             daoJob.createTempoTableSearchJobData();
-//       
+            daoJob.insertJobByTextSearch(txtSearch.trim(), skillSelect, citySelect);
+            listJob = daoJob.getJobSearching();
         }
-
+        
         request.setAttribute("listCity", listCity);
         request.setAttribute("listSkill", listSkill);
         request.setAttribute("listJob", listJob);
