@@ -33,8 +33,6 @@ public interface IJob {
 
     public Recruiter getRecruiterIdNameById(int recruterId);
 
-    public ArrayList<Job> searhingJob(String txtSearch, String skillValue, String cityValue);
-
     public void createTempoTableSearchJobData();
 
     public void insertJobByTextSearch(String txtSearch, String skillValue, String cityValue);

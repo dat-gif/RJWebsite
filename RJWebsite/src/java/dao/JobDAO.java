@@ -430,54 +430,6 @@ public class JobDAO implements IJob {
         }
     }
 
-    @Override
-    public ArrayList<Job> searhingJob(String txtSearch, String skillValue, String cityValue) {
-        createTempoTableSearchData(txtSearch);
-        ArrayList<Job> list = new ArrayList<>();
-        String querry
-                = "SELECT DISTINCT [job_id]\n"
-                + "      ,[recruiter_id]\n"
-                + "      ,[title]\n"
-                + "      ,[description]\n"
-                + "      ,[salary_range]\n"
-                + "      ,[quantity]\n"
-                + "      ,[role]\n"
-                + "      ,[experience]\n"
-                + "      ,[location]\n"
-                + "      ,[hire_date]\n"
-                + "      ,[questions]\n"
-                + "      ,[status]\n"
-                + "      ,[createAt]\n"
-                + "      ,[updateAt]\n"
-                + "FROM ##TempTable";
-        try {
-            conn = new DBContext().getConnection();
-            PreparedStatement ps = conn.prepareStatement(querry);
-            ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                Job job = new Job(rs.getInt("job_id"),
-                        rs.getString("title").trim(),
-                        rs.getString("description").trim(),
-                        rs.getString("salary_range").trim(),
-                        rs.getString("quantity").trim(),
-                        rs.getString("role").trim(),
-                        rs.getString("experience").trim(),
-                        rs.getString("location").trim(),
-                        rs.getString("hire_date").trim(),
-                        rs.getBoolean("status")
-                );
-                job.setSkillListName(getSkillNameByJobId(job.getjId()));
-                job.setRecruiter(getRecruiterIdNameById(rs.getInt("recruiter_id")));
-                list.add(job);
-            }
-
-        } catch (Exception e) {
-            System.err.println(e);
-        }
-
-        return list;
-    }
-
     /**
      * Get Job List if user only enter city and skill value
      *
@@ -556,14 +508,36 @@ public class JobDAO implements IJob {
         return list;
     }
 
-    public static void main(String[] args) {
-        IJob jobDao = new JobDAO();
-
-        ArrayList<Job> testList = jobDao.searhingJob("PH", "1", "Hà Nội");
-        for (Job job : testList) {
-            System.out.println("Main :" + job.toString());
+    /**
+     * Create temporary table contain job info when searching job
+     */
+    @Override
+    public void createTempoTableSearchJobData() {
+        String createTempTable = "IF OBJECT_ID('tempdb..##TempTable') IS NULL\n"
+                + "BEGIN\n"
+                + "CREATE TABLE ##TempTable (job_id INT\n"
+                + "      ,recruiter_id NVARCHAR(MAX)\n"
+                + "      ,[title] NVARCHAR(MAX)\n"
+                + "      ,[description] NVARCHAR(MAX)\n"
+                + "      ,[salary_range] NVARCHAR(MAX)\n"
+                + "      ,[quantity] NVARCHAR(MAX)\n"
+                + "      ,[role] NVARCHAR(MAX)\n"
+                + "      ,[experience] NVARCHAR(MAX)\n"
+                + "      ,[location] NVARCHAR(MAX)\n"
+                + "      ,[hire_date] NVARCHAR(MAX)\n"
+                + "      ,[questions] NVARCHAR(MAX)\n"
+                + "      ,[status] bit\n"
+                + "      ,[createAt] date\n"
+                + "      ,[updateAt] date\n"
+                + "	 ) \n"
+                + "END \n";
+        try {
+            conn = new DBContext().getConnection();
+            PreparedStatement ps = conn.prepareStatement(createTempTable);
+            ps.executeUpdate();
+        } catch (Exception e) {
+            System.err.println(e);
         }
-
     }
 
     @Override
@@ -585,6 +559,13 @@ public class JobDAO implements IJob {
                 + "      ,[updateAt])\n";
     }
 
+    /**
+     * Get and insert data to temporary table contanin job info filter by skill
+     * and city
+     *
+     * @param skillValue String id of skill
+     * @param cityValue String id of city
+     */
     @Override
     public void insertJobByFilter(String skillValue, String cityValue) {
         String clearQuery = "DELETE FROM ##TempTable \n ";
@@ -700,33 +681,11 @@ public class JobDAO implements IJob {
         return list;
     }
 
-    @Override
-    public void createTempoTableSearchJobData() {
-        String createTempTable = "IF OBJECT_ID('tempdb..##TempTable') IS NULL\n"
-                + "BEGIN\n"
-                + "CREATE TABLE ##TempTable (job_id INT\n"
-                + "      ,recruiter_id NVARCHAR(MAX)\n"
-                + "      ,[title] NVARCHAR(MAX)\n"
-                + "      ,[description] NVARCHAR(MAX)\n"
-                + "      ,[salary_range] NVARCHAR(MAX)\n"
-                + "      ,[quantity] NVARCHAR(MAX)\n"
-                + "      ,[role] NVARCHAR(MAX)\n"
-                + "      ,[experience] NVARCHAR(MAX)\n"
-                + "      ,[location] NVARCHAR(MAX)\n"
-                + "      ,[hire_date] NVARCHAR(MAX)\n"
-                + "      ,[questions] NVARCHAR(MAX)\n"
-                + "      ,[status] bit\n"
-                + "      ,[createAt] date\n"
-                + "      ,[updateAt] date\n"
-                + "	 ) \n"
-                + "END \n";
-        try {
-            conn = new DBContext().getConnection();
-            PreparedStatement ps = conn.prepareStatement(createTempTable);
-            ps.executeUpdate();
-        } catch (Exception e) {
-            System.err.println(e);
-        }
+    public static void main(String[] args) {
+        IJob jobDao = new JobDAO();
+
+        ArrayList<Job> testList;
+
     }
 
 }
