@@ -106,6 +106,7 @@ public class SeachingJobController extends HttpServlet {
             daoJob.createTempoTableSearchJobData();
             daoJob.insertJobByTextSearch(txtSearch.trim(), skillSelect, citySelect);
             listJob = daoJob.getJobSearching();
+            
         }
         
         request.setAttribute("listCity", listCity);

@@ -603,10 +603,8 @@ public class JobDAO implements IJob {
                 queryUnionTable = queryUnionTable
                         + "\n union \n ";
             }
-
         }
-        queryUnionTable = queryUnionTable + ")as unionTable \n";
-
+        queryUnionTable = queryUnionTable + " )as unionTable \n";
         try {
             int count = 1;
             conn = new DBContext().getConnection();
@@ -614,6 +612,7 @@ public class JobDAO implements IJob {
             System.out.println(clearQuery + insertTable + queryUnionTable);
             for (int i = 0; i < wordSearchList.size(); i++) {
                 String get = wordSearchList.get(i);
+      
                 ps.setString(count, "%" + get + "%");
                 ps.setString(++count, "%" + get + "%");
                 count++;
