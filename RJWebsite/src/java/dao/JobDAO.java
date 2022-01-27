@@ -275,6 +275,7 @@ public class JobDAO implements IJob {
         try {
             conn = new DBContext().getConnection();
             ps = conn.prepareStatement(query);
+            query = query.concat("\n where skill_id = 2");
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 skillList.add(new Skill(rs.getInt("skill_id"),
@@ -290,17 +291,18 @@ public class JobDAO implements IJob {
 
     /**
      *
-     * Change from string type to list type
+     * Change from string type to array type form searching
      *
      * @param string
      * @return List<String>
      */
     public List<String> changeStringToListAndSort(String string) {
         string = string.trim();
-        String[] arrayString = string.split("");
+        String[] arrayString = string.split(" ");
         List<String> unSortList = new ArrayList<String>();
         List<String> sortList = new ArrayList<>();
         Collections.addAll(unSortList, arrayString);
+        unSortList.add(string);
         while (unSortList.size() > 0) {
             String longest = unSortList.stream().
                     max(Comparator.comparingInt(String::length)).get();
@@ -310,40 +312,10 @@ public class JobDAO implements IJob {
         return sortList;
     }
 
-    public static void main(String[] args) {
-//        IJob jobDao = new JobDAO();
-//        ArrayList<Job> testList = jobDao.getJobLandingPage();
-//        for (Job job : testList) {
-//
-//            System.out.println(job.toString());
-//        }
-//        System.out.println(testList.size());
-        String[] animalNames = {"cat", "rabbit", "horse", "goat", "rooster", "ooooooooooooooo", "aaaaaaaaaaaaaaa"};
-        List<String> strings = new ArrayList<String>();
-        Collections.addAll(strings, animalNames);
-        List<String> sortList = new ArrayList<>();
-//
-        while (strings.size() > 0) {
-            String longest = strings.stream().
-                    max(Comparator.comparingInt(String::length)).get();
-            sortList.add(longest);
-            strings.remove(strings.indexOf(longest));
-        }
-//        String longest = strings.stream().
-//                max(Comparator.comparingInt(String::length)).get();
-//        sortList.add(longest);
-//        System.out.println(strings.indexOf(longest));
-//        strings.remove(strings.indexOf(longest));
-
-        for (String string : sortList) {
-            System.out.println(string);
-        }
-    }
-
-    @Override
-    public ArrayList<Job> searhingJob(String txtSearch, String skillValue, String cityValue) {
-        ArrayList<Job> list = new ArrayList<>();
-        String createTempTable = "CREATE TABLE #TempTable (job_id INT\n"
+    public void createTempoTableSearchData(String txtSearch) {
+        String createTempTable = "IF OBJECT_ID('##TempTable') IS NULL\n"
+                + "BEGIN\n"
+                + "CREATE TABLE ##TempTable (job_id INT\n"
                 + "      ,recruiter_id NVARCHAR(MAX)\n"
                 + "      ,[title] NVARCHAR(MAX)\n"
                 + "      ,[description] NVARCHAR(MAX)\n"
@@ -357,23 +329,152 @@ public class JobDAO implements IJob {
                 + "      ,[status] bit\n"
                 + "      ,[createAt] date\n"
                 + "      ,[updateAt] date\n"
-                + "	 ) ";
+                + "	 ) \n"
+                + "END \n";
+        String insertTable = "INSERT INTO ##TempTable ( [job_id]\n"
+                + "      ,[recruiter_id]\n"
+                + "      ,[title]\n"
+                + "      ,[description]\n"
+                + "      ,[salary_range]\n"
+                + "      ,[quantity]\n"
+                + "      ,[role]\n"
+                + "      ,[experience]\n"
+                + "      ,[location]\n"
+                + "      ,[hire_date]\n"
+                + "      ,[questions]\n"
+                + "      ,[status]\n"
+                + "      ,[createAt]\n"
+                + "      ,[updateAt])\n";
+        List<String> wordSearchList = changeStringToListAndSort(txtSearch);
+        String queryUnionTable = "select TOP (9223372036854775807) unionTable.[job_id]\n"
+                + "      ,unionTable.[recruiter_id]\n"
+                + "      ,unionTable.[title]\n"
+                + "      ,unionTable.[description]\n"
+                + "      ,unionTable.[salary_range]\n"
+                + "      ,unionTable.[quantity]\n"
+                + "      ,unionTable.[role]\n"
+                + "      ,unionTable.[experience]\n"
+                + "      ,unionTable.[location]\n"
+                + "      ,unionTable.[hire_date]\n"
+                + "      ,unionTable.[questions]\n"
+                + "      ,unionTable.[status]\n"
+                + "      ,unionTable.[createAt]\n"
+                + "      ,unionTable.[updateAt]  \n"
+                + "from (\n";
+        String queryTable = "select job.[job_id]\n"
+                + "      ,job.[recruiter_id]\n"
+                + "      ,job.[title]\n"
+                + "      ,job.[description]\n"
+                + "      ,job.[salary_range]\n"
+                + "      ,job.[quantity]\n"
+                + "      ,job.[role]\n"
+                + "      ,job.[experience]\n"
+                + "      ,job.[location]\n"
+                + "      ,job.[hire_date]\n"
+                + "      ,job.[questions]\n"
+                + "      ,job.[status]\n"
+                + "      ,job.[createAt]\n"
+                + "      ,job.[updateAt]\n"
+                + "from job \n"
+                + "inner join job_skill on job_skill.job_id = job.job_id\n"
+                + "inner join skill on job_skill.skill_id = skill.skill_id\n"
+                + "where job.title  like N'%" + wordSearchList.get(0) + "%' or skill.name like N'%" + wordSearchList.get(0) + "%'";
+//
+//        for (String string : wordSearchList) {
+//            queryTable = queryTable.concat("\n union  \n" + "select job.[job_id]\n"
+//                    + "      ,job.[recruiter_id]\n"
+//                    + "      ,job.[title]\n"
+//                    + "      ,job.[description]\n"
+//                    + "      ,job.[salary_range]\n"
+//                    + "      ,job.[quantity]\n"
+//                    + "      ,job.[role]\n"
+//                    + "      ,job.[experience]\n"
+//                    + "      ,job.[location]\n"
+//                    + "      ,job.[hire_date]\n"
+//                    + "      ,job.[questions]\n"
+//                    + "      ,job.[status]\n"
+//                    + "      ,job.[createAt]\n"
+//                    + "      ,job.[updateAt]\n"
+//                    + "from job \n"
+//                    + "inner join job_skill on job_skill.job_id = job.job_id\n"
+//                    + "inner join skill on job_skill.skill_id = skill.skill_id\n"
+//                    + "where job.title  like N'%" + string + "%' or skill.name like N'%" + string + "%'");
+//        }
+        queryTable = queryTable + ")as unionTable \n";
+        String querry
+                = "SELECT DISTINCT [job_id]\n"
+                + "      ,[recruiter_id]\n"
+                + "      ,[title]\n"
+                + "      ,[description]\n"
+                + "      ,[salary_range]\n"
+                + "      ,[quantity]\n"
+                + "      ,[role]\n"
+                + "      ,[experience]\n"
+                + "      ,[location]\n"
+                + "      ,[hire_date]\n"
+                + "      ,[questions]\n"
+                + "      ,[status]\n"
+                + "      ,[createAt]\n"
+                + "      ,[updateAt]\n"
+                + "FROM ##TempTable";
 
-        if (txtSearch.isEmpty()) {
-            if (skillValue.isEmpty() && cityValue.isEmpty()) { // nhớ để value place holde = trống
-                list = getAllJob();
-                return list;
-            } else {
-                list = getJobBySkillAndCity(skillValue, cityValue);
-                return list;
+        try {
+            ArrayList<Job> list = new ArrayList<>();
+            conn = new DBContext().getConnection();
+            PreparedStatement ps = conn.prepareStatement(createTempTable + insertTable + queryUnionTable + queryTable);
+            ps.executeUpdate();
+
+        } catch (Exception e) {
+            System.out.println(createTempTable + insertTable + queryUnionTable + queryTable);
+            System.err.println("Create table bug :" + e);
+        }
+    }
+
+    @Override
+    public ArrayList<Job> searhingJob(String txtSearch, String skillValue, String cityValue) {
+        createTempoTableSearchData(txtSearch);
+        ArrayList<Job> list = new ArrayList<>();
+        String querry
+                = "SELECT DISTINCT [job_id]\n"
+                + "      ,[recruiter_id]\n"
+                + "      ,[title]\n"
+                + "      ,[description]\n"
+                + "      ,[salary_range]\n"
+                + "      ,[quantity]\n"
+                + "      ,[role]\n"
+                + "      ,[experience]\n"
+                + "      ,[location]\n"
+                + "      ,[hire_date]\n"
+                + "      ,[questions]\n"
+                + "      ,[status]\n"
+                + "      ,[createAt]\n"
+                + "      ,[updateAt]\n"
+                + "FROM ##TempTable";
+        try {
+            conn = new DBContext().getConnection();
+            PreparedStatement ps = conn.prepareStatement(querry);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Job job = new Job(rs.getInt("job_id"),
+                        rs.getString("title").trim(),
+                        rs.getString("description").trim(),
+                        rs.getString("salary_range").trim(),
+                        rs.getString("quantity").trim(),
+                        rs.getString("role").trim(),
+                        rs.getString("experience").trim(),
+                        rs.getString("location").trim(),
+                        rs.getString("hire_date").trim(),
+                        rs.getBoolean("status")
+                );
+                job.setSkillListName(getSkillNameByJobId(job.getjId()));
+                job.setRecruiter(getRecruiterIdNameById(rs.getInt("recruiter_id")));
+                list.add(job);
             }
 
+        } catch (Exception e) {
+            System.err.println(e);
         }
-        String mainQuery = "";
-        String queryGetAll = "select * from #TempTable";
-        String queryUnion = "";
-        String queryCity = "";
-        String querySkill = "";
+
         return list;
     }
 
@@ -407,7 +508,6 @@ public class JobDAO implements IJob {
         // City of job in database can get by recruiter info
         String cityJoinQuery = "inner join recruiter on recruiter.recruiter_id = job.recruiter_id\n";
         String queryWhere = "where ";
-
         if (!skillValue.equalsIgnoreCase("All")) {
             mainQuery = mainQuery.concat(skillJoinQuery);
             queryWhere = queryWhere + "skill.skill_id = ?";
@@ -433,7 +533,6 @@ public class JobDAO implements IJob {
                 ps.setString(countCondition, '%' + cityValue + '%');
                 countCondition++;
             }
-            System.out.println(mainQuery);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 Job job = new Job(rs.getInt("job_id"),
@@ -454,8 +553,180 @@ public class JobDAO implements IJob {
         } catch (Exception e) {
             System.err.println("Job City Skill" + e);
         }
-
         return list;
+    }
+
+    public static void main(String[] args) {
+        IJob jobDao = new JobDAO();
+
+        ArrayList<Job> testList = jobDao.searhingJob("PH", "1", "Hà Nội");
+        for (Job job : testList) {
+            System.out.println("Main :" + job.toString());
+        }
+
+    }
+
+    @Override
+    public void insertJobByTextSearch(String txtSearch, String skillValue, String cityValue) {
+        List<String> wordSearchList = changeStringToListAndSort(txtSearch);
+        String insertTable = "INSERT INTO ##TempTable ( [job_id]\n"
+                + "      ,[recruiter_id]\n"
+                + "      ,[title]\n"
+                + "      ,[description]\n"
+                + "      ,[salary_range]\n"
+                + "      ,[quantity]\n"
+                + "      ,[role]\n"
+                + "      ,[experience]\n"
+                + "      ,[location]\n"
+                + "      ,[hire_date]\n"
+                + "      ,[questions]\n"
+                + "      ,[status]\n"
+                + "      ,[createAt]\n"
+                + "      ,[updateAt])\n";
+    }
+
+    @Override
+    public void insertJobByFilter(String skillValue, String cityValue) {
+        String clearQuery = "DELETE FROM ##TempTable \n ";
+        String insertTable = "INSERT INTO ##TempTable ( [job_id]\n"
+                + "      ,[recruiter_id]\n"
+                + "      ,[title]\n"
+                + "      ,[description]\n"
+                + "      ,[salary_range]\n"
+                + "      ,[quantity]\n"
+                + "      ,[role]\n"
+                + "      ,[experience]\n"
+                + "      ,[location]\n"
+                + "      ,[hire_date]\n"
+                + "      ,[questions]\n"
+                + "      ,[status]\n"
+                + "      ,[createAt]\n"
+                + "      ,[updateAt])\n";
+        String selectQuery = "select job.[job_id]\n"
+                + "      ,job.[recruiter_id]\n"
+                + "      ,job.[title]\n"
+                + "      ,job.[description]\n"
+                + "      ,job.[salary_range]\n"
+                + "      ,job.[quantity]\n"
+                + "      ,job.[role]\n"
+                + "      ,job.[experience]\n"
+                + "      ,job.[location]\n"
+                + "      ,job.[hire_date]\n"
+                + "      ,job.[questions]\n"
+                + "      ,job.[status]\n"
+                + "      ,job.[createAt]\n"
+                + "      ,job.[updateAt]\n"
+                + "from job\n";
+        String skillJoinQuery = "inner join job_skill on job_skill.job_id = job.job_id\n"
+                + "inner join skill on job_skill.skill_id = skill.skill_id\n";
+        // City of job in database can get by recruiter info
+        String cityJoinQuery = "inner join recruiter on recruiter.recruiter_id = job.recruiter_id\n";
+        String queryWhere = "where ";
+        if (!skillValue.equalsIgnoreCase("All")) {
+            selectQuery = selectQuery.concat(skillJoinQuery);
+            queryWhere = queryWhere + "skill.skill_id = ?";
+            if (!cityValue.equalsIgnoreCase("All")) {
+                queryWhere = queryWhere + " and";
+            }
+        }
+        if (!cityValue.equalsIgnoreCase("All")) {
+            selectQuery = selectQuery.concat(cityJoinQuery);
+            queryWhere = queryWhere + "recruiter.city like ?";
+        }
+        selectQuery = selectQuery.concat(queryWhere);
+
+        int countCondition = 1;
+        try {
+            conn = new DBContext().getConnection();
+            ps = conn.prepareStatement(clearQuery + insertTable + selectQuery);
+            if (!skillValue.equalsIgnoreCase("All")) {
+                ps.setString(countCondition, skillValue);
+                countCondition++;
+            }
+            if (!cityValue.equalsIgnoreCase("All")) {
+                ps.setString(countCondition, '%' + cityValue + '%');
+                countCondition++;
+            }
+            ps.executeUpdate();
+
+        } catch (Exception e) {
+            System.err.println("Job City Skill" + e);
+        }
+    }
+
+    @Override
+    public ArrayList<Job> getJobSearching() {
+        ArrayList<Job> list = new ArrayList<>();
+        String querry
+                = "SELECT DISTINCT [job_id]\n"
+                + "      ,[recruiter_id]\n"
+                + "      ,[title]\n"
+                + "      ,[description]\n"
+                + "      ,[salary_range]\n"
+                + "      ,[quantity]\n"
+                + "      ,[role]\n"
+                + "      ,[experience]\n"
+                + "      ,[location]\n"
+                + "      ,[hire_date]\n"
+                + "      ,[questions]\n"
+                + "      ,[status]\n"
+                + "      ,[createAt]\n"
+                + "      ,[updateAt]\n"
+                + "FROM ##TempTable";
+        try {
+            conn = new DBContext().getConnection();
+            PreparedStatement ps = conn.prepareStatement(querry);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Job job = new Job(rs.getInt("job_id"),
+                        rs.getString("title").trim(),
+                        rs.getString("description").trim(),
+                        rs.getString("salary_range").trim(),
+                        rs.getString("quantity").trim(),
+                        rs.getString("role").trim(),
+                        rs.getString("experience").trim(),
+                        rs.getString("location").trim(),
+                        rs.getString("hire_date").trim(),
+                        rs.getBoolean("status")
+                );
+                job.setSkillListName(getSkillNameByJobId(job.getjId()));
+                job.setRecruiter(getRecruiterIdNameById(rs.getInt("recruiter_id")));
+                list.add(job);
+            }
+
+        } catch (Exception e) {
+            System.err.println(e);
+        }
+        return list;
+    }
+
+    @Override
+    public void createTempoTableSearchJobData() {
+        String createTempTable = "IF OBJECT_ID('tempdb..##TempTable') IS NULL\n"
+                + "BEGIN\n"
+                + "CREATE TABLE ##TempTable (job_id INT\n"
+                + "      ,recruiter_id NVARCHAR(MAX)\n"
+                + "      ,[title] NVARCHAR(MAX)\n"
+                + "      ,[description] NVARCHAR(MAX)\n"
+                + "      ,[salary_range] NVARCHAR(MAX)\n"
+                + "      ,[quantity] NVARCHAR(MAX)\n"
+                + "      ,[role] NVARCHAR(MAX)\n"
+                + "      ,[experience] NVARCHAR(MAX)\n"
+                + "      ,[location] NVARCHAR(MAX)\n"
+                + "      ,[hire_date] NVARCHAR(MAX)\n"
+                + "      ,[questions] NVARCHAR(MAX)\n"
+                + "      ,[status] bit\n"
+                + "      ,[createAt] date\n"
+                + "      ,[updateAt] date\n"
+                + "	 ) \n"
+                + "END \n";
+        try {
+            conn = new DBContext().getConnection();
+            PreparedStatement ps = conn.prepareStatement(createTempTable);
+            ps.executeUpdate();
+        } catch (Exception e) {
+            System.err.println(e);
+        }
     }
 
 }

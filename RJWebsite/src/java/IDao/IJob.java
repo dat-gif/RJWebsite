@@ -18,6 +18,7 @@ import java.util.ArrayList;
 public interface IJob {
 
     public ArrayList<Job> getAllJob();
+
     public ArrayList<Job> getJobBySkillAndCity(String skillValue, String cityValue);
 
     public ArrayList<Job> getJobLandingPage();
@@ -34,4 +35,11 @@ public interface IJob {
 
     public ArrayList<Job> searhingJob(String txtSearch, String skillValue, String cityValue);
 
+    public void createTempoTableSearchJobData();
+
+    public void insertJobByTextSearch(String txtSearch, String skillValue, String cityValue);
+
+    public void insertJobByFilter(String skillValue, String cityValue);
+
+    public ArrayList<Job> getJobSearching();
 }
