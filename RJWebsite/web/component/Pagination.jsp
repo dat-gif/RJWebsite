@@ -4,19 +4,24 @@
     Author     : Admin
 --%>
 
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
     <body>
-        <nav aria-label="...">
-            <ul class="pagination">
 
-                <li class="page-item"><a class="page-link" href="#">1</a></li>
-                <li class="page-item active" aria-current="page">
-                    <a class="page-link" href="#">2</a>
-                </li>
-                <li class="page-item"><a class="page-link" href="#">3</a></li>
-            </ul>
+        <nav aria-label="...">
+            <form action="seachingjob" method="post">
+                <ul class="pagination">
+
+                    <li class="page-item"><a class="page-link" href="#">1</a></li>
+                    <li class="page-item active" aria-current="page">
+                        <a class="page-link" href="${param.text2}" id="test" >${param.text2}</a>
+                    </li>
+                    <li class="page-item"><a class="page-link" href="#">3</a></li>
+                </ul>
+            </form>
         </nav>
     </body>
 </html>

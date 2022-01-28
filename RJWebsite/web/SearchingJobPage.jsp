@@ -99,7 +99,9 @@
             </div>
             <!-- Phan trang -->
             <div class="row justify-content-center mt-4 mb-4">
-                <jsp:include page="component/Pagination.jsp"/>
+                <jsp:include page="component/Pagination.jsp">
+                    <jsp:param name="text2" value="${job.salaryRange}"/>
+                </jsp:include>
             </div>
         </main>
         <!-- Footer -->

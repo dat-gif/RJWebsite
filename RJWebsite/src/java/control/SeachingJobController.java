@@ -27,6 +27,9 @@ import javax.servlet.http.HttpServletResponse;
  * @author Admin
  */
 public class SeachingJobController extends HttpServlet {
+    
+    int pageNumber = 1;
+    static int recordNumber = 8;
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -39,7 +42,7 @@ public class SeachingJobController extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
+        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -55,11 +58,11 @@ public class SeachingJobController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         request.setAttribute("txtSearch", "");
-
+        
         IJob daoJob = new JobDAO();
         ICity daoCity = new CityDAO();
         try {
-            List<Job> listJob = daoJob.getJobLandingPage();
+            List<Job> listJob = daoJob.getAllJob(pageNumber, recordNumber);
             List<Skill> listSkill = daoJob.getAllSkill();
             List<City> listCity = daoCity.getAllCity();
             request.setAttribute("listCity", listCity);
@@ -88,30 +91,28 @@ public class SeachingJobController extends HttpServlet {
         String citySelect = request.getParameter("citySelect");
         String skillSelect = request.getParameter("skillSelect");
         String[] arrayString = skillSelect.split(",");
-
+        System.out.println("Test: " + request.getParameter("test"));
         ArrayList<Job> listJob = new ArrayList<>();
         List<Skill> listSkill = daoJob.getAllSkill();
         List<City> listCity = daoCity.getAllCity();
-
+        
         if (txtSearch.isEmpty()) {
             // if user not iput search text but still using filter
             if (!arrayString[0].equalsIgnoreCase("All") || !citySelect.equalsIgnoreCase("All")) {
                 daoJob.createTempoTableSearchJobData();
                 daoJob.insertJobByFilter(arrayString[0], citySelect);
-                listJob = daoJob.getJobSearching();
+                listJob = daoJob.getJobSearching(pageNumber, recordNumber);
             } else {
-                // if user not input search text or filter
-                listJob = daoJob.getAllJob();
+                // if user not input search text
+                listJob = daoJob.getAllJob(pageNumber, recordNumber);
             }
-
         } else {
-
+            // if user enters search text, (can choose filter or not)
             daoJob.createTempoTableSearchJobData();
             daoJob.insertJobByTextSearch(txtSearch.trim(), arrayString[0], citySelect);
-            listJob = daoJob.getJobSearching();
-
+            listJob = daoJob.getJobSearching(pageNumber, recordNumber);
         }
-
+        request.setAttribute("test", "OK");
         request.setAttribute("txtSearch", txtSearch);
         request.setAttribute("citySelect", citySelect);
         request.setAttribute("skillSelect", arrayString[1]);
@@ -119,7 +120,6 @@ public class SeachingJobController extends HttpServlet {
         request.setAttribute("listCity", listCity);
         request.setAttribute("listSkill", listSkill);
         request.setAttribute("listJob", listJob);
-        System.out.println(txtSearch + ".." + citySelect + ".." + arrayString[0]);
         request.getRequestDispatcher("SearchingJobPage.jsp").forward(request, response);
     }
 
