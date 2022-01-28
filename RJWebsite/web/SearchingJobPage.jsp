@@ -55,9 +55,6 @@
                             </select>    
 
                             <select name="skillSelect" class="form-select rounded border-secondary rounded w-25 form-control" >
-
-
-
                                 <c:choose>
                                     <c:when test="${not empty skillSelect}">
                                         <option selected="selected" value="${skillSelectId}" >
@@ -79,7 +76,6 @@
                             </select>   
                         </div>
                     </form>
-
                 </div>
                 <div class="col p-0 align-self-center">
                     <img src="https://picsum.photos/500/300" class="img-fluid w-100 " alt="alt"/>
