@@ -461,9 +461,9 @@ public class JobDAO implements IJob {
         String queryWhere = "where ";
         if (!skillValue.equalsIgnoreCase("All")) {
             mainQuery = mainQuery.concat(skillJoinQuery);
-            queryWhere = queryWhere + "skill.skill_id = ?";
+            queryWhere = queryWhere + "skill.skill_id = ?\n";
             if (!cityValue.equalsIgnoreCase("All")) {
-                queryWhere = queryWhere + " and";
+                queryWhere = queryWhere + " and\n";
             }
         }
         if (!cityValue.equalsIgnoreCase("All")) {
@@ -672,7 +672,7 @@ public class JobDAO implements IJob {
             selectQuery = selectQuery.concat(skillJoinQuery);
             queryWhere = queryWhere + "skill.skill_id = ?";
             if (!cityValue.equalsIgnoreCase("All")) {
-                queryWhere = queryWhere + " and";
+                queryWhere = queryWhere + " and\n";
             }
         }
         if (!cityValue.equalsIgnoreCase("All")) {

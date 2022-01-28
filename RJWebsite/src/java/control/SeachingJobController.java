@@ -39,7 +39,7 @@ public class SeachingJobController extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -54,7 +54,8 @@ public class SeachingJobController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String txtSearch = request.getParameter("txt");
+        request.setAttribute("txtSearch", "");
+
         IJob daoJob = new JobDAO();
         ICity daoCity = new CityDAO();
         try {
@@ -86,33 +87,39 @@ public class SeachingJobController extends HttpServlet {
         String txtSearch = request.getParameter("txtSearch");
         String citySelect = request.getParameter("citySelect");
         String skillSelect = request.getParameter("skillSelect");
+        String[] arrayString = skillSelect.split(",");
+
         ArrayList<Job> listJob = new ArrayList<>();
         List<Skill> listSkill = daoJob.getAllSkill();
         List<City> listCity = daoCity.getAllCity();
-        
+
         if (txtSearch.isEmpty()) {
             // if user not iput search text but still using filter
-            if (!skillSelect.equalsIgnoreCase("All") || !citySelect.equalsIgnoreCase("All")) {
+            if (!arrayString[0].equalsIgnoreCase("All") || !citySelect.equalsIgnoreCase("All")) {
                 daoJob.createTempoTableSearchJobData();
-                daoJob.insertJobByFilter(skillSelect, citySelect);
+                daoJob.insertJobByFilter(arrayString[0], citySelect);
                 listJob = daoJob.getJobSearching();
             } else {
                 // if user not input search text or filter
                 listJob = daoJob.getAllJob();
             }
-            
+
         } else {
-            
+
             daoJob.createTempoTableSearchJobData();
-            daoJob.insertJobByTextSearch(txtSearch.trim(), skillSelect, citySelect);
+            daoJob.insertJobByTextSearch(txtSearch.trim(), arrayString[0], citySelect);
             listJob = daoJob.getJobSearching();
-            
+
         }
-        
+
+        request.setAttribute("txtSearch", txtSearch);
+        request.setAttribute("citySelect", citySelect);
+        request.setAttribute("skillSelect", arrayString[1]);
+        request.setAttribute("skillSelectId", skillSelect);
         request.setAttribute("listCity", listCity);
         request.setAttribute("listSkill", listSkill);
         request.setAttribute("listJob", listJob);
-        System.out.println(txtSearch + ".." + citySelect + ".." + skillSelect);
+        System.out.println(txtSearch + ".." + citySelect + ".." + arrayString[0]);
         request.getRequestDispatcher("SearchingJobPage.jsp").forward(request, response);
     }
 

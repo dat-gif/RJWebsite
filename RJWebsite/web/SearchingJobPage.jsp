@@ -30,26 +30,51 @@
                     <!-- Searching Form -->
                     <form action="seachingjob" method="post">
                         <div class="input-group">
-                            <input type="search" name="txtSearch" class="form-control  rounded border-secondary" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
+                            <input type="search" name="txtSearch" value="${txtSearch}" class="form-control  rounded border-secondary" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
                             <button type="submit" class="btn btn-outline-primary mx-3">search</button>
                         </div>
                         <div class="d-flex mt-3 ">
+
                             <select name="citySelect" class="form-select mr-2 border-secondary rounded w-25 form-control ">
-                                <option selected="selected" value="All" >
-                                    Location (All)
-                                </option>
+                                <c:choose>
+                                    <c:when test="${not empty citySelect}">
+                                        <option selected="selected" value="${citySelect}" >
+                                            ${citySelect}
+                                        </option>    
+                                    </c:when>
+                                    <c:otherwise>
+                                        <option selected="selected" value="All" >
+                                            Location (All)
+                                        </option>           
+                                    </c:otherwise>
+                                </c:choose>
 
                                 <c:forEach items="${listCity}" var="city">
                                     <option value="${city.getName()}">${city.getName()}</option>
                                 </c:forEach>
-
                             </select>    
+
                             <select name="skillSelect" class="form-select rounded border-secondary rounded w-25 form-control" >
-                                <option selected="selected" value="All" >
+
+
+
+                                <c:choose>
+                                    <c:when test="${not empty skillSelect}">
+                                        <option selected="selected" value="${skillSelectId}" >
+                                            ${skillSelect}
+                                        </option>    
+                                    </c:when>
+                                    <c:otherwise>
+                                        <option selected="selected" value="All,All Skill" >
+                                            All Skill
+                                        </option>   
+                                    </c:otherwise>
+                                </c:choose>
+                                <option value="All,All Skill" >
                                     All Skill
-                                </option>
+                                </option>   
                                 <c:forEach items="${listSkill}" var="skill">
-                                    <option value="${skill.getId()}">${skill.getName()}</option>
+                                    <option value="${skill.getId()},${skill.getName()}">${skill.getName()}</option>
                                 </c:forEach>
                             </select>   
                         </div>
