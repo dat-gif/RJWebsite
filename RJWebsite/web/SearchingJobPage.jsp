@@ -24,18 +24,20 @@
 
         <main class="container my-3">
             <!-- Searching -->
+
             <div class="row row-cols-2 ">
                 <div class="col align-self-center"> 
                     <h3 class="text-capitalize display-4 mb-4">Searching for IT job...</h3>
                     <!-- Searching Form -->
-                    <form action="seachingjob" method="post">
+                    <form action="seachingjob" method="POST">
                         <div class="input-group">
                             <input type="search" name="txtSearch" value="${txtSearch}" class="form-control  rounded border-secondary" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
                             <button type="submit" class="btn btn-outline-primary mx-3">search</button>
                         </div>
+
                         <div class="d-flex mt-3 ">
 
-                            <select name="citySelect" class="form-select mr-2 border-secondary rounded w-25 form-control ">
+                            <select name="citySelect" class="form-select mr-2 border-secondary rounded w-25 form-control " value="${citySelect}">
                                 <c:choose>
                                     <c:when test="${not empty citySelect}">
                                         <option selected="selected" value="${citySelect}" >
@@ -54,28 +56,28 @@
                                 </c:forEach>
                             </select>    
 
-                            <select name="skillSelect" class="form-select rounded border-secondary rounded w-25 form-control" >
+                            <select name="skillSelect" class="form-select rounded border-secondary rounded w-25 form-control" value="${skillSelectId}">
                                 <c:choose>
-                                    <c:when test="${not empty skillSelect}">
+                                    <c:when test="${not empty skillSelectId}">
                                         <option selected="selected" value="${skillSelectId}" >
                                             ${skillSelect}
                                         </option>    
                                     </c:when>
                                     <c:otherwise>
-                                        <option selected="selected" value="All,All Skill" >
+                                        <option selected value="All_All Skill" >
                                             All Skill
                                         </option>   
                                     </c:otherwise>
                                 </c:choose>
-                                <option value="All,All Skill" >
+                                <option value="All_All-Skill" >
                                     All Skill
                                 </option>   
                                 <c:forEach items="${listSkill}" var="skill">
-                                    <option value="${skill.getId()},${skill.getName()}">${skill.getName()}</option>
+                                    <option value="${skill.getId()}_${skill.getName()}">${skill.getName()}</option>
                                 </c:forEach>
                             </select>   
                         </div>
-                    </form>
+                    </form>      
                 </div>
                 <div class="col p-0 align-self-center">
                     <img src="https://picsum.photos/500/300" class="img-fluid w-100 " alt="alt"/>
@@ -99,10 +101,19 @@
             </div>
             <!-- Phan trang -->
             <div class="row justify-content-center mt-4 mb-4">
-                <jsp:include page="component/Pagination.jsp">
-                    <jsp:param name="text2" value="${job.salaryRange}"/>
-                </jsp:include>
+                <nav aria-label="...">
+                    <ul class="pagination">
+
+                        <c:forEach begin="1" end="${totalPage}" var="i">
+                            <li class="page-item" value="${page}"  name="page">
+                                <a class="page-link" href="seachingjob?page=${i}" >${i}</a>
+                            </li>    
+                        </c:forEach>
+
+                    </ul>
+                </nav>
             </div>
+
         </main>
         <!-- Footer -->
         <jsp:include page="component/Footer.jsp"/>

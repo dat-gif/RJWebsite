@@ -500,6 +500,27 @@ public class JobDAO implements IJob {
             }
         }
         queryUnionTable = queryUnionTable + " )as unionTable \n";
+        if (!skillValue.equalsIgnoreCase("All") || !cityValue.equalsIgnoreCase("All")) {
+            String joinQuery = "";
+            String skillJoinQuery = "inner join job_skill on job_skill.job_id = unionTable.job_id\n"
+                    + "inner join skill on job_skill.skill_id = skill.skill_id\n";
+            // City of job in database can get by recruiter info
+            String cityJoinQuery = "inner join recruiter on recruiter.recruiter_id = unionTable.recruiter_id\n";
+            String queryWhere = "where ";
+            if (!skillValue.equalsIgnoreCase("All")) {
+                queryWhere = queryWhere + "skill.skill_id = ?";
+                if (!cityValue.equalsIgnoreCase("All")) {
+                    queryWhere = queryWhere + " and\n";
+                }
+                joinQuery = joinQuery + skillJoinQuery;
+            }
+            if (!cityValue.equalsIgnoreCase("All")) {
+                queryWhere = queryWhere + "recruiter.city like ?";
+                joinQuery = joinQuery + cityJoinQuery;
+            }
+            queryUnionTable = queryUnionTable + joinQuery + queryWhere;
+        }
+
         try {
             int count = 1;
             conn = new DBContext().getConnection();
@@ -511,6 +532,18 @@ public class JobDAO implements IJob {
                 ps.setString(++count, "%" + get + "%");
                 count++;
             }
+            if (!skillValue.equalsIgnoreCase("All") || !cityValue.equalsIgnoreCase("All")) {
+                if (!skillValue.equalsIgnoreCase("All")) {
+                    ps.setString(count, skillValue);
+                    if (!cityValue.equalsIgnoreCase("All")) {
+                        count++;
+                    }
+                }
+                if (!cityValue.equalsIgnoreCase("All")) {
+                    ps.setString(count, "%" + cityValue + "%");
+                }
+            }
+
             ps.executeUpdate();
         } catch (Exception e) {
             System.err.println("Bug insert: " + e);
@@ -597,6 +630,8 @@ public class JobDAO implements IJob {
     /**
      * Get data form temporary job
      *
+     * @param pageNumber
+     * @param recordNumber number record get from database
      * @return ArrayList<Job>
      */
     @Override
@@ -660,6 +695,42 @@ public class JobDAO implements IJob {
         IJob jobDao = new JobDAO();
 
         ArrayList<Job> testList;
+
+    }
+
+    @Override
+    public int getTotalJobRow() {
+        int totalRow = 0;
+        String query = "select count(*) as num from job";
+        try {
+            conn = new DBContext().getConnection();
+            PreparedStatement ps = conn.prepareStatement(query);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                totalRow = rs.getInt("num");
+            }
+        } catch (Exception e) {
+            System.out.println("bug get row job " + e);
+        }
+        return totalRow;
+
+    }
+
+    @Override
+    public int getTotalTempJobRow() {
+        int totalRow = 0;
+        String query = " select count(*) as num  from (select job_id from ##TempTable group by job_id) as countTable";
+        try {
+            conn = new DBContext().getConnection();
+            PreparedStatement ps = conn.prepareStatement(query);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                totalRow = rs.getInt("num");
+            }
+        } catch (Exception e) {
+            System.out.println("bug get row Temp job " + e);
+        }
+        return totalRow;
 
     }
 

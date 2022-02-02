@@ -41,4 +41,7 @@ public interface IJob {
     public void insertJobByFilter(String skillValue, String cityValue);
 
     public ArrayList<Job> getJobSearching(int pageNumber, int recordNumber);
+
+    public int getTotalJobRow();
+    public int getTotalTempJobRow();
 }

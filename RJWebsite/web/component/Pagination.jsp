@@ -14,12 +14,14 @@
         <nav aria-label="...">
             <form action="seachingjob" method="post">
                 <ul class="pagination">
+                    <c:forEach begin="1" end="${param.totalPage}" var="i">
+                        <li class="page-item"><a class="page-link" href="#">${i}</a></li>    
+                        </c:forEach>
+                    <!--                    <li class="page-item"><a class="page-link" href="#">1</a></li>
+                                        <li class="page-item active" aria-current="page">
+                                            <a class="page-link" href="${param.text2}" id="test" >${param.text2}</a>
+                                        </li>-->
 
-                    <li class="page-item"><a class="page-link" href="#">1</a></li>
-                    <li class="page-item active" aria-current="page">
-                        <a class="page-link" href="${param.text2}" id="test" >${param.text2}</a>
-                    </li>
-                    <li class="page-item"><a class="page-link" href="#">3</a></li>
                 </ul>
             </form>
         </nav>
