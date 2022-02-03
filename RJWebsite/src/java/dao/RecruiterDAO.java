@@ -94,20 +94,21 @@ public class RecruiterDAO implements IDao.IRecruiter {
 
     @Override
     public void createRecruiterTempoTableSearchData() {
-        String createTempTable = "IF OBJECT_ID('tempdb..##TempRecruiterTable') IS NULL\n"
+        String createTempTable = " IF OBJECT_ID('tempdb..#TempRecruiterTable') IS NULL\n"
                 + "BEGIN\n"
-                + "CREATE TABLE ##TempRecruiterTable (job_id INT\n"
-                + "      ,recruiter_id NVARCHAR(MAX)\n"
-                + "      ,[title] NVARCHAR(MAX)\n"
-                + "      ,[description] NVARCHAR(MAX)\n"
-                + "      ,[salary_range] NVARCHAR(MAX)\n"
-                + "      ,[quantity] NVARCHAR(MAX)\n"
-                + "      ,[role] NVARCHAR(MAX)\n"
-                + "      ,[experience] NVARCHAR(MAX)\n"
-                + "      ,[location] NVARCHAR(MAX)\n"
-                + "      ,[hire_date] NVARCHAR(MAX)\n"
-                + "      ,[questions] NVARCHAR(MAX)\n"
-                + "      ,[status] bit\n"
+                + "CREATE TABLE #TempRecruiterTable  (\n"
+                + "	   [recruiter_id] INT\n"
+                + "      ,[name] NVARCHAR(MAX)\n"
+                + "      ,[address]NVARCHAR(MAX)\n"
+                + "      ,[city]NVARCHAR(MAX)\n"
+                + "      ,[avatar]NVARCHAR(MAX)\n"
+                + "      ,[banner]NVARCHAR(MAX)\n"
+                + "      ,[phone]NVARCHAR(MAX)\n"
+                + "      ,[website]NVARCHAR(MAX)\n"
+                + "      ,[description]NVARCHAR(MAX)\n"
+                + "      ,[employee_quantity]NVARCHAR(MAX)\n"
+                + "      ,[contacter_name]NVARCHAR(MAX)\n"
+                + "      ,[contacter_phone]NVARCHAR(MAX)\n"
                 + "      ,[createAt] date\n"
                 + "      ,[updateAt] date\n"
                 + "	 ) \n"
@@ -124,54 +125,54 @@ public class RecruiterDAO implements IDao.IRecruiter {
     @Override
     public void insertRecruiter(String txtSearch, String cityValue) {
         List<String> wordSearchList = changeStringToListAndSort(txtSearch);
-        String clearQuery = "DELETE FROM ##TempTable \n ";
-        String insertTable = "INSERT INTO ##TempTable ( [job_id]\n"
-                + "      ,[recruiter_id]\n"
-                + "      ,[title]\n"
+        String clearQuery = "DELETE FROM ##TempRecruiterTable  \n ";
+        String insertTable = "INSERT INTO #TempRecruiterTable  ( \n"
+                + "       [recruiter_id] \n"
+                + "      ,[name] \n"
+                + "      ,[address]\n"
+                + "      ,[city]\n"
+                + "      ,[avatar]\n"
+                + "      ,[banner]\n"
+                + "      ,[phone]\n"
+                + "      ,[website]\n"
                 + "      ,[description]\n"
-                + "      ,[salary_range]\n"
-                + "      ,[quantity]\n"
-                + "      ,[role]\n"
-                + "      ,[experience]\n"
-                + "      ,[location]\n"
-                + "      ,[hire_date]\n"
-                + "      ,[questions]\n"
-                + "      ,[status]\n"
-                + "      ,[createAt]\n"
-                + "      ,[updateAt])\n";
-        String queryUnionTable = "select TOP (9223372036854775807) unionTable.[job_id]\n"
-                + "      ,unionTable.[recruiter_id]\n"
-                + "      ,unionTable.[title]\n"
+                + "      ,[employee_quantity]\n"
+                + "      ,[contacter_name]\n"
+                + "      ,[contacter_phone]\n"
+                + "      ,[createAt] \n"
+                + "      ,[updateAt]) ";
+        String queryUnionTable = "select TOP (9223372036854775807) unionTable.[recruiter_id]\n"
+                + "      ,unionTable.[name]\n"
+                + "      ,unionTable.[address]\n"
+                + "      ,unionTable.[city]\n"
+                + "      ,unionTable.[avatar]\n"
+                + "      ,unionTable.[banner]\n"
+                + "      ,unionTable.[phone]\n"
+                + "      ,unionTable.[website]\n"
                 + "      ,unionTable.[description]\n"
-                + "      ,unionTable.[salary_range]\n"
-                + "      ,unionTable.[quantity]\n"
-                + "      ,unionTable.[role]\n"
-                + "      ,unionTable.[experience]\n"
-                + "      ,unionTable.[location]\n"
-                + "      ,unionTable.[hire_date]\n"
-                + "      ,unionTable.[questions]\n"
-                + "      ,unionTable.[status]\n"
+                + "      ,unionTable.[employee_quantity]\n"
+                + "      ,unionTable.[contacter_name]\n"
+                + "      ,unionTable.[contacter_phone]\n"
                 + "      ,unionTable.[createAt]\n"
-                + "      ,unionTable.[updateAt]  \n"
-                + "from (\n";
-        String queryTable = "select job.[job_id]\n"
-                + "      ,job.[recruiter_id]\n"
-                + "      ,job.[title]\n"
-                + "      ,job.[description]\n"
-                + "      ,job.[salary_range]\n"
-                + "      ,job.[quantity]\n"
-                + "      ,job.[role]\n"
-                + "      ,job.[experience]\n"
-                + "      ,job.[location]\n"
-                + "      ,job.[hire_date]\n"
-                + "      ,job.[questions]\n"
-                + "      ,job.[status]\n"
-                + "      ,job.[createAt]\n"
-                + "      ,job.[updateAt]\n"
-                + "from job \n"
-                + "inner join job_skill on job_skill.job_id = job.job_id\n"
-                + "inner join skill on job_skill.skill_id = skill.skill_id\n"
-                + "where job.title like ? or skill.name like ?";
+                + "      ,unionTable.[updateAt]\n"
+                + "from (";
+        String queryTable = "select [recruiter_id]\n"
+                + "      ,[account_id]\n"
+                + "      ,[name]\n"
+                + "      ,[address]\n"
+                + "      ,[city]\n"
+                + "      ,[avatar]\n"
+                + "      ,[banner]\n"
+                + "      ,[phone]\n"
+                + "      ,[website]\n"
+                + "      ,[description]\n"
+                + "      ,[employee_quantity]\n"
+                + "      ,[contacter_name]\n"
+                + "      ,[contacter_phone]\n"
+                + "      ,[createAt]\n"
+                + "      ,[updateAt]\n"
+                + "from recruiter \n"
+                + "where recruiter.name like ? or recruiter.contacter_phone like ?\n";
         for (int i = 0; i < wordSearchList.size(); i++) {
             queryUnionTable = queryUnionTable + queryTable;
             if (i != wordSearchList.size() - 1) {
@@ -180,14 +181,11 @@ public class RecruiterDAO implements IDao.IRecruiter {
             }
         }
         queryUnionTable = queryUnionTable + " )as unionTable \n";
-       
+
         if (!cityValue.equalsIgnoreCase("All")) {
-            String joinQuery = "";
             String queryWhere = "where ";
-            if (!cityValue.equalsIgnoreCase("All")) {
-                queryWhere = queryWhere + "recruiter.city like ?";
-            }
-            queryUnionTable = queryUnionTable + joinQuery + queryWhere;
+            queryWhere = queryWhere + "recruiter.city like ?";
+            queryUnionTable = queryUnionTable + queryWhere;
         }
 
         try {
@@ -212,7 +210,7 @@ public class RecruiterDAO implements IDao.IRecruiter {
     }
 
     @Override
-    public ArrayList<Job> getRecruterPaging(int pageNumber, int recordNumber) {
+    public ArrayList<Recruiter> getRecruterPaging(int pageNumber, int recordNumber) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -224,6 +222,49 @@ public class RecruiterDAO implements IDao.IRecruiter {
     @Override
     public int getTotalTempJobRow() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public ArrayList<Recruiter> getAllRecruter(int pageNumber, int recordNumber) {
+        ArrayList<Recruiter> recruitersList = new ArrayList<>();
+        String query = "DECLARE @PageNumber AS INT\n"
+                + "DECLARE @RowsOfPage AS INT\n"
+                + "SET @PageNumber=1\n"
+                + "SET @RowsOfPage=10\n"
+                + " SELECT [recruiter_id]\n"
+                + "      ,[account_id]\n"
+                + "      ,[name]\n"
+                + "      ,[address]\n"
+                + "      ,[city]\n"
+                + "      ,[avatar]\n"
+                + "      ,[banner]\n"
+                + "      ,[phone]\n"
+                + "      ,[website]\n"
+                + "      ,[description]\n"
+                + "      ,[employee_quantity]\n"
+                + "      ,[contacter_name]\n"
+                + "      ,[contacter_phone]\n"
+                + "      ,[createAt]\n"
+                + "      ,[updateAt]\n"
+                + "FROM [SWP391].[dbo].[recruiter]\n"
+                + "ORDER BY [recruiter_id] desc\n"
+                + "OFFSET (@PageNumber-1)*@RowsOfPage ROWS\n"
+                + "FETCH NEXT @RowsOfPage ROWS ONLY";
+
+        try {
+            conn = new DBContext().getConnection();
+            ps = conn.prepareStatement(query);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+//                recruitersList.add(new (rs.getInt("skill_id"),
+//                        rs.getNString("name"),
+//                        rs.getNString("icon"),
+//                        rs.getNString("description")));
+            }
+        } catch (Exception e) {
+            System.out.println("get skill :" + e);
+        }
+        return recruitersList;
     }
 
 }

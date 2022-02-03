@@ -35,6 +35,20 @@ public class Recruiter {
         this.avatar= avatar;
     }
 
+    public Recruiter(int recruiterId, String name, String address, String avatar, String banner, String phone, String website, String description, String employeeQuantity, String contacterName, String contacterPhone) {
+        this.recruiterId = recruiterId;
+        this.name = name;
+        this.address = address;
+        this.avatar = avatar;
+        this.banner = banner;
+        this.phone = phone;
+        this.website = website;
+        this.description = description;
+        this.employeeQuantity = employeeQuantity;
+        this.contacterName = contacterName;
+        this.contacterPhone = contacterPhone;
+    }
+
     public Recruiter(int recruiterId, String name, String address, String avatar, String banner, String phone, String website, String description, String employeeQuantity, String contacterName, String contacterPhone, Date createAt, Date updateAt) {
         this.recruiterId = recruiterId;
         this.name = name;
