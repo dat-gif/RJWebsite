@@ -15,15 +15,15 @@ import java.util.ArrayList;
  */
 public interface IRecruiter {
 
-    public Recruiter getRecruterById(int recruterId);
+    public Recruiter getRecruiterById(int recruterId);
 
     public void createRecruiterTempoTableSearchData();
 
     public void insertRecruiter(String txtSearch, String cityValue);
 
-    public ArrayList<Recruiter> getRecruterPaging(int pageNumber, int recordNumber);
+    public ArrayList<Recruiter> getRecruiterPaging(int pageNumber, int recordNumber);
 
-    public ArrayList<Recruiter> getAllRecruter(int pageNumber, int recordNumber);
+    public ArrayList<Recruiter> getAllRecruiter(int pageNumber, int recordNumber);
 
     public int getTotalRecruiterRow();
 

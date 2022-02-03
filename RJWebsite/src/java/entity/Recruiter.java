@@ -188,5 +188,10 @@ public class Recruiter {
     public void setUpdateAt(Date updateAt) {
         this.updateAt = updateAt;
     }
+
+    @Override
+    public String toString() {
+        return "Recruiter{" + "recruiterId=" + recruiterId + ", city=" + city + ", name=" + name + ", address=" + address + ", avatar=" + avatar + ", banner=" + banner + ", phone=" + phone + ", website=" + website + ", description=" + description + ", employeeQuantity=" + employeeQuantity + ", contacterName=" + contacterName + ", contacterPhone=" + contacterPhone + ", createAt=" + createAt + ", updateAt=" + updateAt + '}';
+    }
     
 }

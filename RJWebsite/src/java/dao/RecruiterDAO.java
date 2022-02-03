@@ -50,7 +50,7 @@ public class RecruiterDAO implements IDao.IRecruiter {
     }
 
     @Override
-    public Recruiter getRecruterById(int recruterId) {
+    public Recruiter getRecruiterById(int recruiterId) {
         String query = " SELECT recruiter.recruiter_id\n"
                 + "      ,recruiter.name\n"
                 + "      ,recruiter.address\n"
@@ -69,7 +69,7 @@ public class RecruiterDAO implements IDao.IRecruiter {
         try {
             conn = new DBContext().getConnection();
             ps = conn.prepareStatement(query);
-            ps.setInt(1, recruterId);
+            ps.setInt(1, recruiterId);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 return new Recruiter(rs.getInt("recruiter_id"),
@@ -94,9 +94,9 @@ public class RecruiterDAO implements IDao.IRecruiter {
 
     @Override
     public void createRecruiterTempoTableSearchData() {
-        String createTempTable = " IF OBJECT_ID('tempdb..#TempRecruiterTable') IS NULL\n"
+        String createTempTable = " IF OBJECT_ID('tempdb..##TempRecruiterTable') IS NULL\n"
                 + "BEGIN\n"
-                + "CREATE TABLE #TempRecruiterTable  (\n"
+                + "CREATE TABLE ##TempRecruiterTable  (\n"
                 + "	   [recruiter_id] INT\n"
                 + "      ,[name] NVARCHAR(MAX)\n"
                 + "      ,[address]NVARCHAR(MAX)\n"
@@ -126,7 +126,7 @@ public class RecruiterDAO implements IDao.IRecruiter {
     public void insertRecruiter(String txtSearch, String cityValue) {
         List<String> wordSearchList = changeStringToListAndSort(txtSearch);
         String clearQuery = "DELETE FROM ##TempRecruiterTable  \n ";
-        String insertTable = "INSERT INTO #TempRecruiterTable  ( \n"
+        String insertTable = "INSERT INTO ##TempRecruiterTable  ( \n"
                 + "       [recruiter_id] \n"
                 + "      ,[name] \n"
                 + "      ,[address]\n"
@@ -181,13 +181,11 @@ public class RecruiterDAO implements IDao.IRecruiter {
             }
         }
         queryUnionTable = queryUnionTable + " )as unionTable \n";
-
         if (!cityValue.equalsIgnoreCase("All")) {
             String queryWhere = "where ";
-            queryWhere = queryWhere + "recruiter.city like ?";
+            queryWhere = queryWhere + "unionTable.[city] like ?";
             queryUnionTable = queryUnionTable + queryWhere;
         }
-
         try {
             int count = 1;
             conn = new DBContext().getConnection();
@@ -202,7 +200,6 @@ public class RecruiterDAO implements IDao.IRecruiter {
             if (!cityValue.equalsIgnoreCase("All")) {
                 ps.setString(count, "%" + cityValue + "%");
             }
-
             ps.executeUpdate();
         } catch (Exception e) {
             System.err.println("Bug insert: " + e);
@@ -213,6 +210,16 @@ public class RecruiterDAO implements IDao.IRecruiter {
     public int getTotalRecruiterRow() {
         int total = 0;
         String query = "select count(*) as num  from (select recruiter_id from recruiter group by recruiter_id) as countTable";
+        try {
+            conn = new DBContext().getConnection();
+            PreparedStatement ps = conn.prepareStatement(query);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                total = rs.getInt("num");
+            }
+        } catch (Exception e) {
+            System.out.println("bug get row job " + e);
+        }
         return total;
     }
 
@@ -220,18 +227,34 @@ public class RecruiterDAO implements IDao.IRecruiter {
     public int getTotalTempRecruiterRow() {
         int total = 0;
         String query = "select count(*) as num  from (select recruiter_id from ##TempRecruiterTable group by recruiter_id) as countTable";
+        try {
+            conn = new DBContext().getConnection();
+            PreparedStatement ps = conn.prepareStatement(query);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                total = rs.getInt("num");
+            }
+        } catch (Exception e) {
+            System.out.println("bug get row job " + e);
+        }
         return total;
     }
 
+    /**
+     * Get recruiter
+     *
+     * @param pageNumber
+     * @param recordNumber
+     * @return
+     */
     @Override
-    public ArrayList<Recruiter> getRecruterPaging(int pageNumber, int recordNumber) {
+    public ArrayList<Recruiter> getRecruiterPaging(int pageNumber, int recordNumber) {
         ArrayList<Recruiter> recruitersList = new ArrayList<>();
         String query = "DECLARE @PageNumber AS INT\n"
                 + "DECLARE @RowsOfPage AS INT\n"
-                + "SET @PageNumber=1\n"
-                + "SET @RowsOfPage=10\n"
+                + "SET @PageNumber= ? \n"
+                + "SET @RowsOfPage= ? \n"
                 + " SELECT [recruiter_id]\n"
-                + "      ,[account_id]\n"
                 + "      ,[name]\n"
                 + "      ,[address]\n"
                 + "      ,[city]\n"
@@ -249,9 +272,11 @@ public class RecruiterDAO implements IDao.IRecruiter {
                 + "ORDER BY [recruiter_id] desc\n"
                 + "OFFSET (@PageNumber-1)*@RowsOfPage ROWS\n"
                 + "FETCH NEXT @RowsOfPage ROWS ONLY";
-try {
+        try {
             conn = new DBContext().getConnection();
             ps = conn.prepareStatement(query);
+            ps.setInt(1, pageNumber);
+            ps.setInt(2, recordNumber);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 recruitersList.add(new Recruiter(rs.getInt("recruiter_id"),
@@ -275,12 +300,12 @@ try {
     }
 
     @Override
-    public ArrayList<Recruiter> getAllRecruter(int pageNumber, int recordNumber) {
+    public ArrayList<Recruiter> getAllRecruiter(int pageNumber, int recordNumber) {
         ArrayList<Recruiter> recruitersList = new ArrayList<>();
         String query = "DECLARE @PageNumber AS INT\n"
                 + "DECLARE @RowsOfPage AS INT\n"
-                + "SET @PageNumber=1\n"
-                + "SET @RowsOfPage=10\n"
+                + "SET @PageNumber= ? \n"
+                + "SET @RowsOfPage= ? \n"
                 + " SELECT [recruiter_id]\n"
                 + "      ,[name]\n"
                 + "      ,[address]\n"
@@ -300,29 +325,49 @@ try {
                 + "OFFSET (@PageNumber-1)*@RowsOfPage ROWS\n"
                 + "FETCH NEXT @RowsOfPage ROWS ONLY";
 
+        System.out.println(query);
         try {
             conn = new DBContext().getConnection();
             ps = conn.prepareStatement(query);
+            ps.setInt(1, pageNumber);
+            ps.setInt(2, recordNumber);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                recruitersList.add(new Recruiter(rs.getInt("recruiter_id"),
+                Recruiter r = new Recruiter(rs.getInt("recruiter_id"),
                         rs.getString("city").trim(),
                         rs.getString("name").trim(),
                         rs.getString("address").trim(),
                         rs.getString("avatar").trim(),
                         rs.getString("banner").trim(),
                         rs.getString("phone").trim(),
-                        rs.getString("website").trim(),
-                        rs.getString("description").trim(),
-                        rs.getString("employee_quantity").trim(),
-                        rs.getString("contacter_name").trim(),
-                        rs.getString("contacter_phone").trim())
+                        rs.getString("website"),
+                        rs.getString("description"),
+                        rs.getString("employee_quantity"),
+                        rs.getString("contacter_name"),
+                        rs.getString("contacter_phone")
                 );
+                recruitersList.add(r);
             }
         } catch (Exception e) {
-           System.out.println("get all recruiter :" + e);
+            System.out.println("get all recruiter :" + e);
         }
         return recruitersList;
     }
 
+    public static void main(String[] args) {
+        List<Recruiter> list = new ArrayList<>();
+        RecruiterDAO dao = new RecruiterDAO();
+        list = dao.getAllRecruiter(1, 10);
+        for (Recruiter recruiter : list) {
+            System.out.println(recruiter.toString());
+        }
+        dao.createRecruiterTempoTableSearchData();
+        dao.insertRecruiter("FPT", "Hà Nội");
+        System.out.println("--------");
+        list = dao.getRecruiterPaging(1, 10);
+        for (Recruiter recruiter : list) {
+            System.out.println(recruiter.toString());
+        }
+
+    }
 }
