@@ -527,7 +527,6 @@ public class JobDAO implements IJob {
             PreparedStatement ps = conn.prepareStatement(clearQuery + insertTable + queryUnionTable);
             for (int i = 0; i < wordSearchList.size(); i++) {
                 String get = wordSearchList.get(i);
-
                 ps.setString(count, "%" + get + "%");
                 ps.setString(++count, "%" + get + "%");
                 count++;
@@ -543,7 +542,6 @@ public class JobDAO implements IJob {
                     ps.setString(count, "%" + cityValue + "%");
                 }
             }
-
             ps.executeUpdate();
         } catch (Exception e) {
             System.err.println("Bug insert: " + e);
