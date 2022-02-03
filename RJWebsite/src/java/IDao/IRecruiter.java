@@ -25,8 +25,8 @@ public interface IRecruiter {
 
     public ArrayList<Recruiter> getAllRecruter(int pageNumber, int recordNumber);
 
-    public int getTotalJobRow();
+    public int getTotalRecruiterRow();
 
-    public int getTotalTempJobRow();
+    public int getTotalTempRecruiterRow();
 
 }

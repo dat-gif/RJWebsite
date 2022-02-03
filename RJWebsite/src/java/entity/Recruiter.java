@@ -12,7 +12,8 @@ import java.sql.Date;
  */
 public class Recruiter {
 
-    private int recruiterId;
+    private int recruiterId; 
+    private String city;
     private String name;
     private String address;
     private String avatar;
@@ -37,6 +38,21 @@ public class Recruiter {
 
     public Recruiter(int recruiterId, String name, String address, String avatar, String banner, String phone, String website, String description, String employeeQuantity, String contacterName, String contacterPhone) {
         this.recruiterId = recruiterId;
+        this.name = name;
+        this.address = address;
+        this.avatar = avatar;
+        this.banner = banner;
+        this.phone = phone;
+        this.website = website;
+        this.description = description;
+        this.employeeQuantity = employeeQuantity;
+        this.contacterName = contacterName;
+        this.contacterPhone = contacterPhone;
+    }
+
+    public Recruiter(int recruiterId, String city, String name, String address, String avatar, String banner, String phone, String website, String description, String employeeQuantity, String contacterName, String contacterPhone) {
+        this.recruiterId = recruiterId;
+        this.city = city;
         this.name = name;
         this.address = address;
         this.avatar = avatar;

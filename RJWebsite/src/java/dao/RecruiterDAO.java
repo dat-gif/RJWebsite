@@ -210,18 +210,68 @@ public class RecruiterDAO implements IDao.IRecruiter {
     }
 
     @Override
+    public int getTotalRecruiterRow() {
+        int total = 0;
+        String query = "select count(*) as num  from (select recruiter_id from recruiter group by recruiter_id) as countTable";
+        return total;
+    }
+
+    @Override
+    public int getTotalTempRecruiterRow() {
+        int total = 0;
+        String query = "select count(*) as num  from (select recruiter_id from ##TempRecruiterTable group by recruiter_id) as countTable";
+        return total;
+    }
+
+    @Override
     public ArrayList<Recruiter> getRecruterPaging(int pageNumber, int recordNumber) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public int getTotalJobRow() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public int getTotalTempJobRow() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        ArrayList<Recruiter> recruitersList = new ArrayList<>();
+        String query = "DECLARE @PageNumber AS INT\n"
+                + "DECLARE @RowsOfPage AS INT\n"
+                + "SET @PageNumber=1\n"
+                + "SET @RowsOfPage=10\n"
+                + " SELECT [recruiter_id]\n"
+                + "      ,[account_id]\n"
+                + "      ,[name]\n"
+                + "      ,[address]\n"
+                + "      ,[city]\n"
+                + "      ,[avatar]\n"
+                + "      ,[banner]\n"
+                + "      ,[phone]\n"
+                + "      ,[website]\n"
+                + "      ,[description]\n"
+                + "      ,[employee_quantity]\n"
+                + "      ,[contacter_name]\n"
+                + "      ,[contacter_phone]\n"
+                + "      ,[createAt]\n"
+                + "      ,[updateAt]\n"
+                + "FROM ##TempRecruiterTable\n"
+                + "ORDER BY [recruiter_id] desc\n"
+                + "OFFSET (@PageNumber-1)*@RowsOfPage ROWS\n"
+                + "FETCH NEXT @RowsOfPage ROWS ONLY";
+try {
+            conn = new DBContext().getConnection();
+            ps = conn.prepareStatement(query);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                recruitersList.add(new Recruiter(rs.getInt("recruiter_id"),
+                        rs.getString("city").trim(),
+                        rs.getString("name").trim(),
+                        rs.getString("address").trim(),
+                        rs.getString("avatar").trim(),
+                        rs.getString("banner").trim(),
+                        rs.getString("phone").trim(),
+                        rs.getString("website").trim(),
+                        rs.getString("description").trim(),
+                        rs.getString("employee_quantity").trim(),
+                        rs.getString("contacter_name").trim(),
+                        rs.getString("contacter_phone").trim())
+                );
+            }
+        } catch (Exception e) {
+            System.out.println("get panig recruiter :" + e);
+        }
+        return recruitersList;
     }
 
     @Override
@@ -232,7 +282,6 @@ public class RecruiterDAO implements IDao.IRecruiter {
                 + "SET @PageNumber=1\n"
                 + "SET @RowsOfPage=10\n"
                 + " SELECT [recruiter_id]\n"
-                + "      ,[account_id]\n"
                 + "      ,[name]\n"
                 + "      ,[address]\n"
                 + "      ,[city]\n"
@@ -256,13 +305,22 @@ public class RecruiterDAO implements IDao.IRecruiter {
             ps = conn.prepareStatement(query);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-//                recruitersList.add(new (rs.getInt("skill_id"),
-//                        rs.getNString("name"),
-//                        rs.getNString("icon"),
-//                        rs.getNString("description")));
+                recruitersList.add(new Recruiter(rs.getInt("recruiter_id"),
+                        rs.getString("city").trim(),
+                        rs.getString("name").trim(),
+                        rs.getString("address").trim(),
+                        rs.getString("avatar").trim(),
+                        rs.getString("banner").trim(),
+                        rs.getString("phone").trim(),
+                        rs.getString("website").trim(),
+                        rs.getString("description").trim(),
+                        rs.getString("employee_quantity").trim(),
+                        rs.getString("contacter_name").trim(),
+                        rs.getString("contacter_phone").trim())
+                );
             }
         } catch (Exception e) {
-            System.out.println("get skill :" + e);
+           System.out.println("get all recruiter :" + e);
         }
         return recruitersList;
     }
