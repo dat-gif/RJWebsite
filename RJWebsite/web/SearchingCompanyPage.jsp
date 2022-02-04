@@ -32,7 +32,7 @@
                             <input type="search" class="form-control rounded border-secondary" value="${txtSearch}" name="txtSearch" placeholder="eg. Abc company or 091234567" aria-label="Search" aria-describedby="search-addon" />
                             <button type="submit" class="btn btn-outline-primary mx-3" >search</button>
                         </div>
-                        <select name="citySelect" class="form-select mr-2 border-secondary rounded w-25 form-control " value="${citySelect}">
+                        <select name="citySelect" class="form-select mr-2 mt-2 border-secondary rounded w-25 form-control " value="${citySelect}" >
                             <c:choose>
                                 <c:when test="${not empty citySelect}">
                                     <option selected="selected" value="${citySelect}" >
@@ -66,7 +66,7 @@
                             <jsp:param name="img" value="${recruiter.getAvatar()}"/>
                             <jsp:param name="title1" value="${recruiter.getName()}"/>
                             <jsp:param name="title2" value="${recruiter.getWebsite()}"/>
-                            <jsp:param name="arraySkill" value="${recruiter.skillList}"/>
+                            <jsp:param name="arraySkill" value="${recruiter.getSkillListName()}"/>
                         </jsp:include>
                     </div>
                 </c:forEach> 

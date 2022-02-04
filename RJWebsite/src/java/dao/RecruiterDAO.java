@@ -423,7 +423,7 @@ public class RecruiterDAO implements IDao.IRecruiter {
         try {
             conn = new DBContext().getConnection();
             ps = conn.prepareStatement(clearQuery + insertTable + queryTable);
-            ps.setString(1, "N'%" + cityValue + "%'");
+            ps.setString(1, "%" + cityValue + "%");
             ps.executeUpdate();
         } catch (Exception e) {
             System.out.println(e);

@@ -88,7 +88,7 @@ public class SeachingCompanyController extends HttpServlet {
                     cookieMap.put(cookie.getName(), decodeValue);
                 }
                 cookieSearch = cookieMap.get("recruiterSearch");
-                cookieCity = cookieMap.get("citySelect");
+                cookieCity = cookieMap.get("recruitercitySelect");
             }
 
             //Get current page number
@@ -169,9 +169,9 @@ public class SeachingCompanyController extends HttpServlet {
                 String decodeValue = java.net.URLDecoder.decode(cookie.getValue(), StandardCharsets.UTF_8.name());
                 cookieMap.put(cookie.getName(), decodeValue);
             }
-            String cookieSearch = cookieMap.get("txtSearch");
-            String cookieSkill = cookieMap.get("skillSelect");
-            String cookieCity = cookieMap.get("citySelect");
+            String cookieSearch = cookieMap.get("recruiterSearch");
+            
+            String cookieCity = cookieMap.get("recruitercitySelect");
 
             //Request parameter
             String txtSearch = request.getParameter("txtSearch");
@@ -206,9 +206,9 @@ public class SeachingCompanyController extends HttpServlet {
             }
 
             if (cookieCity == null || !cookieCity.equalsIgnoreCase(citySelect)) {
-                setCookie(response, "citySelect", citySelect, -1);
+                setCookie(response, "recruitercitySelect", citySelect, -1);
             }
-
+         
             response.sendRedirect("seachingcompany");
 
         } catch (Exception e) {
