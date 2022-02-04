@@ -5,6 +5,7 @@
 package entity;
 
 import java.sql.Date;
+import java.util.ArrayList;
 
 /**
  *
@@ -12,7 +13,7 @@ import java.sql.Date;
  */
 public class Recruiter {
 
-    private int recruiterId; 
+    private int recruiterId;
     private String city;
     private String name;
     private String address;
@@ -23,7 +24,24 @@ public class Recruiter {
     private String description;
     private String employeeQuantity;
     private String contacterName;
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public ArrayList<Skill> getSkillList() {
+        return skillList;
+    }
+
+    public void setSkillList(ArrayList<Skill> skillList) {
+        this.skillList = skillList;
+    }
     private String contacterPhone;
+    private ArrayList<Skill> skillList;
     private Date createAt;
     private Date updateAt;
 
@@ -33,7 +51,7 @@ public class Recruiter {
     public Recruiter(int recruiterId, String name, String avatar) {
         this.recruiterId = recruiterId;
         this.name = name;
-        this.avatar= avatar;
+        this.avatar = avatar;
     }
 
     public Recruiter(int recruiterId, String name, String address, String avatar, String banner, String phone, String website, String description, String employeeQuantity, String contacterName, String contacterPhone) {
@@ -81,8 +99,6 @@ public class Recruiter {
         this.updateAt = updateAt;
     }
 
-    
-
     public int getRecruiterId() {
         return recruiterId;
     }
@@ -90,8 +106,6 @@ public class Recruiter {
     public void setRecruiterId(int recruiterId) {
         this.recruiterId = recruiterId;
     }
-
-
 
     public String getName() {
         return name;
@@ -193,5 +207,5 @@ public class Recruiter {
     public String toString() {
         return "Recruiter{" + "recruiterId=" + recruiterId + ", city=" + city + ", name=" + name + ", address=" + address + ", avatar=" + avatar + ", banner=" + banner + ", phone=" + phone + ", website=" + website + ", description=" + description + ", employeeQuantity=" + employeeQuantity + ", contacterName=" + contacterName + ", contacterPhone=" + contacterPhone + ", createAt=" + createAt + ", updateAt=" + updateAt + '}';
     }
-    
+
 }

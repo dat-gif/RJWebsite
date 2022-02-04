@@ -7,6 +7,7 @@ package IDao;
 
 import entity.Job;
 import entity.Recruiter;
+import entity.Skill;
 import java.util.ArrayList;
 
 /**
@@ -28,5 +29,7 @@ public interface IRecruiter {
     public int getTotalRecruiterRow();
 
     public int getTotalTempRecruiterRow();
+
+    public ArrayList<Skill> getRecruiterSkill(int recruiterId);
 
 }

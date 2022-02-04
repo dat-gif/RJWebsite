@@ -71,7 +71,7 @@ public class SeachingJobController extends HttpServlet {
         ICity daoCity = new CityDAO();
         int totalRecordNumber = 1;
         try {
-
+            //Get Cookie
             Cookie[] cookies = request.getCookies();
             Map<String, String> cookieMap = new HashMap<>();
             for (Cookie cookie : cookies) {

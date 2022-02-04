@@ -8,6 +8,7 @@ package dao;
 import context.DBContext;
 import entity.Job;
 import entity.Recruiter;
+import entity.Skill;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -284,13 +285,13 @@ public class RecruiterDAO implements IDao.IRecruiter {
                         rs.getString("name").trim(),
                         rs.getString("address").trim(),
                         rs.getString("avatar").trim(),
-                        rs.getString("banner").trim(),
-                        rs.getString("phone").trim(),
-                        rs.getString("website").trim(),
-                        rs.getString("description").trim(),
-                        rs.getString("employee_quantity").trim(),
-                        rs.getString("contacter_name").trim(),
-                        rs.getString("contacter_phone").trim())
+                        rs.getString("banner"),
+                        rs.getString("phone"),
+                        rs.getString("website"),
+                        rs.getString("description"),
+                        rs.getString("employee_quantity"),
+                        rs.getString("contacter_name"),
+                        rs.getString("contacter_phone"))
                 );
             }
         } catch (Exception e) {
@@ -362,12 +363,38 @@ public class RecruiterDAO implements IDao.IRecruiter {
             System.out.println(recruiter.toString());
         }
         dao.createRecruiterTempoTableSearchData();
-        dao.insertRecruiter("FPT", "Hà Nội");
+        dao.insertRecruiter("ACE", "All");
         System.out.println("--------");
         list = dao.getRecruiterPaging(1, 10);
         for (Recruiter recruiter : list) {
             System.out.println(recruiter.toString());
         }
 
+    }
+
+    @Override
+    public ArrayList<Skill> getRecruiterSkill(int recruiterId) {
+        ArrayList<Skill> skillList = new ArrayList<>();
+        String query = "SELECT skill.skill_id, skill.name, skill.icon, skill.description\n"
+                + "from recruiter\n"
+                + "inner join recruiter_skill on recruiter_skill.recruiter_id= recruiter.recruiter_id\n"
+                + "inner join skill on recruiter_skill.skill_id= skill.skill_id\n"
+                + "where recruiter.recruiter_id= 1";
+
+        try {
+            conn = new DBContext().getConnection();
+            ps = conn.prepareStatement(query);
+            ps.setInt(1, recruiterId);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                skillList.add(new Skill(rs.getInt("skill_id"),
+                        rs.getNString("name"),
+                        rs.getNString("icon"),
+                        rs.getNString("description")));
+            }
+        } catch (Exception e) {
+            System.out.println("get skill :" + e);
+        }
+        return skillList;
     }
 }

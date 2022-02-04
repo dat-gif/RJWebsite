@@ -5,9 +5,27 @@
  */
 package control;
 
+import IDao.ICity;
+import IDao.IRecruiter;
+import dao.CityDAO;
+import dao.JobDAO;
+import dao.RecruiterDAO;
+import entity.City;
+import entity.Job;
+import entity.Recruiter;
+import entity.Skill;
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.nio.ByteBuffer;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -17,6 +35,10 @@ import javax.servlet.http.HttpServletResponse;
  * @author Admin
  */
 public class SeachingCompanyController extends HttpServlet {
+
+    int pageNumber = 1;
+    static int recordNumber = 2;
+    int totalPage = 8;
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -44,7 +66,29 @@ public class SeachingCompanyController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        request.setCharacterEncoding("UTF-8");
+        IRecruiter daoRecruiter = new RecruiterDAO();
+        ICity daoCity = new CityDAO();
         try {
+            //Get Cookie
+            Cookie[] cookies = request.getCookies();
+            Map<String, String> cookieMap = new HashMap<>();
+            for (Cookie cookie : cookies) {
+                String decodeValue = java.net.URLDecoder.decode(cookie.getValue(), StandardCharsets.UTF_8.name());
+                cookieMap.put(cookie.getName(), decodeValue);
+            }
+            //Get current page number
+            String spageNumber = request.getParameter("page");
+            if (spageNumber != null && !spageNumber.isEmpty()) {
+                pageNumber = Integer.parseInt(spageNumber);
+            } else if (spageNumber == null) {
+                pageNumber = 1;
+            }
+            String cookieSearch = cookieMap.get("txtSearch");
+            String cookieCity = cookieMap.get("citySelect");
+            ArrayList<Recruiter> listJob = new ArrayList<>();
+
+            List<City> listCity = daoCity.getAllCity();
             request.getRequestDispatcher("SearchingCompanyPage.jsp").forward(request, response);
         } catch (Exception e) {
         }
