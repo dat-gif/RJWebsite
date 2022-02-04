@@ -109,8 +109,8 @@ public class SeachingJobController extends HttpServlet {
                     listJob = daoJob.getJobSearching(pageNumber, recordNumber);
                     totalRecordNumber = daoJob.getTotalTempJobRow();
                 } else {
-                    // if user not input search text
-                    // get data direct in job table
+                    // If user not input search text or filter data
+                    // Get data direct in job table
                     listJob = daoJob.getAllJob(pageNumber, recordNumber);
                     totalRecordNumber = daoJob.getTotalJobRow();
                 }
@@ -161,7 +161,6 @@ public class SeachingJobController extends HttpServlet {
         IJob daoJob = new JobDAO();
         ICity daoCity = new CityDAO();
 //Get cookies
-        System.out.println("Post run");
         Cookie[] cookies = request.getCookies();
         Map<String, String> cookieMap = new HashMap<>();
         for (Cookie cookie : cookies) {

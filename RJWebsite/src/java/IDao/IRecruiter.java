@@ -22,6 +22,8 @@ public interface IRecruiter {
 
     public void insertRecruiter(String txtSearch, String cityValue);
 
+    public void insertRecruiterFilterByCity(String cityValue);
+
     public ArrayList<Recruiter> getRecruiterPaging(int pageNumber, int recordNumber);
 
     public ArrayList<Recruiter> getAllRecruiter(int pageNumber, int recordNumber);

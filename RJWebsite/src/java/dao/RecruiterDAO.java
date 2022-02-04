@@ -280,19 +280,21 @@ public class RecruiterDAO implements IDao.IRecruiter {
             ps.setInt(2, recordNumber);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                recruitersList.add(new Recruiter(rs.getInt("recruiter_id"),
+                Recruiter r = new Recruiter(rs.getInt("recruiter_id"),
                         rs.getString("city").trim(),
                         rs.getString("name").trim(),
                         rs.getString("address").trim(),
                         rs.getString("avatar").trim(),
-                        rs.getString("banner"),
-                        rs.getString("phone"),
+                        rs.getString("banner").trim(),
+                        rs.getString("phone").trim(),
                         rs.getString("website"),
                         rs.getString("description"),
                         rs.getString("employee_quantity"),
                         rs.getString("contacter_name"),
-                        rs.getString("contacter_phone"))
+                        rs.getString("contacter_phone")
                 );
+                r.setSkillList(getRecruiterSkill(r.getRecruiterId()));
+                recruitersList.add(r);
             }
         } catch (Exception e) {
             System.out.println("get panig recruiter :" + e);
@@ -326,7 +328,6 @@ public class RecruiterDAO implements IDao.IRecruiter {
                 + "OFFSET (@PageNumber-1)*@RowsOfPage ROWS\n"
                 + "FETCH NEXT @RowsOfPage ROWS ONLY";
 
-        System.out.println(query);
         try {
             conn = new DBContext().getConnection();
             ps = conn.prepareStatement(query);
@@ -347,29 +348,13 @@ public class RecruiterDAO implements IDao.IRecruiter {
                         rs.getString("contacter_name"),
                         rs.getString("contacter_phone")
                 );
+                r.setSkillList(getRecruiterSkill(r.getRecruiterId()));
                 recruitersList.add(r);
             }
         } catch (Exception e) {
             System.out.println("get all recruiter :" + e);
         }
         return recruitersList;
-    }
-
-    public static void main(String[] args) {
-        List<Recruiter> list = new ArrayList<>();
-        RecruiterDAO dao = new RecruiterDAO();
-        list = dao.getAllRecruiter(1, 10);
-        for (Recruiter recruiter : list) {
-            System.out.println(recruiter.toString());
-        }
-        dao.createRecruiterTempoTableSearchData();
-        dao.insertRecruiter("ACE", "All");
-        System.out.println("--------");
-        list = dao.getRecruiterPaging(1, 10);
-        for (Recruiter recruiter : list) {
-            System.out.println(recruiter.toString());
-        }
-
     }
 
     @Override
@@ -397,4 +382,67 @@ public class RecruiterDAO implements IDao.IRecruiter {
         }
         return skillList;
     }
+
+    @Override
+    public void insertRecruiterFilterByCity(String cityValue) {
+        String clearQuery = "DELETE FROM ##TempRecruiterTable  \n ";
+        String insertTable = "INSERT INTO ##TempRecruiterTable  ( \n"
+                + "       [recruiter_id] \n"
+                + "      ,[name] \n"
+                + "      ,[address]\n"
+                + "      ,[city]\n"
+                + "      ,[avatar]\n"
+                + "      ,[banner]\n"
+                + "      ,[phone]\n"
+                + "      ,[website]\n"
+                + "      ,[description]\n"
+                + "      ,[employee_quantity]\n"
+                + "      ,[contacter_name]\n"
+                + "      ,[contacter_phone]\n"
+                + "      ,[createAt] \n"
+                + "      ,[updateAt]) \n";
+        String queryTable = "select [recruiter_id]\n"
+                + "      ,[name]\n"
+                + "      ,[address]\n"
+                + "      ,[city]\n"
+                + "      ,[avatar]\n"
+                + "      ,[banner]\n"
+                + "      ,[phone]\n"
+                + "      ,[website]\n"
+                + "      ,[description]\n"
+                + "      ,[employee_quantity]\n"
+                + "      ,[contacter_name]\n"
+                + "      ,[contacter_phone]\n"
+                + "      ,[createAt]\n"
+                + "      ,[updateAt]\n"
+                + "from [SWP391].[dbo].[recruiter]\n"
+                + "where recruiter.city like ?";
+
+        try {
+            conn = new DBContext().getConnection();
+            ps = conn.prepareStatement(clearQuery + insertTable + queryTable);
+            ps.setString(1, "N'%" + cityValue + "%'");
+            ps.executeUpdate();
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
+
+    public static void main(String[] args) {
+        List<Recruiter> list = new ArrayList<>();
+        RecruiterDAO dao = new RecruiterDAO();
+        list = dao.getAllRecruiter(1, 10);
+        for (Recruiter recruiter : list) {
+            System.out.println(recruiter.toString());
+        }
+        dao.createRecruiterTempoTableSearchData();
+        dao.insertRecruiter("ACE", "All");
+        System.out.println("--------");
+        list = dao.getRecruiterPaging(1, 10);
+        for (Recruiter recruiter : list) {
+            System.out.println(recruiter.toString());
+        }
+        dao.insertRecruiterFilterByCity("Hà Nội");
+    }
+
 }

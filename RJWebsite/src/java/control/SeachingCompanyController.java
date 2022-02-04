@@ -7,6 +7,7 @@ package control;
 
 import IDao.ICity;
 import IDao.IRecruiter;
+import static control.SeachingJobController.recordNumber;
 import dao.CityDAO;
 import dao.JobDAO;
 import dao.RecruiterDAO;
@@ -69,7 +70,9 @@ public class SeachingCompanyController extends HttpServlet {
         request.setCharacterEncoding("UTF-8");
         IRecruiter daoRecruiter = new RecruiterDAO();
         ICity daoCity = new CityDAO();
+        int totalRecordNumber = 1;
         try {
+            List<City> listCity = daoCity.getAllCity();
             //Get Cookie
             Cookie[] cookies = request.getCookies();
             Map<String, String> cookieMap = new HashMap<>();
@@ -84,14 +87,53 @@ public class SeachingCompanyController extends HttpServlet {
             } else if (spageNumber == null) {
                 pageNumber = 1;
             }
-            String cookieSearch = cookieMap.get("txtSearch");
+            String cookieSearch = cookieMap.get("recruiterSearch");
             String cookieCity = cookieMap.get("citySelect");
-            ArrayList<Recruiter> listJob = new ArrayList<>();
+            ArrayList<Recruiter> listRecruiter = new ArrayList<>();
 
-            List<City> listCity = daoCity.getAllCity();
+            if (cookieSearch == null) {
+                cookieSearch = "";
+            }
+            if (cookieCity == null || cookieCity.isEmpty()) {
+                cookieCity = "All";
+            }
+
+            if (cookieSearch.isEmpty() || cookieSearch.equalsIgnoreCase("All")) {
+                if (!cookieCity.equalsIgnoreCase("All")) {
+                    // Get data in tempo search table
+                    listRecruiter = daoRecruiter.getRecruiterPaging(pageNumber, recordNumber);
+                    totalRecordNumber = daoRecruiter.getTotalTempRecruiterRow();
+                } else {
+                    // If user not input search text or filter data
+                    // Get data direct in job table
+                    listRecruiter = daoRecruiter.getAllRecruiter(pageNumber, recordNumber);
+                    totalRecordNumber = daoRecruiter.getTotalRecruiterRow();
+                }
+            } else {
+                // If user enters search text, (can choose filter or not)
+                listRecruiter = daoRecruiter.getRecruiterPaging(pageNumber, recordNumber);
+                totalRecordNumber = daoRecruiter.getTotalTempRecruiterRow();
+            }
+
+            totalPage = (int) Math.ceil((double) totalRecordNumber / recordNumber);
+
+            request.setAttribute("page", pageNumber);
+            request.setAttribute("txtSearch", cookieSearch);
+            request.setAttribute("citySelect", cookieCity);
+            request.setAttribute("totalPage", totalPage);
+            request.setAttribute("listCity", listCity);
+
+            request.setAttribute("listRecruiter", listRecruiter);
             request.getRequestDispatcher("SearchingCompanyPage.jsp").forward(request, response);
         } catch (Exception e) {
+            System.err.println("get :" + e);
         }
+    }
+
+    private void setCookie(HttpServletResponse response, String nom, String valeur, int maxAge) throws IOException {
+        Cookie cookie = new Cookie(nom, URLEncoder.encode(valeur, "UTF-8"));
+        cookie.setMaxAge(maxAge);
+        response.addCookie(cookie);
     }
 
     /**
@@ -105,7 +147,64 @@ public class SeachingCompanyController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        request.setCharacterEncoding("UTF-8");
+        IRecruiter daoRecruiter = new RecruiterDAO();
+        ICity daoCity = new CityDAO();
+        try {
+
+//Get cookies
+            Cookie[] cookies = request.getCookies();
+            Map<String, String> cookieMap = new HashMap<>();
+            for (Cookie cookie : cookies) {
+                String decodeValue = java.net.URLDecoder.decode(cookie.getValue(), StandardCharsets.UTF_8.name());
+                cookieMap.put(cookie.getName(), decodeValue);
+            }
+            String cookieSearch = cookieMap.get("txtSearch");
+            String cookieSkill = cookieMap.get("skillSelect");
+            String cookieCity = cookieMap.get("citySelect");
+
+            //Request parameter
+            String txtSearch = request.getParameter("txtSearch");
+            String citySelect = request.getParameter("citySelect");
+            //Check parameter null
+            if (txtSearch == null) {
+                txtSearch = "";
+            }
+            if (citySelect == null || citySelect.isEmpty()) {
+                citySelect = "All";
+            }
+
+            //Logic create search table 
+            if (txtSearch.isEmpty() || txtSearch.equalsIgnoreCase("All")) {
+                if (!citySelect.equalsIgnoreCase("All")) {
+                    // create tempo search table and insert data
+                    daoRecruiter.createRecruiterTempoTableSearchData();
+                    daoRecruiter.insertRecruiterFilterByCity(citySelect);
+
+                } else {
+                    // get data direct in job table
+                }
+            } else {
+                // if user enters search text, (can choose filter or not)
+                // create tempo search table and insert data
+                daoRecruiter.createRecruiterTempoTableSearchData();
+                daoRecruiter.insertRecruiter(txtSearch, citySelect);
+            }
+//Set user input to cookie
+            if (cookieSearch == null || !cookieSearch.equalsIgnoreCase(txtSearch)) {
+                setCookie(response, "recruiterSearch", txtSearch, -1);
+            }
+
+            if (cookieCity == null || !cookieCity.equalsIgnoreCase(citySelect)) {
+                setCookie(response, "citySelect", citySelect, -1);
+            }
+
+            response.sendRedirect("seachingjob");
+
+        } catch (Exception e) {
+            System.err.println(e);
+        }
+
     }
 
     /**
