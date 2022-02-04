@@ -132,7 +132,7 @@ public class SeachingJobController extends HttpServlet {
             request.setAttribute("listCity", listCity);
             request.setAttribute("listSkill", listSkill);
             request.setAttribute("listJob", listJob);
-            
+
             request.getRequestDispatcher("SearchingJobPage.jsp").forward(request, response);
 
         } catch (Exception e) {
@@ -158,63 +158,68 @@ public class SeachingJobController extends HttpServlet {
             throws ServletException, IOException {
 //        processRequest(request, response);
         request.setCharacterEncoding("UTF-8");
-        IJob daoJob = new JobDAO();
-        ICity daoCity = new CityDAO();
+        try {
+
+            IJob daoJob = new JobDAO();
+            ICity daoCity = new CityDAO();
 //Get cookies
-        Cookie[] cookies = request.getCookies();
-        Map<String, String> cookieMap = new HashMap<>();
-        for (Cookie cookie : cookies) {
-            String decodeValue = java.net.URLDecoder.decode(cookie.getValue(), StandardCharsets.UTF_8.name());
-            cookieMap.put(cookie.getName(), decodeValue);
-        }
-        String cookieSearch = cookieMap.get("txtSearch");
-        String cookieSkill = cookieMap.get("skillSelect");
-        String cookieCity = cookieMap.get("citySelect");
+            Cookie[] cookies = request.getCookies();
+            Map<String, String> cookieMap = new HashMap<>();
+            for (Cookie cookie : cookies) {
+                String decodeValue = java.net.URLDecoder.decode(cookie.getValue(), StandardCharsets.UTF_8.name());
+                cookieMap.put(cookie.getName(), decodeValue);
+            }
+            String cookieSearch = cookieMap.get("txtSearch");
+            String cookieSkill = cookieMap.get("skillSelect");
+            String cookieCity = cookieMap.get("citySelect");
 
-        //Request parameter
-        String txtSearch = request.getParameter("txtSearch");
-        String citySelect = request.getParameter("citySelect");
-        String skillSelect = request.getParameter("skillSelect");
+            //Request parameter
+            String txtSearch = request.getParameter("txtSearch");
+            String citySelect = request.getParameter("citySelect");
+            String skillSelect = request.getParameter("skillSelect");
 
-        //Check parameter null
-        if (txtSearch == null) {
-            txtSearch = "";
-        }
-        if (skillSelect == null) {
-            skillSelect = "All_All Skill";
-        }
-        String skillSelectId = skillSelect.split("_")[0];
-        if (citySelect == null || citySelect.isEmpty()) {
-            citySelect = "All";
-        }
-        //Logic create search table 
-        if (txtSearch.isEmpty() || txtSearch.equalsIgnoreCase("All")) {
-            if (!skillSelectId.equalsIgnoreCase("All") || !citySelect.equalsIgnoreCase("All")) {
+            //Check parameter null
+            if (txtSearch == null) {
+                txtSearch = "";
+            }
+            if (skillSelect == null) {
+                skillSelect = "All_All Skill";
+            }
+            String skillSelectId = skillSelect.split("_")[0];
+            if (citySelect == null || citySelect.isEmpty()) {
+                citySelect = "All";
+            }
+            //Logic create search table 
+            if (txtSearch.isEmpty() || txtSearch.equalsIgnoreCase("All")) {
+                if (!skillSelectId.equalsIgnoreCase("All") || !citySelect.equalsIgnoreCase("All")) {
+                    // create tempo search table and insert data
+                    daoJob.createTempoTableSearchJobData();
+                    daoJob.insertJobByFilter(skillSelectId, citySelect);
+
+                } else {
+                    // get data direct in job table
+                }
+            } else {
+                // if user enters search text, (can choose filter or not)
                 // create tempo search table and insert data
                 daoJob.createTempoTableSearchJobData();
-                daoJob.insertJobByFilter(skillSelectId, citySelect);
-
-            } else {
-                // get data direct in job table
+                daoJob.insertJobByTextSearch(txtSearch.trim(), skillSelectId, citySelect);
             }
-        } else {
-            // if user enters search text, (can choose filter or not)
-            // create tempo search table and insert data
-            daoJob.createTempoTableSearchJobData();
-            daoJob.insertJobByTextSearch(txtSearch.trim(), skillSelectId, citySelect);
-        }
 
 //Set user input to cookie
-        if (cookieSearch == null || !cookieSearch.equalsIgnoreCase(txtSearch)) {
-            setCookie(response, "txtSearch", txtSearch, -1);
+            if (cookieSearch == null || !cookieSearch.equalsIgnoreCase(txtSearch)) {
+                setCookie(response, "txtSearch", txtSearch, -1);
+            }
+            if (cookieSkill == null || !cookieSkill.equalsIgnoreCase(skillSelect)) {
+                setCookie(response, "skillSelect", skillSelect, -1);
+            }
+            if (cookieCity == null || !cookieCity.equalsIgnoreCase(citySelect)) {
+                setCookie(response, "citySelect", citySelect, -1);
+            }
+            response.sendRedirect("seachingjob");
+        } catch (Exception e) {
+            System.out.println(e);
         }
-        if (cookieSkill == null || !cookieSkill.equalsIgnoreCase(skillSelect)) {
-            setCookie(response, "skillSelect", skillSelect, -1);
-        }
-        if (cookieCity == null || !cookieCity.equalsIgnoreCase(citySelect)) {
-            setCookie(response, "citySelect", citySelect, -1);
-        }
-        response.sendRedirect("seachingjob");
     }
 
     /**
