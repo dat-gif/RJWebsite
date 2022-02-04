@@ -6,6 +6,7 @@ package entity;
 
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -25,25 +26,19 @@ public class Recruiter {
     private String employeeQuantity;
     private String contacterName;
 
-    public String getCity() {
-        return city;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
-    }
-
-    public ArrayList<Skill> getSkillList() {
-        return skillList;
-    }
-
-    public void setSkillList(ArrayList<Skill> skillList) {
-        this.skillList = skillList;
-    }
     private String contacterPhone;
     private ArrayList<Skill> skillList;
+    private List<String> skillListName;
     private Date createAt;
     private Date updateAt;
+
+    public List<String> getSkillListName() {
+        return skillListName;
+    }
+
+    public void setSkillListName(List<String> skillListName) {
+        this.skillListName = skillListName;
+    }
 
     public Recruiter() {
     }
@@ -97,6 +92,22 @@ public class Recruiter {
         this.contacterPhone = contacterPhone;
         this.createAt = createAt;
         this.updateAt = updateAt;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public ArrayList<Skill> getSkillList() {
+        return skillList;
+    }
+
+    public void setSkillList(ArrayList<Skill> skillList) {
+        this.skillList = skillList;
     }
 
     public int getRecruiterId() {

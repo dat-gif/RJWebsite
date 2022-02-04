@@ -294,6 +294,7 @@ public class RecruiterDAO implements IDao.IRecruiter {
                         rs.getString("contacter_phone")
                 );
                 r.setSkillList(getRecruiterSkill(r.getRecruiterId()));
+                r.setSkillListName(getSkillNameByRecruiterId(r.getRecruiterId()));
                 recruitersList.add(r);
             }
         } catch (Exception e) {
@@ -349,6 +350,7 @@ public class RecruiterDAO implements IDao.IRecruiter {
                         rs.getString("contacter_phone")
                 );
                 r.setSkillList(getRecruiterSkill(r.getRecruiterId()));
+                r.setSkillListName(getSkillNameByRecruiterId(r.getRecruiterId()));
                 recruitersList.add(r);
             }
         } catch (Exception e) {
@@ -364,7 +366,7 @@ public class RecruiterDAO implements IDao.IRecruiter {
                 + "from recruiter\n"
                 + "inner join recruiter_skill on recruiter_skill.recruiter_id= recruiter.recruiter_id\n"
                 + "inner join skill on recruiter_skill.skill_id= skill.skill_id\n"
-                + "where recruiter.recruiter_id= 1";
+                + "where recruiter.recruiter_id= ?";
 
         try {
             conn = new DBContext().getConnection();
@@ -443,6 +445,29 @@ public class RecruiterDAO implements IDao.IRecruiter {
             System.out.println(recruiter.toString());
         }
         dao.insertRecruiterFilterByCity("Hà Nội");
+    }
+
+    @Override
+    public ArrayList<String> getSkillNameByRecruiterId(int recruiterId) {
+        ArrayList<String> skillList = new ArrayList<>();
+        String query = "SELECT skill.name\n"
+                + "from recruiter\n"
+                + "inner join recruiter_skill on recruiter_skill.recruiter_id= recruiter.recruiter_id\n"
+                + "inner join skill on recruiter_skill.skill_id= skill.skill_id\n"
+                + "where recruiter.recruiter_id= ?";
+
+        try {
+            conn = new DBContext().getConnection();
+            ps = conn.prepareStatement(query);
+            ps.setInt(1, recruiterId);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                skillList.add(rs.getString("name"));
+            }
+        } catch (Exception e) {
+            System.out.println("get skill :" + e);
+        }
+        return skillList;
     }
 
 }

@@ -32,6 +32,8 @@ public interface IRecruiter {
 
     public int getTotalTempRecruiterRow();
 
+    public ArrayList<String> getSkillNameByRecruiterId(int jobId);
+
     public ArrayList<Skill> getRecruiterSkill(int recruiterId);
 
 }

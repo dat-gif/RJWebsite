@@ -71,15 +71,26 @@ public class SeachingCompanyController extends HttpServlet {
         IRecruiter daoRecruiter = new RecruiterDAO();
         ICity daoCity = new CityDAO();
         int totalRecordNumber = 1;
+        String cookieSearch;
+        String cookieCity;
         try {
             List<City> listCity = daoCity.getAllCity();
             //Get Cookie
             Cookie[] cookies = request.getCookies();
-            Map<String, String> cookieMap = new HashMap<>();
-            for (Cookie cookie : cookies) {
-                String decodeValue = java.net.URLDecoder.decode(cookie.getValue(), StandardCharsets.UTF_8.name());
-                cookieMap.put(cookie.getName(), decodeValue);
+            if (cookies == null || cookies.length == 0) {
+                cookieSearch = "";
+                cookieCity = "All";
+            } else {
+                Map<String, String> cookieMap = new HashMap<>();
+
+                for (Cookie cookie : cookies) {
+                    String decodeValue = java.net.URLDecoder.decode(cookie.getValue(), StandardCharsets.UTF_8.name());
+                    cookieMap.put(cookie.getName(), decodeValue);
+                }
+                cookieSearch = cookieMap.get("recruiterSearch");
+                cookieCity = cookieMap.get("citySelect");
             }
+
             //Get current page number
             String spageNumber = request.getParameter("page");
             if (spageNumber != null && !spageNumber.isEmpty()) {
@@ -87,8 +98,7 @@ public class SeachingCompanyController extends HttpServlet {
             } else if (spageNumber == null) {
                 pageNumber = 1;
             }
-            String cookieSearch = cookieMap.get("recruiterSearch");
-            String cookieCity = cookieMap.get("citySelect");
+
             ArrayList<Recruiter> listRecruiter = new ArrayList<>();
 
             if (cookieSearch == null) {
@@ -122,8 +132,8 @@ public class SeachingCompanyController extends HttpServlet {
             request.setAttribute("citySelect", cookieCity);
             request.setAttribute("totalPage", totalPage);
             request.setAttribute("listCity", listCity);
-
             request.setAttribute("listRecruiter", listRecruiter);
+
             request.getRequestDispatcher("SearchingCompanyPage.jsp").forward(request, response);
         } catch (Exception e) {
             System.err.println("get :" + e);
@@ -199,7 +209,7 @@ public class SeachingCompanyController extends HttpServlet {
                 setCookie(response, "citySelect", citySelect, -1);
             }
 
-            response.sendRedirect("seachingjob");
+            response.sendRedirect("seachingcompany");
 
         } catch (Exception e) {
             System.err.println(e);
