@@ -1,7 +1,7 @@
-#SE1511 - SWD391 - Group 6
-##R&J IT Web Application
+# SE1511 -SWD391 - Group 6
+## R&J IT Web Application
 
-###Membership List:
+### Membership List:
 
 |**Account**      | **Name**          |**Student id**| **Main branch**|
 |-----------------|-------------------|--------------|----------------|
