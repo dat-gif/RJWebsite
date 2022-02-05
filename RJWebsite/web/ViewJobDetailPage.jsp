@@ -18,8 +18,8 @@
     </head>
 
     <body style="background-color: #dae0e5">
-        <header><jsp:include page="component/Header.jsp"/></header>
-        <main >
+        <header ><jsp:include page="component/Header.jsp"/></header>
+        <main style="margin-top: 5rem">
             <!-- detail head -->
             <div style="background: white; margin-top: 1rem; margin-bottom: 1rem;padding-top: 2rem; padding-bottom: 1rem">
                 <div class="container">
@@ -39,9 +39,9 @@
             <!-- detail body -->
             <div class="container" >
                 <div class="row justify-content-between">
-                    <!-- right -->
+                    <!-- left -->
                     <div class="col-9 bg-light" style="padding: 2.5rem 3rem" >
-                        <h4 class="mt-4" >Detail Information</h4>
+                        <h4 class="my-4 " >Detail Information</h4>
                         <!-- job info table -->
                         <h5 class=""style="text-decoration: underline" >General Information</h5>
                         <div class="row row-cols-2 p-3 mx-1" style="background-color: #dae0e5">
@@ -92,8 +92,13 @@
                     </div>
 
                     <div class="col-2 bg-light" style="width: 22.0%;
-                         flex: 0 0 22.0%;max-width: 22.0%;" >
-
+                         flex: 0 0 22.0%;max-width: 22.0%; height: 20rem" >
+                        <div class="pt-3 px-2">
+                            <p class="h6">Skill</p>
+                            <div class=" text-break">
+                                <span><mark>kjashdlkajsdh</mark></span>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

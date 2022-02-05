@@ -95,6 +95,7 @@
                             <jsp:param name="arraySkill" value="${job.skillListName}"/>
                             <jsp:param name="text2" value="${job.salaryRange}"/>
                             <jsp:param name="img" value="${job.recruiter.getAvatar()}"/>
+                            <jsp:param name="link" value="jobdetail?jobId=${job.getjId()}"/>
                         </jsp:include>
                     </div>
                 </c:forEach>  

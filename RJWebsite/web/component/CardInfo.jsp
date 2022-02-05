@@ -17,7 +17,7 @@
             <div class="card">
                 <img src="${param.img}" class="card-img-top"/>
                 <div class="card-body text-center pb-1 mb-3" >
-                    <h4 class="card-title mt-2 overflow-hidden" ><c:out value="${param.title1}"/></h4>
+                    <a class="card-title mt-2 overflow-hidden h4 stretched-link text-primary" style="cursor: pointer" href="${param.link}" ><c:out value="${param.title1}"/></a>
                     <h6 class="card-text font-weight-light overflow-hidden"><c:out value="${param.title2}"/></h6>
                 </div>
                 <ul class="list-group list-group-flush text-center">
