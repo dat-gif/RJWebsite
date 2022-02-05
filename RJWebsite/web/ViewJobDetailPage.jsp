@@ -4,6 +4,7 @@
     Author     : Admin
 --%>
 
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -27,9 +28,9 @@
                         <div class="d-flex justify-content-center">
                             <image src="https://picsum.photos/200" class="rounded-circle "/>
                             <div class="mt-4 ml-5">   
-                                <h2 class="display-4 font-weight-normal" >Java Dev</h2>
-                                <h4 class="font-weight-light">Company A's B's d'Arezzo</h4>
-                                <h4 class="font-weight-light">End date : 10/10/2021</h4>
+                                <h2 class="display-4 font-weight-normal" >${jobTile}</h2>
+                                <h4 class="font-weight-light">${jobCompany}</h4>
+                                <h4 class="font-weight-light">End date : ${endDate}</h4>
                             </div>
                         </div>                   
                         <button class="btn btn-primary align-self-baseline mt-2 btn-lg">Apply</button>
@@ -50,7 +51,7 @@
                                 <image src="https://picsum.photos/40" class="rounded align-self-baseline mt-1 my-auto "/>
                                 <div class="pt-2 ml-3 my-auto"> 
                                     <h6 class="text-nowrap m-0">Salary</h6>
-                                    <p class="m-0">Up to 1000$</p>
+                                    <p class="m-0">${salary}</p>
                                 </div>
                             </div>
                             <!-- Number of recruits -->
@@ -58,7 +59,7 @@
                                 <image src="https://picsum.photos/40" class="rounded align-self-baseline mt-1 my-auto "/>
                                 <div class="pt-2 ml-3 my-auto"> 
                                     <h6 class="text-nowrap m-0">Number of recruits</h6>
-                                    <p class="m-0">Up to 1000$</p>
+                                    <p class="m-0">${quantity}</p>
                                 </div>
                             </div>
                             <!-- Position -->
@@ -66,28 +67,24 @@
                                 <image src="https://picsum.photos/40" class="rounded align-self-baseline mt-1 my-auto "/>
                                 <div class="pt-2 ml-3 my-auto"> 
                                     <h6 class="text-nowrap m-0">Position</h6>
-                                    <p class="m-0">Up to 1000$</p>
+                                    <p class="m-0">${role}</p>
                                 </div>
                             </div>
                             <!-- Experience -->
                             <div class="col d-flex flex-row align-content-center mt-2">
                                 <image src="https://picsum.photos/40" class="rounded align-self-baseline mt-1 my-auto "/>
                                 <div class="pt-2 ml-3 my-auto"> 
-                                    <h6 class="text-nowrap m-0">Position</h6>
-                                    <p class="m-0">Up to 1000$</p>
+                                    <h6 class="text-nowrap m-0">Experience</h6>
+                                    <p class="m-0">${experience}</p>
                                 </div>
                             </div>
                         </div>
                         <h5 class="mt-3" style="text-decoration: underline">Location</h5>
                         <div class="row row-cols-2 p-3 mx-1" style="background-color: #dae0e5">
-                            <p class="text-capitalize ml-3">Ha Noi, Ho chi minh</p>
+                            <p class="text-capitalize ml-3">${location}</p>
                         </div>
                         <div class="mt-3">
-                            <p class="text-justify">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce ultrices faucibus sapien, eu pretium arcu aliquam id. Duis nisl arcu, egestas sit amet commodo commodo, sodales non neque. Cras sagittis neque est, eu ultricies turpis vestibulum lobortis. Proin accumsan commodo lacus, feugiat malesuada lorem. Morbi vitae vestibulum nisi, quis vulputate lorem. Duis lacinia nisl finibus risus blandit, eget posuere ex commodo. Nullam consequat ligula sapien, sed tincidunt elit euismod vitae. Quisque at tellus eu elit facilisis rutrum sed nec magna. Nam ut finibus lectus, sed tincidunt lectus. Morbi in lorem quis urna posuere semper. In sit amet odio eros. Ut scelerisque ligula sed quam lacinia, quis ullamcorper odio viverra. Ut non faucibus magna.
-
-                                Pellentesque vel nisi molestie, efficitur dui a, congue elit. Etiam augue arcu, tempus et odio vel, ullamcorper porttitor est. Vivamus egestas varius condimentum. Aenean mattis dolor in porta venenatis. Aenean in ornare nisl. In hac habitasse platea dictumst. Etiam quis diam mollis, congue nunc et, faucibus quam. Fusce non tristique augue, et auctor est. Nam justo enim, lacinia pharetra sollicitudin ut, aliquam et arcu. Pellentesque non augue massa. Ut molestie mauris cursus ipsum gravida rhoncus. Vivamus efficitur finibus congue. Quisque at vehicula odio. Donec sodales hendrerit fermentum.
-
-                                Fusce tristique aliquam sodales. Fusce scelerisque nibh a ullamcorper ultricies. Ut a massa nec nibh dictum bibendum eu at massa. In et congue ex. Sed id neque in dolor aliquet viverra eu vitae ante. Nam nulla turpis, scelerisque sed consectetur sed, cursus nec arcu. Proin commodo egestas urna, ac ultrices ex accumsan sed.</p>
+                            <p class="text-justify">${description}</p>
                         </div>
                     </div>
 
@@ -96,7 +93,9 @@
                         <div class="pt-3 px-2">
                             <p class="h6">Skill</p>
                             <div class=" text-break">
-                                <span><mark>kjashdlkajsdh</mark></span>
+                                <c:forEach items="${skill}" var="job">
+                                    <span class="mr-1"><mark>${job}</mark></span>
+                                        </c:forEach>
                             </div>
                         </div>
                     </div>

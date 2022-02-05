@@ -751,12 +751,13 @@ public class JobDAO implements IJob {
                 + "  FROM [SWP391].[dbo].[job]\n"
                 + "  where job_id = 1";
 
+        Job job = new Job();
         try {
             conn = new DBContext().getConnection();
             PreparedStatement ps = conn.prepareStatement(query);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                return new Job(rs.getInt("job_id"),
+                job = new Job(rs.getInt("job_id"),
                         rs.getString("title").trim(),
                         rs.getString("description").trim(),
                         rs.getString("salary_range").trim(),
@@ -767,11 +768,14 @@ public class JobDAO implements IJob {
                         rs.getString("hire_date").trim(),
                         rs.getBoolean("status")
                 );
+                job.setRecruiter(getRecruterById(rs.getInt("recruiter_id")));
+                job.setSkillListName(getSkillNameByJobId(job.getjId()));
             }
+
         } catch (Exception e) {
             System.out.println("bug get row Temp job " + e);
         }
-        return null;
+        return job;
     }
 
 }
