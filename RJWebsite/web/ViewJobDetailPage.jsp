@@ -27,9 +27,9 @@
                     <div class="d-flex justify-content-between">
                         <div class="d-flex justify-content-center">
                             <image src="https://picsum.photos/200" class="rounded-circle "/>
-                            <div class="mt-4 ml-5">   
-                                <h2 class="display-4 font-weight-normal" >${jobTile}</h2>
-                                <h4 class="font-weight-light">${jobCompany}</h4>
+                            <div class="mt-5 ml-5">   
+                                <h2 class="display-5 font-weight-normal" style="position: relative; right: 0.2rem" >${jobTile}</h2>
+                                <a class="font-weight-light h4" style="cursor: pointer">${jobCompany}</a>
                                 <h4 class="font-weight-light">End date : ${endDate}</h4>
                             </div>
                         </div>                   
@@ -44,7 +44,7 @@
                     <div class="col-9 bg-light" style="padding: 2.5rem 3rem" >
                         <h4 class="my-4 " >Detail Information</h4>
                         <!-- job info table -->
-                        <h5 class=""style="text-decoration: underline" >General Information</h5>
+                        <h5 class="font-weight-normal" >General Information</h5>
                         <div class="row row-cols-2 p-3 mx-1" style="background-color: #dae0e5">
                             <!-- salary -->
                             <div class="col d-flex flex-row align-content-center">
@@ -79,9 +79,9 @@
                                 </div>
                             </div>
                         </div>
-                        <h5 class="mt-3" style="text-decoration: underline">Location</h5>
-                        <div class="row row-cols-2 p-3 mx-1" style="background-color: #dae0e5">
-                            <p class="text-capitalize ml-3">${location}</p>
+                        <h5 class="mt-3 font-weight-normal" >Location</h5>
+                        <div class="row pt-3 mx-1 text-center" style="background-color: #dae0e5">
+                            <p class="text-capitalize ml-3 p-0">${location}</p>
                         </div>
                         <div class="mt-3">
                             <p class="text-justify">${description}</p>
@@ -89,12 +89,12 @@
                     </div>
 
                     <div class="col-2 bg-light" style="width: 22.0%;
-                         flex: 0 0 22.0%;max-width: 22.0%; height: 20rem" >
+                         flex: 0 0 22.0%;max-width: 22.0%; height: fit-content; padding-bottom: 1rem" >
                         <div class="pt-3 px-2">
                             <p class="h6">Skill</p>
                             <div class=" text-break">
                                 <c:forEach items="${skill}" var="job">
-                                    <span class="mr-1"><mark>${job}</mark></span>
+                                    <span class="mr-1"><mark>${job}</mark>, </span>
                                         </c:forEach>
                             </div>
                         </div>

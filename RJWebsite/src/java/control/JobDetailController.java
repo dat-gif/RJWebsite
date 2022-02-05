@@ -52,7 +52,7 @@ public class JobDetailController extends HttpServlet {
         String jobId = request.getParameter("jobId");
 
         try {
-            Job job = daoJob.getJobById(1);
+            Job job = daoJob.getJobById(Integer.parseInt(jobId));
 
             request.setAttribute("jobTile", job.getTitle());
             request.setAttribute("jobCompany", job.getRecruiter().getName());
@@ -64,7 +64,7 @@ public class JobDetailController extends HttpServlet {
             request.setAttribute("location", job.getLocation());
             request.setAttribute("description", job.getDescription());
             request.setAttribute("skill", job.getSkillListName());
-
+            request.setAttribute("recruiterId", job.getRecruiter().getRecruiterId());
             request.getRequestDispatcher("ViewJobDetailPage.jsp").forward(request, response);
         } catch (Exception e) {
             System.out.println(e);
