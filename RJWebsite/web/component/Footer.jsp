@@ -9,7 +9,7 @@
 <html>
     <body>
         <footer>
-            <div class="text-center p-4" style="background-color: rgb(242, 242, 242);">
+            <div class="text-center p-4 mt-3" style="background-color: rgb(242, 242, 242);">
                 © 2022 Copyright:
                 <a class="text-reset fw-bold" href="https://github.com/dat-gif/RJWebsite">SE1511-Group 6 - R&J</a>
             </div>

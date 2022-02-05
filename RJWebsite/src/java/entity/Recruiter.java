@@ -5,6 +5,8 @@
 package entity;
 
 import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -13,6 +15,7 @@ import java.sql.Date;
 public class Recruiter {
 
     private int recruiterId;
+    private String city;
     private String name;
     private String address;
     private String avatar;
@@ -22,9 +25,20 @@ public class Recruiter {
     private String description;
     private String employeeQuantity;
     private String contacterName;
+
     private String contacterPhone;
+    private ArrayList<Skill> skillList;
+    private List<String> skillListName;
     private Date createAt;
     private Date updateAt;
+
+    public List<String> getSkillListName() {
+        return skillListName;
+    }
+
+    public void setSkillListName(List<String> skillListName) {
+        this.skillListName = skillListName;
+    }
 
     public Recruiter() {
     }
@@ -32,7 +46,36 @@ public class Recruiter {
     public Recruiter(int recruiterId, String name, String avatar) {
         this.recruiterId = recruiterId;
         this.name = name;
-        this.avatar= avatar;
+        this.avatar = avatar;
+    }
+
+    public Recruiter(int recruiterId, String name, String address, String avatar, String banner, String phone, String website, String description, String employeeQuantity, String contacterName, String contacterPhone) {
+        this.recruiterId = recruiterId;
+        this.name = name;
+        this.address = address;
+        this.avatar = avatar;
+        this.banner = banner;
+        this.phone = phone;
+        this.website = website;
+        this.description = description;
+        this.employeeQuantity = employeeQuantity;
+        this.contacterName = contacterName;
+        this.contacterPhone = contacterPhone;
+    }
+
+    public Recruiter(int recruiterId, String city, String name, String address, String avatar, String banner, String phone, String website, String description, String employeeQuantity, String contacterName, String contacterPhone) {
+        this.recruiterId = recruiterId;
+        this.city = city;
+        this.name = name;
+        this.address = address;
+        this.avatar = avatar;
+        this.banner = banner;
+        this.phone = phone;
+        this.website = website;
+        this.description = description;
+        this.employeeQuantity = employeeQuantity;
+        this.contacterName = contacterName;
+        this.contacterPhone = contacterPhone;
     }
 
     public Recruiter(int recruiterId, String name, String address, String avatar, String banner, String phone, String website, String description, String employeeQuantity, String contacterName, String contacterPhone, Date createAt, Date updateAt) {
@@ -51,7 +94,21 @@ public class Recruiter {
         this.updateAt = updateAt;
     }
 
-    
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public ArrayList<Skill> getSkillList() {
+        return skillList;
+    }
+
+    public void setSkillList(ArrayList<Skill> skillList) {
+        this.skillList = skillList;
+    }
 
     public int getRecruiterId() {
         return recruiterId;
@@ -60,8 +117,6 @@ public class Recruiter {
     public void setRecruiterId(int recruiterId) {
         this.recruiterId = recruiterId;
     }
-
-
 
     public String getName() {
         return name;
@@ -158,5 +213,10 @@ public class Recruiter {
     public void setUpdateAt(Date updateAt) {
         this.updateAt = updateAt;
     }
-    
+
+    @Override
+    public String toString() {
+        return "Recruiter{" + "recruiterId=" + recruiterId + ", city=" + city + ", name=" + name + ", address=" + address + ", avatar=" + avatar + ", banner=" + banner + ", phone=" + phone + ", website=" + website + ", description=" + description + ", employeeQuantity=" + employeeQuantity + ", contacterName=" + contacterName + ", contacterPhone=" + contacterPhone + ", createAt=" + createAt + ", updateAt=" + updateAt + '}';
+    }
+
 }

@@ -17,8 +17,9 @@ import java.util.ArrayList;
  */
 public interface IJob {
 
-    public ArrayList<Job> getAllJob();
+    public ArrayList<Job> getAllJob(int pageNumber, int recordNumber);
 
+    //Remove in future
     public ArrayList<Job> getJobBySkillAndCity(String skillValue, String cityValue);
 
     public ArrayList<Job> getJobLandingPage();
@@ -39,5 +40,11 @@ public interface IJob {
 
     public void insertJobByFilter(String skillValue, String cityValue);
 
-    public ArrayList<Job> getJobSearching();
+    public ArrayList<Job> getJobSearching(int pageNumber, int recordNumber);
+
+    public int getTotalJobRow();
+
+    public int getTotalTempJobRow();
+
+    public Job getJobById(int id);
 }
