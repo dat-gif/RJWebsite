@@ -732,4 +732,46 @@ public class JobDAO implements IJob {
 
     }
 
+    @Override
+    public Job getJobById(int id) {
+        String query = "SELECT [job_id]\n"
+                + "      ,[recruiter_id]\n"
+                + "      ,[title]\n"
+                + "      ,[description]\n"
+                + "      ,[salary_range]\n"
+                + "      ,[quantity]\n"
+                + "      ,[role]\n"
+                + "      ,[experience]\n"
+                + "      ,[location]\n"
+                + "      ,[hire_date]\n"
+                + "      ,[questions]\n"
+                + "      ,[status]\n"
+                + "      ,[createAt]\n"
+                + "      ,[updateAt]\n"
+                + "  FROM [SWP391].[dbo].[job]\n"
+                + "  where job_id = 1";
+
+        try {
+            conn = new DBContext().getConnection();
+            PreparedStatement ps = conn.prepareStatement(query);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                return new Job(rs.getInt("job_id"),
+                        rs.getString("title").trim(),
+                        rs.getString("description").trim(),
+                        rs.getString("salary_range").trim(),
+                        rs.getString("quantity").trim(),
+                        rs.getString("role").trim(),
+                        rs.getString("experience").trim(),
+                        rs.getString("location").trim(),
+                        rs.getString("hire_date").trim(),
+                        rs.getBoolean("status")
+                );
+            }
+        } catch (Exception e) {
+            System.out.println("bug get row Temp job " + e);
+        }
+        return null;
+    }
+
 }

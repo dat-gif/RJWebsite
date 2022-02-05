@@ -43,5 +43,8 @@ public interface IJob {
     public ArrayList<Job> getJobSearching(int pageNumber, int recordNumber);
 
     public int getTotalJobRow();
+
     public int getTotalTempJobRow();
+
+    public Job getJobById(int id);
 }

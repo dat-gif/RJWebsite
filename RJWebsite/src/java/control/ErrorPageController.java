@@ -1,16 +1,14 @@
-package control;
-
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-import IDao.IJob;
-import dao.JobDAO;
-import entity.Job;
+package control;
+
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -19,7 +17,8 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Admin
  */
-public class JobDetailController extends HttpServlet {
+@WebServlet(name = "ErrorPageController", urlPatterns = {"/ErrorPageController"})
+public class ErrorPageController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -33,7 +32,18 @@ public class JobDetailController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-
+        try (PrintWriter out = response.getWriter()) {
+            /* TODO output your page here. You may use following sample code. */
+            out.println("<!DOCTYPE html>");
+            out.println("<html>");
+            out.println("<head>");
+            out.println("<title>Servlet ErrorPageController</title>");            
+            out.println("</head>");
+            out.println("<body>");
+            out.println("<h1>Servlet ErrorPageController at " + request.getContextPath() + "</h1>");
+            out.println("</body>");
+            out.println("</html>");
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -48,26 +58,7 @@ public class JobDetailController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        IJob daoJob = new JobDAO();
-        String jobId = request.getParameter("jobId");
-
-        try {
-            Job job = daoJob.getJobById(Integer.parseInt(jobId));
-
-            request.setAttribute("jobTile", job.getTitle());
-            request.setAttribute("jobCompany", job.getRecruiter());
-            request.setAttribute("endDate", job.getHireDate());
-            request.setAttribute("salary", job.getSalaryRange());
-            request.setAttribute("role", job.getRole());
-            request.setAttribute("quantity", job.getQuantity());
-            request.setAttribute("experience", job.getExperience());
-            request.setAttribute("location", job.getLocation());
-            request.setAttribute("description", job.getDescription());
-            request.setAttribute("skill", job.getSkillListName());
-
-            request.getRequestDispatcher("ViewJobDetailPage.jsp").forward(request, response);
-        } catch (Exception e) {
-        }
+        processRequest(request, response);
     }
 
     /**
