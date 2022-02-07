@@ -44,7 +44,7 @@
                     <div class="col-9 bg-light" style="padding: 2.5rem 3rem" >
                         <h4 class="my-4 " >Detail Information</h4>
                         <!-- job info table -->
-                        <h5 class="font-weight-normal" >General Information</h5>
+                        <h5 class="font-weight-normal mb-2" >General Information</h5>
                         <div class="row row-cols-2 p-3 mx-1" style="background-color: #dae0e5">
                             <!-- salary -->
                             <div class="col d-flex flex-row align-content-center">
@@ -79,7 +79,7 @@
                                 </div>
                             </div>
                         </div>
-                        <h5 class="mt-3 font-weight-normal" >Location</h5>
+                        <h5 class="mt-3 font-weight-normal mb-2" >Location</h5>
                         <div class="row pt-3 mx-1 text-center" style="background-color: #dae0e5">
                             <p class="text-capitalize ml-3 p-0">${location}</p>
                         </div>
