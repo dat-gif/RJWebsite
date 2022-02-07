@@ -3,13 +3,13 @@
     Created on : Jan 18, 2022, 11:27:19 PM
     Author     : admin
 --%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Candidate Dashboard</title>
+        <title>Skill Dashboard</title>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link href="bootstrap-4.6.1-dist/css/bootstrap.min.css" media="all" type="text/css" rel="stylesheet">
         <script src="bootstrap-4.6.1-dist/jQuery/jquery-3.6.0.min.js"></script>
@@ -84,7 +84,7 @@
                     </div>
                 </nav>
                 <div class="content">
-                    <h1>Candidate Dashboard</h1>
+                    <h1>Skill Dashboard</h1>
                     <main role="main" class="searchcontainer">
                         <div class="input-group">
                             <input type="search" class="form-control  rounded border-secondary" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
@@ -95,21 +95,17 @@
                         <thead class="thead-dark">
                             <tr>
                                 <th scope="col">Name</th>
-                                <th scope="col">Date of birth</th>
-                                <th scope="col">Email</th>
-                                <th scope="col">Phone</th>
+                                <th scope="col">Description</th>
                                 <th scope="col">Status</th>
                                 <th scope="col">Action</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
-                                <th scope="row">Huyc</th>
-                                <td>12/12/2022</td>
-                                <td>namndwebdev@gmail.com</td>
-                                <td>0393958404</td>
-                                <td><a href="url">Activate</a></td>
-                                <td><a href="url" id ="a1">Review</a><a href="url" id="a2">Details</a></td>
+                                <th scope="row">ORA</th>
+                                <td><p>C++ là một loại ngôn ngữ lập trình bậc trung. Đây là ngôn ngữ lập trình đa năng được tạo ra bởi Bjarne Stroustrup như một phần mở rộng của ngôn ngữ lập trình C, hoặc "C với các lớp Class", Ngôn ngữ đã được mở rộng đáng kể theo thời gian và C ++ hiện đại có các tính năng: lập trình tổng quát, lập trình hướng đối tượng</p></td>
+                                <td><a href="url">Deactivate</a></td>
+                                <td><a href="url" id ="a2">Details</a></td>
                             </tr>
 
                         </tbody>
@@ -117,7 +113,6 @@
                     <div class="row justify-content-center mt-4 mb-4">
                         <jsp:include page="component/Pagination.jsp"/>
                     </div>
-
                 </div>
             </div>
         </div>

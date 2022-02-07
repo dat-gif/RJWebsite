@@ -1,0 +1,181 @@
+/*
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to edit this template
+*/
+/* 
+    Created on : Feb 7, 2022, 11:50:02 AM
+    Author     : USE
+*/
+
+body{
+    background-color: #D8D8D8;
+}
+
+.top{
+    width: 100%;
+    height: auto;
+    display: flex;
+    margin-top: 30px;
+    background-color: white;
+}
+
+.top img{
+    display: inline-block;
+    width: 150px;
+    height: 150px;
+    background-color: #1874CD;
+    border-radius: 80px;
+    margin-left: 150px;
+    margin-right: 90px; 
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+
+.infor{
+    padding-top: 30px;
+    display: inline-block;
+}
+
+button{
+    margin-left: 400px;
+    margin-top: 60px;
+    width: 50px;
+    height: 30px;
+    background-color: #1874CD;
+    color: white;
+}
+
+button a {
+    text-decoration: none;
+    color: white;
+}
+
+.content{
+    display: flex;
+    margin-top: 30px;
+    margin-left: 150px;
+    margin-right: 150px;
+    width: 100%;
+    height: auto;   
+}
+
+.left{
+    width: 60%;
+    height: auto;
+    padding-left: 40px;
+    padding-right: 40px;
+    padding-bottom: 40px;
+    background-color: white;
+}
+
+.header{
+    display: flex;
+}
+
+.information{
+    color: #1874CD;
+    padding: 10px 20px;
+    background-color: white;
+}
+
+.candidate{
+    color: #1874CD;
+    background-color: #D8D8D8;
+    padding: 10px 20px;
+}
+
+h3{
+    margin-left: 30px;
+}
+
+.generalInfor{
+    width: 95%;
+    background-color: #D8D8D8;
+}
+
+.generalInfor p {
+    font-size: 18px;
+    padding-top: 30px;
+    padding-left: 30px;
+    text-decoration: underline;
+}
+
+.generalInfor table{
+    padding: 30px;
+    font-weight: bolder;
+}
+
+.generalInfor table td{
+    padding: 7px;
+}
+
+.locationInfor{
+    width: 95%;
+    background-color: #D8D8D8;
+}
+
+.locationInfor p {
+    font-size: 18px;
+    padding-top: 30px;
+    padding-left: 30px;
+    text-decoration: underline;
+}
+
+.locationInfor table{
+    padding: 20px;
+    font-weight: bolder;
+}
+
+.locationInfor table td{
+    padding: 7px;
+}
+
+.smallDetail{
+    margin-left: 30px;
+}
+
+.candidateWrap{
+    display: none;
+}
+
+.candidateList table{
+    margin-top: 30px;
+    width: 100%;
+    height: auto;
+    text-align: center;
+}
+
+.candidateList table thead{
+    background-color: #D8D8D8;
+    height: 40px;
+}
+
+.candidateList table tr{
+    height: 30px;
+}
+
+.right{
+    font-size: 18px;
+    width: 200px;
+    height: auto;
+    margin-left: 30px;
+}
+
+.skill{
+    background-color: white;
+}
+
+.skill p {
+    padding: 10px;
+    font-weight: bolder;
+}
+
+.location{
+    margin-top: 30px;
+    background-color: white;
+}
+
+.location p {
+    padding: 10px;
+    font-weight: bolder;
+}
