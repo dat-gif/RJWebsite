@@ -18,9 +18,9 @@
         <title>Header</title>
     </head>
     <body>
-        <header>
+        <header class="position-fixed w-100" style="position: fixed; left: 0; top: 0; z-index: 1">
             <nav class="navbar navbar-expand-lg navbar-light bg-light pl-5">
-                <a class="navbar-brand" href="#">Navbar</a>
+                <a class="navbar-brand" href="landingpage">R & IT J </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -42,7 +42,7 @@
                                 About Job
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item small" href="#">Search Job</a>
+                                <a class="dropdown-item small" href="seachingjob">Search Job</a>
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item small" href="#">Apply Job</a>
                             </div>
@@ -52,7 +52,7 @@
                                 About Company
                             </a>
                             <div class="dropdown-menu ml-3" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item small" href="#">Search Company</a>
+                                <a class="dropdown-item small" href="seachingcompany">Search Company</a>
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item small" href="#">Following Company</a>
                             </div>

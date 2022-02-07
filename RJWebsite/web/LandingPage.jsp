@@ -4,7 +4,8 @@
     Author     : Admin
 --%>
 
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
@@ -12,9 +13,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link href="bootstrap-4.6.1-dist/css/bootstrap.min.css" media="all" type="text/css" rel="stylesheet">
         <script src="bootstrap-4.6.1-dist/jQuery/jquery-3.6.0.min.js"></script>
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Welcome</title>
     </head>
     <body>
@@ -32,7 +31,7 @@
                         <div class="text-white">
                             <h1 class="mb-3"> Thousand of IT job are waiting for you</h1>
                             <h4 class="mb-3">Create profile and join us now</h4>
-                            <a class="btn btn-md btn-primary" href="#!" role="button"
+                            <a class="btn btn-md btn-primary" href="/register" role="button"
                                >Create profile</a
                             >
                         </div>
@@ -44,19 +43,21 @@
 
         <main class="container mt-5">
             <h2 class="text-center text-capitalize">new recruitment</h2>
+
             <div class="row row-cols-4 align-content-center">
-                <div class="col p-1 mt-1">
-                    <jsp:include page="component/CardInfo.jsp"/>
-                </div>
-                <div class="col p-1  mt-1">
-                    <jsp:include page="component/CardInfo.jsp"/>
-                </div>
-                <div class="col p-1  mt-1">
-                    <jsp:include page="component/CardInfo.jsp"/>
-                </div>
-                <div class="col p-1  mt-1">
-                    <jsp:include page="component/CardInfo.jsp"/>
-                </div>
+                <c:forEach items="${listJob}" var="job"> 
+                    <div class="col p-1 mt-1">
+                        <% request.setCharacterEncoding("utf-8");%>
+                        <jsp:include page="component/CardInfo.jsp">
+                            <jsp:param name="title1" value="${job.getTitle()}"/>
+                            <jsp:param name="title2" value="${job.recruiter.getName()}"/>
+                            <jsp:param name="arraySkill" value="${job.skillListName}"/>
+                            <jsp:param name="text2" value="${job.salaryRange}"/>
+                            <jsp:param name="img" value="${job.recruiter.getAvatar()}"/>
+                        </jsp:include>
+                    </div>
+                </c:forEach>  
+
 
             </div>
             <div class="row justify-content-center mt-4 mb-4">

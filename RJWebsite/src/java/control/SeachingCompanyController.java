@@ -6,11 +6,14 @@
 package control;
 
 import IDao.ICity;
-import IDao.IJob;
+import IDao.IRecruiter;
+import static control.SeachingJobController.recordNumber;
 import dao.CityDAO;
 import dao.JobDAO;
+import dao.RecruiterDAO;
 import entity.City;
 import entity.Job;
+import entity.Recruiter;
 import entity.Skill;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -32,7 +35,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Admin
  */
-public class SeachingJobController extends HttpServlet {
+public class SeachingCompanyController extends HttpServlet {
 
     int pageNumber = 1;
     static int recordNumber = 2;
@@ -64,20 +67,31 @@ public class SeachingJobController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
         request.setCharacterEncoding("UTF-8");
-
-        IJob daoJob = new JobDAO();
+        IRecruiter daoRecruiter = new RecruiterDAO();
         ICity daoCity = new CityDAO();
         int totalRecordNumber = 1;
+        String cookieSearch;
+        String cookieCity;
         try {
+            List<City> listCity = daoCity.getAllCity();
             //Get Cookie
             Cookie[] cookies = request.getCookies();
-            Map<String, String> cookieMap = new HashMap<>();
-            for (Cookie cookie : cookies) {
-                String decodeValue = java.net.URLDecoder.decode(cookie.getValue(), StandardCharsets.UTF_8.name());
-                cookieMap.put(cookie.getName(), decodeValue);
+            if (cookies == null || cookies.length == 0) {
+                cookieSearch = "";
+                cookieCity = "All";
+            } else {
+                Map<String, String> cookieMap = new HashMap<>();
+
+                for (Cookie cookie : cookies) {
+                    String decodeValue = java.net.URLDecoder.decode(cookie.getValue(), StandardCharsets.UTF_8.name());
+                    cookieMap.put(cookie.getName(), decodeValue);
+                }
+                cookieSearch = cookieMap.get("recruiterSearch");
+                cookieCity = cookieMap.get("recruitercitySelect");
             }
+
+            //Get current page number
             String spageNumber = request.getParameter("page");
             if (spageNumber != null && !spageNumber.isEmpty()) {
                 pageNumber = Integer.parseInt(spageNumber);
@@ -85,57 +99,44 @@ public class SeachingJobController extends HttpServlet {
                 pageNumber = 1;
             }
 
-            String cookieSearch = cookieMap.get("txtSearch");
-            String cookieSkill = cookieMap.get("skillSelect");
-            String cookieCity = cookieMap.get("citySelect");
+            ArrayList<Recruiter> listRecruiter = new ArrayList<>();
 
-            ArrayList<Job> listJob = new ArrayList<>();
-            List<Skill> listSkill = daoJob.getAllSkill();
-            List<City> listCity = daoCity.getAllCity();
-
-            //Check if cookie null
             if (cookieSearch == null) {
                 cookieSearch = "";
-            }
-            if (cookieSkill == null) {
-                cookieSkill = "All_All Skill";
             }
             if (cookieCity == null || cookieCity.isEmpty()) {
                 cookieCity = "All";
             }
+
             if (cookieSearch.isEmpty() || cookieSearch.equalsIgnoreCase("All")) {
-                if (!cookieSkill.split("_")[0].equalsIgnoreCase("All") || !cookieCity.equalsIgnoreCase("All")) {
+                if (!cookieCity.equalsIgnoreCase("All")) {
                     // Get data in tempo search table
-                    listJob = daoJob.getJobSearching(pageNumber, recordNumber);
-                    totalRecordNumber = daoJob.getTotalTempJobRow();
+                    listRecruiter = daoRecruiter.getRecruiterPaging(pageNumber, recordNumber);
+                    totalRecordNumber = daoRecruiter.getTotalTempRecruiterRow();
                 } else {
                     // If user not input search text or filter data
                     // Get data direct in job table
-                    listJob = daoJob.getAllJob(pageNumber, recordNumber);
-                    totalRecordNumber = daoJob.getTotalJobRow();
+                    listRecruiter = daoRecruiter.getAllRecruiter(pageNumber, recordNumber);
+                    totalRecordNumber = daoRecruiter.getTotalRecruiterRow();
                 }
             } else {
-                // if user enters search text, (can choose filter or not)
-                listJob = daoJob.getJobSearching(pageNumber, recordNumber);
-                totalRecordNumber = daoJob.getTotalTempJobRow();
+                // If user enters search text, (can choose filter or not)
+                listRecruiter = daoRecruiter.getRecruiterPaging(pageNumber, recordNumber);
+                totalRecordNumber = daoRecruiter.getTotalTempRecruiterRow();
             }
 
-//Calculate total pagning
             totalPage = (int) Math.ceil((double) totalRecordNumber / recordNumber);
 
             request.setAttribute("page", pageNumber);
             request.setAttribute("txtSearch", cookieSearch);
             request.setAttribute("citySelect", cookieCity);
-            request.setAttribute("skillSelectId", cookieSkill);
-            request.setAttribute("skillSelect", cookieSkill.split("_")[1]);
             request.setAttribute("totalPage", totalPage);
             request.setAttribute("listCity", listCity);
-            request.setAttribute("listSkill", listSkill);
-            request.setAttribute("listJob", listJob);
+            request.setAttribute("listRecruiter", listRecruiter);
 
-            request.getRequestDispatcher("SearchingJobPage.jsp").forward(request, response);
-
+            request.getRequestDispatcher("SearchingCompanyPage.jsp").forward(request, response);
         } catch (Exception e) {
+            System.err.println("get :" + e);
         }
     }
 
@@ -156,12 +157,11 @@ public class SeachingJobController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-//        processRequest(request, response);
         request.setCharacterEncoding("UTF-8");
+        IRecruiter daoRecruiter = new RecruiterDAO();
+        ICity daoCity = new CityDAO();
         try {
 
-            IJob daoJob = new JobDAO();
-            ICity daoCity = new CityDAO();
 //Get cookies
             Cookie[] cookies = request.getCookies();
             Map<String, String> cookieMap = new HashMap<>();
@@ -169,32 +169,27 @@ public class SeachingJobController extends HttpServlet {
                 String decodeValue = java.net.URLDecoder.decode(cookie.getValue(), StandardCharsets.UTF_8.name());
                 cookieMap.put(cookie.getName(), decodeValue);
             }
-            String cookieSearch = cookieMap.get("txtSearch");
-            String cookieSkill = cookieMap.get("skillSelect");
-            String cookieCity = cookieMap.get("citySelect");
+            String cookieSearch = cookieMap.get("recruiterSearch");
+            
+            String cookieCity = cookieMap.get("recruitercitySelect");
 
             //Request parameter
             String txtSearch = request.getParameter("txtSearch");
             String citySelect = request.getParameter("citySelect");
-            String skillSelect = request.getParameter("skillSelect");
-
             //Check parameter null
             if (txtSearch == null) {
                 txtSearch = "";
             }
-            if (skillSelect == null) {
-                skillSelect = "All_All Skill";
-            }
-            String skillSelectId = skillSelect.split("_")[0];
             if (citySelect == null || citySelect.isEmpty()) {
                 citySelect = "All";
             }
+
             //Logic create search table 
             if (txtSearch.isEmpty() || txtSearch.equalsIgnoreCase("All")) {
-                if (!skillSelectId.equalsIgnoreCase("All") || !citySelect.equalsIgnoreCase("All")) {
+                if (!citySelect.equalsIgnoreCase("All")) {
                     // create tempo search table and insert data
-                    daoJob.createTempoTableSearchJobData();
-                    daoJob.insertJobByFilter(skillSelectId, citySelect);
+                    daoRecruiter.createRecruiterTempoTableSearchData();
+                    daoRecruiter.insertRecruiterFilterByCity(citySelect);
 
                 } else {
                     // get data direct in job table
@@ -202,24 +197,24 @@ public class SeachingJobController extends HttpServlet {
             } else {
                 // if user enters search text, (can choose filter or not)
                 // create tempo search table and insert data
-                daoJob.createTempoTableSearchJobData();
-                daoJob.insertJobByTextSearch(txtSearch.trim(), skillSelectId, citySelect);
+                daoRecruiter.createRecruiterTempoTableSearchData();
+                daoRecruiter.insertRecruiter(txtSearch, citySelect);
             }
-
 //Set user input to cookie
             if (cookieSearch == null || !cookieSearch.equalsIgnoreCase(txtSearch)) {
-                setCookie(response, "txtSearch", txtSearch, -1);
+                setCookie(response, "recruiterSearch", txtSearch, -1);
             }
-            if (cookieSkill == null || !cookieSkill.equalsIgnoreCase(skillSelect)) {
-                setCookie(response, "skillSelect", skillSelect, -1);
-            }
+
             if (cookieCity == null || !cookieCity.equalsIgnoreCase(citySelect)) {
-                setCookie(response, "citySelect", citySelect, -1);
+                setCookie(response, "recruitercitySelect", citySelect, -1);
             }
-            response.sendRedirect("seachingjob");
+         
+            response.sendRedirect("seachingcompany");
+
         } catch (Exception e) {
-            System.out.println(e);
+            System.err.println(e);
         }
+
     }
 
     /**
