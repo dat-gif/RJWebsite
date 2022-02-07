@@ -1,0 +1,73 @@
+/*
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to edit this template
+*/
+/* 
+    Created on : Feb 7, 2022, 12:00:49 PM
+    Author     : USE
+*/
+.top{
+    justify-content: center;
+    margin-top: 50px;
+    display: flex;
+    width: 100%;
+    height: auto;
+}
+
+.apply{
+    font-size: 18px;
+    padding: 20px;
+    text-align: center;
+    width: 20%;
+    background-color: #E8E8E8;
+    margin-left: 30px;
+    margin-right: 30px;
+}
+
+.recruit{
+    font-size: 18px;
+    padding: 20px;
+    text-align: center;
+    width: 20%;
+    background-color: #E8E8E8;
+    margin-left: 30px;
+    margin-right: 30px;
+}
+
+.followers{
+    font-size: 18px;
+    padding: 20px;
+    text-align: center;
+    width: 20%;
+    background-color: #E8E8E8;
+    margin-left: 30px;
+    margin-right: 30px;
+}
+
+.content{
+    margin-left: 180px;
+}
+
+h2{
+    margin-top: 30px;
+}
+
+.company{
+    display: inline-block;
+    margin-right: 80px;
+}
+
+.company img{
+    width: 200px;
+    height: 200px;
+}
+
+.candidate{
+    display: inline-block;
+    margin-right: 80px;
+}
+
+.candidate img{
+    width: 200px;
+    height: 200px;
+}
