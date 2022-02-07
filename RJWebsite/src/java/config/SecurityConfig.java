@@ -31,7 +31,7 @@ public class SecurityConfig {
 
     private static void init() {
 
-        // Cấu hình cho vai trò "CANDIDATE".
+        // Configuration "CANDIDATE" role.
         List<String> urlPatterns1 = new ArrayList<String>();
 
         urlPatterns1.add("/searchjob");
@@ -39,7 +39,7 @@ public class SecurityConfig {
 
         mapConfig.put(ROLE_CANDIDATE, urlPatterns1);
 
-        // Cấu hình cho vai trò "RECRUITER".
+        // Configuration "RECRUITER" role.
         List<String> urlPatterns2 = new ArrayList<String>();
 
         urlPatterns2.add("/RecruiterDashBoard");
