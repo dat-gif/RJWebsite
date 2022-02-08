@@ -31,7 +31,7 @@
                             <a class="nav-link" href="#">My Profile</a>
                         </li>
                         <li class="nav-item ml-3">
-                            <a class="nav-link" href="#">I'm Recruiter</a>
+                            <a class="nav-link" href="RecruiterDashBoard">I'm Recruiter</a>
                         </li>
 
                         <li class="nav-item ml-3">
@@ -77,10 +77,13 @@
                             </svg>
                         </li>
                         <li class="nav-item ml-3">
-                            <button type="button" class="btn btn-primary">Login</button>
+                            <a type="button" class="btn btn-primary" href="login" >Login</a>
                         </li>
                         <li class="nav-item ml-3">
-                            <button type="button" class="btn btn-outline-primary">Register</button>
+                            <a type="button" class="btn btn-primary" href="logout" >Logout</a>
+                        </li>
+                        <li class="nav-item ml-3">
+                            <a type="button" class="btn btn-outline-primary" href="register">Register</a>
                         </li>
                     </ul>
                 </div>

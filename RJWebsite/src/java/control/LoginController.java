@@ -5,12 +5,16 @@
  */
 package control;
 
+import IDao.IAccount;
+import dao.AccountDAO;
+import entity.Account;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import utils.AppUtils;
 
 /**
  *
@@ -29,7 +33,7 @@ public class LoginController extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-      
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -44,7 +48,8 @@ public class LoginController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-      try {
+        try {
+            request.getSession().invalidate();
             request.getRequestDispatcher("Login.jsp").forward(request, response);
         } catch (Exception e) {
         }
@@ -61,7 +66,21 @@ public class LoginController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        IAccount accountDao = new AccountDAO();
+        String userEmail = request.getParameter("userEmail");
+        String password = request.getParameter("password");
+
+        Account userAccount = accountDao.getAccountByEmailAndPassword(userEmail, password);
+
+        if (userAccount != null) {
+            AppUtils.storeLoginedUser(request.getSession(), userAccount);
+            response.sendRedirect("landingpage");
+        } else {
+
+            request.setAttribute("isWrongAccount", true);
+            response.sendRedirect("login");
+        }
+
     }
 
     /**
