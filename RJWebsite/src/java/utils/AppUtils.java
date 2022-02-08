@@ -16,7 +16,6 @@ public class AppUtils {
 
     // Store user login info into session.
     public static void storeLoginedUser(HttpSession session, Account loginedUser) {
-        // Trên JSP có thể truy cập thông qua ${loginedUser}
         session.setAttribute("loginedUser", loginedUser);
     }
 

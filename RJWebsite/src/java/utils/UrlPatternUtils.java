@@ -50,7 +50,7 @@ public class UrlPatternUtils {
             return urlPattern;
         }
         urlPattern = servletPath;
-
+        System.out.println(servletContext);
         boolean has = hasUrlPattern(servletContext, urlPattern);
         if (has) {
             return urlPattern;
