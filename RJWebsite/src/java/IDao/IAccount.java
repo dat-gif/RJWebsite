@@ -5,10 +5,14 @@
  */
 package IDao;
 
+import entity.Account;
+
 /**
  *
  * @author Admin
  */
 public interface IAccount {
-    
+
+    public Account getAccountByEmailAndPassword(String email, String password);
+
 }

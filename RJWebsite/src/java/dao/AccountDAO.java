@@ -5,7 +5,13 @@
  */
 package dao;
 
+import IDao.IAccount;
+import context.DBContext;
 import entity.Account;
+import entity.City;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -13,32 +19,37 @@ import java.util.Map;
  *
  * @author Admin
  */
-public class AccountDAO {
-// Fake dao for test filter
+public class AccountDAO implements IAccount {
 
-    private static final Map<String, Account> mapUsers = new HashMap<String, Account>();
+    Connection conn = null;//ket noi sql
+    PreparedStatement ps = null; //truyen querry sang sql
+    ResultSet rs = null; //nhan tra ve, với các func gọi chéo nhau, nên tạo rs riêng
 
-    static {
-        initUsers();
-    }
+    @Override
+    public Account getAccountByEmailAndPassword(String email, String password) {
+        String query = "SELECT [account_id]\n"
+                + "      ,[role_id]\n"
+                + "      ,[email]\n"
+                + "      ,[phone]\n"
+                + "      ,[password]\n"
+                + "      ,[status]\n"
+                + "      ,[createAt]\n"
+                + "      ,[updateAt]\n"
+                + "	  ,role_name\n"
+                + "  FROM [SWP391].[dbo].[account]\n"
+                + "  inner join role on role.id= account.role_id\n"
+                + "  Where email = ? and password = ?";
+        try {
+            conn = new DBContext().getConnection();
+            ps = conn.prepareStatement(query);
+            ps.setString(1, "'" + email + "'");
+            ps.setString(2, "'" + password + "'");
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                return new Account(rs.getInt("account_id"), rs.getString("role_name"), rs.getString("email"), rs.getString("phone"));
+            }
 
-    private static void initUsers() {
-
-        // User này có 1 vai trò là EMPLOYEE.
-        Account emp = new Account("e1", "123", "cadidate");
-
-        // User này có 2 vai trò EMPLOYEE và MANAGER.
-        Account mng = new Account("manager1", "123", "recruiter");
-
-        mapUsers.put(emp.getEmail(), emp);
-        mapUsers.put(mng.getEmail(), mng);
-    }
-
-    // Tìm kiếm người dùng theo userName và password.
-    public static Account findUser(String userName, String password) {
-        Account u = mapUsers.get(userName);
-        if (u != null && u.getPassword().equals(password)) {
-            return u;
+        } catch (Exception e) {
         }
         return null;
     }

@@ -27,20 +27,17 @@ public class Account {
         this.password = password;
     }
 
-
-
     public Account(String email, String password, int roleId) {
         this.roleId = roleId;
         this.email = email;
         this.password = password;
     }
 
-    public Account(int accId, int roleId, String email, String phone, String password) {
+    public Account(int accId, String roleName, String email, String phone) {
         this.accId = accId;
-        this.roleId = roleId;
+        this.roleName = roleName;
         this.email = email;
         this.phone = phone;
-        this.password = password;
     }
 
     public String getRoleName() {
@@ -50,7 +47,6 @@ public class Account {
     public void setRoleName(String roleName) {
         this.roleName = roleName;
     }
-
 
     public int getAccId() {
         return accId;
