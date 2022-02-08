@@ -42,14 +42,15 @@ public class AccountDAO implements IAccount {
         try {
             conn = new DBContext().getConnection();
             ps = conn.prepareStatement(query);
-            ps.setString(1, "'" + email + "'");
-            ps.setString(2, "'" + password + "'");
+            ps.setString(1, email);
+            ps.setString(2, password);
             rs = ps.executeQuery();
             while (rs.next()) {
                 return new Account(rs.getInt("account_id"), rs.getString("role_name"), rs.getString("email"), rs.getString("phone"));
             }
 
         } catch (Exception e) {
+            System.out.println("Bug acc" + e);
         }
         return null;
     }

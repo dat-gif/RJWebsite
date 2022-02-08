@@ -17,9 +17,9 @@ import java.util.Set;
  */
 public class SecurityConfig {
 
-    public static final String ROLE_CANDIDATE = "CANDIDATE";
-    public static final String ROLE_RECRUITER = "RECRUITER";
-    public static final String ROLE_ADMIN = "ADMIN";
+    public static final String ROLE_CANDIDATE = "candidate";
+    public static final String ROLE_RECRUITER = "recruiter";
+    public static final String ROLE_ADMIN = "admin";
 
 // String: Role
 // List<String>: urlPatterns.

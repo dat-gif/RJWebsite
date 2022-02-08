@@ -6,6 +6,7 @@
 package filter;
 
 import com.sun.net.httpserver.HttpServer;
+import control.UserRoleRequestWrapper;
 import entity.Account;
 import java.io.IOException;
 import java.io.PrintStream;
@@ -57,20 +58,26 @@ public class SecurityFilter implements Filter {
 
         String servletPath = httpServletRequest.getServletPath();
         Account loginedUser = AppUtils.getLoginedUser(httpServletRequest.getSession());
+        HttpServletRequest wrapRequest = httpServletRequest;
         if (servletPath.equals("/login")) {
             chain.doFilter(request, response);
             return;
         }
+
         if (loginedUser != null) {
+            String email = loginedUser.getEmail();
+            String role = loginedUser.getRoleName();
+            wrapRequest = new UserRoleRequestWrapper(email, role, httpServletRequest);
 
         }
+
         // Check if login is requirement
         if (SecurityUtils.isSecurityPage(httpServletRequest)) {
             if (loginedUser == null) {
                 httpServletResponse.sendRedirect("login");
                 return;
             }
-            boolean hasPermission = SecurityUtils.hasPermission(httpServletRequest);
+            boolean hasPermission = SecurityUtils.hasPermission(wrapRequest);
             if (!hasPermission) {
                 httpServletRequest.getRequestDispatcher("landingpage").forward(request, response);
                 return;

@@ -25,7 +25,7 @@
                     <img src="https://picsum.photos/1000/1000" class="img-fluid w-100 p-2" alt="alt"/>
                 </div>
                 <div class="col-5 p-5 " >
-                    <form class="w-75"  action="login" method="POST">
+                    <form class="w-75" action="login" method="POST">
                         <h2 class="mb-4">Login</h2>
                         <!-- Email input -->
                         <div class="form-outline mb-4">
