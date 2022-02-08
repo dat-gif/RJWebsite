@@ -5,6 +5,8 @@
  */
 package control;
 
+import IDao.IAccount;
+import dao.AccountDAO;
 import entity.Account;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -47,6 +49,7 @@ public class LoginController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
+            request.getSession().invalidate();
             request.getRequestDispatcher("Login.jsp").forward(request, response);
         } catch (Exception e) {
         }
@@ -63,17 +66,18 @@ public class LoginController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        IAccount accountDao = new AccountDAO();
         String userEmail = request.getParameter("userEmail");
         String password = request.getParameter("password");
-        Account testAcc = new Account();
-        testAcc.setEmail(userEmail);
-        testAcc.setPassword(password);
-        testAcc.setRoleName("CANDIDATE");
-        if (userEmail.equalsIgnoreCase("employee1@gmail.com")) {
-            AppUtils.storeLoginedUser(request.getSession(), testAcc);
-           response.sendRedirect("landingpage");
+
+        Account userAccount = accountDao.getAccountByEmailAndPassword(userEmail, password);
+
+        if (userAccount != null) {
+            AppUtils.storeLoginedUser(request.getSession(), userAccount);
+            response.sendRedirect("landingpage");
         } else {
+
+            request.setAttribute("isWrongAccount", true);
             response.sendRedirect("login");
         }
 
