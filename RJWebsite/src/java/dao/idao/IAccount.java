@@ -6,6 +6,7 @@
 package dao.idao;
 
 import entity.Account;
+import entity.Recruiter;
 
 /**
  *
@@ -14,5 +15,11 @@ import entity.Account;
 public interface IAccount {
 
     public Account getAccountByEmailAndPassword(String email, String password);
+
+    public boolean checkExistAccountEmail(String email);
+
+    public void insertCandidateAccount(Account account);
+
+    public void insertRecruitorAccount(Account account, Recruiter recruoterBasicInfo);
 
 }

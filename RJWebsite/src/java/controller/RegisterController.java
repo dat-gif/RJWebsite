@@ -63,6 +63,18 @@ public class RegisterController extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
+        String email = request.getParameter("email");
+        String password = request.getParameter("password");
+        String role = request.getParameter("role");
+
+        if (role.equalsIgnoreCase("candidate")) {
+
+        }
+
+        if (role.equalsIgnoreCase("recruiter")) {
+
+        }
+
     }
 
     /**

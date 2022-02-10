@@ -9,6 +9,7 @@ import dao.idao.IAccount;
 import context.DBContext;
 import entity.Account;
 import entity.City;
+import entity.Recruiter;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -77,6 +78,62 @@ public class AccountDAO extends DBContext implements IAccount {
         return true;
     }
 
-  
+    /**
+     * Insert account register as candidate into database
+     *
+     * @param account
+     */
+    @Override
+    public void insertCandidateAccount(Account account) {
+        String query = "INSERT INTO account\n"
+                + "([role_id],[email],[phone],[password],[status])\n"
+                + "VALUES (?, ?, ?, ?, ?)";
+        try {
+            Connection conn = getConnection();
+            PreparedStatement ps = conn.prepareStatement(query);
+            ps.setString(1, String.valueOf(account.getRoleId()));
+            ps.setString(2, account.getEmail());
+            ps.setString(3, account.getPhone());
+            ps.setString(4, account.getPassword());
+            ps.setString(5, "1");
+            ps.executeUpdate();
+        } catch (Exception e) {
+            System.out.println("Bug insertAccount: " + e);
+        }
+    }
 
+    /**
+     * Insert account register as recruiter into database, insert in 2 table
+     * account and recruiter
+     *
+     * @param account Object Account
+     * @param recruiterBasicInfo Object Recruiter
+     */
+    @Override
+    public void insertRecruitorAccount(Account account, Recruiter recruiterBasicInfo) {
+        String query = "BEGIN TRANSACTION\n"
+                + "INSERT INTO account\n"
+                + "([role_id],[email],[phone],[password],[status])\n"
+                + "VALUES (?, ?, ?, ?, 1)\n"
+                + "DECLARE @LASTID int\n"
+                + "SET @LASTID = IDENT_CURRENT('dbo.account') \n"
+                + "INSERT INTO recruiter (account_id, name, address,contacter_name) VALUES (@LASTID, ?, ?, ?);\n"
+                + "COMMIT";
+        try {
+            Connection conn = getConnection();
+            PreparedStatement ps = conn.prepareStatement(query);
+            ps.setString(1, String.valueOf(account.getRoleId()));
+            ps.setString(2, account.getEmail());
+            ps.setString(3, account.getPhone());
+            ps.setString(4, account.getPassword());
+            ps.setString(5, recruiterBasicInfo.getName());
+            ps.setString(6, recruiterBasicInfo.getAddress());
+            ps.setString(7, recruiterBasicInfo.getContacterName());
+            ps.executeUpdate();
+        } catch (Exception e) {
+            System.out.println("Bug insertAccountRecruiter: " + e);
+        }
+    }
 }
+
+
