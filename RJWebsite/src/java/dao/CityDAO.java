@@ -5,7 +5,7 @@
  */
 package dao;
 
-import IDao.ICity;
+import dao.idao.ICity;
 import context.DBContext;
 import entity.City;
 import java.sql.Connection;

@@ -6,7 +6,7 @@
 package filter;
 
 import com.sun.net.httpserver.HttpServer;
-import control.UserRoleRequestWrapper;
+import controller.UserRoleRequestWrapper;
 import entity.Account;
 import java.io.IOException;
 import java.io.PrintStream;
@@ -59,6 +59,7 @@ public class SecurityFilter implements Filter {
         String servletPath = httpServletRequest.getServletPath();
         Account loginedUser = AppUtils.getLoginedUser(httpServletRequest.getSession());
         HttpServletRequest wrapRequest = httpServletRequest;
+      
         if (servletPath.equals("/login")) {
             chain.doFilter(request, response);
             return;

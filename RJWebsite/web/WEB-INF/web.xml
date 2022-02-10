@@ -6,19 +6,19 @@
     </welcome-file-list>
     <servlet>
         <servlet-name>LandingPage</servlet-name>
-        <servlet-class>control.LandingPage</servlet-class>
+        <servlet-class>controller.LandingPage</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>LoginController</servlet-name>
-        <servlet-class>control.LoginController</servlet-class>
+        <servlet-class>controller.LoginController</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>RegisterController</servlet-name>
-        <servlet-class>control.RegisterController</servlet-class>
+        <servlet-class>controller.RegisterController</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>SeachingJobController</servlet-name>
-        <servlet-class>control.SeachingJobController</servlet-class>
+        <servlet-class>controller.SeachingJobController</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>SeachingConpanyController</servlet-name>
@@ -26,23 +26,23 @@
     </servlet>
     <servlet>
         <servlet-name>SeachingCompanyController</servlet-name>
-        <servlet-class>control.SeachingCompanyController</servlet-class>
+        <servlet-class>controller.SeachingCompanyController</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>SeachingJobController</servlet-name>
-        <servlet-class>control.SeachingJobController</servlet-class>
+        <servlet-class>controller.SeachingJobController</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>CandidateApplyJobController</servlet-name>
-        <servlet-class>control.CandidateApplyJobController</servlet-class>
+        <servlet-class>controller.CandidateApplyJobController</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>FollowCompanyController</servlet-name>
-        <servlet-class>control.FollowCompanyController</servlet-class>
+        <servlet-class>controller.FollowCompanyController</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>JobDetailController</servlet-name>
-        <servlet-class>control.JobDetailController</servlet-class>
+        <servlet-class>controller.JobDetailController</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>LandingPage</servlet-name>

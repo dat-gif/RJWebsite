@@ -21,7 +21,7 @@ import java.util.List;
  *
  * @author Admin
  */
-public class RecruiterDAO implements IDao.IRecruiter {
+public class RecruiterDAO implements dao.idao.IRecruiter {
 
     Connection conn = null;//ket noi sql
     PreparedStatement ps = null; //truyen querry sang sql

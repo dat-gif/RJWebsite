@@ -83,7 +83,7 @@
                             <a type="button" class="btn btn-primary" href="logout" >Logout</a>
                         </li>
                         <li class="nav-item ml-3">
-                            <a type="button" class="btn btn-outline-primary" href="register">Register</a>
+                            <a type="button" class="btn btn-outline-primary" href="/register">Register</a>
                         </li>
                     </ul>
                 </div>

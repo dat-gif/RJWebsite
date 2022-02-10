@@ -1,24 +1,26 @@
 /*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
  */
-package control;
+package controller;
 
-import IDao.IJob;
-import dao.JobDAO;
-import entity.Job;
+import dao.idao.IAccount;
+import dao.AccountDAO;
+import entity.Account;
 import java.io.IOException;
-import java.util.List;
+import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import utils.AppUtils;
 
 /**
  *
  * @author Admin
  */
-public class LandingPage extends HttpServlet {
+public class LoginController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -31,17 +33,6 @@ public class LandingPage extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try {
-            IJob daoJob = new JobDAO();
-            List<Job> listJob = daoJob.getJobLandingPage();
-            
-            request.setAttribute("listJob", listJob);
-           
-            request.getRequestDispatcher("LandingPage.jsp").forward(request, response);
-        } catch (Exception e) {
-            System.out.println(e);
-        }
 
     }
 
@@ -57,7 +48,11 @@ public class LandingPage extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            request.getSession().invalidate();
+            request.getRequestDispatcher("Login.jsp").forward(request, response);
+        } catch (Exception e) {
+        }
     }
 
     /**
@@ -71,7 +66,21 @@ public class LandingPage extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        IAccount accountDao = new AccountDAO();
+        String userEmail = request.getParameter("userEmail");
+        String password = request.getParameter("password");
+
+        Account userAccount = accountDao.getAccountByEmailAndPassword(userEmail, password);
+
+        if (userAccount != null) {
+            AppUtils.storeLoginedUser(request.getSession(), userAccount);
+            response.sendRedirect("landingpage");
+        } else {
+
+            request.setAttribute("isWrongAccount", true);
+            response.sendRedirect("login");
+        }
+
     }
 
     /**

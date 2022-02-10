@@ -26,10 +26,10 @@
         </div>
         <div class="content">
             <div class="left">
-                <div class="header">
-                    <div class="information"><a>Information</a></div>
-                    <div class="candidate"><a>Candidate</a></div>
-                </div> 
+
+                <div class="information"><a>Information</a></div>
+                <div class="candidate"><a>Candidate</a></div>
+
                 <div id="informationWrap" class="informationWrap">
                     <h3>Detail Information</h3>    
                     <div class="generalInfor">

@@ -5,7 +5,7 @@
  */
 package dao;
 
-import IDao.IAccount;
+import dao.idao.IAccount;
 import context.DBContext;
 import entity.Account;
 import entity.City;
