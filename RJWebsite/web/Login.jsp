@@ -17,7 +17,9 @@
         <title>Login</title>
     </head>
     <body>
-        <header ><jsp:include page="component/Header.jsp"/></header>
+        <header >
+            <jsp:include page="component/Header.jsp"/>
+        </header>
 
         <main class="container-fluid mb-3" style="margin-top: 3.5rem">
             <div class="row row-cols-2 justify-content-center align-items-center">
@@ -38,6 +40,7 @@
                             <label class="form-label" for="form1Example2">Password</label>
                             <input type="password" id="form1Example2" class="form-control" name="password"/>
                         </div>
+                        <p class="text-danger">${isWrongAccount}</p>
                         <div class="row mb-4">
                             <div class="col d-flex justify-content-center">
 

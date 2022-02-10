@@ -10,7 +10,12 @@ import dao.AccountDAO;
 import entity.Account;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
+import java.util.Map;
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -50,6 +55,16 @@ public class LoginController extends HttpServlet {
             throws ServletException, IOException {
         try {
             request.getSession().invalidate();
+            Cookie[] cookies = request.getCookies();
+            Map<String, String> cookieMap = new HashMap<>();
+            for (Cookie cookie : cookies) {
+                String decodeValue = java.net.URLDecoder.decode(cookie.getValue(), StandardCharsets.UTF_8.name());
+                cookieMap.put(cookie.getName(), decodeValue);
+            }
+            String isWrongAccountMesage = cookieMap.get("isWrongAccount");
+            if (isWrongAccountMesage != null && isWrongAccountMesage.length() > 0) {
+                request.setAttribute("isWrongAccount", isWrongAccountMesage);
+            }
             request.getRequestDispatcher("Login.jsp").forward(request, response);
         } catch (Exception e) {
         }
@@ -74,13 +89,19 @@ public class LoginController extends HttpServlet {
 
         if (userAccount != null) {
             AppUtils.storeLoginedUser(request.getSession(), userAccount);
+            setCookie(response, "isWrongAccount", "", -1);
             response.sendRedirect("landingpage");
         } else {
-
-            request.setAttribute("isWrongAccount", true);
+            setCookie(response, "isWrongAccount", "Wrong email / password", -1);
             response.sendRedirect("login");
         }
 
+    }
+
+    private void setCookie(HttpServletResponse response, String name, String value, int maxAge) throws IOException {
+        Cookie cookie = new Cookie(name, URLEncoder.encode(value, "UTF-8"));
+        cookie.setMaxAge(maxAge);
+        response.addCookie(cookie);
     }
 
     /**
