@@ -18,11 +18,11 @@ import java.util.List;
  *
  * @author Admin
  */
-public class CityDAO implements ICity {
+public class CityDAO extends DBContext implements ICity {
 
-    Connection conn = null;//ket noi sql
-    PreparedStatement ps = null; //truyen querry sang sql
-    ResultSet rs = null; //nhan tra ve, với các func gọi chéo nhau, nên tạo rs riêng
+    Connection conn = null;
+    PreparedStatement ps = null;
+    ResultSet rs = null;
 
     @Override
     public List<City> getAllCity() {
@@ -34,7 +34,7 @@ public class CityDAO implements ICity {
                 + "  FROM [SWP391].[dbo].[vn_city]\n"
                 + " ORDER BY [city]";
         try {
-            conn = new DBContext().getConnection();
+            conn = getConnection();
             ps = conn.prepareStatement(query);
             rs = ps.executeQuery();
             while (rs.next()) {
