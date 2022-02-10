@@ -19,11 +19,7 @@ import java.util.Map;
  *
  * @author Admin
  */
-public class AccountDAO implements IAccount {
-
-    Connection conn = null;//ket noi sql
-    PreparedStatement ps = null; //truyen querry sang sql
-    ResultSet rs = null; //nhan tra ve, với các func gọi chéo nhau, nên tạo rs riêng
+public class AccountDAO extends DBContext implements IAccount {
 
     @Override
     public Account getAccountByEmailAndPassword(String email, String password) {
@@ -40,11 +36,11 @@ public class AccountDAO implements IAccount {
                 + "  inner join role on role.id= account.role_id\n"
                 + "  Where email = ? and password = ?";
         try {
-            conn = new DBContext().getConnection();
-            ps = conn.prepareStatement(query);
+            Connection conn = getConnection();
+            PreparedStatement ps = conn.prepareStatement(query);
             ps.setString(1, email);
             ps.setString(2, password);
-            rs = ps.executeQuery();
+            ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 return new Account(rs.getInt("account_id"), rs.getString("role_name"), rs.getString("email"), rs.getString("phone"));
             }
@@ -54,5 +50,33 @@ public class AccountDAO implements IAccount {
         }
         return null;
     }
+
+    /**
+     * Check if account already exist in database
+     *
+     * @param email
+     * @return
+     */
+    @Override
+    public boolean checkExistAccountEmail(String email) {
+        String query = "SELECT [email]\n"
+                + "FROM [SWP391].[dbo].[account]\n"
+                + "where email= ?";
+        try {
+            Connection conn = getConnection();
+            PreparedStatement ps = conn.prepareStatement(query);
+            ps.setString(1, email);
+
+            ResultSet rs = ps.executeQuery();
+            if (rs.next() == false) {
+                return false;
+            }
+        } catch (Exception e) {
+            System.out.println("Bug acc" + e);
+        }
+        return true;
+    }
+
+  
 
 }
