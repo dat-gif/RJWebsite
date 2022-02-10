@@ -5,12 +5,17 @@
  */
 package controller;
 
+import dao.AccountDAO;
+import dao.idao.IAccount;
+import entity.Account;
+import entity.Recruiter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import sun.reflect.generics.visitor.Reifier;
 
 /**
  *
@@ -63,18 +68,43 @@ public class RegisterController extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
+        IAccount accountDao = new AccountDAO();
         String email = request.getParameter("email");
         String password = request.getParameter("password");
         String role = request.getParameter("role");
+        String phone = request.getParameter("phone");
+        Account registerAccount = new Account();
+        registerAccount.setEmail(email);
+        registerAccount.setPassword(password);
+        registerAccount.setPhone(phone);
+        try {
 
-        if (role.equalsIgnoreCase("candidate")) {
+            if (!accountDao.checkExistAccountEmail(email)) {
+                request.setAttribute("registerErrorMesg", "Email already in use");
+                request.setAttribute("email", email);
+                request.setAttribute("phone", phone);
+                request.setAttribute("password", password);
+                request.getRequestDispatcher("RegisterPage.jsp").forward(request, response);
+            }
 
+            if (role.equalsIgnoreCase("candidate")) {
+                registerAccount.setRoleId(2);
+                accountDao.insertCandidateAccount(registerAccount);
+                request.getRequestDispatcher("login").forward(request, response);
+            }
+
+            if (role.equalsIgnoreCase("recruiter")) {
+                registerAccount.setRoleId(1);
+                Recruiter recruiter = new Recruiter();
+                recruiter.setName(request.getParameter("companyName"));
+                recruiter.setAddress(request.getParameter("address"));
+                recruiter.setContacterName(request.getParameter("recruiterName"));
+                accountDao.insertRecruitorAccount(registerAccount, recruiter);
+                request.getRequestDispatcher("login").forward(request, response);
+            }
+        } catch (Exception e) {
+            System.out.println(e);
         }
-
-        if (role.equalsIgnoreCase("recruiter")) {
-
-        }
-
     }
 
     /**

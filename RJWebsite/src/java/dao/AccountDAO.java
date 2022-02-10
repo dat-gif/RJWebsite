@@ -67,9 +67,9 @@ public class AccountDAO extends DBContext implements IAccount {
             Connection conn = getConnection();
             PreparedStatement ps = conn.prepareStatement(query);
             ps.setString(1, email);
-
             ResultSet rs = ps.executeQuery();
-            if (rs.next() == false) {
+            System.out.println(rs.isBeforeFirst());
+            if (rs.isBeforeFirst()) {
                 return false;
             }
         } catch (Exception e) {
@@ -85,9 +85,14 @@ public class AccountDAO extends DBContext implements IAccount {
      */
     @Override
     public void insertCandidateAccount(Account account) {
-        String query = "INSERT INTO account\n"
+        String query = "BEGIN TRANSACTION\n"
+                + "INSERT INTO account\n"
                 + "([role_id],[email],[phone],[password],[status])\n"
-                + "VALUES (?, ?, ?, ?, ?)";
+                + "VALUES (?, ?, ?, ?, ?)\n"
+                + "DECLARE @LASTID int\n"
+                + "SET @LASTID = IDENT_CURRENT('dbo.account') \n"
+                + "INSERT INTO candidate(account_id) VALUES (@LASTID);\n"
+                + "COMMIT";
         try {
             Connection conn = getConnection();
             PreparedStatement ps = conn.prepareStatement(query);
@@ -135,5 +140,3 @@ public class AccountDAO extends DBContext implements IAccount {
         }
     }
 }
-
-

@@ -43,22 +43,26 @@
                                 <!--User Name -->
                                 <div class="form-outline mb-4">
                                     <label class="form-label" for="0">Email</label>
-                                    <input type="text" id="0" class="form-control"  name="email"/>
+                                    <input type="text" id="0" class="form-control" name="email" required/>
+                                    <c:if test="${registerErrorMesg !=null}">
+                                        <p class="text-danger" >${registerErrorMesg}</p>
+                                    </c:if>
                                 </div>
-                                <div class="col form-outline mb-3">
+
+                                <div class="form-outline mb-4">
                                     <label class="form-label" for="0">Phone Number</label>
-                                    <input type="tel" pattern="(84|0[3|5|7|8|9])+([0-9]{8})\b" id="0" class="form-control" name="phoneNumber" />
+                                    <input type="tel" pattern="(84|0[3|5|7|8|9])+([0-9]{8})\b" id="0" class="form-control" name="phone" required/>
                                 </div>
 
                                 <!-- Password input -->
                                 <div class="form-outline mb-4">
                                     <label class="form-label" for="1">Password</label>
-                                    <input type="password" id="1" class="form-control" name="password" />
+                                    <input type="password" id="1" class="form-control" name="password" required/>
                                 </div>
                                 <!-- Password input -->
                                 <div class="form-outline mb-4">
                                     <label class="form-label" for="2">Confirm Password</label>
-                                    <input type="password" id="2" class="form-control" name="confirmPassword" />
+                                    <input type="password" id="2" class="form-control" name="confirmPassword" required/>
                                 </div>
                                 <input name="role" value="candidate" class="invisible"/>
                                 <!-- Submit button -->
@@ -93,7 +97,7 @@
                                     </div>
                                     <div class="col form-outline mb-3">
                                         <label class="form-label" for="0">Phone Number</label>
-                                        <input type="tel" pattern="(84|0[3|5|7|8|9])+([0-9]{8})\b" id="0" class="form-control" name="phoneNumber" />
+                                        <input type="tel" pattern="(84|0[3|5|7|8|9])+([0-9]{8})\b" id="0" class="form-control" name="phone" />
                                     </div>
                                     <div class="col form-outline mb-3">
                                         <label class="form-label" for="0">Password</label>

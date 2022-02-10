@@ -40,7 +40,9 @@
                             <label class="form-label" for="form1Example2">Password</label>
                             <input type="password" id="form1Example2" class="form-control" name="password"/>
                         </div>
-                        <p class="text-danger">${isWrongAccount}</p>
+                        <c:if test="${isWrongAccount !=null}">
+                            <p class="text-danger">${isWrongAccount}</p>
+                        </c:if>
                         <div class="row mb-4">
                             <div class="col d-flex justify-content-center">
 
