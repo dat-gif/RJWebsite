@@ -90,7 +90,12 @@ public class RegisterController extends HttpServlet {
             if (role.equalsIgnoreCase("candidate")) {
                 registerAccount.setRoleId(2);
                 accountDao.insertCandidateAccount(registerAccount);
-                request.getRequestDispatcher("login").forward(request, response);
+                response.setContentType("text/html");
+                PrintWriter out = response.getWriter();
+                out.println("<script type=\"text/javascript\">");
+                out.println("alert('Register Account Successful!, back to Login page');");
+                out.println("location='Login.jsp';");
+                out.println("</script>");
             }
 
             if (role.equalsIgnoreCase("recruiter")) {
@@ -100,7 +105,12 @@ public class RegisterController extends HttpServlet {
                 recruiter.setAddress(request.getParameter("address"));
                 recruiter.setContacterName(request.getParameter("recruiterName"));
                 accountDao.insertRecruitorAccount(registerAccount, recruiter);
-                request.getRequestDispatcher("login").forward(request, response);
+                response.setContentType("text/html");
+                PrintWriter out = response.getWriter();
+                out.println("<script type=\"text/javascript\">");
+                out.println("alert('Register Account Successful!, back to Login page');");
+                out.println("location='Login.jsp';");
+                out.println("</script>");
             }
         } catch (Exception e) {
             System.out.println(e);

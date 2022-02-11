@@ -112,14 +112,20 @@
 
                                 <!-- Submit button -->
                                 <button type="submit" class="btn btn-primary btn-block">Register Account</button>
+
                             </form>
                         </div>
                     </div>
                 </div>
             </div>
         </main>
+        <c:if test="${not empty loginError}">
+            <script>
+               
+            </script>
+        </c:if>
         <footer> <jsp:include page="component/Footer.jsp"/></footer>
         <script src="bootstrap-4.6.1-dist/js/bootstrap.min.js"></script>
-        <script></script>
+
     </body>
 </html>
