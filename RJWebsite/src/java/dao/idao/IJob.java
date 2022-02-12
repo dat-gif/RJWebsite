@@ -47,4 +47,10 @@ public interface IJob {
     public int getTotalTempJobRow();
 
     public Job getJobById(int id);
+
+    public ArrayList<Job> getApplyJobPangingByAccountId(int accountId, int currentPage, int recordQuantity);
+
+    public int getTotalApplyJobRow(int candidateId);
+
+    public void sendApplyJob(int jobId, int candidateId);
 }
