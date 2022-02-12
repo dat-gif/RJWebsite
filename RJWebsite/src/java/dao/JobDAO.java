@@ -24,11 +24,7 @@ import java.util.List;
  *
  * @author Admin
  */
-public class JobDAO implements IJob {
-
-    Connection conn = null;//ket noi sql
-    PreparedStatement ps = null; //truyen querry sang sql
-    ResultSet rs = null; //nhan tra ve, với các func gọi chéo nhau, nên tạo rs riêng
+public class JobDAO extends DBContext implements IJob {
 
     /**
      * Get first 12 job record in database
@@ -52,8 +48,8 @@ public class JobDAO implements IJob {
                 + "      ,[status]\n"
                 + "  FROM [SWP391].[dbo].[job]";
         try {
-            conn = new DBContext().getConnection();
-            ps = conn.prepareStatement(query);
+            Connection conn = getConnection();
+            PreparedStatement ps = conn.prepareStatement(query);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 Job job = new Job(rs.getInt("job_id"),
@@ -94,8 +90,8 @@ public class JobDAO implements IJob {
                 + "  where job.job_id= ? ";
 
         try {
-            conn = new DBContext().getConnection();
-            ps = conn.prepareStatement(query);
+            Connection conn = new DBContext().getConnection();
+            PreparedStatement ps = conn.prepareStatement(query);
             ps.setInt(1, jobId);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
@@ -134,8 +130,8 @@ public class JobDAO implements IJob {
                 + " FROM [SWP391].[dbo].[recruiter]\n"
                 + " where recruiter.recruiter_id= ?";
         try {
-            conn = new DBContext().getConnection();
-            ps = conn.prepareStatement(query);
+            Connection conn = new DBContext().getConnection();
+            PreparedStatement ps = conn.prepareStatement(query);
             ps.setInt(1, recruterId);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
@@ -175,8 +171,8 @@ public class JobDAO implements IJob {
                 + " inner join recruiter on recruiter.recruiter_id = job.recruiter_id\n"
                 + " where job.job_id= ?";
         try {
-            conn = new DBContext().getConnection();
-            ps = conn.prepareStatement(query);
+            Connection conn = new DBContext().getConnection();
+            PreparedStatement ps = conn.prepareStatement(query);
             ps.setInt(1, recruiterId);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
@@ -199,8 +195,8 @@ public class JobDAO implements IJob {
                 + "  where job.job_id= ? ";
 
         try {
-            conn = new DBContext().getConnection();
-            ps = conn.prepareStatement(query);
+            Connection conn = new DBContext().getConnection();
+            PreparedStatement ps = conn.prepareStatement(query);
             ps.setInt(1, jobId);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
@@ -245,8 +241,8 @@ public class JobDAO implements IJob {
                 + "FETCH NEXT @RowsOfPage ROWS ONLY";
 
         try {
-            conn = new DBContext().getConnection();
-            ps = conn.prepareStatement(querry);
+            Connection conn = new DBContext().getConnection();
+            PreparedStatement ps = conn.prepareStatement(querry);
             ps.setInt(1, pageNumber);
             ps.setInt(2, recordNumber);
             ResultSet rs = ps.executeQuery();
@@ -286,8 +282,8 @@ public class JobDAO implements IJob {
                 + "  FROM [SWP391].[dbo].[skill] ";
 
         try {
-            conn = new DBContext().getConnection();
-            ps = conn.prepareStatement(query);
+            Connection conn = new DBContext().getConnection();
+            PreparedStatement ps = conn.prepareStatement(query);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 skillList.add(new Skill(rs.getInt("skill_id"),
@@ -369,8 +365,8 @@ public class JobDAO implements IJob {
 
         int countCondition = 1;
         try {
-            conn = new DBContext().getConnection();
-            ps = conn.prepareStatement(mainQuery);
+            Connection conn = new DBContext().getConnection();
+            PreparedStatement ps = conn.prepareStatement(mainQuery);
             if (!skillValue.equalsIgnoreCase("All")) {
                 ps.setString(countCondition, skillValue);
                 countCondition++;
@@ -426,7 +422,7 @@ public class JobDAO implements IJob {
                 + "	 ) \n"
                 + "END \n";
         try {
-            conn = new DBContext().getConnection();
+            Connection conn = new DBContext().getConnection();
             PreparedStatement ps = conn.prepareStatement(createTempTable);
             ps.executeUpdate();
         } catch (Exception e) {
@@ -523,7 +519,7 @@ public class JobDAO implements IJob {
 
         try {
             int count = 1;
-            conn = new DBContext().getConnection();
+            Connection conn = new DBContext().getConnection();
             PreparedStatement ps = conn.prepareStatement(clearQuery + insertTable + queryUnionTable);
             for (int i = 0; i < wordSearchList.size(); i++) {
                 String get = wordSearchList.get(i);
@@ -608,8 +604,8 @@ public class JobDAO implements IJob {
 
         int countCondition = 1;
         try {
-            conn = new DBContext().getConnection();
-            ps = conn.prepareStatement(clearQuery + insertTable + selectQuery);
+            Connection conn = new DBContext().getConnection();
+            PreparedStatement ps = conn.prepareStatement(clearQuery + insertTable + selectQuery);
             if (!skillValue.equalsIgnoreCase("All")) {
                 ps.setString(countCondition, skillValue);
                 countCondition++;
@@ -661,7 +657,7 @@ public class JobDAO implements IJob {
                 + "OFFSET (@PageNumber-1)*@RowsOfPage ROWS\n"
                 + "FETCH NEXT @RowsOfPage ROWS ONLY";
         try {
-            conn = new DBContext().getConnection();
+            Connection conn = new DBContext().getConnection();
             PreparedStatement ps = conn.prepareStatement(querry);
             ps.setInt(1, pageNumber);
             ps.setInt(2, recordNumber);
@@ -701,7 +697,7 @@ public class JobDAO implements IJob {
         int totalRow = 0;
         String query = "select count(*) as num from job";
         try {
-            conn = new DBContext().getConnection();
+            Connection conn = new DBContext().getConnection();
             PreparedStatement ps = conn.prepareStatement(query);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
@@ -719,7 +715,7 @@ public class JobDAO implements IJob {
         int totalRow = 0;
         String query = " select count(*) as num  from (select job_id from ##TempTable group by job_id) as countTable";
         try {
-            conn = new DBContext().getConnection();
+            Connection conn = new DBContext().getConnection();
             PreparedStatement ps = conn.prepareStatement(query);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
@@ -753,7 +749,7 @@ public class JobDAO implements IJob {
 
         Job job = new Job();
         try {
-            conn = new DBContext().getConnection();
+            Connection conn = new DBContext().getConnection();
             PreparedStatement ps = conn.prepareStatement(query);
             ps.setInt(1, id);
             ResultSet rs = ps.executeQuery();
@@ -777,6 +773,94 @@ public class JobDAO implements IJob {
             System.out.println("bug get row Temp job " + e);
         }
         return job;
+    }
+
+    @Override
+    public ArrayList<Job> getApplyJobPangingByAccountId(int accountId, int currentPage, int recordQuantity) {
+        ArrayList<Job> list = new ArrayList<>();
+        String query = "DECLARE @PageNumber AS INT\n"
+                + "DECLARE @RowsOfPage AS INT\n"
+                + "SET @PageNumber= ? \n"
+                + "SET @RowsOfPage= ?\n"
+                + "SELECT job.[job_id]\n"
+                + "      ,[recruiter_id]\n"
+                + "      ,[title]\n"
+                + "      ,[description]\n"
+                + "      ,[salary_range]\n"
+                + "      ,[quantity]\n"
+                + "      ,[role]\n"
+                + "      ,[experience]\n"
+                + "      ,[location]\n"
+                + "      ,[hire_date]\n"
+                + "      ,[questions]\n"
+                + "      ,job.[status]\n"
+                + "	 ,job.[createAt]\n"
+                + "      ,job.[updateAt] \n"
+                + "	 ,cadidate_job_apply.status as job_apply_status\n"
+                + "FROM job \n"
+                + "inner join cadidate_job_apply on cadidate_job_apply.job_id= job.job_id\n"
+                + "inner join candidate on candidate.candidate_id= cadidate_job_apply.candidate_id\n"
+                + "where candidate.account_id = ?\n"
+                + "ORDER BY [cadidate_job_apply].applyNo desc\n"
+                + "OFFSET (@PageNumber-1)*@RowsOfPage ROWS\n"
+                + "FETCH NEXT @RowsOfPage ROWS ONLY";
+        try {
+            Connection conn = getConnection();
+            PreparedStatement ps = conn.prepareStatement(query);
+            ps.setInt(1, currentPage);
+            ps.setInt(2, recordQuantity);
+            ps.setInt(3, accountId);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                Job job = new Job(rs.getInt("job_id"),
+                        rs.getString("title").trim(),
+                        rs.getString("description").trim(),
+                        rs.getString("salary_range").trim(),
+                        rs.getString("quantity").trim(),
+                        rs.getString("role").trim(),
+                        rs.getString("experience").trim(),
+                        rs.getString("location").trim(),
+                        rs.getString("hire_date").trim(),
+                        rs.getBoolean("status"),
+                        rs.getString("job_apply_status")
+                );
+
+                job.setSkillListName(getSkillNameByJobId(job.getjId()));
+                job.setRecruiter(getRecruiterIdNameById(rs.getInt("recruiter_id")));
+                list.add(job);
+            }
+        } catch (Exception e) {
+            System.out.println("Bug ApplyJobPanging:" + e);
+        }
+        return list;
+    }
+
+    @Override
+    public void sendApplyJob(int jobId, int candidateId) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public int getTotalApplyJobRow(int candidateAccountId) {
+        int totalRow = 0;
+        String query = "SELECT count(*) as num\n"
+                + "FROM job \n"
+                + "inner join cadidate_job_apply on cadidate_job_apply.job_id= job.job_id\n"
+                + "inner join candidate on candidate.candidate_id= cadidate_job_apply.candidate_id\n"
+                + "where candidate.account_id = ?";
+        try {
+            Connection conn = new DBContext().getConnection();
+            PreparedStatement ps = conn.prepareStatement(query);
+            ps.setInt(1, candidateAccountId);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                totalRow = rs.getInt("num");
+            }
+        } catch (Exception e) {
+            System.out.println("bug get row Temp job " + e);
+        }
+        return totalRow;
     }
 
 }
