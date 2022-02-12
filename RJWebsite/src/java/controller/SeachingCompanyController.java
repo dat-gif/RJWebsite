@@ -3,11 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package control;
+package controller;
 
-import IDao.ICity;
-import IDao.IRecruiter;
-import static control.SeachingJobController.recordNumber;
+import dao.idao.ICity;
+import dao.idao.IRecruiter;
+import static controller.SeachingJobController.recordNumber;
 import dao.CityDAO;
 import dao.JobDAO;
 import dao.RecruiterDAO;

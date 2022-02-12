@@ -69,19 +69,21 @@ button a {
 }
 
 .header{
-    display: flex;
+    display: none;
 }
 
 .information{
     color: #1874CD;
     padding: 10px 20px;
     background-color: white;
+    display: inline-block
 }
 
 .candidate{
     color: #1874CD;
     background-color: #D8D8D8;
     padding: 10px 20px;
+    display: inline-block
 }
 
 h3{

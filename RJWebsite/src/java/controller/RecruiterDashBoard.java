@@ -2,23 +2,22 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package control;
+package controller;
 
-import IDao.IJob;
-import dao.JobDAO;
-import entity.Job;
 import java.io.IOException;
-import java.util.List;
+import java.io.PrintWriter;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
  *
- * @author Admin
+ * @author admin
  */
-public class LandingPage extends HttpServlet {
+@WebServlet(name = "RecruiterDashBoard", urlPatterns = {"/RecruiterDashBoard"})
+public class RecruiterDashBoard extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -33,16 +32,9 @@ public class LandingPage extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try {
-            IJob daoJob = new JobDAO();
-            List<Job> listJob = daoJob.getJobLandingPage();
-            
-            request.setAttribute("listJob", listJob);
-           
-            request.getRequestDispatcher("LandingPage.jsp").forward(request, response);
+            request.getRequestDispatcher("RecruiterDashboard.jsp").forward(request, response);
         } catch (Exception e) {
-            System.out.println(e);
         }
-
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

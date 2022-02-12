@@ -1,23 +1,32 @@
 /*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
  */
-package control;
+package controller;
 
+import dao.JobDAO;
+import dao.idao.IJob;
+import entity.Account;
+import entity.Job;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import utils.AppUtils;
 
 /**
  *
- * @author admin
+ * @author Admin
  */
-@WebServlet(name = "JobDashboard", urlPatterns = {"/JobDashboard"})
-public class JobDashboard extends HttpServlet {
+public class CandidateApplyJobPageController extends HttpServlet {
+
+    int pageNumber = 1;
+    static int recordNumber = 8;
+    int totalPage = 8;
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -30,11 +39,7 @@ public class JobDashboard extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try {
-            request.getRequestDispatcher("JobDashboard.jsp").forward(request, response);
-        } catch (Exception e) {
-        }
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -49,7 +54,23 @@ public class JobDashboard extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        request.setCharacterEncoding("UTF-8");
+        try {
+            IJob iJob = new JobDAO();
+            Account loginedUser = AppUtils.getLoginedUser(request.getSession());
+            String currentPage = request.getParameter("page");
+            if (currentPage != null) {
+                pageNumber = Integer.parseInt(currentPage);
+            }
+            int totalRecordNumber = iJob.getTotalApplyJobRow(loginedUser.getAccId());
+            totalPage = (int) Math.ceil((double) totalRecordNumber / recordNumber);
+
+            ArrayList<Job> listApplyJob = iJob.getApplyJobPangingByAccountId(loginedUser.getAccId(), pageNumber, recordNumber);
+            request.setAttribute("listApplyJob", listApplyJob);
+            request.setAttribute("totalPage", totalPage);
+            request.getRequestDispatcher("CandidateApplyJobPage.jsp").forward(request, response);
+        } catch (Exception e) {
+        }
     }
 
     /**

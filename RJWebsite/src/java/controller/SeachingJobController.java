@@ -3,10 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package control;
+package controller;
 
-import IDao.ICity;
-import IDao.IJob;
+import dao.idao.ICity;
+import dao.idao.IJob;
 import dao.CityDAO;
 import dao.JobDAO;
 import entity.City;
@@ -35,7 +35,7 @@ import javax.servlet.http.HttpServletResponse;
 public class SeachingJobController extends HttpServlet {
 
     int pageNumber = 1;
-    static int recordNumber = 2;
+    static int recordNumber = 8;
     int totalPage = 8;
 
     /**

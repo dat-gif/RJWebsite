@@ -1,12 +1,14 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package control;
+package controller;
 
+import dao.idao.IJob;
+import dao.JobDAO;
+import entity.Job;
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -16,7 +18,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Admin
  */
-public class FollowCompanyController extends HttpServlet {
+public class LandingPage extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -29,6 +31,17 @@ public class FollowCompanyController extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        response.setContentType("text/html;charset=UTF-8");
+        try {
+            IJob daoJob = new JobDAO();
+            List<Job> listJob = daoJob.getJobLandingPage();
+            
+            request.setAttribute("listJob", listJob);
+           
+            request.getRequestDispatcher("LandingPage.jsp").forward(request, response);
+        } catch (Exception e) {
+            System.out.println(e);
+        }
 
     }
 
@@ -44,10 +57,7 @@ public class FollowCompanyController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        try {
-            request.getRequestDispatcher("FollowCompanyPage.jsp").forward(request, response);
-        } catch (Exception e) {
-        }
+        processRequest(request, response);
     }
 
     /**

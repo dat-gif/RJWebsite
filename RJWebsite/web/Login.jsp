@@ -17,27 +17,32 @@
         <title>Login</title>
     </head>
     <body>
-        <header><jsp:include page="component/Header.jsp"/></header>
-        
-        <main class="container-fluid mt-3 mb-3">
+        <header >
+            <jsp:include page="component/Header.jsp"/>
+        </header>
+
+        <main class="container-fluid mb-3" style="margin-top: 3.5rem">
             <div class="row row-cols-2 justify-content-center align-items-center">
                 <div class="col no-gutters">
-                    <img src="https://picsum.photos/1000/1000" class="img-fluid w-100" alt="alt"/>
+                    <img src="https://picsum.photos/1000/1000" class="img-fluid w-100 p-2" alt="alt"/>
                 </div>
                 <div class="col-5 p-5 " >
-                    <form class="w-75">
+                    <form class="w-75" action="login" method="POST">
                         <h2 class="mb-4">Login</h2>
                         <!-- Email input -->
                         <div class="form-outline mb-4">
                             <label class="form-label" for="form1Example1">User Name</label>
-                            <input type="email" id="form1Example1" class="form-control" />
+                            <input type="email" id="form1Example1" class="form-control" name="userEmail" />
                         </div>
 
                         <!-- Password input -->
                         <div class="form-outline mb-4">
                             <label class="form-label" for="form1Example2">Password</label>
-                            <input type="password" id="form1Example2" class="form-control" />
+                            <input type="password" id="form1Example2" class="form-control" name="password"/>
                         </div>
+                        <c:if test="${isWrongAccount !=null}">
+                            <p class="text-danger">${isWrongAccount}</p>
+                        </c:if>
                         <div class="row mb-4">
                             <div class="col d-flex justify-content-center">
 
