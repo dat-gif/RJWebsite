@@ -27,6 +27,7 @@ public class Job {
     private ArrayList<Skill> skillList;
     private List<String> skillListName; // 
     private boolean status;
+    private String applyStatus;
 
     public Job() {
     }
@@ -42,6 +43,20 @@ public class Job {
         this.location = location;
         this.hireDate = hireDate;
         this.status = status;
+    }
+
+    public Job(int jId, String title, String description, String salaryRange, String quantity, String role, String experience, String location, String hireDate, boolean status, String applyStatus) {
+        this.jId = jId;
+        this.title = title;
+        this.description = description;
+        this.salaryRange = salaryRange;
+        this.quantity = quantity;
+        this.role = role;
+        this.experience = experience;
+        this.location = location;
+        this.hireDate = hireDate;
+        this.status = status;
+        this.applyStatus = applyStatus;
     }
 
     public int getjId() {
@@ -155,11 +170,6 @@ public class Job {
     public void setSkillListName(List<String> skillListName) {
         this.skillListName = skillListName;
     }
-
-   
-
- 
-
 
     @Override
     public String toString() {
