@@ -171,6 +171,14 @@ public class Job {
         this.skillListName = skillListName;
     }
 
+    public String getApplyStatus() {
+        return applyStatus;
+    }
+
+    public void setApplyStatus(String applyStatus) {
+        this.applyStatus = applyStatus;
+    }
+
     @Override
     public String toString() {
         return "Job{" + "jId=" + jId + ", recruiter=" + recruiter.getName() + ", title=" + title + ", salaryRange=" + salaryRange + ", quantity=" + quantity + ", role=" + role + ", experience=" + experience + ", location=" + location + ", hireDate=" + hireDate + ", status=" + status + '}';

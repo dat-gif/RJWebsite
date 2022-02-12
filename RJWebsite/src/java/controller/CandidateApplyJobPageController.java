@@ -5,18 +5,28 @@
  */
 package controller;
 
+import dao.JobDAO;
+import dao.idao.IJob;
+import entity.Account;
+import entity.Job;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import utils.AppUtils;
 
 /**
  *
  * @author Admin
  */
-public class CandidateApplyJobController extends HttpServlet {
+public class CandidateApplyJobPageController extends HttpServlet {
+
+    int pageNumber = 1;
+    static int recordNumber = 8;
+    int totalPage = 8;
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -29,7 +39,7 @@ public class CandidateApplyJobController extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -44,7 +54,20 @@ public class CandidateApplyJobController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-             try {
+        request.setCharacterEncoding("UTF-8");
+        try {
+            IJob iJob = new JobDAO();
+            Account loginedUser = AppUtils.getLoginedUser(request.getSession());
+            String currentPage = request.getParameter("page");
+            if (currentPage != null) {
+                pageNumber = Integer.parseInt(currentPage);
+            }
+            int totalRecordNumber = iJob.getTotalApplyJobRow(loginedUser.getAccId());
+            totalPage = (int) Math.ceil((double) totalRecordNumber / recordNumber);
+
+            ArrayList<Job> listApplyJob = iJob.getApplyJobPangingByAccountId(loginedUser.getAccId(), pageNumber, recordNumber);
+            request.setAttribute("listApplyJob", listApplyJob);
+            request.setAttribute("totalPage", totalPage);
             request.getRequestDispatcher("CandidateApplyJobPage.jsp").forward(request, response);
         } catch (Exception e) {
         }

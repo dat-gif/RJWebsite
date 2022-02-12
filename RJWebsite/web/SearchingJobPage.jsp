@@ -84,6 +84,7 @@
                 </div>
             </div>
             <hr class="my-4"/>
+          
             <!-- Result -->
             <div class="row row-cols-4 align-content-center ">
                 <c:forEach items="${listJob}" var="job"> 

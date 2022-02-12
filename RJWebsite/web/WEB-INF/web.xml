@@ -33,8 +33,8 @@
         <servlet-class>controller.SeachingJobController</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>CandidateApplyJobController</servlet-name>
-        <servlet-class>controller.CandidateApplyJobController</servlet-class>
+        <servlet-name>CandidateApplyJobPageController</servlet-name>
+        <servlet-class>controller.CandidateApplyJobPageController</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>FollowCompanyController</servlet-name>
@@ -65,8 +65,8 @@
         <url-pattern>/seachingjob</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>CandidateApplyJobController</servlet-name>
-        <url-pattern>/candidateapplyjob</url-pattern>
+        <servlet-name>CandidateApplyJobPageController</servlet-name>
+        <url-pattern>/candidateapplyjobpage</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>FollowCompanyController</servlet-name>

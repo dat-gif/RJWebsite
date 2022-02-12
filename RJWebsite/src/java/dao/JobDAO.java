@@ -823,7 +823,7 @@ public class JobDAO extends DBContext implements IJob {
                         rs.getString("location").trim(),
                         rs.getString("hire_date").trim(),
                         rs.getBoolean("status"),
-                        rs.getString("job_apply_status")
+                        rs.getString("job_apply_status").trim()
                 );
 
                 job.setSkillListName(getSkillNameByJobId(job.getjId()));

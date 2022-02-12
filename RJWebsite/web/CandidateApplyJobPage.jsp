@@ -21,15 +21,34 @@
         <main class="container">
             <h3 class="text-capitalize display-5 mb-4" style="margin-top: 5rem">Job you have applied for...</h3>
             <div class="row row-cols-4 align-content-center ">
-                <c:forEach begin="0" end="7" var="o">
+                <c:forEach items="${listApplyJob}" var="job">
                     <div class="col p-1 my-2 px-3">
-                        <jsp:include page="component/ApplyJobCard.jsp"/>
+                        <jsp:include page="component/ApplyJobCard.jsp">
+                            <jsp:param name="title1" value="${job.getTitle()}"/>
+                            <jsp:param name="title2" value="${job.recruiter.getName()}"/>
+                            <jsp:param name="arraySkill" value="${job.skillListName}"/>
+                            <jsp:param name="text1" value="${job.getExperience()}"/>
+                            <jsp:param name="text2" value="${job.getSalaryRange()}"/>
+                            <jsp:param name="text3" value="End date: ${job.getHireDate()}"/>
+                            <jsp:param name="status" value="${job.getApplyStatus()}"/>
+                            <jsp:param name="link" value="jobdetail?jobId=${job.getjId()}"/>
+                        </jsp:include>
                     </div>
                 </c:forEach>
             </div>
             <!-- Phan trang -->
             <div class="row justify-content-center mt-4 mb-4">
-                <jsp:include page="component/Pagination.jsp"/>
+                <nav aria-label="...">
+                    <ul class="pagination">
+
+                        <c:forEach begin="1" end="${totalPage}" var="i">
+                            <li class="page-item" value="${page}"  name="page">
+                                <a class="page-link" href="candidateapplyjobpage?page=${i}" >${i}</a>
+                            </li>    
+                        </c:forEach>
+
+                    </ul>
+                </nav>
             </div>
         </main>
         <footer> <jsp:include page="component/Footer.jsp"/></footer>
