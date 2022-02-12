@@ -34,8 +34,9 @@ public class SecurityConfig {
         // Configuration "CANDIDATE" role.
         List<String> urlPatterns1 = new ArrayList<String>();
 
-        urlPatterns1.add("/searchjob");
-        urlPatterns1.add("/searchcompany");
+        urlPatterns1.add("/seachingjob");
+        urlPatterns1.add("/seachingcompany");
+        urlPatterns1.add("/candidateapplyjobpage");
 
         mapConfig.put(ROLE_CANDIDATE, urlPatterns1);
 

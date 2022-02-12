@@ -1,25 +1,31 @@
-package control;
-
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-import IDao.IJob;
-import dao.JobDAO;
-import entity.Job;
+package controller;
+
+import dao.idao.IAccount;
+import dao.AccountDAO;
+import entity.Account;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
+import java.util.Map;
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import utils.AppUtils;
 
 /**
  *
  * @author Admin
  */
-public class JobDetailController extends HttpServlet {
+public class LoginController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -32,7 +38,6 @@ public class JobDetailController extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
 
     }
 
@@ -48,26 +53,10 @@ public class JobDetailController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        IJob daoJob = new JobDAO();
-        String jobId = request.getParameter("jobId");
-
         try {
-            Job job = daoJob.getJobById(Integer.parseInt(jobId));
-
-            request.setAttribute("jobTile", job.getTitle());
-            request.setAttribute("jobCompany", job.getRecruiter().getName());
-            request.setAttribute("endDate", job.getHireDate());
-            request.setAttribute("salary", job.getSalaryRange());
-            request.setAttribute("role", job.getRole());
-            request.setAttribute("quantity", job.getQuantity());
-            request.setAttribute("experience", job.getExperience());
-            request.setAttribute("location", job.getLocation());
-            request.setAttribute("description", job.getDescription());
-            request.setAttribute("skill", job.getSkillListName());
-            request.setAttribute("recruiterId", job.getRecruiter().getRecruiterId());
-            request.getRequestDispatcher("ViewJobDetailPage.jsp").forward(request, response);
+            request.getSession().invalidate();
+            request.getRequestDispatcher("Login.jsp").forward(request, response);
         } catch (Exception e) {
-            System.out.println(e);
         }
     }
 
@@ -82,7 +71,20 @@ public class JobDetailController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        IAccount accountDao = new AccountDAO();
+        String userEmail = request.getParameter("userEmail");
+        String password = request.getParameter("password");
+
+        Account userAccount = accountDao.getAccountByEmailAndPassword(userEmail, password);
+
+        if (userAccount != null) {
+            AppUtils.storeLoginedUser(request.getSession(), userAccount);
+            response.sendRedirect("landingpage");
+        } else {
+            request.setAttribute("isWrongAccount", "Wrong email / password");
+            request.getRequestDispatcher("Login.jsp").forward(request, response);
+        }
+
     }
 
     /**

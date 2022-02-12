@@ -24,77 +24,108 @@
                     <img src="https://picsum.photos/1000/1000" class="img-fluid w-100" alt="alt"/>
                 </div>
                 <div class="col-5 p-5 " >
-                    <!-- Candidate register -->
                     <h2 class="mb-4">Register</h2>
-                    <form class="w-75">
-                        <!--User Name -->
-                        <div class="form-outline mb-4">
-                            <label class="form-label" for="0">User Name</label>
-                            <input type="text" id="0" class="form-control" />
+                    <ul class="nav nav-tabs" id="myTab" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Register as Candidate</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Register as Recruiter</a>
+                        </li>
+
+                    </ul>
+
+                    <div class="tab-content mt-2 p-3" id="myTabContent">
+                        <!-- Candidate register -->
+                        <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+
+                            <form class="w-75" action="register" method="post">
+                                <!--User Name -->
+                                <div class="form-outline mb-4">
+                                    <label class="form-label" for="0">Email</label>
+                                    <input type="text" id="0" class="form-control" name="email" required/>
+                                    <c:if test="${registerErrorMesg !=null}">
+                                        <p class="text-danger" >${registerErrorMesg}</p>
+                                    </c:if>
+                                </div>
+
+                                <div class="form-outline mb-4">
+                                    <label class="form-label" for="0">Phone Number</label>
+                                    <input type="tel" pattern="(84|0[3|5|7|8|9])+([0-9]{8})\b" id="0" class="form-control" name="phone" required/>
+                                </div>
+
+                                <!-- Password input -->
+                                <div class="form-outline mb-4">
+                                    <label class="form-label" for="1">Password</label>
+                                    <input type="password" id="1" class="form-control" name="password" required/>
+                                </div>
+                                <!-- Password input -->
+                                <div class="form-outline mb-4">
+                                    <label class="form-label" for="2">Confirm Password</label>
+                                    <input type="password" id="2" class="form-control" name="confirmPassword" required/>
+                                </div>
+                                <input name="role" value="candidate" class="invisible"/>
+                                <!-- Submit button -->
+                                <button type="submit" class="btn btn-primary btn-block">Register Account</button>
+                            </form>
                         </div>
+                        <!-- Recruiter register -->
+                        <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                            <form class="w-75" action="register" method="post">
+                                <!--User Name -->
+                                <div class="row row-cols-2">
+                                    <div class="col form-outline mb-3">
+                                        <label class="form-label" for="0">Company Name</label>
+                                        <input type="text" id="0" class="form-control"  name="companyName"/>
+                                    </div>
+                                    <div class="col form-outline mb-3">
+                                        <label class="form-label" for="0">Email</label>
+                                        <input type="email" id="0" class="form-control" name="email"/>
+                                    </div>
+                                </div>
 
-                        <!-- Password input -->
-                        <div class="form-outline mb-4">
-                            <label class="form-label" for="1">Password</label>
-                            <input type="password" id="1" class="form-control" />
+
+                                <div class="form-outline mb-3">
+                                    <label class="form-label" for="1">Address</label>
+                                    <input type="text" id="1" class="form-control" name="address"/>
+                                </div>
+
+                                <div class="row row-cols-2">
+                                    <div class="col form-outline mb-3">
+                                        <label class="form-label" for="0">Recruiter Name</label>
+                                        <input type="text" id="0" class="form-control" name="recruiterName"/>
+                                    </div>
+                                    <div class="col form-outline mb-3">
+                                        <label class="form-label" for="0">Phone Number</label>
+                                        <input type="tel" pattern="(84|0[3|5|7|8|9])+([0-9]{8})\b" id="0" class="form-control" name="phone" />
+                                    </div>
+                                    <div class="col form-outline mb-3">
+                                        <label class="form-label" for="0">Password</label>
+                                        <input type="password" id="0" class="form-control" name="password" />
+                                    </div>
+                                    <div class="col form-outline mb-3">
+                                        <label class="form-label" for="0">Confirm password</label>
+                                        <input type="password" id="0" class="form-control" name="confirmPassword"  />
+                                    </div>
+                                </div>
+                                <input name="role" value="recruiter" class="invisible"/>
+
+                                <!-- Submit button -->
+                                <button type="submit" class="btn btn-primary btn-block">Register Account</button>
+
+                            </form>
                         </div>
-                        <!-- Password input -->
-                        <div class="form-outline mb-4">
-                            <label class="form-label" for="1">Confirm Password</label>
-                            <input type="password" id="1" class="form-control" />
-                        </div>
-
-                        <!-- Submit button -->
-                        <button type="submit" class="btn btn-primary btn-block">Sign in</button>
-                    </form>
-                   
-                    <!-- Recruiter register -->
-                    <form class="w-75">
-                        <!--User Name -->
-                        <div class="row row-cols-2">
-                            <div class="col form-outline mb-3">
-                                <label class="form-label" for="0">Company Name</label>
-                                <input type="text" id="0" class="form-control" />
-                            </div>
-                            <div class="col form-outline mb-3">
-                                <label class="form-label" for="0">Email</label>
-                                <input type="email" id="0" class="form-control" />
-                            </div>
-                        </div>
-
-
-                        <div class="form-outline mb-3">
-                            <label class="form-label" for="1">Address</label>
-                            <input type="text" id="1" class="form-control" />
-                        </div>
-
-                        <div class="row row-cols-2">
-                            <div class="col form-outline mb-3">
-                                <label class="form-label" for="0">Recruiter Name</label>
-                                <input type="text" id="0" class="form-control" />
-                            </div>
-                            <div class="col form-outline mb-3">
-                                <label class="form-label" for="0">Phone Number</label>
-                                <input type="number" id="0" class="form-control" />
-                            </div>
-                            <div class="col form-outline mb-3">
-                                <label class="form-label" for="0">Password</label>
-                                <input type="password" id="0" class="form-control" />
-                            </div>
-                            <div class="col form-outline mb-3">
-                                <label class="form-label" for="0">Confirm password</label>
-                                <input type="password" id="0" class="form-control" />
-                            </div>
-                        </div>
-
-
-                        <!-- Submit button -->
-                        <button type="submit" class="btn btn-primary btn-block">Register Account</button>
-                    </form>
+                    </div>
                 </div>
             </div>
         </main>
+        <c:if test="${not empty loginError}">
+            <script>
+               
+            </script>
+        </c:if>
         <footer> <jsp:include page="component/Footer.jsp"/></footer>
         <script src="bootstrap-4.6.1-dist/js/bootstrap.min.js"></script>
+
     </body>
 </html>

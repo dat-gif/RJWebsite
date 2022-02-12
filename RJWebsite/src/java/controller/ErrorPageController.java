@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package control;
+package controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -17,8 +17,8 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Admin
  */
-@WebServlet(name = "PaginationController", urlPatterns = {"/page"})
-public class PaginationController extends HttpServlet {
+@WebServlet(name = "ErrorPageController", urlPatterns = {"/ErrorPageController"})
+public class ErrorPageController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -37,10 +37,10 @@ public class PaginationController extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet PaginationController</title>");            
+            out.println("<title>Servlet ErrorPageController</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet PaginationController at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet ErrorPageController at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }

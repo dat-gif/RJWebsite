@@ -3,17 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package control;
+package controller;
 
-import IDao.ICity;
-import IDao.IRecruiter;
-import static control.SeachingJobController.recordNumber;
+import dao.idao.ICity;
+import dao.idao.IJob;
 import dao.CityDAO;
 import dao.JobDAO;
-import dao.RecruiterDAO;
 import entity.City;
 import entity.Job;
-import entity.Recruiter;
 import entity.Skill;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -35,10 +32,10 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Admin
  */
-public class SeachingCompanyController extends HttpServlet {
+public class SeachingJobController extends HttpServlet {
 
     int pageNumber = 1;
-    static int recordNumber = 2;
+    static int recordNumber = 8;
     int totalPage = 8;
 
     /**
@@ -67,31 +64,20 @@ public class SeachingCompanyController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+
         request.setCharacterEncoding("UTF-8");
-        IRecruiter daoRecruiter = new RecruiterDAO();
+
+        IJob daoJob = new JobDAO();
         ICity daoCity = new CityDAO();
         int totalRecordNumber = 1;
-        String cookieSearch;
-        String cookieCity;
         try {
-            List<City> listCity = daoCity.getAllCity();
             //Get Cookie
             Cookie[] cookies = request.getCookies();
-            if (cookies == null || cookies.length == 0) {
-                cookieSearch = "";
-                cookieCity = "All";
-            } else {
-                Map<String, String> cookieMap = new HashMap<>();
-
-                for (Cookie cookie : cookies) {
-                    String decodeValue = java.net.URLDecoder.decode(cookie.getValue(), StandardCharsets.UTF_8.name());
-                    cookieMap.put(cookie.getName(), decodeValue);
-                }
-                cookieSearch = cookieMap.get("recruiterSearch");
-                cookieCity = cookieMap.get("recruitercitySelect");
+            Map<String, String> cookieMap = new HashMap<>();
+            for (Cookie cookie : cookies) {
+                String decodeValue = java.net.URLDecoder.decode(cookie.getValue(), StandardCharsets.UTF_8.name());
+                cookieMap.put(cookie.getName(), decodeValue);
             }
-
-            //Get current page number
             String spageNumber = request.getParameter("page");
             if (spageNumber != null && !spageNumber.isEmpty()) {
                 pageNumber = Integer.parseInt(spageNumber);
@@ -99,44 +85,57 @@ public class SeachingCompanyController extends HttpServlet {
                 pageNumber = 1;
             }
 
-            ArrayList<Recruiter> listRecruiter = new ArrayList<>();
+            String cookieSearch = cookieMap.get("txtSearch");
+            String cookieSkill = cookieMap.get("skillSelect");
+            String cookieCity = cookieMap.get("citySelect");
 
+            ArrayList<Job> listJob = new ArrayList<>();
+            List<Skill> listSkill = daoJob.getAllSkill();
+            List<City> listCity = daoCity.getAllCity();
+
+            //Check if cookie null
             if (cookieSearch == null) {
                 cookieSearch = "";
+            }
+            if (cookieSkill == null) {
+                cookieSkill = "All_All Skill";
             }
             if (cookieCity == null || cookieCity.isEmpty()) {
                 cookieCity = "All";
             }
-
             if (cookieSearch.isEmpty() || cookieSearch.equalsIgnoreCase("All")) {
-                if (!cookieCity.equalsIgnoreCase("All")) {
+                if (!cookieSkill.split("_")[0].equalsIgnoreCase("All") || !cookieCity.equalsIgnoreCase("All")) {
                     // Get data in tempo search table
-                    listRecruiter = daoRecruiter.getRecruiterPaging(pageNumber, recordNumber);
-                    totalRecordNumber = daoRecruiter.getTotalTempRecruiterRow();
+                    listJob = daoJob.getJobSearching(pageNumber, recordNumber);
+                    totalRecordNumber = daoJob.getTotalTempJobRow();
                 } else {
                     // If user not input search text or filter data
                     // Get data direct in job table
-                    listRecruiter = daoRecruiter.getAllRecruiter(pageNumber, recordNumber);
-                    totalRecordNumber = daoRecruiter.getTotalRecruiterRow();
+                    listJob = daoJob.getAllJob(pageNumber, recordNumber);
+                    totalRecordNumber = daoJob.getTotalJobRow();
                 }
             } else {
-                // If user enters search text, (can choose filter or not)
-                listRecruiter = daoRecruiter.getRecruiterPaging(pageNumber, recordNumber);
-                totalRecordNumber = daoRecruiter.getTotalTempRecruiterRow();
+                // if user enters search text, (can choose filter or not)
+                listJob = daoJob.getJobSearching(pageNumber, recordNumber);
+                totalRecordNumber = daoJob.getTotalTempJobRow();
             }
 
+//Calculate total pagning
             totalPage = (int) Math.ceil((double) totalRecordNumber / recordNumber);
 
             request.setAttribute("page", pageNumber);
             request.setAttribute("txtSearch", cookieSearch);
             request.setAttribute("citySelect", cookieCity);
+            request.setAttribute("skillSelectId", cookieSkill);
+            request.setAttribute("skillSelect", cookieSkill.split("_")[1]);
             request.setAttribute("totalPage", totalPage);
             request.setAttribute("listCity", listCity);
-            request.setAttribute("listRecruiter", listRecruiter);
+            request.setAttribute("listSkill", listSkill);
+            request.setAttribute("listJob", listJob);
 
-            request.getRequestDispatcher("SearchingCompanyPage.jsp").forward(request, response);
+            request.getRequestDispatcher("SearchingJobPage.jsp").forward(request, response);
+
         } catch (Exception e) {
-            System.err.println("get :" + e);
         }
     }
 
@@ -157,11 +156,12 @@ public class SeachingCompanyController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+//        processRequest(request, response);
         request.setCharacterEncoding("UTF-8");
-        IRecruiter daoRecruiter = new RecruiterDAO();
-        ICity daoCity = new CityDAO();
         try {
 
+            IJob daoJob = new JobDAO();
+            ICity daoCity = new CityDAO();
 //Get cookies
             Cookie[] cookies = request.getCookies();
             Map<String, String> cookieMap = new HashMap<>();
@@ -169,27 +169,32 @@ public class SeachingCompanyController extends HttpServlet {
                 String decodeValue = java.net.URLDecoder.decode(cookie.getValue(), StandardCharsets.UTF_8.name());
                 cookieMap.put(cookie.getName(), decodeValue);
             }
-            String cookieSearch = cookieMap.get("recruiterSearch");
-            
-            String cookieCity = cookieMap.get("recruitercitySelect");
+            String cookieSearch = cookieMap.get("txtSearch");
+            String cookieSkill = cookieMap.get("skillSelect");
+            String cookieCity = cookieMap.get("citySelect");
 
             //Request parameter
             String txtSearch = request.getParameter("txtSearch");
             String citySelect = request.getParameter("citySelect");
+            String skillSelect = request.getParameter("skillSelect");
+
             //Check parameter null
             if (txtSearch == null) {
                 txtSearch = "";
             }
+            if (skillSelect == null) {
+                skillSelect = "All_All Skill";
+            }
+            String skillSelectId = skillSelect.split("_")[0];
             if (citySelect == null || citySelect.isEmpty()) {
                 citySelect = "All";
             }
-
             //Logic create search table 
             if (txtSearch.isEmpty() || txtSearch.equalsIgnoreCase("All")) {
-                if (!citySelect.equalsIgnoreCase("All")) {
+                if (!skillSelectId.equalsIgnoreCase("All") || !citySelect.equalsIgnoreCase("All")) {
                     // create tempo search table and insert data
-                    daoRecruiter.createRecruiterTempoTableSearchData();
-                    daoRecruiter.insertRecruiterFilterByCity(citySelect);
+                    daoJob.createTempoTableSearchJobData();
+                    daoJob.insertJobByFilter(skillSelectId, citySelect);
 
                 } else {
                     // get data direct in job table
@@ -197,24 +202,24 @@ public class SeachingCompanyController extends HttpServlet {
             } else {
                 // if user enters search text, (can choose filter or not)
                 // create tempo search table and insert data
-                daoRecruiter.createRecruiterTempoTableSearchData();
-                daoRecruiter.insertRecruiter(txtSearch, citySelect);
+                daoJob.createTempoTableSearchJobData();
+                daoJob.insertJobByTextSearch(txtSearch.trim(), skillSelectId, citySelect);
             }
+
 //Set user input to cookie
             if (cookieSearch == null || !cookieSearch.equalsIgnoreCase(txtSearch)) {
-                setCookie(response, "recruiterSearch", txtSearch, -1);
+                setCookie(response, "txtSearch", txtSearch, -1);
             }
-
+            if (cookieSkill == null || !cookieSkill.equalsIgnoreCase(skillSelect)) {
+                setCookie(response, "skillSelect", skillSelect, -1);
+            }
             if (cookieCity == null || !cookieCity.equalsIgnoreCase(citySelect)) {
-                setCookie(response, "recruitercitySelect", citySelect, -1);
+                setCookie(response, "citySelect", citySelect, -1);
             }
-         
-            response.sendRedirect("seachingcompany");
-
+            response.sendRedirect("seachingjob");
         } catch (Exception e) {
-            System.err.println(e);
+            System.out.println(e);
         }
-
     }
 
     /**

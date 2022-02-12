@@ -44,7 +44,7 @@
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 <a class="dropdown-item small" href="seachingjob">Search Job</a>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item small" href="#">Apply Job</a>
+                                <a class="dropdown-item small" href="candidateapplyjobpage">Apply Job</a>
                             </div>
                         </li>
                         <li class="nav-item dropdown ml-3">
