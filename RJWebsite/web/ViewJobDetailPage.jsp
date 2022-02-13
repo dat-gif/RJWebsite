@@ -33,11 +33,20 @@
                                 <h4 class="font-weight-light">End date : ${endDate}</h4>
                             </div>
                         </div>                   
-                            <form method="post" action="jobdetail">
-                                
-                            <button class="btn btn-primary align-self-baseline mt-2 btn-lg">Apply</button>
-                            </form>
-                    
+                        <form method="post" action="jobdetail">
+                            <c:choose>
+                                <c:when test="${jobApplyButton eq 'Apply'}">
+
+                                    <button class="btn btn-primary align-self-baseline mt-2 btn-lg">${jobApplyButton}</button>
+                                </c:when>
+                                <c:otherwise>
+                                    <button class="btn btn-outline-primary align-self-baseline mt-2 btn-lg">${jobApplyButton}</button>
+                                </c:otherwise>
+
+                            </c:choose>  
+
+                        </form>
+
                     </div>
                 </div>
             </div>

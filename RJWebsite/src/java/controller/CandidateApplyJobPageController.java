@@ -70,6 +70,7 @@ public class CandidateApplyJobPageController extends HttpServlet {
             request.setAttribute("totalPage", totalPage);
             request.getRequestDispatcher("CandidateApplyJobPage.jsp").forward(request, response);
         } catch (Exception e) {
+            System.out.println(e);
         }
     }
 
@@ -84,7 +85,7 @@ public class CandidateApplyJobPageController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+      
     }
 
     /**

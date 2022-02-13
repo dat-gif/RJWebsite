@@ -148,7 +148,7 @@ public class AccountDAO extends DBContext implements IAccount {
      */
     @Override
     public Candidate getCandidateInfoByAccountId(int accountId) {
-        String query = "SELECT TOP [candidate_id]\n"
+        String query = "SELECT [candidate_id]\n"
                 + "      ,[account_id]\n"
                 + "      ,[first_name]\n"
                 + "      ,[last_name]\n"

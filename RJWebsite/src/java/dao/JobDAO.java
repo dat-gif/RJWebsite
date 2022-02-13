@@ -685,13 +685,6 @@ public class JobDAO extends DBContext implements IJob {
         return list;
     }
 
-    public static void main(String[] args) {
-        IJob jobDao = new JobDAO();
-
-        ArrayList<Job> testList;
-
-    }
-
     @Override
     public int getTotalJobRow() {
         int totalRow = 0;
@@ -805,12 +798,12 @@ public class JobDAO extends DBContext implements IJob {
                 + "      ,job.[status]\n"
                 + "	 ,job.[createAt]\n"
                 + "      ,job.[updateAt] \n"
-                + "	 ,cadidate_job_apply.status as job_apply_status\n"
+                + "	 ,candidate_job_apply.status as job_apply_status\n"
                 + "FROM job \n"
-                + "inner join cadidate_job_apply on cadidate_job_apply.job_id= job.job_id\n"
-                + "inner join candidate on candidate.candidate_id= cadidate_job_apply.candidate_id\n"
+                + "inner join candidate_job_apply on candidate_job_apply.job_id= job.job_id\n"
+                + "inner join candidate on candidate.candidate_id= candidate_job_apply.candidate_id\n"
                 + "where candidate.account_id = ?\n"
-                + "ORDER BY [cadidate_job_apply].applyNo desc\n"
+                + "ORDER BY [candidate_job_apply].applyNo desc\n"
                 + "OFFSET (@PageNumber-1)*@RowsOfPage ROWS\n"
                 + "FETCH NEXT @RowsOfPage ROWS ONLY";
         try {
@@ -856,8 +849,8 @@ public class JobDAO extends DBContext implements IJob {
         int totalRow = 0;
         String query = "SELECT count(*) as num\n"
                 + "FROM job \n"
-                + "inner join cadidate_job_apply on cadidate_job_apply.job_id= job.job_id\n"
-                + "inner join candidate on candidate.candidate_id= cadidate_job_apply.candidate_id\n"
+                + "inner join candidate_job_apply on candidate_job_apply.job_id= job.job_id\n"
+                + "inner join candidate on candidate.candidate_id= candidate_job_apply.candidate_id\n"
                 + "where candidate.account_id = ?";
         try {
             Connection conn = new DBContext().getConnection();
@@ -886,7 +879,7 @@ public class JobDAO extends DBContext implements IJob {
                 + "      ,[candidate_id]\n"
                 + "      ,[job_id]\n"
                 + "      ,[status]\n"
-                + "  FROM [SWP391].[dbo].[cadidate_job_apply]\n"
+                + "  FROM [SWP391].[dbo].[candidate_job_apply]\n"
                 + "  Where job_id= ? and candidate_id= ?";
         try {
             Connection conn = getConnection();
@@ -911,14 +904,14 @@ public class JobDAO extends DBContext implements IJob {
      */
     @Override
     public void createRequestApplyJob(int jobId, int candidateId) {
-        String query = "INSERT INTO cadidate_job_apply(candidate_id,job_id,status)\n"
-                + "values (?,?,?)";
+        String query = "INSERT INTO [SWP391].[dbo].[candidate_job_apply](candidate_id,job_id,status)\n"
+                + "values(?,?,'PENDING')";
+
         try {
             Connection conn = getConnection();
             PreparedStatement ps = conn.prepareStatement(query);
             ps.setInt(1, candidateId);
             ps.setInt(2, jobId);
-            ps.setString(3, "PENDING");
             ps.executeUpdate();
         } catch (Exception e) {
             System.out.println("Bug createRequestApplyJob: " + e);
@@ -934,7 +927,7 @@ public class JobDAO extends DBContext implements IJob {
      */
     @Override
     public void editRequestStatusApplyJob(int jobId, int candidateId, String status) {
-        String query = "UPDATE cadidate_job_apply\n"
+        String query = "UPDATE candidate_job_apply\n"
                 + "SET status=? \n"
                 + "WHERE candidate_id=? and job_id=?";
         try {
@@ -957,7 +950,7 @@ public class JobDAO extends DBContext implements IJob {
      */
     @Override
     public void deleteRequestApplyJob(int jobId, int candidateId) {
-        String query = "delete from cadidate_job_apply\n"
+        String query = "delete from candidate_job_apply\n"
                 + "WHERE candidate_id=? and job_id=?";
         try {
             Connection conn = getConnection();
@@ -970,4 +963,10 @@ public class JobDAO extends DBContext implements IJob {
         }
     }
 
+    public static void main(String[] args) {
+        IJob jobDao = new JobDAO();
+
+        jobDao.createRequestApplyJob(958, 21);
+
+    }
 }
