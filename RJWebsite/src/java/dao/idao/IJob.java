@@ -52,5 +52,7 @@ public interface IJob {
 
     public int getTotalApplyJobRow(int candidateId);
 
+    public boolean checkJobBeenApply(int jobId, int cadidateId);
+
     public void sendApplyJob(int jobId, int candidateId);
 }

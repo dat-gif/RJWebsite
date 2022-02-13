@@ -863,4 +863,27 @@ public class JobDAO extends DBContext implements IJob {
         return totalRow;
     }
 
+    @Override
+    public boolean checkJobBeenApply(int jobId, int candidateId) {
+        String query = "SELECT TOP (1000) [applyNo]\n"
+                + "      ,[candidate_id]\n"
+                + "      ,[job_id]\n"
+                + "      ,[status]\n"
+                + "  FROM [SWP391].[dbo].[cadidate_job_apply]\n"
+                + "  Where job_id= ? and candidate_id= ?";
+        try {
+            Connection conn = getConnection();
+            PreparedStatement ps = conn.prepareStatement(query);
+            ps.setInt(1, jobId);
+            ps.setInt(2, candidateId);
+            ResultSet rs = ps.executeQuery();
+            if (rs.isBeforeFirst()) {
+                return false;
+            }
+        } catch (Exception e) {
+            System.out.println("Bug acc" + e);
+        }
+        return true;
+    }
+
 }
