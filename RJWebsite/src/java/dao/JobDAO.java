@@ -838,7 +838,17 @@ public class JobDAO extends DBContext implements IJob {
 
     @Override
     public void sendApplyJob(int jobId, int candidateId) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        String query = "INSERT INTO cadidate_job_apply(candidate_id,job_id)\n"
+                + "values (?,?)";
+        try {
+            Connection conn = getConnection();
+            PreparedStatement ps = conn.prepareStatement(query);
+            ps.setInt(1, candidateId);
+            ps.setInt(2, jobId);
+            ps.executeUpdate();
+        } catch (Exception e) {
+            System.out.println("Bug sendApplyJob: " + e);
+        }
     }
 
     @Override
