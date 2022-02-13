@@ -685,13 +685,6 @@ public class JobDAO extends DBContext implements IJob {
         return list;
     }
 
-    public static void main(String[] args) {
-        IJob jobDao = new JobDAO();
-
-        ArrayList<Job> testList;
-
-    }
-
     @Override
     public int getTotalJobRow() {
         int totalRow = 0;
@@ -775,6 +768,15 @@ public class JobDAO extends DBContext implements IJob {
         return job;
     }
 
+    /**
+     * Get the list of candidates who are applying, built-in pagination. Requiem
+     * know current page and number of records want to get.
+     *
+     * @param accountId int
+     * @param currentPage
+     * @param recordQuantity
+     * @return
+     */
     @Override
     public ArrayList<Job> getApplyJobPangingByAccountId(int accountId, int currentPage, int recordQuantity) {
         ArrayList<Job> list = new ArrayList<>();
@@ -796,12 +798,12 @@ public class JobDAO extends DBContext implements IJob {
                 + "      ,job.[status]\n"
                 + "	 ,job.[createAt]\n"
                 + "      ,job.[updateAt] \n"
-                + "	 ,cadidate_job_apply.status as job_apply_status\n"
+                + "	 ,candidate_job_apply.status as job_apply_status\n"
                 + "FROM job \n"
-                + "inner join cadidate_job_apply on cadidate_job_apply.job_id= job.job_id\n"
-                + "inner join candidate on candidate.candidate_id= cadidate_job_apply.candidate_id\n"
+                + "inner join candidate_job_apply on candidate_job_apply.job_id= job.job_id\n"
+                + "inner join candidate on candidate.candidate_id= candidate_job_apply.candidate_id\n"
                 + "where candidate.account_id = ?\n"
-                + "ORDER BY [cadidate_job_apply].applyNo desc\n"
+                + "ORDER BY [candidate_job_apply].applyNo desc\n"
                 + "OFFSET (@PageNumber-1)*@RowsOfPage ROWS\n"
                 + "FETCH NEXT @RowsOfPage ROWS ONLY";
         try {
@@ -836,18 +838,19 @@ public class JobDAO extends DBContext implements IJob {
         return list;
     }
 
-    @Override
-    public void sendApplyJob(int jobId, int candidateId) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
+    /**
+     * Get total record of candidate apply job.
+     *
+     * @param candidateAccountId int
+     * @return
+     */
     @Override
     public int getTotalApplyJobRow(int candidateAccountId) {
         int totalRow = 0;
         String query = "SELECT count(*) as num\n"
                 + "FROM job \n"
-                + "inner join cadidate_job_apply on cadidate_job_apply.job_id= job.job_id\n"
-                + "inner join candidate on candidate.candidate_id= cadidate_job_apply.candidate_id\n"
+                + "inner join candidate_job_apply on candidate_job_apply.job_id= job.job_id\n"
+                + "inner join candidate on candidate.candidate_id= candidate_job_apply.candidate_id\n"
                 + "where candidate.account_id = ?";
         try {
             Connection conn = new DBContext().getConnection();
@@ -863,4 +866,107 @@ public class JobDAO extends DBContext implements IJob {
         return totalRow;
     }
 
+    /**
+     * Check if job has been apply by that candidate or not
+     *
+     * @param jobId int
+     * @param candidateId int
+     * @return
+     */
+    @Override
+    public boolean checkJobBeenApply(int jobId, int candidateId) {
+        String query = "SELECT TOP (1000) [applyNo]\n"
+                + "      ,[candidate_id]\n"
+                + "      ,[job_id]\n"
+                + "      ,[status]\n"
+                + "  FROM [SWP391].[dbo].[candidate_job_apply]\n"
+                + "  Where job_id= ? and candidate_id= ?";
+        try {
+            Connection conn = getConnection();
+            PreparedStatement ps = conn.prepareStatement(query);
+            ps.setInt(1, jobId);
+            ps.setInt(2, candidateId);
+            ResultSet rs = ps.executeQuery();
+            if (rs.isBeforeFirst()) {
+                return false;
+            }
+        } catch (Exception e) {
+            System.out.println("Bug acc" + e);
+        }
+        return true;
+    }
+
+    /**
+     * Insert request apply for job to database
+     *
+     * @param jobId
+     * @param candidateId
+     */
+    @Override
+    public void createRequestApplyJob(int jobId, int candidateId) {
+        String query = "INSERT INTO [SWP391].[dbo].[candidate_job_apply](candidate_id,job_id,status)\n"
+                + "values(?,?,'PENDING')";
+
+        try {
+            Connection conn = getConnection();
+            PreparedStatement ps = conn.prepareStatement(query);
+            ps.setInt(1, candidateId);
+            ps.setInt(2, jobId);
+            ps.executeUpdate();
+        } catch (Exception e) {
+            System.out.println("Bug createRequestApplyJob: " + e);
+        }
+    }
+
+    /**
+     * Edit status request apply for job
+     *
+     * @param jobId
+     * @param candidateId
+     * @param status
+     */
+    @Override
+    public void editRequestStatusApplyJob(int jobId, int candidateId, String status) {
+        String query = "UPDATE candidate_job_apply\n"
+                + "SET status=? \n"
+                + "WHERE candidate_id=? and job_id=?";
+        try {
+            Connection conn = getConnection();
+            PreparedStatement ps = conn.prepareStatement(query);
+            ps.setString(1, status);
+            ps.setInt(2, candidateId);
+            ps.setInt(3, jobId);
+            ps.executeUpdate();
+        } catch (Exception e) {
+            System.out.println("Bug editRequestApplyJob: " + e);
+        }
+    }
+
+    /**
+     * Delete request apply for job
+     *
+     * @param jobId
+     * @param candidateId
+     */
+    @Override
+    public void deleteRequestApplyJob(int jobId, int candidateId) {
+        String query = "delete from candidate_job_apply\n"
+                + "WHERE candidate_id=? and job_id=?";
+        try {
+            Connection conn = getConnection();
+            PreparedStatement ps = conn.prepareStatement(query);
+            ps.setInt(1, candidateId);
+            ps.setInt(2, jobId);
+            ps.executeUpdate();
+        } catch (Exception e) {
+            System.out.println("Bug delete apply job: " + e);
+        }
+    }
+
+    public static void main(String[] args) {
+        IJob jobDao = new JobDAO();
+
+        jobDao.createRequestApplyJob(958, 21);
+
+    }
 }

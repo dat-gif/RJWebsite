@@ -8,6 +8,7 @@ package dao;
 import dao.idao.IAccount;
 import context.DBContext;
 import entity.Account;
+import entity.Candidate;
 import entity.City;
 import entity.Recruiter;
 import java.sql.Connection;
@@ -68,7 +69,6 @@ public class AccountDAO extends DBContext implements IAccount {
             PreparedStatement ps = conn.prepareStatement(query);
             ps.setString(1, email);
             ResultSet rs = ps.executeQuery();
-            System.out.println(rs.isBeforeFirst());
             if (rs.isBeforeFirst()) {
                 return false;
             }
@@ -138,5 +138,68 @@ public class AccountDAO extends DBContext implements IAccount {
         } catch (Exception e) {
             System.out.println("Bug insertAccountRecruiter: " + e);
         }
+    }
+
+    /**
+     * Get Candidate information by account id
+     *
+     * @param accountId int
+     * @return
+     */
+    @Override
+    public Candidate getCandidateInfoByAccountId(int accountId) {
+        String query = "SELECT [candidate_id]\n"
+                + "      ,[account_id]\n"
+                + "      ,[first_name]\n"
+                + "      ,[last_name]\n"
+                + "      ,[birth_date]\n"
+                + "      ,[address]\n"
+                + "      ,[avatar]\n"
+                + "      ,[sex]\n"
+                + "      ,[banner]\n"
+                + "      ,[phone]\n"
+                + "      ,[finding_job]\n"
+                + "      ,[cv_manage_id]\n"
+                + "      ,[experience_manage_id]\n"
+                + "      ,[education_mange_id]\n"
+                + "      ,[social_manage_id]\n"
+                + "      ,[project_manage_id]\n"
+                + "      ,[certificate_manage_id]\n"
+                + "      ,[prize_manage_id]\n"
+                + "      ,[createAt]\n"
+                + "      ,[updateAt]\n"
+                + "  FROM [SWP391].[dbo].[candidate]\n"
+                + "  Where account_id = ?";
+
+        try {
+            Connection conn = getConnection();
+            PreparedStatement ps = conn.prepareStatement(query);
+            ps.setInt(1, accountId);
+
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                return new Candidate(rs.getInt("candidate_id"),
+                        rs.getInt("account_id"),
+                        rs.getString("first_name"),
+                        rs.getString("last_name"),
+                        rs.getString("birth_date"),
+                        rs.getString("address"), rs.getString("avatar"),
+                        rs.getBoolean("sex"),
+                        rs.getString("phone"),
+                        rs.getString("banner"),
+                        rs.getBoolean("finding_job"),
+                        rs.getInt("cv_manage_id"),
+                        rs.getInt("experience_manage_id"),
+                        rs.getInt("education_mange_id"),
+                        rs.getInt("social_manage_id"),
+                        rs.getInt("project_manage_id"),
+                        rs.getInt("certificate_manage_id"),
+                        rs.getInt("prize_manage_id"));
+            }
+
+        } catch (Exception e) {
+            System.out.println("Bug acc" + e);
+        }
+        return null;
     }
 }
