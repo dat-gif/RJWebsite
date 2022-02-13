@@ -54,5 +54,10 @@ public interface IJob {
 
     public boolean checkJobBeenApply(int jobId, int cadidateId);
 
-    public void sendApplyJob(int jobId, int candidateId);
+    public void editRequestStatusApplyJob(int jobId, int candidateId, String status);
+
+    public void createRequestApplyJob(int jobId, int candidateId);
+
+    public void deleteRequestApplyJob(int jobId, int candidateId);
+
 }

@@ -775,6 +775,15 @@ public class JobDAO extends DBContext implements IJob {
         return job;
     }
 
+    /**
+     * Get the list of candidates who are applying, built-in pagination. Requiem
+     * know current page and number of records want to get.
+     *
+     * @param accountId int
+     * @param currentPage
+     * @param recordQuantity
+     * @return
+     */
     @Override
     public ArrayList<Job> getApplyJobPangingByAccountId(int accountId, int currentPage, int recordQuantity) {
         ArrayList<Job> list = new ArrayList<>();
@@ -836,21 +845,12 @@ public class JobDAO extends DBContext implements IJob {
         return list;
     }
 
-    @Override
-    public void sendApplyJob(int jobId, int candidateId) {
-        String query = "INSERT INTO cadidate_job_apply(candidate_id,job_id)\n"
-                + "values (?,?)";
-        try {
-            Connection conn = getConnection();
-            PreparedStatement ps = conn.prepareStatement(query);
-            ps.setInt(1, candidateId);
-            ps.setInt(2, jobId);
-            ps.executeUpdate();
-        } catch (Exception e) {
-            System.out.println("Bug sendApplyJob: " + e);
-        }
-    }
-
+    /**
+     * Get total record of candidate apply job.
+     *
+     * @param candidateAccountId int
+     * @return
+     */
     @Override
     public int getTotalApplyJobRow(int candidateAccountId) {
         int totalRow = 0;
@@ -873,6 +873,13 @@ public class JobDAO extends DBContext implements IJob {
         return totalRow;
     }
 
+    /**
+     * Check if job has been apply by that candidate or not
+     *
+     * @param jobId int
+     * @param candidateId int
+     * @return
+     */
     @Override
     public boolean checkJobBeenApply(int jobId, int candidateId) {
         String query = "SELECT TOP (1000) [applyNo]\n"
@@ -894,6 +901,73 @@ public class JobDAO extends DBContext implements IJob {
             System.out.println("Bug acc" + e);
         }
         return true;
+    }
+
+    /**
+     * Insert request apply for job to database
+     *
+     * @param jobId
+     * @param candidateId
+     */
+    @Override
+    public void createRequestApplyJob(int jobId, int candidateId) {
+        String query = "INSERT INTO cadidate_job_apply(candidate_id,job_id,status)\n"
+                + "values (?,?,?)";
+        try {
+            Connection conn = getConnection();
+            PreparedStatement ps = conn.prepareStatement(query);
+            ps.setInt(1, candidateId);
+            ps.setInt(2, jobId);
+            ps.setString(3, "PENDING");
+            ps.executeUpdate();
+        } catch (Exception e) {
+            System.out.println("Bug createRequestApplyJob: " + e);
+        }
+    }
+
+    /**
+     * Edit status request apply for job
+     *
+     * @param jobId
+     * @param candidateId
+     * @param status
+     */
+    @Override
+    public void editRequestStatusApplyJob(int jobId, int candidateId, String status) {
+        String query = "UPDATE cadidate_job_apply\n"
+                + "SET status=? \n"
+                + "WHERE candidate_id=? and job_id=?";
+        try {
+            Connection conn = getConnection();
+            PreparedStatement ps = conn.prepareStatement(query);
+            ps.setString(1, status);
+            ps.setInt(2, candidateId);
+            ps.setInt(3, jobId);
+            ps.executeUpdate();
+        } catch (Exception e) {
+            System.out.println("Bug editRequestApplyJob: " + e);
+        }
+    }
+
+    /**
+     * Delete request apply for job
+     *
+     * @param jobId
+     * @param candidateId
+     */
+    @Override
+    public void deleteRequestApplyJob(int jobId, int candidateId) {
+        String query = "delete from cadidate_job_apply\n"
+                + "WHERE candidate_id=? and job_id=?";
+        try {
+            Connection conn = getConnection();
+            PreparedStatement ps = conn.prepareStatement(query);
+            ps.setInt(1, candidateId);
+            ps.setInt(2, jobId);
+            ps.executeUpdate();
+        } catch (Exception e) {
+            System.out.println("Bug delete apply job: " + e);
+        }
     }
 
 }
