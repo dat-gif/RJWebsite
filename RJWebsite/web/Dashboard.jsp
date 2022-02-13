@@ -16,7 +16,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <link rel="stylesheet" href="adminstyle/Dashboard.css">
+        <link rel="stylesheet" href="adminstyle/CandidateDashboard.css">
     </head>
     <body>
        <jsp:include page="component/Adminheader.jsp"/>
@@ -49,13 +49,13 @@
           </a>
         </h6>
           <li class="nav-item">
-            <a class="nav-link" href="#">
+            <a class="nav-link" href="CandidateDashboard.jsp">
               <span data-feather="file-text"></span>
               Candidate
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">
+            <a class="nav-link" href="RecruiterDashboard.jsp">
               <span data-feather="file-text"></span>
               Recruiter
             </a>
@@ -69,13 +69,13 @@
           </a>
         </h6>
           <li class="nav-item">
-            <a class="nav-link" href="#">
+            <a class="nav-link" href="JobDashboard.jsp">
               <span data-feather="file-text"></span>
               Job
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">
+            <a class="nav-link" href="SkillDashboard.jsp">
               <span data-feather="file-text"></span>
               Skill
             </a>

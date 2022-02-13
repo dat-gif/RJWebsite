@@ -33,7 +33,7 @@
                                 </a>
                             </h6>
                             <li class="nav-item">
-                                <a class="nav-link active" href="#">
+                                <a class="nav-link active" href="Dashboard.jsp">
                                     <span data-feather="home"></span>
                                     Dashboard <span class="sr-only">(current)</span>
                                 </a>
@@ -49,13 +49,13 @@
                                 </a>
                             </h6>
                             <li class="nav-item">
-                                <a class="nav-link" href="#">
+                                <a class="nav-link" href="CandidateDashboard.jsp">
                                     <span data-feather="file-text"></span>
                                     Candidate
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#">
+                                <a class="nav-link" href="RecruiterDashboard.jsp">
                                     <span data-feather="file-text"></span>
                                     Recruiter
                                 </a>
@@ -69,13 +69,13 @@
                                 </a>
                             </h6>
                             <li class="nav-item">
-                                <a class="nav-link" href="#">
+                                <a class="nav-link" href="JobDashboard.jsp">
                                     <span data-feather="file-text"></span>
                                     Job
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#">
+                                <a class="nav-link" href="SkillDashboard.jsp">
                                     <span data-feather="file-text"></span>
                                     Skill
                                 </a>
@@ -103,6 +103,38 @@
                             </tr>
                         </thead>
                         <tbody>
+                            <tr>
+                                <th scope="row">Tester</th>
+                                <td>Momo</td>
+                                <td>21/01/2022</td>
+                                <td>Hanoi</td>
+                                <td><a href="url">Deactivate</a></td>
+                                <td><a href="url" id ="a1">Candidate Applied</a><a href="url" id ="a2">Details</a><a href="url" id ="a3">Delete</a></td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Tester</th>
+                                <td>Momo</td>
+                                <td>21/01/2022</td>
+                                <td>Hanoi</td>
+                                <td><a href="url">Deactivate</a></td>
+                                <td><a href="url" id ="a1">Candidate Applied</a><a href="url" id ="a2">Details</a><a href="url" id ="a3">Delete</a></td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Tester</th>
+                                <td>Momo</td>
+                                <td>21/01/2022</td>
+                                <td>Hanoi</td>
+                                <td><a href="url">Deactivate</a></td>
+                                <td><a href="url" id ="a1">Candidate Applied</a><a href="url" id ="a2">Details</a><a href="url" id ="a3">Delete</a></td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Tester</th>
+                                <td>Momo</td>
+                                <td>21/01/2022</td>
+                                <td>Hanoi</td>
+                                <td><a href="url">Deactivate</a></td>
+                                <td><a href="url" id ="a1">Candidate Applied</a><a href="url" id ="a2">Details</a><a href="url" id ="a3">Delete</a></td>
+                            </tr>
                             <tr>
                                 <th scope="row">Tester</th>
                                 <td>Momo</td>

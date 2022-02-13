@@ -33,7 +33,7 @@
                                 </a>
                             </h6>
                             <li class="nav-item">
-                                <a class="nav-link active" href="#">
+                                <a class="nav-link active" href="Dashboard.jsp">
                                     <span data-feather="home"></span>
                                     Dashboard <span class="sr-only">(current)</span>
                                 </a>
@@ -49,13 +49,13 @@
                                 </a>
                             </h6>
                             <li class="nav-item">
-                                <a class="nav-link" href="#">
+                                <a class="nav-link" href="CandidateDashboard.jsp">
                                     <span data-feather="file-text"></span>
                                     Candidate
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#">
+                                <a class="nav-link" href="RecruiterDashboard.jsp">
                                     <span data-feather="file-text"></span>
                                     Recruiter
                                 </a>
@@ -69,13 +69,13 @@
                                 </a>
                             </h6>
                             <li class="nav-item">
-                                <a class="nav-link" href="#">
+                                <a class="nav-link" href="JobDashboard.jsp">
                                     <span data-feather="file-text"></span>
                                     Job
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#">
+                                <a class="nav-link" href="SkillDashboard.jsp">
                                     <span data-feather="file-text"></span>
                                     Skill
                                 </a>
@@ -103,6 +103,38 @@
                             </tr>
                         </thead>
                         <tbody>
+                            <tr>
+                                <th scope="row">Huyc</th>
+                                <td>12/12/2022</td>
+                                <td>namndwebdev@gmail.com</td>
+                                <td>0393958404</td>
+                                <td><a href="url">Activate</a></td>
+                                <td><a href="url" id ="a1">Review</a><a href="url" id="a2">Details</a></td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Huyc</th>
+                                <td>12/12/2022</td>
+                                <td>namndwebdev@gmail.com</td>
+                                <td>0393958404</td>
+                                <td><a href="url">Activate</a></td>
+                                <td><a href="url" id ="a1">Review</a><a href="url" id="a2">Details</a></td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Huyc</th>
+                                <td>12/12/2022</td>
+                                <td>namndwebdev@gmail.com</td>
+                                <td>0393958404</td>
+                                <td><a href="url">Activate</a></td>
+                                <td><a href="url" id ="a1">Review</a><a href="url" id="a2">Details</a></td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Huyc</th>
+                                <td>12/12/2022</td>
+                                <td>namndwebdev@gmail.com</td>
+                                <td>0393958404</td>
+                                <td><a href="url">Activate</a></td>
+                                <td><a href="url" id ="a1">Review</a><a href="url" id="a2">Details</a></td>
+                            </tr>
                             <tr>
                                 <th scope="row">Huyc</th>
                                 <td>12/12/2022</td>

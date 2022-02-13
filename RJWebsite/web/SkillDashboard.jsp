@@ -33,7 +33,7 @@
                                 </a>
                             </h6>
                             <li class="nav-item">
-                                <a class="nav-link active" href="#">
+                                <a class="nav-link active" href="Dashboard.jsp">
                                     <span data-feather="home"></span>
                                     Dashboard <span class="sr-only">(current)</span>
                                 </a>
@@ -49,13 +49,13 @@
                                 </a>
                             </h6>
                             <li class="nav-item">
-                                <a class="nav-link" href="#">
+                                <a class="nav-link" href="CandidateDashboard.jsp">
                                     <span data-feather="file-text"></span>
                                     Candidate
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#">
+                                <a class="nav-link" href="RecruiterDashboard.jsp">
                                     <span data-feather="file-text"></span>
                                     Recruiter
                                 </a>
@@ -69,13 +69,13 @@
                                 </a>
                             </h6>
                             <li class="nav-item">
-                                <a class="nav-link" href="#">
+                                <a class="nav-link" href="JobDashboard.jsp">
                                     <span data-feather="file-text"></span>
                                     Job
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#">
+                                <a class="nav-link" href="SkillDashboard.jsp">
                                     <span data-feather="file-text"></span>
                                     Skill
                                 </a>
@@ -101,6 +101,30 @@
                             </tr>
                         </thead>
                         <tbody>
+                            <tr>
+                                <th scope="row">ORA</th>
+                                <td><p>C++ là một loại ngôn ngữ lập trình bậc trung. Đây là ngôn ngữ lập trình đa năng được tạo ra bởi Bjarne Stroustrup như một phần mở rộng của ngôn ngữ lập trình C, hoặc "C với các lớp Class", Ngôn ngữ đã được mở rộng đáng kể theo thời gian và C ++ hiện đại có các tính năng: lập trình tổng quát, lập trình hướng đối tượng</p></td>
+                                <td><a href="url">Deactivate</a></td>
+                                <td><a href="url" id ="a2">Details</a></td>
+                            </tr>
+                            <tr>
+                                <th scope="row">ORA</th>
+                                <td><p>C++ là một loại ngôn ngữ lập trình bậc trung. Đây là ngôn ngữ lập trình đa năng được tạo ra bởi Bjarne Stroustrup như một phần mở rộng của ngôn ngữ lập trình C, hoặc "C với các lớp Class", Ngôn ngữ đã được mở rộng đáng kể theo thời gian và C ++ hiện đại có các tính năng: lập trình tổng quát, lập trình hướng đối tượng</p></td>
+                                <td><a href="url">Deactivate</a></td>
+                                <td><a href="url" id ="a2">Details</a></td>
+                            </tr>
+                            <tr>
+                                <th scope="row">ORA</th>
+                                <td><p>C++ là một loại ngôn ngữ lập trình bậc trung. Đây là ngôn ngữ lập trình đa năng được tạo ra bởi Bjarne Stroustrup như một phần mở rộng của ngôn ngữ lập trình C, hoặc "C với các lớp Class", Ngôn ngữ đã được mở rộng đáng kể theo thời gian và C ++ hiện đại có các tính năng: lập trình tổng quát, lập trình hướng đối tượng</p></td>
+                                <td><a href="url">Deactivate</a></td>
+                                <td><a href="url" id ="a2">Details</a></td>
+                            </tr>
+                            <tr>
+                                <th scope="row">ORA</th>
+                                <td><p>C++ là một loại ngôn ngữ lập trình bậc trung. Đây là ngôn ngữ lập trình đa năng được tạo ra bởi Bjarne Stroustrup như một phần mở rộng của ngôn ngữ lập trình C, hoặc "C với các lớp Class", Ngôn ngữ đã được mở rộng đáng kể theo thời gian và C ++ hiện đại có các tính năng: lập trình tổng quát, lập trình hướng đối tượng</p></td>
+                                <td><a href="url">Deactivate</a></td>
+                                <td><a href="url" id ="a2">Details</a></td>
+                            </tr>
                             <tr>
                                 <th scope="row">ORA</th>
                                 <td><p>C++ là một loại ngôn ngữ lập trình bậc trung. Đây là ngôn ngữ lập trình đa năng được tạo ra bởi Bjarne Stroustrup như một phần mở rộng của ngôn ngữ lập trình C, hoặc "C với các lớp Class", Ngôn ngữ đã được mở rộng đáng kể theo thời gian và C ++ hiện đại có các tính năng: lập trình tổng quát, lập trình hướng đối tượng</p></td>
