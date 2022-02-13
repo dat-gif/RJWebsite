@@ -21,6 +21,16 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class JobDetailController extends HttpServlet {
 
+    private String jobDetailId;
+
+    public String getJobDetailId() {
+        return jobDetailId;
+    }
+
+    public void setJobDetailId(String jobDetailId) {
+        this.jobDetailId = jobDetailId;
+    }
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -50,7 +60,7 @@ public class JobDetailController extends HttpServlet {
             throws ServletException, IOException {
         IJob daoJob = new JobDAO();
         String jobId = request.getParameter("jobId");
-
+        setJobDetailId(jobId);
         try {
             Job job = daoJob.getJobById(Integer.parseInt(jobId));
 
@@ -83,6 +93,9 @@ public class JobDetailController extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
+        String jobId = getJobDetailId();
+        System.out.println(jobId);
+        response.sendRedirect("ViewJobDetailPage.jsp");
     }
 
     /**

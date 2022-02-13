@@ -6,6 +6,7 @@
 package dao.idao;
 
 import entity.Account;
+import entity.Candidate;
 import entity.Recruiter;
 
 /**
@@ -22,4 +23,5 @@ public interface IAccount {
 
     public void insertRecruitorAccount(Account account, Recruiter recruoterBasicInfo);
 
+    public Candidate getCandidateInfoByAccountId(int accountId);
 }

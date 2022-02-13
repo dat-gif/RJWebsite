@@ -33,7 +33,11 @@
                                 <h4 class="font-weight-light">End date : ${endDate}</h4>
                             </div>
                         </div>                   
-                        <button class="btn btn-primary align-self-baseline mt-2 btn-lg">Apply</button>
+                            <form method="post" action="jobdetail">
+                                
+                            <button class="btn btn-primary align-self-baseline mt-2 btn-lg">Apply</button>
+                            </form>
+                    
                     </div>
                 </div>
             </div>

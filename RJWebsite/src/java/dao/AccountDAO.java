@@ -69,7 +69,6 @@ public class AccountDAO extends DBContext implements IAccount {
             PreparedStatement ps = conn.prepareStatement(query);
             ps.setString(1, email);
             ResultSet rs = ps.executeQuery();
-            System.out.println(rs.isBeforeFirst());
             if (rs.isBeforeFirst()) {
                 return false;
             }
