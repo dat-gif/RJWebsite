@@ -44,6 +44,10 @@
         <servlet-name>JobDetailController</servlet-name>
         <servlet-class>controller.JobDetailController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>CreateRecruitment</servlet-name>
+        <servlet-class>controller.CreateRecruitment</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>LandingPage</servlet-name>
         <url-pattern>/landingpage</url-pattern>
@@ -75,6 +79,10 @@
     <servlet-mapping>
         <servlet-name>JobDetailController</servlet-name>
         <url-pattern>/jobdetail</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CreateRecruitment</servlet-name>
+        <url-pattern>/CreateRecruitment</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
