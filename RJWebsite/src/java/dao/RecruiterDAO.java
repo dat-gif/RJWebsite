@@ -21,11 +21,7 @@ import java.util.List;
  *
  * @author Admin
  */
-public class RecruiterDAO implements dao.idao.IRecruiter {
-
-    Connection conn = null;//ket noi sql
-    PreparedStatement ps = null; //truyen querry sang sql
-    ResultSet rs = null; //nhan tra ve, với các func gọi chéo nhau, nên tạo rs riêng
+public class RecruiterDAO extends DBContext implements dao.idao.IRecruiter {
 
     /**
      *
@@ -50,6 +46,12 @@ public class RecruiterDAO implements dao.idao.IRecruiter {
         return sortList;
     }
 
+    /**
+     * Get recruiter info by recruiter id
+     *
+     * @param recruiterId
+     * @return
+     */
     @Override
     public Recruiter getRecruiterById(int recruiterId) {
         String query = " SELECT recruiter.recruiter_id\n"
@@ -68,8 +70,8 @@ public class RecruiterDAO implements dao.idao.IRecruiter {
                 + " FROM [SWP391].[dbo].[recruiter]\n"
                 + " where recruiter.recruiter_id= ?";
         try {
-            conn = new DBContext().getConnection();
-            ps = conn.prepareStatement(query);
+            Connection conn = getConnection();
+            PreparedStatement ps = conn.prepareStatement(query);
             ps.setInt(1, recruiterId);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
@@ -115,7 +117,7 @@ public class RecruiterDAO implements dao.idao.IRecruiter {
                 + "	 ) \n"
                 + "END \n";
         try {
-            conn = new DBContext().getConnection();
+            Connection conn = getConnection();
             PreparedStatement ps = conn.prepareStatement(createTempTable);
             ps.executeUpdate();
         } catch (Exception e) {
@@ -189,7 +191,7 @@ public class RecruiterDAO implements dao.idao.IRecruiter {
         }
         try {
             int count = 1;
-            conn = new DBContext().getConnection();
+            Connection conn = new DBContext().getConnection();
             PreparedStatement ps = conn.prepareStatement(clearQuery + insertTable + queryUnionTable);
             for (int i = 0; i < wordSearchList.size(); i++) {
                 String get = wordSearchList.get(i);
@@ -212,7 +214,7 @@ public class RecruiterDAO implements dao.idao.IRecruiter {
         int total = 0;
         String query = "select count(*) as num  from (select recruiter_id from recruiter group by recruiter_id) as countTable";
         try {
-            conn = new DBContext().getConnection();
+            Connection conn = new DBContext().getConnection();
             PreparedStatement ps = conn.prepareStatement(query);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
@@ -229,7 +231,8 @@ public class RecruiterDAO implements dao.idao.IRecruiter {
         int total = 0;
         String query = "select count(*) as num  from (select recruiter_id from ##TempRecruiterTable group by recruiter_id) as countTable";
         try {
-            conn = new DBContext().getConnection();
+
+            Connection conn = new DBContext().getConnection();
             PreparedStatement ps = conn.prepareStatement(query);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
@@ -274,8 +277,8 @@ public class RecruiterDAO implements dao.idao.IRecruiter {
                 + "OFFSET (@PageNumber-1)*@RowsOfPage ROWS\n"
                 + "FETCH NEXT @RowsOfPage ROWS ONLY";
         try {
-            conn = new DBContext().getConnection();
-            ps = conn.prepareStatement(query);
+            Connection conn = new DBContext().getConnection();
+            PreparedStatement ps = conn.prepareStatement(query);
             ps.setInt(1, pageNumber);
             ps.setInt(2, recordNumber);
             ResultSet rs = ps.executeQuery();
@@ -330,8 +333,8 @@ public class RecruiterDAO implements dao.idao.IRecruiter {
                 + "FETCH NEXT @RowsOfPage ROWS ONLY";
 
         try {
-            conn = new DBContext().getConnection();
-            ps = conn.prepareStatement(query);
+            Connection conn = new DBContext().getConnection();
+            PreparedStatement ps = conn.prepareStatement(query);
             ps.setInt(1, pageNumber);
             ps.setInt(2, recordNumber);
             ResultSet rs = ps.executeQuery();
@@ -369,8 +372,8 @@ public class RecruiterDAO implements dao.idao.IRecruiter {
                 + "where recruiter.recruiter_id= ?";
 
         try {
-            conn = new DBContext().getConnection();
-            ps = conn.prepareStatement(query);
+            Connection conn = new DBContext().getConnection();
+            PreparedStatement ps = conn.prepareStatement(query);
             ps.setInt(1, recruiterId);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
@@ -421,8 +424,8 @@ public class RecruiterDAO implements dao.idao.IRecruiter {
                 + "where recruiter.city like ?";
 
         try {
-            conn = new DBContext().getConnection();
-            ps = conn.prepareStatement(clearQuery + insertTable + queryTable);
+            Connection conn = new DBContext().getConnection();
+            PreparedStatement ps = conn.prepareStatement(clearQuery + insertTable + queryTable);
             ps.setString(1, "%" + cityValue + "%");
             ps.executeUpdate();
         } catch (Exception e) {
@@ -439,7 +442,7 @@ public class RecruiterDAO implements dao.idao.IRecruiter {
         }
         dao.createRecruiterTempoTableSearchData();
         dao.insertRecruiter("ACE", "All");
-        System.out.println("--------");
+
         list = dao.getRecruiterPaging(1, 10);
         for (Recruiter recruiter : list) {
             System.out.println(recruiter.toString());
@@ -457,8 +460,8 @@ public class RecruiterDAO implements dao.idao.IRecruiter {
                 + "where recruiter.recruiter_id= ?";
 
         try {
-            conn = new DBContext().getConnection();
-            ps = conn.prepareStatement(query);
+            Connection conn = new DBContext().getConnection();
+            PreparedStatement ps = conn.prepareStatement(query);
             ps.setInt(1, recruiterId);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
@@ -468,6 +471,71 @@ public class RecruiterDAO implements dao.idao.IRecruiter {
             System.out.println("get skill :" + e);
         }
         return skillList;
+    }
+
+    /**
+     * Check if the candidate has been following the recruiter (company)
+     *
+     * @param recruiterId
+     * @param cadidateId
+     * @return
+     */
+    @Override
+    public boolean checkRecruiterBeenFollowing(int recruiterId, int candidateId) {
+        String query = "SELECT [id]\n"
+                + "      ,[candidate_id]\n"
+                + "      ,[recruiter_id]\n"
+                + "      ,[createAt]\n"
+                + "      ,[updateAt]\n"
+                + "  FROM [SWP391].[dbo].[follow]\n"
+                + "  where candidate_id= ? and recruiter_id=?";
+        try {
+            Connection conn = getConnection();
+            PreparedStatement ps = conn.prepareStatement(query);
+            ps.setInt(1, recruiterId);
+            ps.setInt(2, candidateId);
+            ResultSet rs = ps.executeQuery();
+            if (rs.isBeforeFirst()) {
+                return false;
+            }
+        } catch (Exception e) {
+            System.out.println("Bug acc" + e);
+        }
+        return true;
+    }
+
+    /**
+     *
+     * @param recruiterId
+     * @param candidateId
+     */
+    @Override
+    public void createRequestFollowingCompany(int recruiterId, int candidateId) {
+        String query = "insert into [SWP391].[dbo].[follow](recruiter_id, candidate_id)\n"
+                + "values (?,?)";
+        try {
+            Connection conn = getConnection();
+            PreparedStatement ps = conn.prepareStatement(query);
+            ps.setInt(1, recruiterId);
+            ps.setInt(2, candidateId);
+            ps.executeUpdate();
+        } catch (Exception e) {
+            System.out.println("Bug createRequestFollowingCompany: " + e);
+        }
+    }
+
+    @Override
+    public void deleteRequestFollowingCompany(int recruiterId, int candidateId) {
+        String query = "delete from  [SWP391].[dbo].[follow] where recruiter_id=? and candidate_id=?";
+        try {
+            Connection conn = getConnection();
+            PreparedStatement ps = conn.prepareStatement(query);
+            ps.setInt(1, recruiterId);
+            ps.setInt(2, candidateId);
+            ps.executeUpdate();
+        } catch (Exception e) {
+            System.out.println("deleteRequestFollowingCompany: " + e);
+        }
     }
 
 }

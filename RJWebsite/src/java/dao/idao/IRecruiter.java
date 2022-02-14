@@ -36,4 +36,9 @@ public interface IRecruiter {
 
     public ArrayList<Skill> getRecruiterSkill(int recruiterId);
 
+    public boolean checkRecruiterBeenFollowing(int recruiterId, int candidateId);
+
+    public void createRequestFollowingCompany(int recruiterId, int candidateId);
+
+    public void deleteRequestFollowingCompany(int recruiterId, int candidateId);
 }

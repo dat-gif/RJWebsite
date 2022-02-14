@@ -1,15 +1,12 @@
 /*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
  */
 package controller;
 
-import dao.JobDAO;
-import dao.idao.IJob;
-import entity.Skill;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -17,9 +14,13 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  *
- * @author USE
+ * @author Admin
  */
-public class CreateRecruitment extends HttpServlet {
+public class CandidateCompanyFollowingPage extends HttpServlet {
+
+    int pageNumber = 1;
+    static int recordNumber = 8;
+    int totalPage = 8;
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -33,11 +34,6 @@ public class CreateRecruitment extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-
-        IJob ijob = new JobDAO();
-        List<Skill> listSkill = ijob.getAllSkill();
-        request.setAttribute("listSkill", listSkill);
-        request.getRequestDispatcher("CreateRecruitment.jsp").forward(request, response);
 
     }
 
