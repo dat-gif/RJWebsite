@@ -109,7 +109,9 @@
                                 <td>21/01/2022</td>
                                 <td>Hanoi</td>
                                 <td><a href="url">Deactivate</a></td>
-                                <td><a href="url" id ="a1">Candidate Applied</a><a href="url" id ="a2">Details</a><a href="url" id ="a3">Delete</a></td>
+                                <td><a href="url" id ="a1">Candidate Applied</a></td>
+                                <td><a href="ViewJobDetailPage.jsp" id ="a2">Details</a></td>
+                                <td><a href="" id ="a3">Delete</a></td>
                             </tr>
                             <tr>
                                 <th scope="row">Tester</th>
@@ -117,7 +119,9 @@
                                 <td>21/01/2022</td>
                                 <td>Hanoi</td>
                                 <td><a href="url">Deactivate</a></td>
-                                <td><a href="url" id ="a1">Candidate Applied</a><a href="url" id ="a2">Details</a><a href="url" id ="a3">Delete</a></td>
+                                <td><a href="url" id ="a1">Candidate Applied</a></td>
+                                <td><a href="ViewJobDetailPage.jsp" id ="a2">Details</a></td>
+                                <td><a href="url" id ="a3">Delete</a></td>
                             </tr>
                             <tr>
                                 <th scope="row">Tester</th>
@@ -125,7 +129,9 @@
                                 <td>21/01/2022</td>
                                 <td>Hanoi</td>
                                 <td><a href="url">Deactivate</a></td>
-                                <td><a href="url" id ="a1">Candidate Applied</a><a href="url" id ="a2">Details</a><a href="url" id ="a3">Delete</a></td>
+                                <td><a href="url" id ="a1">Candidate Applied</a></td>
+                                <td><a href="ViewJobDetailPage.jsp" id ="a2">Details</a></td>
+                                <td><a href="url" id ="a3">Delete</a></td>
                             </tr>
                             <tr>
                                 <th scope="row">Tester</th>
@@ -133,7 +139,9 @@
                                 <td>21/01/2022</td>
                                 <td>Hanoi</td>
                                 <td><a href="url">Deactivate</a></td>
-                                <td><a href="url" id ="a1">Candidate Applied</a><a href="url" id ="a2">Details</a><a href="url" id ="a3">Delete</a></td>
+                                <td><a href="url" id ="a1">Candidate Applied</a></td>
+                                <td><a href="ViewJobDetailPage.jsp" id ="a2">Details</a></td>
+                                <td><a href="url" id ="a3">Delete</a></td>
                             </tr>
                             <tr>
                                 <th scope="row">Tester</th>
@@ -141,9 +149,10 @@
                                 <td>21/01/2022</td>
                                 <td>Hanoi</td>
                                 <td><a href="url">Deactivate</a></td>
-                                <td><a href="url" id ="a1">Candidate Applied</a><a href="url" id ="a2">Details</a><a href="url" id ="a3">Delete</a></td>
+                                <td><a href="url" id ="a1">Candidate Applied</a></td>
+                                <td><a href="ViewJobDetailPage.jsp" id ="a2">Details</a></td>
+                                <td><a href="url" id ="a3">Delete</a></td>
                             </tr>
-
                         </tbody>
                     </table>
                     <div class="row justify-content-center mt-4 mb-4">

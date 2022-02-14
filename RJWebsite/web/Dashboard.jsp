@@ -95,11 +95,11 @@
        </div>
        <div class="col">
            <h4>110</h4>
-           <h5>Number of candidates</h5>
+           <h5>Number of recruiter</h5>
        </div>
        <div class="col">
            <h4>110</h4>
-           <h5>Number of candidates</h5>
+           <h5>Number of job</h5>
        </div> 
    </div>
     </main>
