@@ -41,4 +41,6 @@ public interface IRecruiter {
     public void createRequestFollowingCompany(int recruiterId, int candidateId);
 
     public void deleteRequestFollowingCompany(int recruiterId, int candidateId);
+
+    public ArrayList<Recruiter> getCandidateFollowingRecruiterList(int accountId, int currentPage, int recordQuantity);
 }

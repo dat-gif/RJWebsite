@@ -538,4 +538,54 @@ public class RecruiterDAO extends DBContext implements dao.idao.IRecruiter {
         }
     }
 
+    @Override
+    public ArrayList<Recruiter> getCandidateFollowingRecruiterList(int accountId, int currentPage, int recordQuantity) {
+        ArrayList<Recruiter> list = new ArrayList<>();
+        String query = "DECLARE @PageNumber AS INT\n"
+                + "DECLARE @RowsOfPage AS INT\n"
+                + "SET @PageNumber= ? \n"
+                + "SET @RowsOfPage= ?\n"
+                + "SELECT recruiter.[recruiter_id]\n"
+                + "      ,[name]\n"
+                + "      ,recruiter.[address]\n"
+                + "      ,[city]\n"
+                + "      ,recruiter.[avatar]\n"
+                + "      ,recruiter.[banner]\n"
+                + "      ,recruiter.[phone]\n"
+                + "      ,[website]\n"
+                + "      ,[description]\n"
+                + "      ,[employee_quantity]\n"
+                + "      ,[contacter_name]\n"
+                + "      ,[contacter_phone]\n"
+                + "      ,recruiter.[createAt]\n"
+                + "      ,recruiter.[updateAt]\n"
+                + "FROM [SWP391].[dbo].[recruiter]\n"
+                + "inner join follow on follow.recruiter_id = recruiter.recruiter_id\n"
+                + "inner join candidate on candidate.candidate_id= follow.candidate_id\n"
+                + "where candidate.account_id = ?\n"
+                + "ORDER BY [follow].id desc\n"
+                + "OFFSET (@PageNumber-1)*@RowsOfPage ROWS\n"
+                + "FETCH NEXT @RowsOfPage ROWS ONLY";
+
+        try {
+            Connection conn = getConnection();
+            PreparedStatement ps = conn.prepareStatement(query);
+            ps.setInt(1, currentPage);
+            ps.setInt(2, recordQuantity);
+            ps.setInt(3, accountId);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                Recruiter recruiter = new Recruiter(rs.getInt("recruiter_id"), rs.getString("city"), rs.getString("name"), rs.getString("address"), rs.getString("avatar"),
+                        rs.getString("banner"), rs.getString("phone"), rs.getString("website"),
+                        rs.getString("description"), rs.getString("employee_quantity"),
+                        rs.getString("contacter_name"), rs.getString("contacter_phone"));
+                list.add(recruiter);
+            }
+        } catch (Exception e) {
+            System.out.println("Bug ApplyJobPanging:" + e);
+        }
+        return list;
+    }
+
 }

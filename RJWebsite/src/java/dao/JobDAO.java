@@ -769,7 +769,7 @@ public class JobDAO extends DBContext implements IJob {
     }
 
     /**
-     * Get the list of candidates who are applying, built-in pagination. Requiem
+     * Get the list of job candidates who are applying, built-in pagination. Requiem
      * know current page and number of records want to get.
      *
      * @param accountId int
