@@ -15,7 +15,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
+import validation.Validation;
 
 /**
  *
@@ -51,6 +51,7 @@ public class RegisterController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
+
             request.getRequestDispatcher("RegisterPage.jsp").forward(request, response);
         } catch (Exception e) {
         }
@@ -69,49 +70,65 @@ public class RegisterController extends HttpServlet {
             throws ServletException, IOException {
         processRequest(request, response);
         IAccount accountDao = new AccountDAO();
+
         String email = request.getParameter("email");
         String password = request.getParameter("password");
+        String confirmPassword = request.getParameter("confirmPassword");
         String role = request.getParameter("role");
         String phone = request.getParameter("phone");
-        Account registerAccount = new Account();
-        registerAccount.setEmail(email);
-        registerAccount.setPassword(password);
-        registerAccount.setPhone(phone);
-        try {
+        String companyName = request.getParameter("companyName");
+        String address = request.getParameter("address");
+        String recruiterName = request.getParameter("recruiterName");
 
-            if (!accountDao.checkExistAccountEmail(email)) {
-                request.setAttribute("registerErrorMesg", "Email already in use");
+        Account registerAccount = new Account();
+
+        try {
+            if (!checkAccountBasicInfo(request, email, phone, password, confirmPassword)) {
                 request.setAttribute("email", email);
                 request.setAttribute("phone", phone);
                 request.setAttribute("password", password);
                 request.getRequestDispatcher("RegisterPage.jsp").forward(request, response);
+            } else {
+                registerAccount.setEmail(email.trim());
+                registerAccount.setPassword(password.trim());
+                registerAccount.setPhone(phone.trim());
+// Add candidate account
+                if (role.equalsIgnoreCase("candidate")) {
+                    registerAccount.setRoleId(2);
+                    accountDao.insertCandidateAccount(registerAccount);
+                    response.setContentType("text/html");
+                    PrintWriter out = response.getWriter();
+                    out.println("<script type=\"text/javascript\">");
+                    out.println("alert('Register Account Successful!, back to Login page');");
+                    out.println("location='Login.jsp';");
+                    out.println("</script>");
+                }
+// Add recruiter account
+                if (role.equalsIgnoreCase("recruiter") && checkAccountAdditionalInformation(request, companyName, address, recruiterName)) {
+                    registerAccount.setRoleId(1);
+                    Recruiter recruiter = new Recruiter();
+                    recruiter.setName(companyName);
+                    recruiter.setAddress(address);
+                    recruiter.setContacterName(recruiterName);
+                    accountDao.insertRecruitorAccount(registerAccount, recruiter);
+                    response.setContentType("text/html");
+                    PrintWriter out = response.getWriter();
+                    out.println("<script type=\"text/javascript\">");
+                    out.println("alert('Register Account Successful!, back to Login page');");
+                    out.println("location='Login.jsp';");
+                    out.println("</script>");
+                } else {
+                    request.setAttribute("email", email);
+                    request.setAttribute("phone", phone);
+                    request.setAttribute("password", password);
+                    request.setAttribute("companyName", companyName);
+                    request.setAttribute("address", address);
+                    request.setAttribute("recruiterName", recruiterName);
+
+                    request.getRequestDispatcher("RegisterPage.jsp").forward(request, response);
+                }
             }
 
-            if (role.equalsIgnoreCase("candidate")) {
-                registerAccount.setRoleId(2);
-                accountDao.insertCandidateAccount(registerAccount);
-                response.setContentType("text/html");
-                PrintWriter out = response.getWriter();
-                out.println("<script type=\"text/javascript\">");
-                out.println("alert('Register Account Successful!, back to Login page');");
-                out.println("location='Login.jsp';");
-                out.println("</script>");
-            }
-
-            if (role.equalsIgnoreCase("recruiter")) {
-                registerAccount.setRoleId(1);
-                Recruiter recruiter = new Recruiter();
-                recruiter.setName(request.getParameter("companyName"));
-                recruiter.setAddress(request.getParameter("address"));
-                recruiter.setContacterName(request.getParameter("recruiterName"));
-                accountDao.insertRecruitorAccount(registerAccount, recruiter);
-                response.setContentType("text/html");
-                PrintWriter out = response.getWriter();
-                out.println("<script type=\"text/javascript\">");
-                out.println("alert('Register Account Successful!, back to Login page');");
-                out.println("location='Login.jsp';");
-                out.println("</script>");
-            }
         } catch (Exception e) {
             System.out.println(e);
         }
@@ -127,4 +144,48 @@ public class RegisterController extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
+    public boolean checkAccountBasicInfo(HttpServletRequest request, String email, String phoneNumber, String password, String confirmPassword) {
+        IAccount accountDao = new AccountDAO();
+        Validation validation = new Validation();
+        boolean isAccountBasicInforCorrect = true;
+        if (!accountDao.checkExistAccountEmail(email)) {
+            request.setAttribute("errorEmailMesg", "Email already in use");
+            isAccountBasicInforCorrect = false;
+        }
+        if (!validation.emailValidation(email)) {
+            request.setAttribute("errorEmailMesg", "Email is incorrect format");
+            isAccountBasicInforCorrect = false;
+        }
+        if (!validation.phoneNumberValidation(phoneNumber)) {
+            request.setAttribute("phoneErrorMesg", "Phone is incorrect format.");
+            isAccountBasicInforCorrect = false;
+        }
+        if (!validation.passwordValidation(password)) {
+            request.setAttribute("passErrorMesg", "Password must contain character, number, at least 8 characters, and no white space.");
+            isAccountBasicInforCorrect = false;
+        }
+
+        if (!validation.checkConfirmPassword(password, confirmPassword)) {
+            request.setAttribute("confirmPassErrorMesg", "Confirm password must match password.");
+            isAccountBasicInforCorrect = false;
+        }
+        return isAccountBasicInforCorrect;
+    }
+
+    public boolean checkAccountAdditionalInformation(HttpServletRequest request, String companyName, String address, String recruiterName) {
+        boolean isCorrect = true;
+        if (companyName.isEmpty()) {
+            request.setAttribute("companyNameErrorMesg", "Company name must not empty");
+            isCorrect = false;
+        }
+        if (address.isEmpty()) {
+            request.setAttribute("addressErrorMesg", "Address must not empty");
+            isCorrect = false;
+        }
+        if (companyName.isEmpty()) {
+            request.setAttribute("recruiterNameErrorMesg", "Recruiter name must not empty");
+            isCorrect = false;
+        }
+        return isCorrect;
+    }
 }

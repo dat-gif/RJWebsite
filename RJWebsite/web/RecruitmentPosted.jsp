@@ -4,6 +4,7 @@
     Author     : USE
 --%>
 
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -33,7 +34,17 @@
             </div>
         </div>
         <div class="content">
-            <h2>Recruitment Posted</h2>
+            <h3>Recruitment Posted</h3>
+            <c:forEach items="${listRecruiter}" var="recruiter">
+                <div class="company">                   
+                    <a href="RecruiterDetailController?recruiterId=${recruiter.getRecruiterId()}"><img src="${recruiter.getBanner()}"></img></a>
+                    <p>${recruiter.getName()}</p>
+                    <p>${recruiter.getWebsite()}</p>
+                    <p>${recruiter.getSkillList()}</p>
+                    <p>Angular, ReactJS</p>
+                </div>
+            </c:forEach>
+
             <div class="company">
                 <img src="https://daihoc.fpt.edu.vn/media/2019/04/fsoft.png"></img>
                 <p>https://www.fpt-software.com/</p>
@@ -54,27 +65,7 @@
                 <p>https://www.fpt-software.com/</p>
                 <p>Angular, ReactJS</p>
             </div>
-            <div class="company">
-                <img src="https://daihoc.fpt.edu.vn/media/2019/04/fsoft.png"></img>
-                <p>https://www.fpt-software.com/</p>
-                <p>Angular, ReactJS</p>
-            </div>
-            <div class="company">
-                <img src="https://daihoc.fpt.edu.vn/media/2019/04/fsoft.png"></img>
-                <p>https://www.fpt-software.com/</p>
-                <p>Angular, ReactJS</p>
-            </div>
-            <div class="company">
-                <img src="https://daihoc.fpt.edu.vn/media/2019/04/fsoft.png"></img>
-                <p>https://www.fpt-software.com/</p>
-                <p>Angular, ReactJS</p>
-            </div>
-            <div class="company">
-                <img src="https://daihoc.fpt.edu.vn/media/2019/04/fsoft.png"></img>
-                <p>https://www.fpt-software.com/</p>
-                <p>Angular, ReactJS</p>
-            </div>
-            <h2>Candidate</h2>
+            <h3>Candidate</h3>
             <div class="candidate">
                 <img src="https://media-cdn.laodong.vn/storage/newsportal/2022/1/17/995694/Pham-Nhat-Vuong.jpg"></img>
                 <p>https://www.fpt-software.com/</p>

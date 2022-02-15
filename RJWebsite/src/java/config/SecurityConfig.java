@@ -37,6 +37,7 @@ public class SecurityConfig {
         urlPatterns1.add("/seachingjob");
         urlPatterns1.add("/seachingcompany");
         urlPatterns1.add("/candidateapplyjobpage");
+        urlPatterns1.add("/companyfollowingPage");
 
         mapConfig.put(ROLE_CANDIDATE, urlPatterns1);
 

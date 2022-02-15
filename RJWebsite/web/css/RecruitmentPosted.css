@@ -45,11 +45,9 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to ed
 }
 
 .content{
+    width: 100%;
+    height: auto;
     margin-left: 180px;
-}
-
-h2{
-    margin-top: 30px;
 }
 
 .company{

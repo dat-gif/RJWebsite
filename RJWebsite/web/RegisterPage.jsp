@@ -17,9 +17,13 @@
         <title>Register</title>
     </head>
     <body>
+        <!-- Header.jsp -->
         <header><jsp:include page="component/Header.jsp"/></header>
+
+        <!-- Main -->
         <main class="container-fluid mt-3 mb-3">
             <div class="row row-cols-2 justify-content-center align-items-center">
+
                 <div class="col no-gutters">
                     <img src="https://picsum.photos/1000/1000" class="img-fluid w-100" alt="alt"/>
                 </div>
@@ -36,83 +40,105 @@
                     </ul>
 
                     <div class="tab-content mt-2 p-3" id="myTabContent">
+
                         <!-- Candidate register -->
                         <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-
                             <form class="w-75" action="register" method="post">
-                                <!--User Name -->
                                 <div class="form-outline mb-4">
                                     <label class="form-label" for="0">Email</label>
-                                    <input type="text" id="0" class="form-control" name="email" required/>
-                                    <c:if test="${registerErrorMesg !=null}">
-                                        <p class="text-danger" >${registerErrorMesg}</p>
+                                    <input type="text" id="email" class="form-control" name="email" value="${email}" required onblur="validateEmail();"/>
+                                    <c:if test="${errorEmailMesg !=null}">
+                                        <p class="text-danger" >${errorEmailMesg}</p>
                                     </c:if>
                                 </div>
-
                                 <div class="form-outline mb-4">
                                     <label class="form-label" for="0">Phone Number</label>
-                                    <input type="tel" pattern="(84|0[3|5|7|8|9])+([0-9]{8})\b" id="0" class="form-control" name="phone" required/>
+                                    <input type="tel" pattern="(84|0[3|5|7|8|9])+([0-9]{8})\b" id="0" class="form-control" name="phone" id="phone" placeholder="09123456 or +84123456" 
+                                           required value="${phone}" />
+                                    <c:if test="${phoneErrorMesg !=null}">
+                                        <p class="text-danger" >${phoneErrorMesg}</p>
+                                    </c:if>
                                 </div>
-
-                                <!-- Password input -->
                                 <div class="form-outline mb-4">
                                     <label class="form-label" for="1">Password</label>
-                                    <input type="password" id="1" class="form-control" name="password" required/>
+                                    <input type="password" id="1" class="form-control" name="password" value="${password}" required id="password" onblur="validatePassword()"/>
+                                    <c:if test="${passErrorMesg !=null}">
+                                        <p class="text-danger" >${passErrorMesg}</p>
+                                    </c:if>
                                 </div>
-                                <!-- Password input -->
                                 <div class="form-outline mb-4">
                                     <label class="form-label" for="2">Confirm Password</label>
-                                    <input type="password" id="2" class="form-control" name="confirmPassword" required/>
+                                    <input type="password" id="2" class="form-control" name="confirmPassword" id="confirmPassword" onblur="validateComfirmPassword()"/>
+                                    <c:if test="${confirmPassErrorMesg !=null}">
+                                        <p class="text-danger" >${confirmPassErrorMesg}</p>
+                                    </c:if>
                                 </div>
                                 <input name="role" value="candidate" class="invisible"/>
                                 <!-- Submit button -->
                                 <button type="submit" class="btn btn-primary btn-block">Register Account</button>
                             </form>
                         </div>
+
                         <!-- Recruiter register -->
                         <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
                             <form class="w-75" action="register" method="post">
-                                <!--User Name -->
+
                                 <div class="row row-cols-2">
                                     <div class="col form-outline mb-3">
                                         <label class="form-label" for="0">Company Name</label>
-                                        <input type="text" id="0" class="form-control"  name="companyName"/>
+                                        <input type="text" id="0" class="form-control" name="companyName"/>
+                                        <c:if test="${companyNameErrorMesg !=null}">
+                                            <p class="text-danger" >${companyNameErrorMesg}</p>
+                                        </c:if>
                                     </div>
                                     <div class="col form-outline mb-3">
                                         <label class="form-label" for="0">Email</label>
                                         <input type="email" id="0" class="form-control" name="email"/>
+                                        <c:if test="${errorEmailMesg !=null}">
+                                            <p class="text-danger" >${errorEmailMesg}</p>
+                                        </c:if>
                                     </div>
                                 </div>
-
-
                                 <div class="form-outline mb-3">
                                     <label class="form-label" for="1">Address</label>
                                     <input type="text" id="1" class="form-control" name="address"/>
+                                    <c:if test="${addressErrorMesg !=null}">
+                                        <p class="text-danger" >${addressErrorMesg}</p>
+                                    </c:if>
                                 </div>
-
                                 <div class="row row-cols-2">
                                     <div class="col form-outline mb-3">
                                         <label class="form-label" for="0">Recruiter Name</label>
                                         <input type="text" id="0" class="form-control" name="recruiterName"/>
+                                        <c:if test="${recruiterNameErrorMesg !=null}">
+                                            <p class="text-danger" >${recruiterNameErrorMesg}</p>
+                                        </c:if>
                                     </div>
                                     <div class="col form-outline mb-3">
                                         <label class="form-label" for="0">Phone Number</label>
-                                        <input type="tel" pattern="(84|0[3|5|7|8|9])+([0-9]{8})\b" id="0" class="form-control" name="phone" />
+                                        <input type="tel" pattern="(84|0[3|5|7|8|9])+([0-9]{8})\b" id="0" class="form-control" name="phone"  placeholder="09123456 or +84123456"/>
+                                        <c:if test="${phoneErrorMesg !=null}">
+                                            <p class="text-danger" >${phoneErrorMesg}</p>
+                                        </c:if>
                                     </div>
                                     <div class="col form-outline mb-3">
                                         <label class="form-label" for="0">Password</label>
-                                        <input type="password" id="0" class="form-control" name="password" />
+                                        <input type="password" id="0" class="form-control" name="password" required />
+                                        <c:if test="${passErrorMesg !=null}">
+                                            <p class="text-danger" >${passErrorMesg}</p>
+                                        </c:if>
                                     </div>
                                     <div class="col form-outline mb-3">
                                         <label class="form-label" for="0">Confirm password</label>
-                                        <input type="password" id="0" class="form-control" name="confirmPassword"  />
+                                        <input type="password" id="0" class="form-control" name="confirmPassword" required/>
+                                        <c:if test="${confirmPassErrorMesg !=null}">
+                                            <p class="text-danger" >${confirmPassErrorMesg}</p>
+                                        </c:if>
                                     </div>
                                 </div>
                                 <input name="role" value="recruiter" class="invisible"/>
-
                                 <!-- Submit button -->
                                 <button type="submit" class="btn btn-primary btn-block">Register Account</button>
-
                             </form>
                         </div>
                     </div>
@@ -120,10 +146,35 @@
             </div>
         </main>
         <c:if test="${not empty loginError}">
-            <script>
-               
-            </script>
+
         </c:if>
+        <!--        <script>
+                    function validateEmail()
+                    {
+                        var email = document.getElementById("email").value;
+                        document.getElementById('errors').innerHTML = "*Please enter a username*";
+        
+                    }
+                    function validatePhone()
+                    {
+                        var email = document.getElementById("email").value;
+                        document.getElementById('errors').innerHTML = "*Please enter a username*";
+        
+                    }
+                    function validatePassword()
+                    {
+                        var email = document.getElementById("email").value;
+                        document.getElementById('errors').innerHTML = "*Please enter a username*";
+        
+                    }
+                    function validateComfirmPassword()
+                    {
+                        var email = document.getElementById("email").value;
+                        document.getElementById('errors').innerHTML = "*Please enter a username*";
+        
+                    }
+                </script>-->
+        <!-- Footer.jsp -->
         <footer> <jsp:include page="component/Footer.jsp"/></footer>
         <script src="bootstrap-4.6.1-dist/js/bootstrap.min.js"></script>
 
