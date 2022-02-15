@@ -5,12 +5,19 @@
  */
 package controller;
 
+import static controller.CandidateApplyJobPageController.recordNumber;
+import dao.RecruiterDAO;
+import dao.idao.IRecruiter;
+import entity.Account;
+import entity.Recruiter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import utils.AppUtils;
 
 /**
  *
@@ -49,7 +56,22 @@ public class CandidateCompanyFollowingPage extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            IRecruiter iRecruiter = new RecruiterDAO();
+            Account loginedUser = AppUtils.getLoginedUser(request.getSession());
+            String currentPage = request.getParameter("page");
+            if (currentPage != null) {
+                pageNumber = Integer.parseInt(currentPage);
+            }
+            int totalRecordNumber = iRecruiter.getCandidateTotalFollowingCompany(loginedUser.getAccId());
+            totalPage = (int) Math.ceil((double) totalRecordNumber / recordNumber);
+
+            ArrayList<Recruiter> listRecruiter = iRecruiter.getCandidateFollowingRecruiterList(loginedUser.getAccId(), pageNumber, recordNumber);
+            request.setAttribute("listRecruiter", listRecruiter);
+            request.setAttribute("totalPage", totalPage);
+            request.getRequestDispatcher("CandidateApplyJobPage.jsp").forward(request, response);
+        } catch (Exception e) {
+        }
     }
 
     /**
@@ -63,7 +85,7 @@ public class CandidateCompanyFollowingPage extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+
     }
 
     /**
