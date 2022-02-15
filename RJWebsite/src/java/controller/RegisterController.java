@@ -90,8 +90,8 @@ public class RegisterController extends HttpServlet {
                 request.getRequestDispatcher("RegisterPage.jsp").forward(request, response);
             } else {
                 registerAccount.setEmail(email.trim());
-                registerAccount.setPassword(password);
-                registerAccount.setPhone(phone);
+                registerAccount.setPassword(password.trim());
+                registerAccount.setPhone(phone.trim());
 // Add candidate account
                 if (role.equalsIgnoreCase("candidate")) {
                     registerAccount.setRoleId(2);

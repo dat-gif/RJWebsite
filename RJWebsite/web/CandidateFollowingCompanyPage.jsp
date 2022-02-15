@@ -20,7 +20,7 @@
         <header><jsp:include page="component/Header.jsp"/></header>
         <main class="container">
             <h3 class="text-capitalize display-5 mb-4" style="margin-top: 5rem">Following company</h3>
-            
+
             <!-- List following company  -->
             <div class="row row-cols-4 align-content-center ">
                 <c:forEach items="${listRecruiter}" var="recruiter"> 
@@ -35,14 +35,14 @@
                     </div>
                 </c:forEach> 
             </div>
-         
+
             <!-- Paging -->
             <div class="row justify-content-center mt-4 mb-4">
                 <nav aria-label="...">
                     <ul class="pagination">
                         <c:forEach begin="1" end="${totalPage}" var="i">
                             <li class="page-item" value="${page}"  name="page">
-                                <a class="page-link" href="candidateapplyjobpage?page=${i}" >${i}</a>
+                                <a class="page-link" href="#" >${i}</a>
                             </li>    
                         </c:forEach>
                     </ul>
