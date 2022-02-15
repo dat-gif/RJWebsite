@@ -23,10 +23,6 @@ import java.util.List;
  */
 public class RecruiterDAO extends DBContext implements dao.idao.IRecruiter {
 
-    Connection conn = null;//ket noi sql
-    PreparedStatement ps = null; //truyen querry sang sql
-    ResultSet rs = null; //nhan tra ve, với các func gọi chéo nhau, nên tạo rs riêng
-
     /**
      *
      * Change from string type to array type form searching
@@ -50,6 +46,12 @@ public class RecruiterDAO extends DBContext implements dao.idao.IRecruiter {
         return sortList;
     }
 
+    /**
+     * Get recruiter info by recruiter id
+     *
+     * @param recruiterId
+     * @return
+     */
     @Override
     public Recruiter getRecruiterById(int recruiterId) {
         String query = " SELECT recruiter.recruiter_id\n"
@@ -68,8 +70,8 @@ public class RecruiterDAO extends DBContext implements dao.idao.IRecruiter {
                 + " FROM [SWP391].[dbo].[recruiter]\n"
                 + " where recruiter.recruiter_id= ?";
         try {
-            conn = new DBContext().getConnection();
-            ps = conn.prepareStatement(query);
+            Connection conn = getConnection();
+            PreparedStatement ps = conn.prepareStatement(query);
             ps.setInt(1, recruiterId);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
@@ -115,7 +117,7 @@ public class RecruiterDAO extends DBContext implements dao.idao.IRecruiter {
                 + "	 ) \n"
                 + "END \n";
         try {
-            conn = new DBContext().getConnection();
+            Connection conn = getConnection();
             PreparedStatement ps = conn.prepareStatement(createTempTable);
             ps.executeUpdate();
         } catch (Exception e) {
@@ -189,7 +191,7 @@ public class RecruiterDAO extends DBContext implements dao.idao.IRecruiter {
         }
         try {
             int count = 1;
-            conn = new DBContext().getConnection();
+            Connection conn = new DBContext().getConnection();
             PreparedStatement ps = conn.prepareStatement(clearQuery + insertTable + queryUnionTable);
             for (int i = 0; i < wordSearchList.size(); i++) {
                 String get = wordSearchList.get(i);
@@ -212,7 +214,7 @@ public class RecruiterDAO extends DBContext implements dao.idao.IRecruiter {
         int total = 0;
         String query = "select count(*) as num  from (select recruiter_id from recruiter group by recruiter_id) as countTable";
         try {
-            conn = new DBContext().getConnection();
+            Connection conn = new DBContext().getConnection();
             PreparedStatement ps = conn.prepareStatement(query);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
@@ -229,7 +231,8 @@ public class RecruiterDAO extends DBContext implements dao.idao.IRecruiter {
         int total = 0;
         String query = "select count(*) as num  from (select recruiter_id from ##TempRecruiterTable group by recruiter_id) as countTable";
         try {
-            conn = new DBContext().getConnection();
+
+            Connection conn = new DBContext().getConnection();
             PreparedStatement ps = conn.prepareStatement(query);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
@@ -274,8 +277,8 @@ public class RecruiterDAO extends DBContext implements dao.idao.IRecruiter {
                 + "OFFSET (@PageNumber-1)*@RowsOfPage ROWS\n"
                 + "FETCH NEXT @RowsOfPage ROWS ONLY";
         try {
-            conn = new DBContext().getConnection();
-            ps = conn.prepareStatement(query);
+            Connection conn = new DBContext().getConnection();
+            PreparedStatement ps = conn.prepareStatement(query);
             ps.setInt(1, pageNumber);
             ps.setInt(2, recordNumber);
             ResultSet rs = ps.executeQuery();
@@ -330,8 +333,8 @@ public class RecruiterDAO extends DBContext implements dao.idao.IRecruiter {
                 + "FETCH NEXT @RowsOfPage ROWS ONLY";
 
         try {
-            conn = new DBContext().getConnection();
-            ps = conn.prepareStatement(query);
+            Connection conn = new DBContext().getConnection();
+            PreparedStatement ps = conn.prepareStatement(query);
             ps.setInt(1, pageNumber);
             ps.setInt(2, recordNumber);
             ResultSet rs = ps.executeQuery();
@@ -360,6 +363,32 @@ public class RecruiterDAO extends DBContext implements dao.idao.IRecruiter {
     }
 
     @Override
+
+    public ArrayList<Skill> getRecruiterSkill(int recruiterId) {
+        ArrayList<Skill> skillList = new ArrayList<>();
+        String query = "SELECT skill.skill_id, skill.name, skill.icon, skill.description\n"
+                + "from recruiter\n"
+                + "inner join recruiter_skill on recruiter_skill.recruiter_id= recruiter.recruiter_id\n"
+                + "inner join skill on recruiter_skill.skill_id= skill.skill_id\n"
+                + "where recruiter.recruiter_id= ?";
+
+        try {
+            Connection conn = new DBContext().getConnection();
+            PreparedStatement ps = conn.prepareStatement(query);
+            ps.setInt(1, recruiterId);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                skillList.add(new Skill(rs.getInt("skill_id"),
+                        rs.getNString("name"),
+                        rs.getNString("icon"),
+                        rs.getNString("description")));
+            }
+        } catch (Exception e) {
+            System.out.println("get skill :" + e);
+        }
+        return skillList;
+    }
+
     public void insertRecruiterFilterByCity(String cityValue) {
         String clearQuery = "DELETE FROM ##TempRecruiterTable  \n ";
         String insertTable = "INSERT INTO ##TempRecruiterTable  ( \n"
@@ -395,8 +424,8 @@ public class RecruiterDAO extends DBContext implements dao.idao.IRecruiter {
                 + "where recruiter.city like ?";
 
         try {
-            conn = new DBContext().getConnection();
-            ps = conn.prepareStatement(clearQuery + insertTable + queryTable);
+            Connection conn = new DBContext().getConnection();
+            PreparedStatement ps = conn.prepareStatement(clearQuery + insertTable + queryTable);
             ps.setString(1, "%" + cityValue + "%");
             ps.executeUpdate();
         } catch (Exception e) {
@@ -404,9 +433,26 @@ public class RecruiterDAO extends DBContext implements dao.idao.IRecruiter {
         }
     }
 
+    public static void main(String[] args) {
+        List<Recruiter> list = new ArrayList<>();
+        RecruiterDAO dao = new RecruiterDAO();
+        list = dao.getAllRecruiter(1, 10);
+        for (Recruiter recruiter : list) {
+            System.out.println(recruiter.toString());
+        }
+        dao.createRecruiterTempoTableSearchData();
+        dao.insertRecruiter("ACE", "All");
+
+        list = dao.getRecruiterPaging(1, 10);
+        for (Recruiter recruiter : list) {
+            System.out.println(recruiter.toString());
+        }
+        dao.insertRecruiterFilterByCity("Hà Nội");
+    }
+
     @Override
     public ArrayList<String> getSkillNameByRecruiterId(int recruiterId) {
-        
+
         ArrayList<String> skillList = new ArrayList<>();
         String query = "SELECT skill.name\n"
                 + "from recruiter\n"
@@ -414,9 +460,9 @@ public class RecruiterDAO extends DBContext implements dao.idao.IRecruiter {
                 + "inner join skill on recruiter_skill.skill_id= skill.skill_id\n"
                 + "where recruiter.recruiter_id= ?";
 
-        try {            
-            conn = getConnection();
-            ps = conn.prepareStatement(query);
+        try {
+            Connection conn = getConnection();
+            PreparedStatement ps = conn.prepareStatement(query);
             ps.setInt(1, recruiterId);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
@@ -426,35 +472,149 @@ public class RecruiterDAO extends DBContext implements dao.idao.IRecruiter {
             System.out.println("get skill :" + e);
         }
         return skillList;
+
     }
 
-//get ra danh sach cac skill theo recruiterId
+    /**
+     * Check if the candidate has been following the recruiter (company)
+     *
+     * @param recruiterId
+     * @param cadidateId
+     * @return
+     */
     @Override
-    public ArrayList<Skill> getRecruiterSkill(int recruiterId) {
-        //khoi tao list rong
-        ArrayList<Skill> skillList = new ArrayList<>();
-        String query = "SELECT skill.skill_id, skill.name, skill.icon, skill.description\n"
-                + "from recruiter\n"
-                + "inner join recruiter_skill on recruiter_skill.recruiter_id= recruiter.recruiter_id\n"
-                + "inner join skill on recruiter_skill.skill_id= skill.skill_id\n"
-                + "where recruiter.recruiter_id= ?";
-
+    public boolean checkRecruiterBeenFollowing(int recruiterId, int candidateId) {
+        String query = "SELECT [id]\n"
+                + "      ,[candidate_id]\n"
+                + "      ,[recruiter_id]\n"
+                + "      ,[createAt]\n"
+                + "      ,[updateAt]\n"
+                + "  FROM [SWP391].[dbo].[follow]\n"
+                + "  where candidate_id= ? and recruiter_id=?";
         try {
-            //mo ket noi, set recruiterId vao dau ? dau tien va lay ra ket qua tra ve
-            conn = new DBContext().getConnection();
-            ps = conn.prepareStatement(query);
+            Connection conn = getConnection();
+            PreparedStatement ps = conn.prepareStatement(query);
             ps.setInt(1, recruiterId);
+            ps.setInt(2, candidateId);
             ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                skillList.add(new Skill(rs.getInt("skill_id"),
-                        rs.getNString("name"),
-                        rs.getNString("icon"),
-                        rs.getNString("description")));
+            if (rs.isBeforeFirst()) {
+                return false;
             }
         } catch (Exception e) {
-            System.out.println("get skill :" + e);
+            System.out.println("Bug acc" + e);
         }
-        return skillList;
+        return true;
+    }
+
+    /**
+     *
+     * @param recruiterId
+     * @param candidateId
+     */
+    @Override
+    public void createRequestFollowingCompany(int recruiterId, int candidateId) {
+        String query = "insert into [SWP391].[dbo].[follow](recruiter_id, candidate_id)\n"
+                + "values (?,?)";
+        try {
+            Connection conn = getConnection();
+            PreparedStatement ps = conn.prepareStatement(query);
+            ps.setInt(1, recruiterId);
+            ps.setInt(2, candidateId);
+            ps.executeUpdate();
+        } catch (Exception e) {
+            System.out.println("Bug createRequestFollowingCompany: " + e);
+        }
+    }
+
+    @Override
+    public void deleteRequestFollowingCompany(int recruiterId, int candidateId) {
+        String query = "delete from  [SWP391].[dbo].[follow] where recruiter_id=? and candidate_id=?";
+        try {
+            Connection conn = getConnection();
+            PreparedStatement ps = conn.prepareStatement(query);
+            ps.setInt(1, recruiterId);
+            ps.setInt(2, candidateId);
+            ps.executeUpdate();
+        } catch (Exception e) {
+            System.out.println("deleteRequestFollowingCompany: " + e);
+        }
+    }
+
+    @Override
+    public ArrayList<Recruiter> getCandidateFollowingRecruiterList(int accountId, int currentPage, int recordQuantity) {
+        ArrayList<Recruiter> list = new ArrayList<>();
+        String query = "DECLARE @PageNumber AS INT\n"
+                + "DECLARE @RowsOfPage AS INT\n"
+                + "SET @PageNumber= ? \n"
+                + "SET @RowsOfPage= ?\n"
+                + "SELECT recruiter.[recruiter_id]\n"
+                + "      ,[name]\n"
+                + "      ,recruiter.[address]\n"
+                + "      ,[city]\n"
+                + "      ,recruiter.[avatar]\n"
+                + "      ,recruiter.[banner]\n"
+                + "      ,recruiter.[phone]\n"
+                + "      ,[website]\n"
+                + "      ,[description]\n"
+                + "      ,[employee_quantity]\n"
+                + "      ,[contacter_name]\n"
+                + "      ,[contacter_phone]\n"
+                + "      ,recruiter.[createAt]\n"
+                + "      ,recruiter.[updateAt]\n"
+                + "FROM [SWP391].[dbo].[recruiter]\n"
+                + "inner join follow on follow.recruiter_id = recruiter.recruiter_id\n"
+                + "inner join candidate on candidate.candidate_id= follow.candidate_id\n"
+                + "where candidate.account_id = ?\n"
+                + "ORDER BY [follow].id desc\n"
+                + "OFFSET (@PageNumber-1)*@RowsOfPage ROWS\n"
+                + "FETCH NEXT @RowsOfPage ROWS ONLY";
+
+        try {
+            Connection conn = getConnection();
+            PreparedStatement ps = conn.prepareStatement(query);
+            ps.setInt(1, currentPage);
+            ps.setInt(2, recordQuantity);
+            ps.setInt(3, accountId);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                Recruiter recruiter = new Recruiter(rs.getInt("recruiter_id"), rs.getString("city"), rs.getString("name"), rs.getString("address"), rs.getString("avatar"),
+                        rs.getString("banner"), rs.getString("phone"), rs.getString("website"),
+                        rs.getString("description"), rs.getString("employee_quantity"),
+                        rs.getString("contacter_name"), rs.getString("contacter_phone"));
+                list.add(recruiter);
+            }
+        } catch (Exception e) {
+            System.out.println("Bug ApplyJobPanging:" + e);
+        }
+        return list;
+    }
+
+    /**
+     *
+     * @param candidateAccountId
+     * @return
+     */
+    @Override
+    public int getCandidateTotalFollowingCompany(int candidateAccountId) {
+        int totalRow = 0;
+        String query = "SELECT count(*) as num\n"
+                + "FROM [SWP391].[dbo].[recruiter]\n"
+                + "inner join follow on follow.recruiter_id = recruiter.recruiter_id\n"
+                + "inner join candidate on candidate.candidate_id= follow.candidate_id\n"
+                + "where candidate.account_id = ?";
+        try {
+            Connection conn = getConnection();
+            PreparedStatement ps = conn.prepareStatement(query);
+            ps.setInt(1, candidateAccountId);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                totalRow = rs.getInt("num");
+            }
+        } catch (Exception e) {
+            System.out.println("bug getCandidateTotalFollowingCompany: " + e);
+        }
+        return totalRow;
     }
 
 //get top 8 recruter
@@ -463,9 +623,9 @@ public class RecruiterDAO extends DBContext implements dao.idao.IRecruiter {
         ArrayList<Recruiter> recruitersList = new ArrayList<>();
         String query = "select top 8 * from recruiter";
         try {
-            conn = getConnection();
-            ps = conn.prepareStatement(query);
-            rs = ps.executeQuery();
+            Connection conn = getConnection();
+            PreparedStatement ps = conn.prepareStatement(query);
+            ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 Recruiter recruiter = new Recruiter(rs.getInt("recruiter_id"),
                         rs.getString("city").trim(),
@@ -486,14 +646,6 @@ public class RecruiterDAO extends DBContext implements dao.idao.IRecruiter {
             System.out.println("get skill :" + e);
         }
         return recruitersList;
-    }
-
-    public static void main(String[] args) {
-        List<Recruiter> list = new ArrayList<>();
-        RecruiterDAO dao = new RecruiterDAO();
-
-        System.out.println(dao.getRecruiterById(1));
-
     }
 
 }

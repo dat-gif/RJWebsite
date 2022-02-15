@@ -769,8 +769,8 @@ public class JobDAO extends DBContext implements IJob {
     }
 
     /**
-     * Get the list of candidates who are applying, built-in pagination. Requiem
-     * know current page and number of records want to get.
+     * Get the list of job candidates who are applying, built-in pagination.
+     * Requiem know current page and number of records want to get.
      *
      * @param accountId int
      * @param currentPage
@@ -865,7 +865,6 @@ public class JobDAO extends DBContext implements IJob {
         }
         return totalRow;
     }
-
 
     /**
      * Check if job has been apply by that candidate or not
@@ -1035,15 +1034,15 @@ public class JobDAO extends DBContext implements IJob {
     public static void main(String[] args) {
         IJob jobDao = new JobDAO();
 
-
         jobDao.createRequestApplyJob(958, 21);
 
-    
         ArrayList<Skill> skills = jobDao.getAllSkill();
         System.out.println(skills);
 
         int id = jobDao.getLatestUpdatedJobId();
         System.out.println(id);
+
+    }
 
   
 }

@@ -56,6 +56,10 @@
         <servlet-name>RecruiterDetailController</servlet-name>
         <servlet-class>controller.RecruiterDetailController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>CandidateCompanyFollowingPage</servlet-name>
+        <servlet-class>controller.CandidateCompanyFollowingPage</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>LandingPage</servlet-name>
         <url-pattern>/landingpage</url-pattern>
@@ -93,12 +97,8 @@
         <url-pattern>/CreateRecruitment</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>RecruitmentPostedController</servlet-name>
-        <url-pattern>/RecruitmentPostedController</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>RecruiterDetailController</servlet-name>
-        <url-pattern>/RecruiterDetailController</url-pattern>
+        <servlet-name>CandidateCompanyFollowingPage</servlet-name>
+        <url-pattern>/companyfollowingPage</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

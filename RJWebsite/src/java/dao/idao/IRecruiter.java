@@ -36,6 +36,17 @@ public interface IRecruiter {
 
     public ArrayList<Skill> getRecruiterSkill(int recruiterId);
 
+    public int getCandidateTotalFollowingCompany(int candidateId);
+
+    public boolean checkRecruiterBeenFollowing(int recruiterId, int candidateId);
+
+    public void createRequestFollowingCompany(int recruiterId, int candidateId);
+
+    public void deleteRequestFollowingCompany(int recruiterId, int candidateId);
+
+    public ArrayList<Recruiter> getCandidateFollowingRecruiterList(int accountId, int currentPage, int recordQuantity);
+
     public ArrayList<Recruiter> getTop8Recruiter();
+
 
 }

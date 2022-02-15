@@ -61,9 +61,6 @@ public interface IJob {
 
     public void deleteRequestApplyJob(int jobId, int candidateId);
 
-
-    public void sendApplyJob(int jobId, int candidateId);
-
     public int insertRecruitment(int recruiterId, String title, String description, String salary, String quantity, String role, String experience, String location, String hiredDate);
 
     public int insertJobSkill(int jobId, int skillId);
