@@ -363,6 +363,7 @@ public class RecruiterDAO extends DBContext implements dao.idao.IRecruiter {
     }
 
     @Override
+
     public ArrayList<Skill> getRecruiterSkill(int recruiterId) {
         ArrayList<Skill> skillList = new ArrayList<>();
         String query = "SELECT skill.skill_id, skill.name, skill.icon, skill.description\n"
@@ -388,7 +389,6 @@ public class RecruiterDAO extends DBContext implements dao.idao.IRecruiter {
         return skillList;
     }
 
-    @Override
     public void insertRecruiterFilterByCity(String cityValue) {
         String clearQuery = "DELETE FROM ##TempRecruiterTable  \n ";
         String insertTable = "INSERT INTO ##TempRecruiterTable  ( \n"
@@ -452,6 +452,7 @@ public class RecruiterDAO extends DBContext implements dao.idao.IRecruiter {
 
     @Override
     public ArrayList<String> getSkillNameByRecruiterId(int recruiterId) {
+
         ArrayList<String> skillList = new ArrayList<>();
         String query = "SELECT skill.name\n"
                 + "from recruiter\n"
@@ -460,7 +461,7 @@ public class RecruiterDAO extends DBContext implements dao.idao.IRecruiter {
                 + "where recruiter.recruiter_id= ?";
 
         try {
-            Connection conn = new DBContext().getConnection();
+            Connection conn = getConnection();
             PreparedStatement ps = conn.prepareStatement(query);
             ps.setInt(1, recruiterId);
             ResultSet rs = ps.executeQuery();
@@ -471,6 +472,7 @@ public class RecruiterDAO extends DBContext implements dao.idao.IRecruiter {
             System.out.println("get skill :" + e);
         }
         return skillList;
+
     }
 
     /**
@@ -602,7 +604,7 @@ public class RecruiterDAO extends DBContext implements dao.idao.IRecruiter {
                 + "inner join candidate on candidate.candidate_id= follow.candidate_id\n"
                 + "where candidate.account_id = ?";
         try {
-            Connection conn = new DBContext().getConnection();
+            Connection conn = getConnection();
             PreparedStatement ps = conn.prepareStatement(query);
             ps.setInt(1, candidateAccountId);
             ResultSet rs = ps.executeQuery();
@@ -613,6 +615,37 @@ public class RecruiterDAO extends DBContext implements dao.idao.IRecruiter {
             System.out.println("bug getCandidateTotalFollowingCompany: " + e);
         }
         return totalRow;
+    }
+
+//get top 8 recruter
+    @Override
+    public ArrayList<Recruiter> getTop8Recruiter() {
+        ArrayList<Recruiter> recruitersList = new ArrayList<>();
+        String query = "select top 8 * from recruiter";
+        try {
+            Connection conn = getConnection();
+            PreparedStatement ps = conn.prepareStatement(query);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Recruiter recruiter = new Recruiter(rs.getInt("recruiter_id"),
+                        rs.getString("city").trim(),
+                        rs.getString("name").trim(),
+                        rs.getString("address").trim(),
+                        rs.getString("avatar").trim(),
+                        rs.getString("banner").trim(),
+                        rs.getString("phone").trim(),
+                        rs.getString("website"),
+                        rs.getString("description"),
+                        rs.getString("employee_quantity"),
+                        rs.getString("contacter_name"),
+                        rs.getString("contacter_phone")
+                );
+                recruitersList.add(recruiter);
+            }
+        } catch (Exception e) {
+            System.out.println("get skill :" + e);
+        }
+        return recruitersList;
     }
 
 }

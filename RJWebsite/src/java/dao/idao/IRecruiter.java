@@ -45,4 +45,8 @@ public interface IRecruiter {
     public void deleteRequestFollowingCompany(int recruiterId, int candidateId);
 
     public ArrayList<Recruiter> getCandidateFollowingRecruiterList(int accountId, int currentPage, int recordQuantity);
+
+    public ArrayList<Recruiter> getTop8Recruiter();
+
+
 }

@@ -18,42 +18,39 @@
     <body>
         <jsp:include page="component/HiepHeader.jsp"/>
         <h1>Create Recruitment</h1>
-        <form class="form">
+        <form class="form" action="CreateRecruitmentController" method="post">
             <table>
                 <tr>
                     <td>Job Name</td>
-                    <td><input type="text" value=""></td>
+                    <td><input type="text" name="jobName"></td>
                     <td>Salary</td>
-                    <td><input type="text" value=""></td>
+                    <td><input type="text" name="salary"></td>
                 </tr>
                 <tr>
                     <td>Quantity</td>
-                    <td><input type="text" value=""></td>
+                    <td><input type="text" name="quantity"></td>
                     <td>Role</td>
-                    <td><input type="text" value=""></td>
+                    <td><input type="text" name="role"></td>
                 </tr>
                 <tr>
                     <td>Experience</td>
-                    <td><input type="text" value=""></td>
-                    <td>End Date</td>
-                    <td><input type="text" value=""></td>
+                    <td><input type="text" name="experience"></td>
+                    <td>Hire Date</td>
+                    <td><input type="text" name="hireDate"></td>
                 </tr>
                 <tr>
                     <td>Location</td>
-                    <td><select name="" id="">
-                            <option></option>
-                        </select>
-                    </td>
+                    <td><input type="text" name="location"></td>
                     <td>Skill</td>
                     <td><select name="" id="">
                             <c:forEach items="${listSkill}" var="skill">
-                                <option value="${skill.getId()}" name="skill">${skill.getName()}</option>
+                                <option value="${skill.getId()}" name="skillId">${skill.getName()}</option>
                             </c:forEach>                         
                         </select>
                     </td>
                 </tr>           
             </table>
-            <span>Description</span><input class="des" type="text">
+            <span>Description</span><input class="des" type="text" name="description">
             <input class="btn" type="submit" value="Create new recruitment">
         </form>
         <jsp:include page="component/HiepFooter.jsp"/>

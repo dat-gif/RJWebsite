@@ -29,5 +29,6 @@
             </ul>
             <i class="far fa-user"></i>
         </div>
+        <hr/>
     </body>
 </html>
