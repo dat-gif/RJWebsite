@@ -588,4 +588,31 @@ public class RecruiterDAO extends DBContext implements dao.idao.IRecruiter {
         return list;
     }
 
+    /**
+     *
+     * @param candidateAccountId
+     * @return
+     */
+    @Override
+    public int getCandidateTotalFollowingCompany(int candidateAccountId) {
+        int totalRow = 0;
+        String query = "SELECT count(*) as num\n"
+                + "FROM [SWP391].[dbo].[recruiter]\n"
+                + "inner join follow on follow.recruiter_id = recruiter.recruiter_id\n"
+                + "inner join candidate on candidate.candidate_id= follow.candidate_id\n"
+                + "where candidate.account_id = ?";
+        try {
+            Connection conn = new DBContext().getConnection();
+            PreparedStatement ps = conn.prepareStatement(query);
+            ps.setInt(1, candidateAccountId);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                totalRow = rs.getInt("num");
+            }
+        } catch (Exception e) {
+            System.out.println("bug getCandidateTotalFollowingCompany: " + e);
+        }
+        return totalRow;
+    }
+
 }
