@@ -5,8 +5,11 @@ package controller;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+import dao.AccountDAO;
 import dao.idao.IJob;
 import dao.JobDAO;
+import dao.idao.IAccount;
+import entity.Candidate;
 import entity.Job;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -14,12 +17,23 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import utils.AppUtils;
 
 /**
  *
  * @author Admin
  */
 public class JobDetailController extends HttpServlet {
+
+    private String jobDetailId;
+
+    public String getJobDetailId() {
+        return jobDetailId;
+    }
+
+    public void setJobDetailId(String jobDetailId) {
+        this.jobDetailId = jobDetailId;
+    }
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -50,10 +64,16 @@ public class JobDetailController extends HttpServlet {
             throws ServletException, IOException {
         IJob daoJob = new JobDAO();
         String jobId = request.getParameter("jobId");
-
+        setJobDetailId(jobId);
         try {
+            IAccount iAccount = new AccountDAO();
             Job job = daoJob.getJobById(Integer.parseInt(jobId));
-
+            Candidate candidate = iAccount.getCandidateInfoByAccountId(AppUtils.getLoginedUser(request.getSession()).getAccId());
+            if (daoJob.checkJobBeenApply(Integer.parseInt(jobId), candidate.getCandIdateId())) {
+               request.setAttribute("jobApplyButton", "Apply");
+            } else {
+                request.setAttribute("jobApplyButton", "Withdraw");
+            }
             request.setAttribute("jobTile", job.getTitle());
             request.setAttribute("jobCompany", job.getRecruiter().getName());
             request.setAttribute("endDate", job.getHireDate());
@@ -83,6 +103,20 @@ public class JobDetailController extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
+        String jobId = getJobDetailId();
+        IJob daoJob = new JobDAO();
+        IAccount iAccount = new AccountDAO();
+        try {
+            //Get account in session
+            Candidate candidate = iAccount.getCandidateInfoByAccountId(AppUtils.getLoginedUser(request.getSession()).getAccId());
+            if (daoJob.checkJobBeenApply(Integer.parseInt(jobId), candidate.getCandIdateId())) {
+                daoJob.createRequestApplyJob(Integer.parseInt(jobId), candidate.getCandIdateId());
+            } else {
+                daoJob.deleteRequestApplyJob(Integer.parseInt(jobId), candidate.getCandIdateId());
+            }
+            response.sendRedirect("jobdetail?jobId=" + jobId);
+        } catch (Exception e) {
+        }
     }
 
     /**

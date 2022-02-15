@@ -31,7 +31,7 @@
                         <div class="text-white">
                             <h1 class="mb-3"> Thousand of IT job are waiting for you</h1>
                             <h4 class="mb-3">Create profile and join us now</h4>
-                            <a class="btn btn-md btn-primary" href="/register" role="button"
+                            <a class="btn btn-md btn-primary" href="register" role="button"
                                >Create profile</a
                             >
                         </div>
@@ -54,6 +54,7 @@
                             <jsp:param name="arraySkill" value="${job.skillListName}"/>
                             <jsp:param name="text2" value="${job.salaryRange}"/>
                             <jsp:param name="img" value="${job.recruiter.getAvatar()}"/>
+                            <jsp:param name="link" value="jobdetail?jobId=${job.getjId()}"/>
                         </jsp:include>
                     </div>
                 </c:forEach>  
@@ -61,7 +62,7 @@
 
             </div>
             <div class="row justify-content-center mt-4 mb-4">
-                <button type="button" class="btn btn-primary">See More >></button>
+                <a type="button" class="btn btn-primary" href="seachingjob">See More >></a>
             </div>
         </main>
 
