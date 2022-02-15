@@ -36,4 +36,6 @@ public interface IRecruiter {
 
     public ArrayList<Skill> getRecruiterSkill(int recruiterId);
 
+    public ArrayList<Recruiter> getTop8Recruiter();
+
 }

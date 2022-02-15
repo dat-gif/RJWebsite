@@ -685,13 +685,6 @@ public class JobDAO extends DBContext implements IJob {
         return list;
     }
 
-    public static void main(String[] args) {
-        IJob jobDao = new JobDAO();
-
-        ArrayList<Job> testList;
-
-    }
-
     @Override
     public int getTotalJobRow() {
         int totalRow = 0;
@@ -861,6 +854,85 @@ public class JobDAO extends DBContext implements IJob {
             System.out.println("bug get row Temp job " + e);
         }
         return totalRow;
+    }
+
+
+//insert job moi vao db
+    @Override
+    public int insertRecruitment(int recruiterId, String title, String description, String salary, String quantity, String role, String experience, String location, String hiredDate) {
+        int totalRow = 0;
+        String query = "insert into job values(?,?,?,?,?,?,?,?,?,null,1,null,null)";
+        try {
+            //mo ket noi, set du lieu vao cac dau ? va lay du lieu tra ve
+            Connection conn = getConnection();
+            PreparedStatement ps = conn.prepareStatement(query);
+            ps.setInt(1, recruiterId);
+            ps.setString(2, title);
+            ps.setString(3, description);
+            ps.setString(4, salary);
+            ps.setString(5, quantity);
+            ps.setString(6, role);
+            ps.setString(7, experience);
+            ps.setString(8, location);
+            ps.setString(9, hiredDate);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                totalRow = rs.getInt(1);
+            }
+        } catch (Exception e) {
+            System.out.println("bug get row Temp job " + e);
+        }
+        return totalRow;
+    }
+
+//insert job skill moi vao db
+    @Override
+    public int insertJobSkill(int jobId, int skillId) {
+        int totalRow = 0;
+        String query = "insert into job values(?,?,null,null)";
+        try {
+            //mo ket noi, set du lieu vao cac dau ? va lay du lieu tra ve
+            Connection conn = getConnection();
+            PreparedStatement ps = conn.prepareStatement(query);
+            ps.setInt(1, jobId);
+            ps.setInt(2, skillId);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                totalRow = rs.getInt(1);
+            }
+        } catch (Exception e) {
+            System.out.println("bug get row Temp job " + e);
+        }
+        return totalRow;
+    }
+
+//lay ra id cua job moi nhat duoc them vao bang
+    @Override
+    public int getLatestUpdatedJobId() {
+        String query = "select top 1 * from job order by job_id desc";
+        try {
+            //mo ket noi, lay du lieu tra ve
+            Connection conn = new DBContext().getConnection();
+            PreparedStatement ps = conn.prepareStatement(query);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (Exception e) {
+            System.out.println("bug get row Temp job " + e);
+        }
+        return 0;
+    }
+
+    public static void main(String[] args) {
+        IJob jobDao = new JobDAO();
+
+        ArrayList<Skill> skills = jobDao.getAllSkill();
+        System.out.println(skills);
+
+        int id = jobDao.getLatestUpdatedJobId();
+        System.out.println(id);
+
     }
 
 }

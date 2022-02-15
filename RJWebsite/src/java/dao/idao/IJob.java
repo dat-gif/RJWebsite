@@ -53,4 +53,10 @@ public interface IJob {
     public int getTotalApplyJobRow(int candidateId);
 
     public void sendApplyJob(int jobId, int candidateId);
+
+    public int insertRecruitment(int recruiterId, String title, String description, String salary, String quantity, String role, String experience, String location, String hiredDate);
+
+    public int insertJobSkill(int jobId, int skillId);
+
+    public int getLatestUpdatedJobId();
 }
