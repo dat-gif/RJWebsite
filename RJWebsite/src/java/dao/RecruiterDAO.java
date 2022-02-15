@@ -21,7 +21,7 @@ import java.util.List;
  *
  * @author Admin
  */
-public class RecruiterDAO implements dao.idao.IRecruiter {
+public class RecruiterDAO extends DBContext implements dao.idao.IRecruiter {
 
     Connection conn = null;//ket noi sql
     PreparedStatement ps = null; //truyen querry sang sql
@@ -360,32 +360,6 @@ public class RecruiterDAO implements dao.idao.IRecruiter {
     }
 
     @Override
-    public ArrayList<Skill> getRecruiterSkill(int recruiterId) {
-        ArrayList<Skill> skillList = new ArrayList<>();
-        String query = "SELECT skill.skill_id, skill.name, skill.icon, skill.description\n"
-                + "from recruiter\n"
-                + "inner join recruiter_skill on recruiter_skill.recruiter_id= recruiter.recruiter_id\n"
-                + "inner join skill on recruiter_skill.skill_id= skill.skill_id\n"
-                + "where recruiter.recruiter_id= ?";
-
-        try {
-            conn = new DBContext().getConnection();
-            ps = conn.prepareStatement(query);
-            ps.setInt(1, recruiterId);
-            ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                skillList.add(new Skill(rs.getInt("skill_id"),
-                        rs.getNString("name"),
-                        rs.getNString("icon"),
-                        rs.getNString("description")));
-            }
-        } catch (Exception e) {
-            System.out.println("get skill :" + e);
-        }
-        return skillList;
-    }
-
-    @Override
     public void insertRecruiterFilterByCity(String cityValue) {
         String clearQuery = "DELETE FROM ##TempRecruiterTable  \n ";
         String insertTable = "INSERT INTO ##TempRecruiterTable  ( \n"
@@ -430,25 +404,9 @@ public class RecruiterDAO implements dao.idao.IRecruiter {
         }
     }
 
-    public static void main(String[] args) {
-        List<Recruiter> list = new ArrayList<>();
-        RecruiterDAO dao = new RecruiterDAO();
-        list = dao.getAllRecruiter(1, 10);
-        for (Recruiter recruiter : list) {
-            System.out.println(recruiter.toString());
-        }
-        dao.createRecruiterTempoTableSearchData();
-        dao.insertRecruiter("ACE", "All");
-        System.out.println("--------");
-        list = dao.getRecruiterPaging(1, 10);
-        for (Recruiter recruiter : list) {
-            System.out.println(recruiter.toString());
-        }
-        dao.insertRecruiterFilterByCity("Hà Nội");
-    }
-
     @Override
     public ArrayList<String> getSkillNameByRecruiterId(int recruiterId) {
+        
         ArrayList<String> skillList = new ArrayList<>();
         String query = "SELECT skill.name\n"
                 + "from recruiter\n"
@@ -456,8 +414,8 @@ public class RecruiterDAO implements dao.idao.IRecruiter {
                 + "inner join skill on recruiter_skill.skill_id= skill.skill_id\n"
                 + "where recruiter.recruiter_id= ?";
 
-        try {
-            conn = new DBContext().getConnection();
+        try {            
+            conn = getConnection();
             ps = conn.prepareStatement(query);
             ps.setInt(1, recruiterId);
             ResultSet rs = ps.executeQuery();
@@ -468,6 +426,74 @@ public class RecruiterDAO implements dao.idao.IRecruiter {
             System.out.println("get skill :" + e);
         }
         return skillList;
+    }
+
+//get ra danh sach cac skill theo recruiterId
+    @Override
+    public ArrayList<Skill> getRecruiterSkill(int recruiterId) {
+        //khoi tao list rong
+        ArrayList<Skill> skillList = new ArrayList<>();
+        String query = "SELECT skill.skill_id, skill.name, skill.icon, skill.description\n"
+                + "from recruiter\n"
+                + "inner join recruiter_skill on recruiter_skill.recruiter_id= recruiter.recruiter_id\n"
+                + "inner join skill on recruiter_skill.skill_id= skill.skill_id\n"
+                + "where recruiter.recruiter_id= ?";
+
+        try {
+            //mo ket noi, set recruiterId vao dau ? dau tien va lay ra ket qua tra ve
+            conn = new DBContext().getConnection();
+            ps = conn.prepareStatement(query);
+            ps.setInt(1, recruiterId);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                skillList.add(new Skill(rs.getInt("skill_id"),
+                        rs.getNString("name"),
+                        rs.getNString("icon"),
+                        rs.getNString("description")));
+            }
+        } catch (Exception e) {
+            System.out.println("get skill :" + e);
+        }
+        return skillList;
+    }
+
+//get top 8 recruter
+    @Override
+    public ArrayList<Recruiter> getTop8Recruiter() {
+        ArrayList<Recruiter> recruitersList = new ArrayList<>();
+        String query = "select top 8 * from recruiter";
+        try {
+            conn = getConnection();
+            ps = conn.prepareStatement(query);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                Recruiter recruiter = new Recruiter(rs.getInt("recruiter_id"),
+                        rs.getString("city").trim(),
+                        rs.getString("name").trim(),
+                        rs.getString("address").trim(),
+                        rs.getString("avatar").trim(),
+                        rs.getString("banner").trim(),
+                        rs.getString("phone").trim(),
+                        rs.getString("website"),
+                        rs.getString("description"),
+                        rs.getString("employee_quantity"),
+                        rs.getString("contacter_name"),
+                        rs.getString("contacter_phone")
+                );
+                recruitersList.add(recruiter);
+            }
+        } catch (Exception e) {
+            System.out.println("get skill :" + e);
+        }
+        return recruitersList;
+    }
+
+    public static void main(String[] args) {
+        List<Recruiter> list = new ArrayList<>();
+        RecruiterDAO dao = new RecruiterDAO();
+
+        System.out.println(dao.getRecruiterById(1));
+
     }
 
 }

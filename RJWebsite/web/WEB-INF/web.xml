@@ -46,7 +46,15 @@
     </servlet>
     <servlet>
         <servlet-name>CreateRecruitment</servlet-name>
-        <servlet-class>controller.CreateRecruitment</servlet-class>
+        <servlet-class>controller.CreateRecruitmentController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>RecruitmentPostedController</servlet-name>
+        <servlet-class>controller.RecruitmentPostedController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>RecruiterDetailController</servlet-name>
+        <servlet-class>controller.RecruiterDetailController</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>LandingPage</servlet-name>
@@ -83,6 +91,14 @@
     <servlet-mapping>
         <servlet-name>CreateRecruitment</servlet-name>
         <url-pattern>/CreateRecruitment</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>RecruitmentPostedController</servlet-name>
+        <url-pattern>/RecruitmentPostedController</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>RecruiterDetailController</servlet-name>
+        <url-pattern>/RecruiterDetailController</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

@@ -4,23 +4,24 @@
     Author     : USE
 --%>
 
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>JSP Page</title>
-        <link href="css/DataManagement.css" rel="stylesheet" type="text/css"/>
+        <link href="css/RecruiterDetail.css" rel="stylesheet" type="text/css"/>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" />
     </head>
     <body>
         <jsp:include page="component/HiepHeader.jsp"/>
         <div class="top">
-            <img src="https://png.pngtree.com/png-clipart/20200709/original/pngtree-technology-logo-template-png-image_3669874.jpg" alt="">
+            <img src="${recruiter.getAvatar()}" alt="">
             <div class="infor">
-                <h2>Data Management Officer</h2>
+                <h2>${recruiter.getName()}</h2>
                 <p>CMC GLOBAL</p>
-                <p>End date: 24/1/2022</p>
+                <p>Create date: ${recruiter.getCreateAt()}</p>
             </div>           
             <button><a href="#">Edit</a></button>
         </div>
@@ -36,28 +37,28 @@
                         <p>General Information</p>
                         <table>
                             <tr>
-                                <td><i class="fas fa-dollar-sign"></i></td>
-                                <td>Salary</td>
+                                <td><i class="fa-solid fa-address-card"></i></td>
+                                <td>Contact Name</td>
                                 <td><i class="fas fa-user-friends"></i></td>
                                 <td>Number of recruits</td>
                             </tr>
                             <tr>
                                 <td></td>
-                                <td>2000</td>
+                                <td>${recruiter.getContacterName()}</td>
                                 <td></td>
-                                <td>30</td>
+                                <td>${recruiter.getEmployeeQuantity()}</td>
                             </tr>
                             <tr>
-                                <td><i class="fas fa-map-marker-alt"></i></td>
-                                <td>Position</td>
-                                <td><i class="fas fa-chart-bar"></i></td>
-                                <td>Experience</td>
+                                <td><i class="fa-solid fa-phone-office"></i></td>
+                                <td>Contact Number</td>
+                                <td><i class="fa-solid fa-phone"></i></td>
+                                <td>Recruiter Number</td>
                             </tr>
                             <tr>
                                 <td></td>
-                                <td>Staff</td>
+                                <td>${recruiter.getContacterPhone()}</td>
                                 <td></td>
-                                <td>2 years</td>
+                                <td>${recruiter.getPhone()}</td>
                             </tr>
                         </table>
                     </div>
@@ -66,24 +67,12 @@
                         <table>
                             <tr>
                                 <td><i class="fas fa-map-marked-alt"></i></td>
-                                <td>Hanoi, HochiMinh</td>
+                                <td>${recruiter.getAddress()}</td>
                             </tr>
                         </table>  
                     </div> 
                     <div class="description">
-                        <p>Paragraph On Black Money – 200 Words for Classes 6, 7, 8 Students
-                            Black money is a severe problem in almost every nation. In addition to the harsh economic issues caused by the deposition of black money, there is also the moral aspect that we cannot ignore. Sacrificing one’s conscience and morality to meet his selfish ends is a sign of anti-social behavior and should not be encouraged in any given situation.
-
-                            Black money has far-reaching effects on a country’s economy. The large amounts of money that do not get registered in the tax department leads to a loss in the revenue received by the government from the public. This revenue is used to boost policy making, and development plans for the nation and a stalemate in such situations severely affect the country. Moreover, such lump-sum amounts of money rarely enter the entire banking channel. This leads to the stifling of the economy as these amounts remain concealed, and the banks fail to use it to boost small-time business people and entrepreneurs.
-
-                            Black money also leads to many inaccuracies in the country’s economy. No nation can count the exact amount of black money present in the system. Such unreported amounts cannot be calculated as the Gross National Product or Gross Domestic Product, leading to inaccuracies and problems in policymaking. A sound system is needed very soon to sort out such issues.
-                            Paragraph On Black Money – 200 Words for Classes 6, 7, 8 Students
-                            Black money is a severe problem in almost every nation. In addition to the harsh economic issues caused by the deposition of black money, there is also the moral aspect that we cannot ignore. Sacrificing one’s conscience and morality to meet his selfish ends is a sign of anti-social behavior and should not be encouraged in any given situation.
-
-                            Black money has far-reaching effects on a country’s economy. The large amounts of money that do not get registered in the tax department leads to a loss in the revenue received by the government from the public. This revenue is used to boost policy making, and development plans for the nation and a stalemate in such situations severely affect the country. Moreover, such lump-sum amounts of money rarely enter the entire banking channel. This leads to the stifling of the economy as these amounts remain concealed, and the banks fail to use it to boost small-time business people and entrepreneurs.
-
-                            Black money also leads to many inaccuracies in the country’s economy. No nation can count the exact amount of black money present in the system. Such unreported amounts cannot be calculated as the Gross National Product or Gross Domestic Product, leading to inaccuracies and problems in policymaking. A sound system is needed very soon to sort out such issues.
-                        </p>
+                        <p>${recruiter.getDescription()}</p>
                     </div>
                 </div>
                 <div id="candidateWrap" class="candidateWrap">
@@ -115,11 +104,13 @@
             <div class="right">
                 <div class="skill">
                     <p>Skill</p>
-                    <p class="smallDetail">React Java</p>
+                    <c:forEach items="${listSkill}" var="skill">
+                        <p class="smallDetail">${skill.getName()}</p>      
+                    </c:forEach>                        
                 </div>
                 <div class="location">
                     <p>Location</p>
-                    <p class="smallDetail">Hanoi</p>
+                    <p class="smallDetail">${recruiter.getCity()}</p>
                 </div>
             </div>
         </div>

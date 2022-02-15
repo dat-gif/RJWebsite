@@ -4,9 +4,9 @@
  */
 package controller;
 
-import dao.JobDAO;
-import dao.idao.IJob;
-import entity.Skill;
+import dao.RecruiterDAO;
+import dao.idao.IRecruiter;
+import entity.Recruiter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
@@ -19,7 +19,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author USE
  */
-public class CreateRecruitment extends HttpServlet {
+public class RecruitmentPostedController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -33,11 +33,25 @@ public class CreateRecruitment extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-               
-        IJob ijob = new JobDAO();
-        List<Skill> listSkill = ijob.getAllSkill();
-        request.getRequestDispatcher("CreateRecruitment.jsp").forward(request, response);
-        
+
+        try {
+            //khoi tao object dao
+            IRecruiter iRecruiter = new RecruiterDAO();
+
+            //get ra danh sach top 8 cac recruiter
+            List<Recruiter> listRecruiter = iRecruiter.getTop8Recruiter();
+
+            //gui danh sach len trang jsp
+            request.setAttribute("listRecruiter", listRecruiter);
+
+            //chuyen huong den trang jsp dich
+            request.getRequestDispatcher("RecruitmentPosted.jsp").forward(request, response);
+        } catch (Exception e) {
+            //neu co loi thi chuyen huong den trang bao loi
+            request.setAttribute("error", e);
+            request.getRequestDispatcher("ErrorPage.jsp").forward(request, response);
+        }
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

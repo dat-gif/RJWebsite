@@ -52,6 +52,7 @@ public interface IJob {
 
     public int getTotalApplyJobRow(int candidateId);
 
+
     public boolean checkJobBeenApply(int jobId, int cadidateId);
 
     public void editRequestStatusApplyJob(int jobId, int candidateId, String status);
@@ -59,5 +60,14 @@ public interface IJob {
     public void createRequestApplyJob(int jobId, int candidateId);
 
     public void deleteRequestApplyJob(int jobId, int candidateId);
+
+
+    public void sendApplyJob(int jobId, int candidateId);
+
+    public int insertRecruitment(int recruiterId, String title, String description, String salary, String quantity, String role, String experience, String location, String hiredDate);
+
+    public int insertJobSkill(int jobId, int skillId);
+
+    public int getLatestUpdatedJobId();
 
 }
