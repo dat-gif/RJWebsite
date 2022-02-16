@@ -18,14 +18,18 @@ import java.util.Comparator;
 import java.util.List;
 
 /**
+ * The data access object performs the data query and updates from the Recruiter
+ * table or main business related to the Recruiter table and the Recruiter
+ * entity.
  *
- * @author Admin
+ * @author
  */
 public class RecruiterDAO extends DBContext implements dao.idao.IRecruiter {
 
     /**
      *
      * Change from string type to array type form searching
+     * </br>
      *
      * @param string
      * @return List<String>
@@ -48,9 +52,10 @@ public class RecruiterDAO extends DBContext implements dao.idao.IRecruiter {
 
     /**
      * Get recruiter info by recruiter id
+     * <br>
      *
-     * @param recruiterId
-     * @return
+     * @param recruiterId int
+     * @return Recruiter recruiter,<code>entity.Recruiter</code>
      */
     @Override
     public Recruiter getRecruiterById(int recruiterId) {
@@ -95,6 +100,9 @@ public class RecruiterDAO extends DBContext implements dao.idao.IRecruiter {
         return null;
     }
 
+    /**
+     * Create temporary table in session, contain recruiter data
+     */
     @Override
     public void createRecruiterTempoTableSearchData() {
         String createTempTable = " IF OBJECT_ID('tempdb..##TempRecruiterTable') IS NULL\n"
@@ -125,9 +133,15 @@ public class RecruiterDAO extends DBContext implements dao.idao.IRecruiter {
         }
     }
 
+    /**
+     * Insert data to recruiter temporary table (##TempRecruiterTable).
+     *
+     * @param txtSearch String, text in searching box.
+     * @param cityValue String, name of city.
+     */
     @Override
     public void insertRecruiter(String txtSearch, String cityValue) {
-        List<String> wordSearchList = changeStringToListAndSort(txtSearch);
+//        List<String> wordSearchList = changeStringToListAndSort(txtSearch);
         String clearQuery = "DELETE FROM ##TempRecruiterTable  \n ";
         String insertTable = "INSERT INTO ##TempRecruiterTable  ( \n"
                 + "       [recruiter_id] \n"
@@ -143,24 +157,9 @@ public class RecruiterDAO extends DBContext implements dao.idao.IRecruiter {
                 + "      ,[contacter_name]\n"
                 + "      ,[contacter_phone]\n"
                 + "      ,[createAt] \n"
-                + "      ,[updateAt]) ";
-        String queryUnionTable = "select TOP (9223372036854775807) unionTable.[recruiter_id]\n"
-                + "      ,unionTable.[name]\n"
-                + "      ,unionTable.[address]\n"
-                + "      ,unionTable.[city]\n"
-                + "      ,unionTable.[avatar]\n"
-                + "      ,unionTable.[banner]\n"
-                + "      ,unionTable.[phone]\n"
-                + "      ,unionTable.[website]\n"
-                + "      ,unionTable.[description]\n"
-                + "      ,unionTable.[employee_quantity]\n"
-                + "      ,unionTable.[contacter_name]\n"
-                + "      ,unionTable.[contacter_phone]\n"
-                + "      ,unionTable.[createAt]\n"
-                + "      ,unionTable.[updateAt]\n"
-                + "from (";
+                + "      ,[updateAt])\n ";
+
         String queryTable = "select [recruiter_id]\n"
-                + "      ,[account_id]\n"
                 + "      ,[name]\n"
                 + "      ,[address]\n"
                 + "      ,[city]\n"
@@ -175,33 +174,23 @@ public class RecruiterDAO extends DBContext implements dao.idao.IRecruiter {
                 + "      ,[createAt]\n"
                 + "      ,[updateAt]\n"
                 + "from recruiter \n"
-                + "where recruiter.name like ? or recruiter.contacter_phone like ?\n";
-        for (int i = 0; i < wordSearchList.size(); i++) {
-            queryUnionTable = queryUnionTable + queryTable;
-            if (i != wordSearchList.size() - 1) {
-                queryUnionTable = queryUnionTable
-                        + "\n union \n ";
-            }
-        }
-        queryUnionTable = queryUnionTable + " )as unionTable \n";
+                + "where freetext([name],?) or freetext(phone,?)\n";
+
+        String mainQuery = clearQuery + insertTable + queryTable;
+        System.out.println(mainQuery);
         if (!cityValue.equalsIgnoreCase("All")) {
-            String queryWhere = "where ";
-            queryWhere = queryWhere + "unionTable.[city] like ?";
-            queryUnionTable = queryUnionTable + queryWhere;
+            String queryWhere = "where [city] like ?";
+            mainQuery = mainQuery + queryWhere;
         }
         try {
             int count = 1;
             Connection conn = new DBContext().getConnection();
-            PreparedStatement ps = conn.prepareStatement(clearQuery + insertTable + queryUnionTable);
-            for (int i = 0; i < wordSearchList.size(); i++) {
-                String get = wordSearchList.get(i);
-                ps.setString(count, "%" + get + "%");
-                ps.setString(++count, "%" + get + "%");
-                count++;
-            }
+            PreparedStatement ps = conn.prepareStatement(mainQuery);
+            ps.setString(1, txtSearch);
+            ps.setString(2, txtSearch);
 
             if (!cityValue.equalsIgnoreCase("All")) {
-                ps.setString(count, "%" + cityValue + "%");
+                ps.setString(3, "%" + cityValue + "%");
             }
             ps.executeUpdate();
         } catch (Exception e) {
@@ -209,6 +198,11 @@ public class RecruiterDAO extends DBContext implements dao.idao.IRecruiter {
         }
     }
 
+    /**
+     * Count total number of row in ##TempRecruiterTable
+     *
+     * @return total int, total number row in recruiter table
+     */
     @Override
     public int getTotalRecruiterRow() {
         int total = 0;
@@ -226,6 +220,11 @@ public class RecruiterDAO extends DBContext implements dao.idao.IRecruiter {
         return total;
     }
 
+    /**
+     * Count total number of row in Recruiter Table
+     *
+     * @return total int, total number row in recruiter table
+     */
     @Override
     public int getTotalTempRecruiterRow() {
         int total = 0;
@@ -245,10 +244,10 @@ public class RecruiterDAO extends DBContext implements dao.idao.IRecruiter {
     }
 
     /**
-     * Get recruiter
+     * Get record of recruiter form ##TempRecruiterTable
      *
-     * @param pageNumber
-     * @param recordNumber
+     * @param pageNumber int, current page number
+     * @param recordNumber int, number of record
      * @return
      */
     @Override
@@ -389,6 +388,7 @@ public class RecruiterDAO extends DBContext implements dao.idao.IRecruiter {
         return skillList;
     }
 
+    @Override
     public void insertRecruiterFilterByCity(String cityValue) {
         String clearQuery = "DELETE FROM ##TempRecruiterTable  \n ";
         String insertTable = "INSERT INTO ##TempRecruiterTable  ( \n"

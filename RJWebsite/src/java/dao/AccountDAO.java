@@ -18,8 +18,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
+ * The data access object performs the data query and updates from the Account
+ * table.
  *
- * @author Admin
+ * @author
  */
 public class AccountDAO extends DBContext implements IAccount {
 

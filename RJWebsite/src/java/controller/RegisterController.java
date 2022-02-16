@@ -84,6 +84,7 @@ public class RegisterController extends HttpServlet {
 
         try {
             if (!checkAccountBasicInfo(request, email, phone, password, confirmPassword)) {
+                // If account basic info wrong format, redirect to Register Page
                 request.setAttribute("email", email);
                 request.setAttribute("phone", phone);
                 request.setAttribute("password", password);
@@ -92,18 +93,23 @@ public class RegisterController extends HttpServlet {
                 registerAccount.setEmail(email.trim());
                 registerAccount.setPassword(password.trim());
                 registerAccount.setPhone(phone.trim());
-// Add candidate account
+                // Add candidate account
                 if (role.equalsIgnoreCase("candidate")) {
                     registerAccount.setRoleId(2);
                     accountDao.insertCandidateAccount(registerAccount);
-                    response.setContentType("text/html");
-                    PrintWriter out = response.getWriter();
-                    out.println("<script type=\"text/javascript\">");
-                    out.println("alert('Register Account Successful!, back to Login page');");
-                    out.println("location='Login.jsp';");
-                    out.println("</script>");
+                    try {
+                        response.setContentType("text/html");
+                        PrintWriter out = response.getWriter();
+                        out.println("<script type=\"text/javascript\">");
+                        out.println("alert('Register Account Successful!, back to Login page');");
+                        out.println("location='Login.jsp';");
+                        out.println("</script>");
+                        out.flush();
+                    } catch (Exception e) {
+                        System.out.println(e);
+                    }
                 }
-// Add recruiter account
+                // Add recruiter account
                 if (role.equalsIgnoreCase("recruiter") && checkAccountAdditionalInformation(request, companyName, address, recruiterName)) {
                     registerAccount.setRoleId(1);
                     Recruiter recruiter = new Recruiter();
@@ -111,12 +117,18 @@ public class RegisterController extends HttpServlet {
                     recruiter.setAddress(address);
                     recruiter.setContacterName(recruiterName);
                     accountDao.insertRecruitorAccount(registerAccount, recruiter);
-                    response.setContentType("text/html");
-                    PrintWriter out = response.getWriter();
-                    out.println("<script type=\"text/javascript\">");
-                    out.println("alert('Register Account Successful!, back to Login page');");
-                    out.println("location='Login.jsp';");
-                    out.println("</script>");
+                    try {
+                        response.setContentType("text/html");
+                        PrintWriter out = response.getWriter();
+                        out.println("<script type=\"text/javascript\">");
+                        out.println("alert('Register Account Successful!, back to Login page');");
+                        out.println("location='Login.jsp';");
+                        out.println("</script>");
+                        out.flush();
+                    } catch (Exception e) {
+                        System.out.println(e);
+                    }
+
                 } else {
                     request.setAttribute("email", email);
                     request.setAttribute("phone", phone);
@@ -124,7 +136,6 @@ public class RegisterController extends HttpServlet {
                     request.setAttribute("companyName", companyName);
                     request.setAttribute("address", address);
                     request.setAttribute("recruiterName", recruiterName);
-
                     request.getRequestDispatcher("RegisterPage.jsp").forward(request, response);
                 }
             }
@@ -144,6 +155,17 @@ public class RegisterController extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
+    /**
+     * Check account basic info: email(user name), phone number, password,
+     * confirmPassword.
+     *
+     * @param request
+     * @param email
+     * @param phoneNumber
+     * @param password
+     * @param confirmPassword
+     * @return
+     */
     public boolean checkAccountBasicInfo(HttpServletRequest request, String email, String phoneNumber, String password, String confirmPassword) {
         IAccount accountDao = new AccountDAO();
         Validation validation = new Validation();

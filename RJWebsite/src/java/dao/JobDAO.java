@@ -21,8 +21,10 @@ import java.util.Comparator;
 import java.util.List;
 
 /**
+ * The data access object performs the data query and updates from the Job table
+ * or main business related to the Job table and the Job entity.
  *
- * @author Admin
+ * @author
  */
 public class JobDAO extends DBContext implements IJob {
 
@@ -439,7 +441,7 @@ public class JobDAO extends DBContext implements IJob {
      */
     @Override
     public void insertJobByTextSearch(String txtSearch, String skillValue, String cityValue) {
-        List<String> wordSearchList = changeStringToListAndSort(txtSearch);
+//        List<String> wordSearchList = changeStringToListAndSort(txtSearch);
         String clearQuery = "DELETE FROM ##TempTable \n ";
         String insertTable = "INSERT INTO ##TempTable ( [job_id]\n"
                 + "      ,[recruiter_id]\n"
@@ -455,22 +457,8 @@ public class JobDAO extends DBContext implements IJob {
                 + "      ,[status]\n"
                 + "      ,[createAt]\n"
                 + "      ,[updateAt])\n";
-        String queryUnionTable = "select TOP (9223372036854775807) unionTable.[job_id]\n"
-                + "      ,unionTable.[recruiter_id]\n"
-                + "      ,unionTable.[title]\n"
-                + "      ,unionTable.[description]\n"
-                + "      ,unionTable.[salary_range]\n"
-                + "      ,unionTable.[quantity]\n"
-                + "      ,unionTable.[role]\n"
-                + "      ,unionTable.[experience]\n"
-                + "      ,unionTable.[location]\n"
-                + "      ,unionTable.[hire_date]\n"
-                + "      ,unionTable.[questions]\n"
-                + "      ,unionTable.[status]\n"
-                + "      ,unionTable.[createAt]\n"
-                + "      ,unionTable.[updateAt]  \n"
-                + "from (\n";
-        String queryTable = "select job.[job_id]\n"
+
+        String freeTextQuery = " select job.[job_id]\n"
                 + "      ,job.[recruiter_id]\n"
                 + "      ,job.[title]\n"
                 + "      ,job.[description]\n"
@@ -484,23 +472,14 @@ public class JobDAO extends DBContext implements IJob {
                 + "      ,job.[status]\n"
                 + "      ,job.[createAt]\n"
                 + "      ,job.[updateAt]\n"
-                + "from job \n"
-                + "inner join job_skill on job_skill.job_id = job.job_id\n"
-                + "inner join skill on job_skill.skill_id = skill.skill_id\n"
-                + "where job.title like ? or skill.name like ?";
-        for (int i = 0; i < wordSearchList.size(); i++) {
-            queryUnionTable = queryUnionTable + queryTable;
-            if (i != wordSearchList.size() - 1) {
-                queryUnionTable = queryUnionTable
-                        + "\n union \n ";
-            }
-        }
-        queryUnionTable = queryUnionTable + " )as unionTable \n";
+                + " from job where freetext(title, ? )\n";
+        String mainQuery = clearQuery + insertTable + freeTextQuery;
+
         if (!skillValue.equalsIgnoreCase("All") || !cityValue.equalsIgnoreCase("All")) {
             String joinQuery = "";
             String skillJoinQuery = "inner join job_skill on job_skill.job_id = unionTable.job_id\n"
                     + "inner join skill on job_skill.skill_id = skill.skill_id\n";
-            // City of job in database can get by recruiter info
+            // City info of job in database can get by recruiter info
             String cityJoinQuery = "inner join recruiter on recruiter.recruiter_id = unionTable.recruiter_id\n";
             String queryWhere = "where ";
             if (!skillValue.equalsIgnoreCase("All")) {
@@ -514,20 +493,15 @@ public class JobDAO extends DBContext implements IJob {
                 queryWhere = queryWhere + "recruiter.city like ?";
                 joinQuery = joinQuery + cityJoinQuery;
             }
-            queryUnionTable = queryUnionTable + joinQuery + queryWhere;
+            mainQuery = mainQuery + joinQuery + queryWhere;
         }
-
         try {
             int count = 1;
             Connection conn = new DBContext().getConnection();
-            PreparedStatement ps = conn.prepareStatement(clearQuery + insertTable + queryUnionTable);
-            for (int i = 0; i < wordSearchList.size(); i++) {
-                String get = wordSearchList.get(i);
-                ps.setString(count, "%" + get + "%");
-                ps.setString(++count, "%" + get + "%");
-                count++;
-            }
+            PreparedStatement ps = conn.prepareStatement(mainQuery);
+            ps.setString(count, txtSearch);
             if (!skillValue.equalsIgnoreCase("All") || !cityValue.equalsIgnoreCase("All")) {
+                count++;
                 if (!skillValue.equalsIgnoreCase("All")) {
                     ps.setString(count, skillValue);
                     if (!cityValue.equalsIgnoreCase("All")) {
@@ -542,7 +516,6 @@ public class JobDAO extends DBContext implements IJob {
         } catch (Exception e) {
             System.err.println("Bug insert: " + e);
         }
-
     }
 
     /**
@@ -1044,5 +1017,4 @@ public class JobDAO extends DBContext implements IJob {
 
     }
 
-  
 }

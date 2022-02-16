@@ -170,7 +170,7 @@ public class SeachingCompanyController extends HttpServlet {
                 cookieMap.put(cookie.getName(), decodeValue);
             }
             String cookieSearch = cookieMap.get("recruiterSearch");
-            
+
             String cookieCity = cookieMap.get("recruitercitySelect");
 
             //Request parameter
@@ -208,7 +208,7 @@ public class SeachingCompanyController extends HttpServlet {
             if (cookieCity == null || !cookieCity.equalsIgnoreCase(citySelect)) {
                 setCookie(response, "recruitercitySelect", citySelect, -1);
             }
-         
+
             response.sendRedirect("seachingcompany");
 
         } catch (Exception e) {
