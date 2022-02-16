@@ -18,14 +18,18 @@ import java.util.Comparator;
 import java.util.List;
 
 /**
+ * The data access object performs the data query and updates from the Recruiter
+ * table or main business related to the Recruiter table and the Recruiter
+ * entity.
  *
- * @author Admin
+ * @author
  */
 public class RecruiterDAO extends DBContext implements dao.idao.IRecruiter {
 
     /**
      *
      * Change from string type to array type form searching
+     * </br>
      *
      * @param string
      * @return List<String>
@@ -48,9 +52,10 @@ public class RecruiterDAO extends DBContext implements dao.idao.IRecruiter {
 
     /**
      * Get recruiter info by recruiter id
+     * <br>
      *
-     * @param recruiterId
-     * @return
+     * @param recruiterId int
+     * @return Recruiter recruiter,<code>entity.Recruiter</code>
      */
     @Override
     public Recruiter getRecruiterById(int recruiterId) {
@@ -95,6 +100,9 @@ public class RecruiterDAO extends DBContext implements dao.idao.IRecruiter {
         return null;
     }
 
+    /**
+     * Create temporary table in session, contain recruiter data
+     */
     @Override
     public void createRecruiterTempoTableSearchData() {
         String createTempTable = " IF OBJECT_ID('tempdb..##TempRecruiterTable') IS NULL\n"
@@ -125,6 +133,12 @@ public class RecruiterDAO extends DBContext implements dao.idao.IRecruiter {
         }
     }
 
+    /**
+     * Insert data to recruiter temporary table (##TempRecruiterTable).
+     *
+     * @param txtSearch String, text in searching box.
+     * @param cityValue String, name of city.
+     */
     @Override
     public void insertRecruiter(String txtSearch, String cityValue) {
         List<String> wordSearchList = changeStringToListAndSort(txtSearch);
@@ -209,6 +223,11 @@ public class RecruiterDAO extends DBContext implements dao.idao.IRecruiter {
         }
     }
 
+    /**
+     * Count total number of row in ##TempRecruiterTable
+     *
+     * @return total int, total number row in recruiter table
+     */
     @Override
     public int getTotalRecruiterRow() {
         int total = 0;
@@ -226,6 +245,11 @@ public class RecruiterDAO extends DBContext implements dao.idao.IRecruiter {
         return total;
     }
 
+    /**
+     * Count total number of row in Recruiter Table
+     *
+     * @return total int, total number row in recruiter table
+     */
     @Override
     public int getTotalTempRecruiterRow() {
         int total = 0;
@@ -245,10 +269,10 @@ public class RecruiterDAO extends DBContext implements dao.idao.IRecruiter {
     }
 
     /**
-     * Get recruiter
+     * Get record of recruiter form ##TempRecruiterTable
      *
-     * @param pageNumber
-     * @param recordNumber
+     * @param pageNumber int, current page number
+     * @param recordNumber int, number of record
      * @return
      */
     @Override
