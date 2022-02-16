@@ -75,7 +75,7 @@ public class LoginController extends HttpServlet {
         String userEmail = request.getParameter("userEmail");
         String password = request.getParameter("password");
 
-        Account userAccount = accountDao.getAccountByEmailAndPassword(userEmail, password);
+        Account userAccount = accountDao.getAccountByEmailAndPassword(userEmail.trim(), password);
 
         if (userAccount != null) {
             AppUtils.storeLoginedUser(request.getSession(), userAccount);

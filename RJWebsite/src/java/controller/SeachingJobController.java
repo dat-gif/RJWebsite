@@ -122,7 +122,6 @@ public class SeachingJobController extends HttpServlet {
 
 //Calculate total pagning
             totalPage = (int) Math.ceil((double) totalRecordNumber / recordNumber);
-
             request.setAttribute("page", pageNumber);
             request.setAttribute("txtSearch", cookieSearch);
             request.setAttribute("citySelect", cookieCity);
