@@ -28,6 +28,9 @@ public class Validation {
      * @return
      */
     public boolean emailValidation(String inputEmail) {
+        if (inputEmail.isEmpty() || inputEmail.length() > 320) {
+            return false;
+        }
         Matcher m = VALID_EMAIL_ADDRESS_REGEX.matcher(inputEmail);
         return m.find();
     }
@@ -56,7 +59,7 @@ public class Validation {
     }
 
     public boolean checkConfirmPassword(String password, String confirmPassword) {
-       
+
         return password.equals(confirmPassword);
     }
 
