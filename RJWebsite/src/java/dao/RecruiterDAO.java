@@ -283,12 +283,12 @@ public class RecruiterDAO extends DBContext implements dao.idao.IRecruiter {
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 Recruiter r = new Recruiter(rs.getInt("recruiter_id"),
-                        rs.getString("city").trim(),
+                        rs.getString("city"),
                         rs.getString("name").trim(),
-                        rs.getString("address").trim(),
-                        rs.getString("avatar").trim(),
-                        rs.getString("banner").trim(),
-                        rs.getString("phone").trim(),
+                        rs.getString("address"),
+                        rs.getString("avatar"),
+                        rs.getString("banner"),
+                        rs.getString("phone"),
                         rs.getString("website"),
                         rs.getString("description"),
                         rs.getString("employee_quantity"),
@@ -300,7 +300,7 @@ public class RecruiterDAO extends DBContext implements dao.idao.IRecruiter {
                 recruitersList.add(r);
             }
         } catch (Exception e) {
-            System.out.println("get panig recruiter :" + e);
+            System.out.println("getRecruiterPaging :" + e);
         }
         return recruitersList;
     }
@@ -339,12 +339,12 @@ public class RecruiterDAO extends DBContext implements dao.idao.IRecruiter {
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 Recruiter r = new Recruiter(rs.getInt("recruiter_id"),
-                        rs.getString("city").trim(),
-                        rs.getString("name").trim(),
-                        rs.getString("address").trim(),
-                        rs.getString("avatar").trim(),
-                        rs.getString("banner").trim(),
-                        rs.getString("phone").trim(),
+                        rs.getString("city"),
+                        rs.getString("name"),
+                        rs.getString("address"),
+                        rs.getString("avatar"),
+                        rs.getString("banner"),
+                        rs.getString("phone"),
                         rs.getString("website"),
                         rs.getString("description"),
                         rs.getString("employee_quantity"),
@@ -356,7 +356,7 @@ public class RecruiterDAO extends DBContext implements dao.idao.IRecruiter {
                 recruitersList.add(r);
             }
         } catch (Exception e) {
-            System.out.println("get all recruiter :" + e);
+            System.out.println("getAllRecruiter :" + e);
         }
         return recruitersList;
     }
