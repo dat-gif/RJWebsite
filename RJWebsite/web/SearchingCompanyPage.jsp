@@ -21,12 +21,12 @@
             <jsp:include page="component/Header.jsp"/>
 
         </header>
-
-        <main class="container my-3">
+        <hr style="margin: 2rem">
+        <main class="container my-3 mt-4">
             <!-- Searching -->
             <div class="row row-cols-2 ">
                 <div class="col align-self-center"> 
-                    <h3 class="text-capitalize display-4 mb-4">Searching for IT Company...</h3>
+                    <h3 class="text-capitalize display-4 mb-4">Searching for Company...</h3>
                     <form action="seachingcompany" method="POST"> 
                         <div class="input-group">
                             <input type="search" class="form-control rounded border-secondary" value="${txtSearch}" name="txtSearch" placeholder="eg. Abc company or 091234567" aria-label="Search" aria-describedby="search-addon" />
@@ -76,13 +76,11 @@
             <div class="row justify-content-center mt-4 mb-4">
                 <nav aria-label="...">
                     <ul class="pagination">
-
                         <c:forEach begin="1" end="${totalPage}" var="i">
                             <li class="page-item" value="${page}"  name="page">
                                 <a class="page-link" href="seachingcompany?page=${i}" >${i}</a>
                             </li>    
                         </c:forEach>
-
                     </ul>
                 </nav>
             </div>

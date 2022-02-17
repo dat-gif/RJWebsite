@@ -27,7 +27,7 @@
                 <div class="container">
                     <div class="d-flex justify-content-between">
                         <div class="d-flex justify-content-center">
-                            <image src="https://picsum.photos/200" class="rounded-circle "/>
+                            <image src="${avatar}" class="rounded-circle shadow-sm" style="height: 12rem"/>
                             <i class="bi bi-archive"></i>
                             <div class="mt-5 ml-5">   
                                 <h2 class="display-5 font-weight-normal" style="position: relative; right: 0.2rem" >${jobTile}</h2>
@@ -53,13 +53,12 @@
 
             <div class="container" >
                 <div class="row justify-content-between">
-
-                    <!-- left -->
+                    <!-- Left -->
                     <div class="col-9 bg-light" style="padding: 2.5rem 3rem" >
                         <h4 class="my-4 " >Detail Information</h4>
                         <!-- job info table -->
                         <h5 class="font-weight-normal mb-2" >General Information</h5>
-                        <div class="row row-cols-2 p-3 mx-1" style="background-color: #dae0e5">
+                        <div class="row row-cols-2 p-3 mx-1" style="background-color: #dae0e5; height: 10rem">
                             <!-- salary -->
                             <div class="col d-flex flex-row align-content-center">
                                 <i class="fa fa-money fa-2x align-self-center" aria-hidden="true"></i>
@@ -102,6 +101,11 @@
                         <div class="mt-3">
                             <h5 class="font-weight-normal mb-2" >Description</h5>
                             <p class="text-justify">${description}</p>
+                            <h5 class="font-weight-normal mb-2" >Requirements</h5>
+                            <p class="text-justify">${description}</p>
+                            <h5 class="font-weight-normal mb-2" >Benefit</h5>
+                            <p class="text-justify">${description}</p>
+
                         </div>
                     </div>
 
