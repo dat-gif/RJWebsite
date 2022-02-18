@@ -687,7 +687,27 @@ public class RecruiterDAO extends DBContext implements dao.idao.IRecruiter {
         List<Job> list = new ArrayList<>();
         RecruiterDAO dao = new RecruiterDAO();
 
-       
+    }
 
+    @Override
+    public int getTotalRecruimnetByRecruiterId(String recruiterId) {
+        int total = 0;
+        String query = "SELECT count(*) as num\n"
+                + "FROM job \n"
+                + "inner join recruiter on recruiter.recruiter_id= job.recruiter_id\n"
+                + "where recruiter.recruiter_id=1";
+
+        try {
+
+            Connection conn = new DBContext().getConnection();
+            PreparedStatement ps = conn.prepareStatement(query);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                total = rs.getInt("num");
+            }
+        } catch (Exception e) {
+            System.out.println("getTotalRecruimnetByRecruiterId " + e);
+        }
+        return total;
     }
 }
