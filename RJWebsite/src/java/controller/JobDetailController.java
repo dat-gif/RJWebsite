@@ -18,6 +18,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import jdk.nashorn.internal.ir.ContinueNode;
 import utils.AppUtils;
 
 /**
@@ -66,11 +67,11 @@ public class JobDetailController extends HttpServlet {
         IJob daoJob = new JobDAO();
         String jobId = request.getParameter("jobId");
         setJobDetailId(jobId);
+
         try {
             IAccount iAccount = new AccountDAO();
             Job job = daoJob.getJobById(Integer.parseInt(jobId));
             Account userAccount = AppUtils.getLoginedUser(request.getSession());
-
             if (userAccount == null) {
                 request.setAttribute("jobApplyButton", "Apply");
             } else {
@@ -81,6 +82,8 @@ public class JobDetailController extends HttpServlet {
                     request.setAttribute("jobApplyButton", "Withdraw");
                 }
             }
+            request.setAttribute("recruiterId", job.getRecruiter().getRecruiterId());
+            request.setAttribute("avatar", job.getRecruiter().getAvatar());
             request.setAttribute("jobTile", job.getTitle());
             request.setAttribute("jobCompany", job.getRecruiter().getName());
             request.setAttribute("endDate", job.getHireDate());
@@ -94,7 +97,7 @@ public class JobDetailController extends HttpServlet {
             request.setAttribute("recruiterId", job.getRecruiter().getRecruiterId());
             request.getRequestDispatcher("ViewJobDetailPage.jsp").forward(request, response);
         } catch (Exception e) {
-            System.out.println("bug get " + e);
+            System.out.println("bug get detail " + e);
         }
     }
 
@@ -120,6 +123,7 @@ public class JobDetailController extends HttpServlet {
                 response.sendRedirect("login");
             } else {
                 Candidate candidate = iAccount.getCandidateInfoByAccountId(AppUtils.getLoginedUser(request.getSession()).getAccId());
+                // Thêm check cv trống.
                 if (daoJob.checkJobBeenApply(Integer.parseInt(jobId), candidate.getCandIdateId())) {
                     daoJob.createRequestApplyJob(Integer.parseInt(jobId), candidate.getCandIdateId());
                 } else {

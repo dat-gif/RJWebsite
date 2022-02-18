@@ -21,7 +21,7 @@
             <jsp:include page="component/Header.jsp"/>
 
         </header>
-        <hr style="margin: 2rem">
+        <hr style="margin: 1rem">
         <main class="container my-3 mt-4">
             <!-- Searching -->
             <div class="row row-cols-2 ">
@@ -67,6 +67,7 @@
                             <jsp:param name="title1" value="${recruiter.getName()}"/>
                             <jsp:param name="title2" value="${recruiter.getWebsite()}"/>
                             <jsp:param name="arraySkill" value="${recruiter.getSkillListName()}"/>
+                            <jsp:param name="link" value="candidateviewrecruiterdetail?recruiterId=${recruiter.getRecruiterId()}"/>
                         </jsp:include>
                     </div>
                 </c:forEach> 

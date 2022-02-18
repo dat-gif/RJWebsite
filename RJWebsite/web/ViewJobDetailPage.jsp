@@ -16,22 +16,23 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Job Detail</title>
+        <title>Job Detail - ${jobTile}</title>
+        <link href="css/root.css" media="all" type="text/css" rel="stylesheet">
     </head>
 
-    <body style="background-color: #dae0e5">
+    <body>
         <header ><jsp:include page="component/Header.jsp"/></header>
-        <main style="margin-top: 5rem">
-            <!-- detail head -->
+        <main style="margin-top: 4rem">
+            <!-- Detail head -->
             <div style="background: white; margin-top: 1rem; margin-bottom: 1rem;padding-top: 2rem; padding-bottom: 1rem">
                 <div class="container">
                     <div class="d-flex justify-content-between">
                         <div class="d-flex justify-content-center">
-                            <image src="${avatar}" class="rounded-circle shadow-sm" style="height: 12rem"/>
+                            <image src="${avatar}" class="rounded-circle shadow" style="height: 12rem"/>
                             <i class="bi bi-archive"></i>
                             <div class="mt-5 ml-5">   
                                 <h2 class="display-5 font-weight-normal" style="position: relative; right: 0.2rem" >${jobTile}</h2>
-                                <a class="font-weight-light h4" style="cursor: pointer">${jobCompany}</a>
+                                <a class="font-weight-light h4" style="cursor: pointer" href="candidateviewrecruiterdetail?recruiterId=${recruiterId}">${jobCompany}</a>
                                 <h4 class="font-weight-light">End date : ${endDate}</h4>
                             </div>
                         </div>                   

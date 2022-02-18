@@ -635,8 +635,8 @@ public class RecruiterDAO extends DBContext implements dao.idao.IRecruiter {
     public ArrayList<Job> getRecruimnetByRecruiterIdPagening(String recruiterId, int currentPage, int recordQuantity) {
         String query = "DECLARE @PageNumber AS INT\n"
                 + "DECLARE @RowsOfPage AS INT\n"
-                + "SET @PageNumber= 1 \n"
-                + "SET @RowsOfPage= 10\n"
+                + "SET @PageNumber= ? \n"
+                + "SET @RowsOfPage= ?\n"
                 + "SELECT job.[job_id]\n"
                 + "      ,job.recruiter_id\n"
                 + "      ,[title]\n"
@@ -651,9 +651,11 @@ public class RecruiterDAO extends DBContext implements dao.idao.IRecruiter {
                 + "      ,job.[status]\n"
                 + "	  ,job.[createAt]\n"
                 + "      ,job.[updateAt] \n"
+                + "	  ,recruiter.name\n"
+                + "	  ,recruiter.avatar\n"
                 + "FROM job \n"
                 + "inner join recruiter on recruiter.recruiter_id= job.recruiter_id\n"
-                + "where recruiter.recruiter_id=1\n"
+                + "where recruiter.recruiter_id=?\n"
                 + "ORDER BY job.[job_id] desc\n"
                 + "OFFSET (@PageNumber-1)*@RowsOfPage ROWS\n"
                 + "FETCH NEXT @RowsOfPage ROWS ONLY";
@@ -661,6 +663,9 @@ public class RecruiterDAO extends DBContext implements dao.idao.IRecruiter {
         try {
             Connection conn = getConnection();
             PreparedStatement ps = conn.prepareStatement(query);
+            ps.setInt(1, currentPage);
+            ps.setInt(2, recordQuantity);
+            ps.setString(3, recruiterId);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 Job job = new Job(rs.getInt("job_id"),
@@ -674,7 +679,10 @@ public class RecruiterDAO extends DBContext implements dao.idao.IRecruiter {
                         rs.getString("hire_date"),
                         rs.getBoolean("status")
                 );
-
+                Recruiter r = new Recruiter();
+                r.setAvatar(rs.getString("avatar"));
+                r.setName(rs.getString("name"));
+                job.setRecruiter(r);
                 list.add(job);
             }
         } catch (Exception e) {
@@ -695,12 +703,12 @@ public class RecruiterDAO extends DBContext implements dao.idao.IRecruiter {
         String query = "SELECT count(*) as num\n"
                 + "FROM job \n"
                 + "inner join recruiter on recruiter.recruiter_id= job.recruiter_id\n"
-                + "where recruiter.recruiter_id=1";
+                + "where recruiter.recruiter_id=?";
 
         try {
-
             Connection conn = new DBContext().getConnection();
             PreparedStatement ps = conn.prepareStatement(query);
+            ps.setString(1, recruiterId);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 total = rs.getInt("num");

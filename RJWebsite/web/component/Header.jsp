@@ -33,10 +33,6 @@
                         <li class="nav-item ml-3">
                             <a class="nav-link" href="RecruiterDashBoard">I'm Recruiter</a>
                         </li>
-
-                        <li class="nav-item ml-3">
-                            <a class="nav-link" href="#">My Profile</a>
-                        </li>
                         <li class="nav-item dropdown ml-3">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-expanded="false">
                                 About Job
