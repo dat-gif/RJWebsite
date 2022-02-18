@@ -71,7 +71,7 @@ public class JobDAO extends DBContext implements IJob {
                 list.add(job);
             }
         } catch (Exception e) {
-            System.out.println("Bug :" + e);
+            System.out.println("getJobLandingPage() :" + e);
         }
         return list;
     }
@@ -132,22 +132,22 @@ public class JobDAO extends DBContext implements IJob {
                 + " FROM [SWP391].[dbo].[recruiter]\n"
                 + " where recruiter.recruiter_id= ?";
         try {
-            Connection conn = new DBContext().getConnection();
+            Connection conn = getConnection();
             PreparedStatement ps = conn.prepareStatement(query);
             ps.setInt(1, recruterId);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 return new Recruiter(rs.getInt("recruiter_id"),
-                        rs.getString("name").trim(),
-                        rs.getString("address").trim(),
-                        rs.getString("avatar").trim(),
-                        rs.getString("banner").trim(),
-                        rs.getString("phone").trim(),
-                        rs.getString("website").trim(),
-                        rs.getString("description").trim(),
-                        rs.getString("employee_quantity").trim(),
-                        rs.getString("contacter_name").trim(),
-                        rs.getString("contacter_phone").trim(),
+                        rs.getString("name"),
+                        rs.getString("address"),
+                        rs.getString("avatar"),
+                        rs.getString("banner"),
+                        rs.getString("phone"),
+                        rs.getString("website"),
+                        rs.getString("description"),
+                        rs.getString("employee_quantity"),
+                        rs.getString("contacter_name"),
+                        rs.getString("contacter_phone"),
                         rs.getDate("createAt"),
                         rs.getDate("updateAt"));
             }
@@ -166,18 +166,19 @@ public class JobDAO extends DBContext implements IJob {
      */
     @Override
     public Recruiter getRecruiterIdNameById(int recruiterId) {
-        String query = " SELECT recruiter.recruiter_id\n"
-                + "      ,recruiter.name\n"
-                + "      ,recruiter.avatar\n"
-                + " FROM [SWP391].[dbo].[job]\n"
-                + " inner join recruiter on recruiter.recruiter_id = job.recruiter_id\n"
-                + " where job.job_id= ?";
+        String query = "SELECT recruiter.recruiter_id\n"
+                + ",recruiter.name\n"
+                + ",recruiter.avatar\n"
+                + "FROM [SWP391].[dbo].[recruiter]\n"
+                + "where recruiter.recruiter_id=?";
         try {
             Connection conn = new DBContext().getConnection();
             PreparedStatement ps = conn.prepareStatement(query);
             ps.setInt(1, recruiterId);
             ResultSet rs = ps.executeQuery();
+
             while (rs.next()) {
+
                 return new Recruiter(rs.getInt("recruiter_id"),
                         rs.getString("name").trim(), rs.getString("avatar"));
             }
@@ -265,7 +266,7 @@ public class JobDAO extends DBContext implements IJob {
                 list.add(job);
             }
         } catch (Exception e) {
-            System.out.println("Bug :" + e);
+            System.out.println("getAllJob :" + e);
         }
         return list;
     }
@@ -294,7 +295,7 @@ public class JobDAO extends DBContext implements IJob {
                         rs.getNString("description")));
             }
         } catch (Exception e) {
-            System.out.println("get skill :" + e);
+            System.out.println("getAllSkill() :" + e);
         }
         return skillList;
     }
@@ -648,12 +649,14 @@ public class JobDAO extends DBContext implements IJob {
                         rs.getBoolean("status")
                 );
                 job.setSkillListName(getSkillNameByJobId(job.getjId()));
+
                 job.setRecruiter(getRecruiterIdNameById(rs.getInt("recruiter_id")));
+
                 list.add(job);
             }
 
         } catch (Exception e) {
-            System.err.println(e);
+            System.err.println("getJobSearching " + e);
         }
         return list;
     }
@@ -670,7 +673,7 @@ public class JobDAO extends DBContext implements IJob {
                 totalRow = rs.getInt("num");
             }
         } catch (Exception e) {
-            System.out.println("bug get row job " + e);
+            System.out.println("getTotalJobRow()  " + e);
         }
         return totalRow;
 
@@ -688,7 +691,7 @@ public class JobDAO extends DBContext implements IJob {
                 totalRow = rs.getInt("num");
             }
         } catch (Exception e) {
-            System.out.println("bug get row Temp job " + e);
+            System.out.println("getTotalTempJobRow() " + e);
         }
         return totalRow;
 
@@ -721,22 +724,24 @@ public class JobDAO extends DBContext implements IJob {
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 job = new Job(rs.getInt("job_id"),
-                        rs.getString("title").trim(),
-                        rs.getString("description").trim(),
-                        rs.getString("salary_range").trim(),
-                        rs.getString("quantity").trim(),
-                        rs.getString("role").trim(),
-                        rs.getString("experience").trim(),
-                        rs.getString("location").trim(),
-                        rs.getString("hire_date").trim(),
+                        rs.getString("title"),
+                        rs.getString("description"),
+                        rs.getString("salary_range"),
+                        rs.getString("quantity"),
+                        rs.getString("role"),
+                        rs.getString("experience"),
+                        rs.getString("location"),
+                        rs.getString("hire_date"),
                         rs.getBoolean("status")
                 );
+
                 job.setRecruiter(getRecruterById(rs.getInt("recruiter_id")));
                 job.setSkillListName(getSkillNameByJobId(job.getjId()));
-            }
 
+            }
         } catch (Exception e) {
-            System.out.println("bug get row Temp job " + e);
+
+            System.out.println("getJobById: " + e);
         }
         return job;
     }
@@ -864,7 +869,7 @@ public class JobDAO extends DBContext implements IJob {
                 return false;
             }
         } catch (Exception e) {
-            System.out.println("Bug acc" + e);
+            System.out.println("checkJobBeenApply " + e);
         }
         return true;
     }
@@ -887,7 +892,7 @@ public class JobDAO extends DBContext implements IJob {
             ps.setInt(2, jobId);
             ps.executeUpdate();
         } catch (Exception e) {
-            System.out.println("Bug createRequestApplyJob: " + e);
+            System.out.println("createRequestApplyJob: " + e);
         }
     }
 
@@ -998,7 +1003,7 @@ public class JobDAO extends DBContext implements IJob {
                 return rs.getInt(1);
             }
         } catch (Exception e) {
-            System.out.println("bug get row Temp job " + e);
+            System.out.println("getLatestUpdatedJobId " + e);
         }
         return 0;
 
@@ -1007,13 +1012,7 @@ public class JobDAO extends DBContext implements IJob {
     public static void main(String[] args) {
         IJob jobDao = new JobDAO();
 
-        jobDao.createRequestApplyJob(958, 21);
-
-        ArrayList<Skill> skills = jobDao.getAllSkill();
-        System.out.println(skills);
-
-        int id = jobDao.getLatestUpdatedJobId();
-        System.out.println(id);
+        System.out.println(jobDao.getJobById(26).toString());
 
     }
 

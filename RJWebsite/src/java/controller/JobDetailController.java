@@ -9,6 +9,7 @@ import dao.AccountDAO;
 import dao.idao.IJob;
 import dao.JobDAO;
 import dao.idao.IAccount;
+import entity.Account;
 import entity.Candidate;
 import entity.Job;
 import java.io.IOException;
@@ -17,6 +18,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import jdk.nashorn.internal.ir.ContinueNode;
 import utils.AppUtils;
 
 /**
@@ -65,15 +67,23 @@ public class JobDetailController extends HttpServlet {
         IJob daoJob = new JobDAO();
         String jobId = request.getParameter("jobId");
         setJobDetailId(jobId);
+
         try {
             IAccount iAccount = new AccountDAO();
             Job job = daoJob.getJobById(Integer.parseInt(jobId));
-            Candidate candidate = iAccount.getCandidateInfoByAccountId(AppUtils.getLoginedUser(request.getSession()).getAccId());
-            if (daoJob.checkJobBeenApply(Integer.parseInt(jobId), candidate.getCandIdateId())) {
-               request.setAttribute("jobApplyButton", "Apply");
+            Account userAccount = AppUtils.getLoginedUser(request.getSession());
+            if (userAccount == null) {
+                request.setAttribute("jobApplyButton", "Apply");
             } else {
-                request.setAttribute("jobApplyButton", "Withdraw");
+                Candidate candidate = iAccount.getCandidateInfoByAccountId(userAccount.getAccId());
+                if (daoJob.checkJobBeenApply(Integer.parseInt(jobId), candidate.getCandIdateId())) {
+                    request.setAttribute("jobApplyButton", "Apply");
+                } else {
+                    request.setAttribute("jobApplyButton", "Withdraw");
+                }
             }
+            request.setAttribute("recruiterId", job.getRecruiter().getRecruiterId());
+            request.setAttribute("avatar", job.getRecruiter().getAvatar());
             request.setAttribute("jobTile", job.getTitle());
             request.setAttribute("jobCompany", job.getRecruiter().getName());
             request.setAttribute("endDate", job.getHireDate());
@@ -87,7 +97,7 @@ public class JobDetailController extends HttpServlet {
             request.setAttribute("recruiterId", job.getRecruiter().getRecruiterId());
             request.getRequestDispatcher("ViewJobDetailPage.jsp").forward(request, response);
         } catch (Exception e) {
-            System.out.println(e);
+            System.out.println("bug get detail " + e);
         }
     }
 
@@ -108,11 +118,17 @@ public class JobDetailController extends HttpServlet {
         IAccount iAccount = new AccountDAO();
         try {
             //Get account in session
-            Candidate candidate = iAccount.getCandidateInfoByAccountId(AppUtils.getLoginedUser(request.getSession()).getAccId());
-            if (daoJob.checkJobBeenApply(Integer.parseInt(jobId), candidate.getCandIdateId())) {
-                daoJob.createRequestApplyJob(Integer.parseInt(jobId), candidate.getCandIdateId());
+            Account userAccount = AppUtils.getLoginedUser(request.getSession());
+            if (userAccount == null) {
+                response.sendRedirect("login");
             } else {
-                daoJob.deleteRequestApplyJob(Integer.parseInt(jobId), candidate.getCandIdateId());
+                Candidate candidate = iAccount.getCandidateInfoByAccountId(AppUtils.getLoginedUser(request.getSession()).getAccId());
+                // Thêm check cv trống.
+                if (daoJob.checkJobBeenApply(Integer.parseInt(jobId), candidate.getCandIdateId())) {
+                    daoJob.createRequestApplyJob(Integer.parseInt(jobId), candidate.getCandIdateId());
+                } else {
+                    daoJob.deleteRequestApplyJob(Integer.parseInt(jobId), candidate.getCandIdateId());
+                }
             }
             response.sendRedirect("jobdetail?jobId=" + jobId);
         } catch (Exception e) {

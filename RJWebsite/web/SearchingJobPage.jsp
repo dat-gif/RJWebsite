@@ -21,7 +21,7 @@
             <jsp:include page="component/Header.jsp"/>
 
         </header>
-
+        <hr style="margin: 2rem">
         <main class="container my-3">
             <!-- Searching -->
 
@@ -84,7 +84,7 @@
                 </div>
             </div>
             <hr class="my-4"/>
-          
+
             <!-- Result -->
             <div class="row row-cols-4 align-content-center ">
                 <c:forEach items="${listJob}" var="job"> 
@@ -92,10 +92,10 @@
                         <% request.setCharacterEncoding("utf-8");%>
                         <jsp:include page="component/CardInfo.jsp">
                             <jsp:param name="title1" value="${job.getTitle()}"/>
-                            <jsp:param name="title2" value="${job.recruiter.getName()}"/>
+                            <jsp:param name="title2" value="${job.getRecruiter().getName()}"/>
                             <jsp:param name="arraySkill" value="${job.skillListName}"/>
                             <jsp:param name="text2" value="${job.salaryRange}"/>
-                            <jsp:param name="img" value="${job.recruiter.getAvatar()}"/>
+                            <jsp:param name="img" value="${job.getRecruiter().getAvatar()}"/>
                             <jsp:param name="link" value="jobdetail?jobId=${job.getjId()}"/>
                         </jsp:include>
                     </div>

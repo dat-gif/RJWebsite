@@ -24,7 +24,7 @@ public class Validation {
      * Check if the input email contains username, an @ symbol, domain name, a
      * dot, and the domain
      *
-     * @param inputEmail
+     * @param inputEmail String
      * @return
      */
     public boolean emailValidation(String inputEmail) {
@@ -38,7 +38,7 @@ public class Validation {
     /**
      * Check if phone number in VietNam phone number format
      *
-     * @param inputPhoneNumber
+     * @param inputPhoneNumber String 
      * @return
      */
     public boolean phoneNumberValidation(String inputPhoneNumber) {
@@ -50,7 +50,7 @@ public class Validation {
      * Check if the input password contains word, number and at least 8
      * character
      *
-     * @param inputPassword
+     * @param inputPassword String
      * @return
      */
     public boolean passwordValidation(String inputPassword) {

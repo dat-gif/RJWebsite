@@ -48,5 +48,7 @@ public interface IRecruiter {
 
     public ArrayList<Recruiter> getTop8Recruiter();
 
+    public ArrayList<Job> getRecruimnetByRecruiterIdPagening(String recruiterId, int currentPage, int recordQuantity);
 
+    public int getTotalRecruimnetByRecruiterId(String recruiterId);
 }
