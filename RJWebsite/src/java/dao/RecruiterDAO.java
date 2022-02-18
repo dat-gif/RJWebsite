@@ -82,15 +82,15 @@ public class RecruiterDAO extends DBContext implements dao.idao.IRecruiter {
             while (rs.next()) {
                 return new Recruiter(rs.getInt("recruiter_id"),
                         rs.getString("name").trim(),
-                        rs.getString("address").trim(),
-                        rs.getString("avatar").trim(),
-                        rs.getString("banner").trim(),
-                        rs.getString("phone").trim(),
-                        rs.getString("website").trim(),
-                        rs.getString("description").trim(),
-                        rs.getString("employee_quantity").trim(),
-                        rs.getString("contacter_name").trim(),
-                        rs.getString("contacter_phone").trim(),
+                        rs.getString("address"),
+                        rs.getString("avatar"),
+                        rs.getString("banner"),
+                        rs.getString("phone"),
+                        rs.getString("website"),
+                        rs.getString("description"),
+                        rs.getString("employee_quantity"),
+                        rs.getString("contacter_name"),
+                        rs.getString("contacter_phone"),
                         rs.getDate("createAt"),
                         rs.getDate("updateAt"));
             }
@@ -433,23 +433,6 @@ public class RecruiterDAO extends DBContext implements dao.idao.IRecruiter {
         }
     }
 
-    public static void main(String[] args) {
-        List<Recruiter> list = new ArrayList<>();
-        RecruiterDAO dao = new RecruiterDAO();
-        list = dao.getAllRecruiter(1, 10);
-        for (Recruiter recruiter : list) {
-            System.out.println(recruiter.toString());
-        }
-        dao.createRecruiterTempoTableSearchData();
-        dao.insertRecruiter("ACE", "All");
-
-        list = dao.getRecruiterPaging(1, 10);
-        for (Recruiter recruiter : list) {
-            System.out.println(recruiter.toString());
-        }
-        dao.insertRecruiterFilterByCity("Hà Nội");
-    }
-
     @Override
     public ArrayList<String> getSkillNameByRecruiterId(int recruiterId) {
 
@@ -478,8 +461,8 @@ public class RecruiterDAO extends DBContext implements dao.idao.IRecruiter {
     /**
      * Check if the candidate has been following the recruiter (company)
      *
-     * @param recruiterId
-     * @param cadidateId
+     * @param recruiterId int, recruiter id
+     * @param candidateId int, candidate id
      * @return
      */
     @Override
@@ -648,4 +631,63 @@ public class RecruiterDAO extends DBContext implements dao.idao.IRecruiter {
         return recruitersList;
     }
 
+    @Override
+    public ArrayList<Job> getRecruimnetByRecruiterIdPagening(String recruiterId, int currentPage, int recordQuantity) {
+        String query = "DECLARE @PageNumber AS INT\n"
+                + "DECLARE @RowsOfPage AS INT\n"
+                + "SET @PageNumber= 1 \n"
+                + "SET @RowsOfPage= 10\n"
+                + "SELECT job.[job_id]\n"
+                + "      ,job.recruiter_id\n"
+                + "      ,[title]\n"
+                + "      ,job.[description]\n"
+                + "      ,[salary_range]\n"
+                + "      ,[quantity]\n"
+                + "      ,[role]\n"
+                + "      ,[experience]\n"
+                + "      ,[location]\n"
+                + "      ,[hire_date]\n"
+                + "      ,[questions]\n"
+                + "      ,job.[status]\n"
+                + "	  ,job.[createAt]\n"
+                + "      ,job.[updateAt] \n"
+                + "FROM job \n"
+                + "inner join recruiter on recruiter.recruiter_id= job.recruiter_id\n"
+                + "where recruiter.recruiter_id=1\n"
+                + "ORDER BY job.[job_id] desc\n"
+                + "OFFSET (@PageNumber-1)*@RowsOfPage ROWS\n"
+                + "FETCH NEXT @RowsOfPage ROWS ONLY";
+        ArrayList<Job> list = new ArrayList<>();
+        try {
+            Connection conn = getConnection();
+            PreparedStatement ps = conn.prepareStatement(query);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Job job = new Job(rs.getInt("job_id"),
+                        rs.getString("title"),
+                        rs.getString("description"),
+                        rs.getString("salary_range"),
+                        rs.getString("quantity"),
+                        rs.getString("role"),
+                        rs.getString("experience"),
+                        rs.getString("location"),
+                        rs.getString("hire_date"),
+                        rs.getBoolean("status")
+                );
+
+                list.add(job);
+            }
+        } catch (Exception e) {
+            System.out.println("getJobLandingPage() :" + e);
+        }
+        return list;
+    }
+
+    public static void main(String[] args) {
+        List<Job> list = new ArrayList<>();
+        RecruiterDAO dao = new RecruiterDAO();
+
+       
+
+    }
 }
