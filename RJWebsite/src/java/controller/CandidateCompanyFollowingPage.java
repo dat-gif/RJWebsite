@@ -69,7 +69,7 @@ public class CandidateCompanyFollowingPage extends HttpServlet {
             ArrayList<Recruiter> listRecruiter = iRecruiter.getCandidateFollowingRecruiterList(loginedUser.getAccId(), pageNumber, recordNumber);
             request.setAttribute("listRecruiter", listRecruiter);
             request.setAttribute("totalPage", totalPage);
-            request.getRequestDispatcher("CandidateApplyJobPage.jsp").forward(request, response);
+            request.getRequestDispatcher("CandidateFollowingCompanyPage.jsp").forward(request, response);
         } catch (Exception e) {
         }
     }

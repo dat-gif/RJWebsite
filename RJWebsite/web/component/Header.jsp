@@ -50,7 +50,7 @@
                             <div class="dropdown-menu ml-3" aria-labelledby="navbarDropdown">
                                 <a class="dropdown-item small" href="seachingcompany">Search Company</a>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item small" href="#">Following Company</a>
+                                <a class="dropdown-item small" href="companyfollowingPage">Following Company</a>
                             </div>
                         </li>
 

@@ -137,7 +137,8 @@ public class CandidateViewRecruiterDetail extends HttpServlet {
                 response.sendRedirect("login");
             } else {
                 Candidate candidate = iAccount.getCandidateInfoByAccountId(AppUtils.getLoginedUser(request.getSession()).getAccId());
-
+                boolean text = iRecruiter.checkRecruiterBeenFollowing(recruiterId, candidate.getCandIdateId());
+                System.out.println(text);
                 if (iRecruiter.checkRecruiterBeenFollowing(recruiterId, candidate.getCandIdateId())) {
                     iRecruiter.createRequestFollowingCompany(recruiterId, candidate.getCandIdateId());
                 } else {

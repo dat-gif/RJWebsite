@@ -31,6 +31,7 @@
                             <jsp:param name="title1" value="${recruiter.getName()}"/>
                             <jsp:param name="title2" value="${recruiter.getWebsite()}"/>
                             <jsp:param name="arraySkill" value="${recruiter.getSkillListName()}"/>
+                            <jsp:param name="link" value="candidateviewrecruiterdetail?recruiterId=${recruiter.getRecruiterId()}"/>
                         </jsp:include>
                     </div>
                 </c:forEach> 
