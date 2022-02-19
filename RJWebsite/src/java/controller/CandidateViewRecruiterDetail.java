@@ -10,6 +10,7 @@ import dao.RecruiterDAO;
 import dao.idao.IAccount;
 import dao.idao.IRecruiter;
 import entity.Account;
+import entity.Candidate;
 import entity.Job;
 import entity.Recruiter;
 import java.io.IOException;
@@ -30,6 +31,15 @@ public class CandidateViewRecruiterDetail extends HttpServlet {
     int pageNumber = 1;
     static int recordNumber = 8;
     int totalPage = 10;
+    int recruiterId;
+
+    public int getRecruiterId() {
+        return recruiterId;
+    }
+
+    public void setRecruiterId(int recruiterId) {
+        this.recruiterId = recruiterId;
+    }
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -59,6 +69,7 @@ public class CandidateViewRecruiterDetail extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String recruiterId = request.getParameter("recruiterId");
+        setRecruiterId(Integer.parseInt(recruiterId));
         IRecruiter iRecruiter = new RecruiterDAO();
         int totalRecordNumber = 1;
         String currentPage = request.getParameter("page");
@@ -70,7 +81,15 @@ public class CandidateViewRecruiterDetail extends HttpServlet {
             Account userAccount = AppUtils.getLoginedUser(request.getSession());
             if (userAccount == null) {
                 request.setAttribute("followButton", "Follow");
+            } else {
+                Candidate candidate = iAccount.getCandidateInfoByAccountId(userAccount.getAccId());
+                if (iRecruiter.checkRecruiterBeenFollowing(recruiter.getRecruiterId(), candidate.getCandIdateId())) {
+                    request.setAttribute("followButton", "Follow");
+                } else {
+                    request.setAttribute("followButton", "Unfollow");
+                }
             }
+
             //Set current page, default = 1
             if (currentPage != null) {
                 pageNumber = Integer.parseInt(currentPage);
@@ -108,6 +127,27 @@ public class CandidateViewRecruiterDetail extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
+        int recruiterId = getRecruiterId();
+        IRecruiter iRecruiter = new RecruiterDAO();
+        IAccount iAccount = new AccountDAO();
+        try {
+            //Get account in session
+            Account userAccount = AppUtils.getLoginedUser(request.getSession());
+            if (userAccount == null) {
+                response.sendRedirect("login");
+            } else {
+                Candidate candidate = iAccount.getCandidateInfoByAccountId(AppUtils.getLoginedUser(request.getSession()).getAccId());
+
+                if (iRecruiter.checkRecruiterBeenFollowing(recruiterId, candidate.getCandIdateId())) {
+                    iRecruiter.createRequestFollowingCompany(recruiterId, candidate.getCandIdateId());
+                } else {
+                    iRecruiter.deleteRequestFollowingCompany(recruiterId, candidate.getCandIdateId());
+                }
+            }
+            response.sendRedirect("candidateviewrecruiterdetail?recruiterId=" + recruiterId);
+        } catch (Exception e) {
+        }
+
     }
 
     /**

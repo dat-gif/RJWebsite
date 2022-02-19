@@ -54,7 +54,7 @@
                                     <button class="btn btn-primary align-self-baseline mt-2 btn-lg">${followButton}</button>
                                 </c:when>
                                 <c:otherwise>
-                                    <button class="btn btn-outline-primary align-self-baseline mt-2 btn-lg">${jobApplyButton}</button>
+                                    <button class="btn btn-outline-primary align-self-baseline mt-2 btn-lg">${followButton}</button>
                                 </c:otherwise>
                             </c:choose>  
                         </form>
