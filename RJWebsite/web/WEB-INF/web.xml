@@ -72,6 +72,10 @@
         <servlet-name>CandidateViewRecruiterDetail</servlet-name>
         <servlet-class>controller.CandidateViewRecruiterDetail</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>CandidateProfileController</servlet-name>
+        <servlet-class>controller.CandidateProfileController</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>LandingPage</servlet-name>
         <url-pattern>/landingpage</url-pattern>
@@ -127,6 +131,10 @@
     <servlet-mapping>
         <servlet-name>CandidateViewRecruiterDetail</servlet-name>
         <url-pattern>/candidateviewrecruiterdetail</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CandidateProfileController</servlet-name>
+        <url-pattern>/candidateprofilecontroller</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
