@@ -9,13 +9,11 @@ import dao.idao.IAccount;
 import context.DBContext;
 import entity.Account;
 import entity.Candidate;
-import entity.City;
 import entity.Recruiter;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.util.HashMap;
-import java.util.Map;
+import java.sql.SQLException;
 
 /**
  * The data access object performs the data query and updates from the Account
@@ -49,8 +47,12 @@ public class AccountDAO extends DBContext implements IAccount {
                 return new Account(rs.getInt("account_id"), rs.getString("role_name"), rs.getString("email"), rs.getString("phone"));
             }
 
+        } catch (SQLException e) {
+            System.out.println("Bug acc :" + e);
+            throw new Error(e);
         } catch (Exception e) {
-            System.out.println("Bug acc" + e);
+            System.out.println("Bug acc :" + e);
+            throw new Error(e);
         }
         return null;
     }
@@ -76,6 +78,7 @@ public class AccountDAO extends DBContext implements IAccount {
             }
         } catch (Exception e) {
             System.out.println("Bug acc" + e);
+            throw new Error(e);
         }
         return true;
     }
@@ -106,6 +109,7 @@ public class AccountDAO extends DBContext implements IAccount {
             ps.executeUpdate();
         } catch (Exception e) {
             System.out.println("Bug insertAccount: " + e);
+            throw new Error(e);
         }
     }
 
@@ -139,6 +143,7 @@ public class AccountDAO extends DBContext implements IAccount {
             ps.executeUpdate();
         } catch (Exception e) {
             System.out.println("Bug insertAccountRecruiter: " + e);
+            throw new Error(e);
         }
     }
 
@@ -201,6 +206,7 @@ public class AccountDAO extends DBContext implements IAccount {
 
         } catch (Exception e) {
             System.out.println("Bug acc" + e);
+            throw new Error(e);
         }
         return null;
     }
