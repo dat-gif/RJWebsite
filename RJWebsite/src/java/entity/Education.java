@@ -10,6 +10,7 @@ package entity;
  * @author Admin
  */
 public class Education {
+
     int id;
     String school;
     String degree;
