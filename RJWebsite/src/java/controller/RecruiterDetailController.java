@@ -4,8 +4,12 @@
  */
 package controller;
 
+import com.sun.org.apache.bcel.internal.generic.AALOAD;
+import dao.CandidateDAO;
 import dao.RecruiterDAO;
+import dao.idao.ICandidate;
 import dao.idao.IRecruiter;
+import entity.Candidate;
 import entity.Recruiter;
 import entity.Skill;
 import java.io.IOException;
@@ -38,14 +42,17 @@ public class RecruiterDetailController extends HttpServlet {
             //lay ve recruiterId tu trang RecruitmentPosted.jsp
             int recruiterId = Integer.parseInt(request.getParameter("recruiterId"));
             IRecruiter iRecruiter = new RecruiterDAO();
+            ICandidate iCandidate = new CandidateDAO();
 
             //lay ra danh sach cac skill va recruiter theo id nhan lai
             List<Skill> listSkill = iRecruiter.getRecruiterSkill(recruiterId);
             Recruiter recruiter = iRecruiter.getRecruiterById(recruiterId);
+            List<Candidate> listCandidate = iCandidate.getCandidateListByRecruiterId(recruiterId);
 
             //set cac attribute len trang jsp
             request.setAttribute("recruiter", recruiter);
             request.setAttribute("listSkill", listSkill);
+            request.setAttribute("listCandidate", listCandidate);
 
             //chuyen huong den trang jsp dich
             request.getRequestDispatcher("RecruiterDetail.jsp").forward(request, response);

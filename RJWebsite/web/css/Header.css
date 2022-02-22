@@ -31,3 +31,7 @@ h2{
     display: inline-block;
     margin-left: 40px;
 }
+
+.header ul li a{
+    text-decoration: none;
+}

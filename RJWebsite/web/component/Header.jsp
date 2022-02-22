@@ -31,7 +31,7 @@
                             <a class="nav-link" href="#">My Profile</a>
                         </li>
                         <li class="nav-item ml-3">
-                            <a class="nav-link" href="RecruiterDashBoard">I'm Recruiter</a>
+                            <a class="nav-link" href="RecruitmentDashBoard">I'm Recruiter</a>
                         </li>
 
                         <li class="nav-item ml-3">

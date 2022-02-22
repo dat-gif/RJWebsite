@@ -1,0 +1,95 @@
+/*
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to edit this template
+*/
+/* 
+    Created on : Feb 21, 2022, 9:26:25 PM
+    Author     : USE
+*/
+.top{
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: row;
+    margin: 50px;
+}
+
+.form{
+    width: 45%;
+    height: auto;
+    margin-left: 80px;
+}
+
+.form p{
+    font-size: 50px;
+}
+
+.txtSeach{
+    width: 40%;
+    height: 30px;
+    border-radius: 7px;
+    padding-left: 20px;
+}
+
+.btn{
+    margin-left: 10px;
+    height: 35px;
+    border-radius: 7px;
+    color: #007bff;
+    border-color: #007bff;
+    background-color: white;
+    width: 12%;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.btn:hover{
+    background-color: #007bff;
+    color: white;
+}
+
+select{
+    display: block;
+    margin-top: 10px;
+    width: 15%;
+    height: 35px;
+    border-radius: 7px;
+    padding-left: 10px;
+}
+
+.content{
+    margin: 90px;
+}
+
+.candidate{
+    display: inline-block;
+    margin-right: 100px;
+}
+
+.candidate img{
+    width: 200px;
+    height: 200px;
+}
+
+.paging{
+    width: 100%;
+    height: auto;
+    display: inline-block;
+    text-align: center;    
+}
+
+.paging a{
+    text-decoration: none;
+    border-radius: 5px;
+    padding: 5px;
+    border: 1px solid;
+    color: #007bff;
+    border-color: #007bff;
+}
+
+.active{
+    color: white;
+    background-color: #007bff;
+    pointer-events: none;
+}
+

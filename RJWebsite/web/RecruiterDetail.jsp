@@ -23,7 +23,6 @@
                 <p>CMC GLOBAL</p>
                 <p>Create date: ${recruiter.getCreateAt()}</p>
             </div>           
-            <button><a href="#">Edit</a></button>
         </div>
         <div class="content">
             <div class="left">
@@ -85,18 +84,14 @@
                             <td>Profile</td>
                             <td>Status</td>
                             </thead>
-                            <tr>
-                                <td>Ronal Richard</td>
-                                <td>Ha Noi</td>
-                                <td><a href="#">View Profile</a></td>
-                                <td>Pending</td>
-                            </tr>
-                            <tr>
-                                <td>Ronal Richard</td>
-                                <td>Ha Noi</td>
-                                <td><a href="#">View Profile</a></td>
-                                <td>Pending</td>
-                            </tr>
+                            <c:forEach items="${listCandidate}" var="candidate">
+                                <tr>
+                                    <td>${candidate.getFirstName()} ${candidate.getLastName()}</td>
+                                    <td>${candidate.getAddress()}</td>
+                                    <td><a href="#">View Profile</a></td>
+                                    <td>${candidate.getJobStatus()}</td>
+                                </tr>
+                            </c:forEach>
                         </table>
                     </div>
                 </div>           

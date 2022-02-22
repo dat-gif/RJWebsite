@@ -41,40 +41,6 @@ public class CreateRecruitmentController extends HttpServlet {
             List<Skill> listSkill = ijob.getAllSkill();
             request.setAttribute("listSkill", listSkill);
 
-            //nhan lai value tu cac field tren form cua trang jsp
-            int recruiterId = 3;
-            String jobName = request.getParameter("jobName");
-            String salary = request.getParameter("salary");
-            String quantity = request.getParameter("quantity");
-            String role = request.getParameter("role");
-            String experience = request.getParameter("experience");
-            String hireDate = request.getParameter("hireDate");
-            String location = request.getParameter("location");
-            String description = request.getParameter("description");
-
-            //insert vao db voi data nhan lai o tren
-            int total = ijob.insertRecruitment(recruiterId, role, description, salary, quantity, role, experience, location, hireDate);
-            
-            //neu insert thanh cong hoac that bai thi hien thi message
-            if (total > 0) {
-                response.setContentType("text/html");
-                PrintWriter out = response.getWriter();
-                out.println("<script type=\"text/javascript\">");
-                out.println("alert('Insert Successfull');");
-                out.println("location='CreateRecruitment.jsp';");
-                out.println("</script>");
-            } else {
-                response.setContentType("text/html");
-                PrintWriter out = response.getWriter();
-                out.println("<script type=\"text/javascript\">");
-                out.println("alert('Insert fail');");
-                out.println("location='CreateRecruitment.jsp';");
-                out.println("</script>");
-            }
-//            int skillId = Integer.parseInt(request.getParameter("skillId"));
-//            int jobId = ijob.getLatestUpdatedJobId();
-//            ijob.insertJobSkill(jobId, skillId);
-
             //chuyen huong den trang jsp dich
             request.getRequestDispatcher("CreateRecruitment.jsp").forward(request, response);
         } catch (Exception e) {
@@ -110,7 +76,46 @@ public class CreateRecruitmentController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+
+        //khoi dao obj dao
+        IJob ijob = new JobDAO();
+
+        //nhan lai value tu cac field tren form cua trang jsp
+        int recruiterId = 3;
+        String jobName = request.getParameter("jobName");
+        String salary = request.getParameter("salary");
+        String quantity = request.getParameter("quantity");
+        String role = request.getParameter("role");
+        String experience = request.getParameter("experience");
+        String hireDate = request.getParameter("hireDate");
+        String location = request.getParameter("location");
+        String description = request.getParameter("description");
+
+        //insert vao db voi data nhan lai o tren
+        int total = ijob.insertRecruitment(recruiterId, role, description, salary, quantity, role, experience, location, hireDate);
+
+        //neu insert thanh cong hoac that bai thi hien thi message
+        if (total == 1) {
+            response.setContentType("text/html");
+            PrintWriter out = response.getWriter();
+            out.println("<script type=\"text/javascript\">");
+            out.println("alert('Insert Successfull');");
+            out.println("location='CreateRecruitment.jsp';");
+            out.println("</script>");
+            out.flush();
+        } else {
+            response.setContentType("text/html");
+            PrintWriter out = response.getWriter();
+            out.println("<script type=\"text/javascript\">");
+            out.println("alert('Insert fail');");
+            out.println("location='CreateRecruitment.jsp';");
+            out.println("</script>");
+            out.flush();
+        }
+//            int skillId = Integer.parseInt(request.getParameter("skillId"));
+//            int jobId = ijob.getLatestUpdatedJobId();
+//            ijob.insertJobSkill(jobId, skillId);
+
     }
 
     /**

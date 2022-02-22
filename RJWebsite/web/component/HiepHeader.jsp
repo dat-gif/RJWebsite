@@ -18,10 +18,10 @@
             <h2>R & IT J</h2>
             <ul>
                 <li>
-                    <a>Recruitment Posted</a>
+                    <a href="RecruitmentPostedController">Recruitment Posted</a>
                 </li>
                 <li>
-                    <a>Searching Candidate</a>
+                    <a href="SearchCandidateController">Searching Candidate</a>
                 </li>
                 <li>
                     <a>Company Profile</a>

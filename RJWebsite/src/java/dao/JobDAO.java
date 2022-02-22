@@ -966,7 +966,7 @@ public class JobDAO extends DBContext implements IJob {
 //insert job moi vao db
     @Override
     public int insertRecruitment(int recruiterId, String title, String description, String salary, String quantity, String role, String experience, String location, String hiredDate) {
-        int totalRow = 0;
+        int total = 0;
         String query = "insert into job values(?,?,?,?,?,?,?,?,?,null,1,null,null)";
         try {
             //mo ket noi, set du lieu vao cac dau ? va lay du lieu tra ve
@@ -981,14 +981,12 @@ public class JobDAO extends DBContext implements IJob {
             ps.setString(7, experience);
             ps.setString(8, location);
             ps.setString(9, hiredDate);
-            ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                totalRow = rs.getInt(1);
-            }
+            //thuc hien insert
+            total = ps.executeUpdate();
         } catch (Exception e) {
             System.out.println("bug get row Temp job " + e);
         }
-        return totalRow;
+        return total;
     }
 
 //insert job skill moi vao db
@@ -1031,18 +1029,44 @@ public class JobDAO extends DBContext implements IJob {
 
     }
 
+//update job
+    @Override
+    public int updateJob(int jobId, String title, String description, String salary, String quantity, String role, String experience, String location, String hiredDate) {
+        int total = 0;
+        String query = "update job set title = ?, "
+                + "[description] = ?, "
+                + "salary_range = ?, "
+                + "quantity = ?, "
+                + "[role] = ?, "
+                + "experience = ?, "
+                + "[location] = ?, "
+                + "hire_date = ? "
+                + "where job_id = ?";
+        try {
+            //mo ket noi, lay du lieu tra ve
+            Connection conn = getConnection();
+            PreparedStatement ps = conn.prepareStatement(query);
+            ps.setString(1, title);
+            ps.setString(2, description);
+            ps.setString(3, salary);
+            ps.setString(4, quantity);
+            ps.setString(5, role);
+            ps.setString(6, experience);
+            ps.setString(7, location);
+            ps.setString(8, hiredDate);
+            ps.setInt(9, jobId);
+            //thuc hien update
+            total = ps.executeUpdate();
+        } catch (Exception e) {
+            System.out.println("bug get row Temp job " + e);
+        }
+        return total;
+    }
+
     public static void main(String[] args) {
         IJob jobDao = new JobDAO();
-
-        jobDao.createRequestApplyJob(958, 21);
-
-        ArrayList<Skill> skills = jobDao.getAllSkill();
-        System.out.println(skills);
-
-        int id = jobDao.getLatestUpdatedJobId();
-        System.out.println(id);
+        System.out.println(jobDao.updateJob(1, "ha", "ha", "ha", "ha", "ha", "ha", "ha", "ha"));
 
     }
 
-  
 }

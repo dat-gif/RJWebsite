@@ -17,30 +17,30 @@
     </head>
     <body>
         <jsp:include page="component/HiepHeader.jsp"/>
-        <h1>Create Recruitment</h1>
-        <form class="form" action="CreateRecruitmentController" method="POST">
+        <h1>Update Recruitment</h1>
+        <form class="form" action="UpdateRecruitmentController" method="POST">
             <table>
                 <tr>
                     <td>Job Name</td>
-                    <td><input type="text" name="jobName" required=""></td>
+                    <td><input type="text" name="jobName" required="" value="${job.getTitle()}"></td>
                     <td>Salary</td>
-                    <td><input type="text" name="salary" required=""></td>
+                    <td><input type="text" name="salary" required="" value="${job.getSalaryRange()}"></td>
                 </tr>
                 <tr>
                     <td>Quantity</td>
-                    <td><input type="text" name="quantity" required=""></td>
+                    <td><input type="text" name="quantity" required="" value="${job.getQuantity()}"></td>
                     <td>Role</td>
-                    <td><input type="text" name="role" required=""></td>
+                    <td><input type="text" name="role" required="" value="${job.getRole()}"></td>
                 </tr>
                 <tr>
                     <td>Experience</td>
-                    <td><input type="text" name="experience" required=""></td>
+                    <td><input type="text" name="experience" required="" value="${job.getExperience()}"></td>
                     <td>Hire Date</td>
-                    <td><input type="text" name="hireDate" required=""></td>
+                    <td><input type="text" name="hireDate" required="" value="${job.getHire_date()}"></td>
                 </tr>
                 <tr>
                     <td>Location</td>
-                    <td><input type="text" name="location" required=""></td>
+                    <td><input type="text" name="location" required="" value="${job.getLocation()}"></td>
                     <td>Skill</td>
                     <td><select name="" id="">
                             <c:forEach items="${listSkill}" var="skill">
@@ -50,8 +50,8 @@
                     </td>
                 </tr>           
             </table>
-            <span>Description</span><input class="des" type="text" name="description" required="">
-            <input class="btn" type="submit" value="Create new recruitment">
+            <span>Description</span><input class="des" type="text" name="description" required="" value="${job.getDescription()}">
+            <input class="btn" type="submit" value="Update recruitment">
         </form>
         <jsp:include page="component/HiepFooter.jsp"/>
     </body>

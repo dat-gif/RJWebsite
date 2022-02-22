@@ -30,6 +30,7 @@ public class Candidate {
     private int projectManageId;
     private int certificateManageId;
     private int prizeManageId;
+    private String jobStatus;
     private Date createAt;
     private Date updateAt;
 
@@ -55,6 +56,21 @@ public class Candidate {
         this.projectManageId = projectManageId;
         this.certificateManageId = certificateManageId;
         this.prizeManageId = prizeManageId;
+    }
+
+    public Candidate(String firstName, String lastName, String address, String jobStatus) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.address = address;
+        this.jobStatus = jobStatus;
+    }
+
+    public String getJobStatus() {
+        return jobStatus;
+    }
+
+    public void setJobStatus(String jobStatus) {
+        this.jobStatus = jobStatus;
     }
 
     public int getCandIdateId() {
@@ -216,6 +232,5 @@ public class Candidate {
     public void setUpdateAt(Date updateAt) {
         this.updateAt = updateAt;
     }
-
 
 }
