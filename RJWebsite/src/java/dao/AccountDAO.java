@@ -46,7 +46,6 @@ public class AccountDAO extends DBContext implements IAccount {
             while (rs.next()) {
                 return new Account(rs.getInt("account_id"), rs.getString("role_name"), rs.getString("email"), rs.getString("phone"));
             }
-
         } catch (SQLException e) {
             System.out.println("Bug acc :" + e);
             throw new Error(e);
@@ -84,19 +83,21 @@ public class AccountDAO extends DBContext implements IAccount {
     }
 
     /**
-     * Insert account register as candidate into database
+     * Insert account register as candidate into database, insert in 2 table
+     * account and candidate
      *
      * @param account
      */
     @Override
-    public void insertCandidateAccount(Account account) {
+    public void insertCandidateAccount(Account account, String city) {
+        System.out.println(city);
         String query = "BEGIN TRANSACTION\n"
                 + "INSERT INTO account\n"
                 + "([role_id],[email],[phone],[password],[status])\n"
                 + "VALUES (?, ?, ?, ?, ?)\n"
                 + "DECLARE @LASTID int\n"
                 + "SET @LASTID = IDENT_CURRENT('dbo.account') \n"
-                + "INSERT INTO candidate(account_id) VALUES (@LASTID);\n"
+                + "INSERT INTO candidate(account_id, city) VALUES (@LASTID, ?);\n"
                 + "COMMIT";
         try {
             Connection conn = getConnection();
@@ -106,6 +107,7 @@ public class AccountDAO extends DBContext implements IAccount {
             ps.setString(3, account.getPhone());
             ps.setString(4, account.getPassword());
             ps.setString(5, "1");
+            ps.setString(6, city);
             ps.executeUpdate();
         } catch (Exception e) {
             System.out.println("Bug insertAccount: " + e);
@@ -128,7 +130,7 @@ public class AccountDAO extends DBContext implements IAccount {
                 + "VALUES (?, ?, ?, ?, 1)\n"
                 + "DECLARE @LASTID int\n"
                 + "SET @LASTID = IDENT_CURRENT('dbo.account') \n"
-                + "INSERT INTO recruiter (account_id, name, address,contacter_name) VALUES (@LASTID, ?, ?, ?);\n"
+                + "INSERT INTO recruiter (account_id, name, address,city,contacter_name) VALUES (@LASTID, ?, ?, ?, ?);\n"
                 + "COMMIT";
         try {
             Connection conn = getConnection();
@@ -139,7 +141,8 @@ public class AccountDAO extends DBContext implements IAccount {
             ps.setString(4, account.getPassword());
             ps.setString(5, recruiterBasicInfo.getName());
             ps.setString(6, recruiterBasicInfo.getAddress());
-            ps.setString(7, recruiterBasicInfo.getContacterName());
+            ps.setString(7, recruiterBasicInfo.getCity());
+            ps.setString(8, recruiterBasicInfo.getContacterName());
             ps.executeUpdate();
         } catch (Exception e) {
             System.out.println("Bug insertAccountRecruiter: " + e);

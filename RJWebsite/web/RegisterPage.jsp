@@ -52,12 +52,36 @@
                                     </c:if>
                                 </div>
                                 <div class="form-outline mb-4">
-                                    <label class="form-label" for="0">Phone Number</label>
-                                    <input type="tel" pattern="(84|0[3|5|7|8|9])+([0-9]{8})\b" id="0" class="form-control" name="phone" id="phone" placeholder="09123456 or +84123456" 
-                                           required value="${phone}" />
-                                    <c:if test="${phoneErrorMesg !=null}">
-                                        <p class="text-danger" >${phoneErrorMesg}</p>
-                                    </c:if>
+                                    <div class="d-flex align-content-center justify-content-between" style="gap:10px;">
+                                        <div class="flex-grow-1">                                        
+                                            <label class="form-label" for="0">Phone Number</label>
+                                            <input type="tel" pattern="(84|0[3|5|7|8|9])+([0-9]{8})\b" id="0" class="form-control" name="phone" id="phone" placeholder="09123456 or +84123456" 
+                                                   required value="${phone}" />
+                                            <c:if test="${phoneErrorMesg !=null}">
+                                                <p class="text-danger" >${phoneErrorMesg}</p>
+                                            </c:if>
+                                        </div>
+                                        <div style="min-width: 5rem; max-width: 10rem">
+                                            <label class="form-label" for="0">City</label>
+                                            <select name="citySelect" class="form-select  rounded form-control " value="${citySelect}"  >
+                                                <c:choose>
+                                                    <c:when test="${not empty citySelect}">
+                                                        <option selected="selected" value="${citySelect}" >
+                                                            ${citySelect}
+                                                        </option>    
+                                                    </c:when>
+                                                    <c:otherwise>
+                                                        <option selected="selected" value="Hà Nội" >
+                                                            Hà Nội
+                                                        </option>           
+                                                    </c:otherwise>
+                                                </c:choose>
+                                                <c:forEach items="${listCity}" var="city">
+                                                    <option value="${city.getName()}">${city.getName()}</option>
+                                                </c:forEach>
+                                            </select>   
+                                        </div>
+                                    </div>
                                 </div>
                                 <div class="form-outline mb-4">
                                     <label class="form-label" for="1">Password</label>
@@ -100,11 +124,23 @@
                                     </div>
                                 </div>
                                 <div class="form-outline mb-3">
-                                    <label class="form-label" for="1">Address</label>
-                                    <input type="text" id="1" class="form-control" name="address"/>
-                                    <c:if test="${addressErrorMesg !=null}">
-                                        <p class="text-danger" >${addressErrorMesg}</p>
-                                    </c:if>
+                                    <div class="d-flex align-content-center justify-content-between" style="gap:10px;">
+                                        <div class="flex-grow-1">
+                                            <label class="form-label" for="1">Address</label>
+                                            <input type="text" id="1" class="form-control" name="address"/>
+                                            <c:if test="${addressErrorMesg !=null}">
+                                                <p class="text-danger" >${addressErrorMesg}</p>
+                                            </c:if>
+                                        </div>
+                                        <div style="min-width: 5rem; max-width: 8rem">
+                                            <label class="form-label" for="0">City</label>
+                                            <select name="citySelect" class="form-select  rounded form-control " value="${citySelect}"  >
+                                                <c:forEach items="${listCity}" var="city">
+                                                    <option value="${city.getName()}">${city.getName()}</option>
+                                                </c:forEach>
+                                            </select>   
+                                        </div>
+                                    </div>
                                 </div>
                                 <div class="row row-cols-2">
                                     <div class="col form-outline mb-3">

@@ -525,7 +525,6 @@ public class JobDAO extends DBContext implements IJob {
             }
             mainQuery = mainQuery + joinQuery + queryWhere;
         }
-        System.out.println(mainQuery);
         try {
             int count = 2;
             Connection conn = new DBContext().getConnection();
