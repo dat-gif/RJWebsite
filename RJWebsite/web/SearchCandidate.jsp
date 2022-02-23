@@ -44,7 +44,7 @@
         </div>
         <div class="paging">
             <c:if test="${maxPage < 1}">
-                <h3>Not Found !!</h3>
+                <h3>No one match the search condition!!!!</h3>
             </c:if>
             <c:if test="${maxPage > 1}">
                 <c:forEach begin="1" end="${maxPage}" var="i">

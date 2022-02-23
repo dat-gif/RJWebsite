@@ -40,20 +40,29 @@ public class SearchCandidateController extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try {
+            //get ve index page, txtSearch, city
             String index = request.getParameter("index");
             String txtSearch = request.getParameter("txtSearch");
             String city = request.getParameter("city");
+
+            //neu index null thi trang khoi tao se là trang dau tien
             if (index == null) {
                 index = "1";
             }
             int indexPage = Integer.parseInt(index);
             ICity iCity = new CityDAO();
             ICandidate iCandidate = new CandidateDAO();
+
+            //get ra listCandidate theo phan trang
             List<Candidate> listCandidate = iCandidate.getPaging(indexPage, txtSearch);
 
+            //get ra city cho dropdown list
             List<City> listCity = iCity.getAllCity();
+
+            //get ra tong so trang theo dieu kien search
             int maxPage = iCandidate.getNumberPageSearchCandidate(txtSearch);
 
+            //set cac attribute len trang jsp
             request.setAttribute("listCity", listCity);
             request.setAttribute("maxPage", maxPage);
             request.setAttribute("listCandidate", listCandidate);

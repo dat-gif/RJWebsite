@@ -963,7 +963,20 @@ public class JobDAO extends DBContext implements IJob {
         }
     }
 
-//insert job moi vao db
+/**
+     * Insert job moi vao db theo recruiterId
+     *
+     * @param recruiterId int
+     * @param title String
+     * @param description String
+     * @param salary String
+     * @param quantity String
+     * @param role String
+     * @param experience String
+     * @param location String
+     * @param hiredDate String
+     * @return
+     */
     @Override
     public int insertRecruitment(int recruiterId, String title, String description, String salary, String quantity, String role, String experience, String location, String hiredDate) {
         int total = 0;
@@ -989,7 +1002,13 @@ public class JobDAO extends DBContext implements IJob {
         return total;
     }
 
-//insert job skill moi vao db
+/**
+     * Insert record vao job_skill 
+     *
+     * @param jobId int
+     * @param skillId int    
+     * @return
+     */
     @Override
     public int insertJobSkill(int jobId, int skillId) {
         int totalRow = 0;
@@ -1000,36 +1019,29 @@ public class JobDAO extends DBContext implements IJob {
             PreparedStatement ps = conn.prepareStatement(query);
             ps.setInt(1, jobId);
             ps.setInt(2, skillId);
-            ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                totalRow = rs.getInt(1);
-            }
-        } catch (Exception e) {
-            System.out.println("bug get row Temp job " + e);
-        }
-        return totalRow;
-    }
-
-//lay ra id cua job moi nhat duoc them vao bang
-    @Override
-    public int getLatestUpdatedJobId() {
-        String query = "select top 1 * from job order by job_id desc";
-        try {
-            //mo ket noi, lay du lieu tra ve
-            Connection conn = new DBContext().getConnection();
-            PreparedStatement ps = conn.prepareStatement(query);
-            ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                return rs.getInt(1);
-            }
+            //thuc hien insert
+            totalRow = ps.executeUpdate();
+            return totalRow;
         } catch (Exception e) {
             System.out.println("bug get row Temp job " + e);
         }
         return 0;
-
     }
 
-//update job
+/**
+     * update job theo jobId
+     *
+     * @param jobId int
+     * @param title String
+     * @param description String
+     * @param salary String
+     * @param quantity String
+     * @param role String
+     * @param experience String
+     * @param location String
+     * @param hiredDate String
+     * @return
+     */
     @Override
     public int updateJob(int jobId, String title, String description, String salary, String quantity, String role, String experience, String location, String hiredDate) {
         int total = 0;

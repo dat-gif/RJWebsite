@@ -18,11 +18,16 @@ import java.util.ArrayList;
  */
 public class CandidateDAO extends DBContext implements ICandidate {
 
+/**
+     * get top 4 candidate
+     * @return
+     */
     @Override
     public ArrayList<Candidate> getTop4Candidate() {
         ArrayList<Candidate> candidateList = new ArrayList<>();
         String query = "select top 4 * from candidate";
         try {
+            //mo ket noi, query va lay du lieu tra ve
             Connection conn = getConnection();
             PreparedStatement ps = conn.prepareStatement(query);
             ResultSet rs = ps.executeQuery();
@@ -54,6 +59,12 @@ public class CandidateDAO extends DBContext implements ICandidate {
         return candidateList;
     }
 
+/**
+     * get candidate theo recruiterId
+     *
+     * @param recruiterId int
+     * @return
+     */
     @Override
     public ArrayList<Candidate> getCandidateListByRecruiterId(int recruiterId) {
         ArrayList<Candidate> candidateList = new ArrayList<>();
@@ -63,6 +74,7 @@ public class CandidateDAO extends DBContext implements ICandidate {
                 + "join recruiter on job.recruiter_id = recruiter.recruiter_id\n"
                 + "where recruiter.recruiter_id = ?";
         try {
+            //mo ket noi, set du lieu vao cac dau ? va lay du lieu tra ve
             Connection conn = getConnection();
             PreparedStatement ps = conn.prepareStatement(query);
             ps.setInt(1, recruiterId);
@@ -70,8 +82,8 @@ public class CandidateDAO extends DBContext implements ICandidate {
             while (rs.next()) {
                 Candidate candidate = new Candidate(
                         rs.getString("first_name"),
-                        rs.getString("last_name"),                      
-                        rs.getString("address"),                  
+                        rs.getString("last_name"),
+                        rs.getString("address"),
                         rs.getString("status"));
                 candidateList.add(candidate);
             }
@@ -81,6 +93,12 @@ public class CandidateDAO extends DBContext implements ICandidate {
         return candidateList;
     }
 
+/**
+     * get tong so page theo dieu kien search
+     *
+     * @param txtSearch String
+     * @return
+     */
     @Override
     public int getNumberPageSearchCandidate(String txtSearch) {
         int totalPage = 0;
@@ -88,11 +106,13 @@ public class CandidateDAO extends DBContext implements ICandidate {
                 + "join skill on candidate_skill.skill_id = skill.skill_id\n"
                 + "where skill.[name] like ?";
         try {
+            //mo ket noi, set du lieu vao cac dau ? va lay du lieu tra ve
             Connection conn = getConnection();
             PreparedStatement ps = conn.prepareStatement(query);
             ps.setString(1, "%" + txtSearch + "%");
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
+                //page nay hien thi 2 record trong 1 trang nen neu record le thi + them 1 trang nua
                 totalPage = rs.getInt(1);
                 int countPage = 0;
                 countPage = totalPage / 2;
@@ -107,13 +127,22 @@ public class CandidateDAO extends DBContext implements ICandidate {
         return 0;
     }
 
+/**
+     * Phan trang theo dieu kien search
+     *
+     * @param index int
+     * @param txtSearch String
+     * @return
+     */
     @Override
     public ArrayList<Candidate> getPaging(int index, String txtSearch) {
         ArrayList<Candidate> candidateList = new ArrayList<>();
+        //query select cac record tuong ung voi indexPage (2 record/trang)
         String query = "select * from candidate join candidate_skill on candidate.candidate_id = candidate_skill.candidate_id \n"
                 + "join skill on candidate_skill.skill_id = skill.skill_id\n"
                 + "where skill.[name] like ? order by candidate.candidate_id offset ? rows fetch first 2 rows only";
         try {
+            //mo ket noi, set du lieu vao cac dau ? va lay du lieu tra ve
             Connection conn = getConnection();
             PreparedStatement ps = conn.prepareStatement(query);
             ps.setString(1, "%" + txtSearch + "%");

@@ -64,8 +64,6 @@ public interface IJob {
 
     public int insertJobSkill(int jobId, int skillId);
 
-    public int getLatestUpdatedJobId();
-
     public int updateJob(int jobId, String title, String description, String salary, String quantity, String role, String experience, String location, String hiredDate);
 
 }
