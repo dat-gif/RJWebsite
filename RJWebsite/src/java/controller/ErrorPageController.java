@@ -71,7 +71,7 @@ public class ErrorPageController extends HttpServlet {
                     break;
                 case 500:
                     request.setAttribute("systemErrorMesg", "HTTP ERROR 500");
-                    request.setAttribute("errorMesg", "Internal Server Error! <br/> Unfortunately we're having trouble loading the page you are looking for. Please come back in a while.");
+                    request.setAttribute("errorMesg", "Internal Server Error! <br/> Unfortunately we're having trouble loading the page you are looking for. Please refresh or come back in a while.");
             }
         } else {
             request.setAttribute("errorMesg", "There are some unexpected errors, please contact with admin for more detail.");

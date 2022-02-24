@@ -5,12 +5,17 @@
  */
 package controller;
 
+import dao.CandidateDAO;
+import dao.idao.ICandidate;
+import entity.Account;
+import entity.Candidate;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import utils.AppUtils;
 
 /**
  *
@@ -29,8 +34,7 @@ public class CandidateProfileController extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-      
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -45,7 +49,13 @@ public class CandidateProfileController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-       request.getRequestDispatcher("CandidateProfilePage.jsp").forward(request, response);
+        response.setContentType("text/html;charset=UTF-8");
+        ICandidate iCandidate = new CandidateDAO();
+        Account loginedUser = AppUtils.getLoginedUser(request.getSession());
+        Candidate candidateInfo = iCandidate.getCandidateProfileById(loginedUser.getAccId());
+        System.out.println(candidateInfo.isGender());
+        request.setAttribute("candidateInfo", candidateInfo);
+        request.getRequestDispatcher("CandidateProfilePage.jsp").forward(request, response);
     }
 
     /**
@@ -59,7 +69,7 @@ public class CandidateProfileController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        response.setContentType("text/html;charset=UTF-8");
     }
 
     /**

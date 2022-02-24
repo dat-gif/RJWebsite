@@ -60,6 +60,7 @@ public class CandidateDAO extends DBContext implements ICandidate {
         try {
             Connection conn = getConnection();
             PreparedStatement ps = conn.prepareStatement(query);
+            ps.setInt(1, account_id);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 Candidate candidate = new Candidate();
@@ -71,45 +72,52 @@ public class CandidateDAO extends DBContext implements ICandidate {
                 candidate.setBirthDate(rs.getString("birth_date"));
                 candidate.setGender(rs.getBoolean("sex"));
                 candidate.setBanner(rs.getString("banner"));
-                candidate.setPhone(rs.getString("account.phone"));
+                candidate.setPhone(rs.getString("phone"));
+                candidate.setAddress(rs.getString("address"));
                 candidate.setFindingJob(rs.getBoolean("finding_job"));
                 candidate.setEmail(rs.getString("email"));
                 return candidate;
             }
-
+            
         } catch (Exception e) {
+            System.out.println("getCandidateProfileById :" + e);
+            throw new Error(e);
         }
         return null;
     }
-
+    
     @Override
     public CandidateCV getCandidateCVByCandidateId(int candidateId) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-
+    
     @Override
     public CandidatePrize getCandidatePrizeByCandidateId(int candidateId) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-
+    
     @Override
     public Certificate getCertificateByCandidateId(int candidateId) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-
+    
     @Override
     public Education getEducationByCandidateId(int candidateId) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-
+    
     @Override
     public Exception getExceptionByCandidateId(int candidateId) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-
+    
     @Override
     public Social getSocialByCandidateId(int candidateId) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-
+    
+    private Exception Error(Exception e) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+    
 }

@@ -1,7 +1,7 @@
 <%-- 
     Document   : CandidateProfile
     Created on : Feb 19, 2022, 4:27:48 PM
-    Author     : Admin
+    Author     : Nguyen Dinh Dat
 --%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -40,7 +40,14 @@
                             <image src="https://picsum.photos/300/300"  class="rounded-circle shadow" style="height: 14rem;position: relative; top: -4rem; left: 1rem"/>
                             <i class="bi bi-archive"></i>
                             <div class="mt-3 ml-5" style="max-height: 152px">   
-                                <h2 class="display-5 font-weight-normal" style="position: relative; right: 0.2rem" >${name}- 123</h2>
+                                <h2 class="display-5 font-weight-normal" style="position: relative; right: 0.2rem" >
+                                    ${candidateInfo.getFirstName()} ${candidateInfo.getLastName()} 
+                                </h2>
+                                <c:if test="${empty candidateInfo.getFirstName()}">
+                                    <h2 class="display-5 font-weight-normal" style="position: relative; right: 0.2rem" >
+                                        ${candidateInfo.getEmail()}
+                                    </h2>  
+                                </c:if>
                             </div>
                         </div>                   
                         <form method="" action="">                             
@@ -256,28 +263,38 @@
 
                     <!-- Right -->
                     <div class="col-4 bg-light"style="width: 25.0%;
-                         flex: 0 0 25.0%;max-width: 25.0%; height: fit-content; padding-bottom: 1rem; background-color: white" >
+                         flex: 0 0 25.0%;max-width: 25.0%; padding-bottom: 1rem;height: fit-content ;background-color: white" >
                         <div class="pt-3 pl-2">
                             <h6 class="mt-2 mb-2 text-capitalize" >Personal Information</h6>
                             <div class="text-break my-3 text-secondary" >
-                                <p class="mb-1">Email: Somr thing</p>
+                                <p class="mb-1">Email: ${candidateInfo.getEmail()}</p>
                             </div>
                             <div class="text-break my-3 text-secondary" >
-                                <p class="mb-1">Phone number: Somr thing</p>
+                                <p class="mb-1">Phone number: ${candidateInfo.getPhone()}</p>
                             </div>
                             <div class="text-break my-3 text-secondary" >
-                                <p class="mb-1">Address: Somr thing laskjdfhlkasjdfhlkj kasjdhflkasjdhf  asdjkfh lhlaskjdfh a sdfjkhalskdjfh lS</p>
+                                <p class="mb-1">Address: ${candidateInfo.getAddress()}</p>
                             </div>
                             <div class="text-break my-3 text-secondary" >
-                                <p class="mb-1">Birthday: Somr thing</p>
+                                <p class="mb-1">Birthday: ${candidateInfo.getBirthDate()}</p>
                             </div>
                             <div class="text-break my-3 text-secondary" >
-                                <p class="mb-1">Gender: Somr thing</p>
+                                <c:choose>
+                                    <c:when test="${candidateInfo.isGender()}">
+                                        <p class="mb-1">Gender: Male</p>
+                                    </c:when>
+                                    <c:when test="${!candidateInfo.isGender()}">
+                                        <p class="mb-1">Gender: Female</p>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <p class="mb-1">Gender: Unknown</p>
+                                    </c:otherwise>
+                                </c:choose>
                             </div>
-
-
                         </div>
-                        <button class="btn btn-primary btn-sm float-right px-2" style="max-height: 2.5rem; min-width: 4rem">Change Info</button>
+                        <button class="btn btn-primary btn-sm float-right px-2" style="max-height: 2.5rem; min-width: 4rem">
+                            Change Info
+                        </button>
                     </div>
                 </div>
             </div>

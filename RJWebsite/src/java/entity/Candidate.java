@@ -39,6 +39,7 @@ public class Candidate {
     private Social social;
     private Date createAt;
     private Date updateAt;
+    private String email;
 
     public Candidate() {
     }
@@ -278,6 +279,14 @@ public class Candidate {
 
     public void setSocial(Social social) {
         this.social = social;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
 }

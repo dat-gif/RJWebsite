@@ -18,7 +18,7 @@ import entity.Social;
  */
 public interface ICandidate {
 
-    public Candidate getCandidateProfileById(int candidateId);
+    public Candidate getCandidateProfileById(int accountId);
 
     public CandidateCV getCandidateCVByCandidateId(int candidateId);
 
