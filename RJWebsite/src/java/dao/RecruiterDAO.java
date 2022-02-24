@@ -361,6 +361,58 @@ public class RecruiterDAO extends DBContext implements dao.idao.IRecruiter {
         return recruitersList;
     }
 
+    public ArrayList<Recruiter> getRecruiter() {
+        ArrayList<Recruiter> recruitersList = new ArrayList<>();
+        String query = "DECLARE @PageNumber AS INT\n"
+                + "DECLARE @RowsOfPage AS INT\n"
+                + "SET @PageNumber= ? \n"
+                + "SET @RowsOfPage= ? \n"
+                + " SELECT [recruiter_id]\n"
+                + "      ,[name]\n"
+                + "      ,[address]\n"
+                + "      ,[city]\n"
+                + "      ,[avatar]\n"
+                + "      ,[banner]\n"
+                + "      ,[phone]\n"
+                + "      ,[website]\n"
+                + "      ,[description]\n"
+                + "      ,[employee_quantity]\n"
+                + "      ,[contacter_name]\n"
+                + "      ,[contacter_phone]\n"
+                + "      ,[createAt]\n"
+                + "      ,[updateAt]\n"
+                + "FROM [SWP391].[dbo].[recruiter]\n"
+                + "ORDER BY [recruiter_id] desc\n"
+                + "OFFSET (@PageNumber-1)*@RowsOfPage ROWS\n"
+                + "FETCH NEXT @RowsOfPage ROWS ONLY";
+
+        try {
+            Connection conn = new DBContext().getConnection();
+            PreparedStatement ps = conn.prepareStatement(query);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Recruiter r = new Recruiter(rs.getInt("recruiter_id"),
+                        rs.getString("city"),
+                        rs.getString("name"),
+                        rs.getString("address"),
+                        rs.getString("avatar"),
+                        rs.getString("banner"),
+                        rs.getString("phone"),
+                        rs.getString("website"),
+                        rs.getString("description"),
+                        rs.getString("employee_quantity"),
+                        rs.getString("contacter_name"),
+                        rs.getString("contacter_phone")
+                );
+                r.setSkillList(getRecruiterSkill(r.getRecruiterId()));
+                r.setSkillListName(getSkillNameByRecruiterId(r.getRecruiterId()));
+                recruitersList.add(r);
+            }
+        } catch (Exception e) {
+            System.out.println("getAllRecruiter :" + e);
+        }
+        return recruitersList;
+    }
     @Override
 
     public ArrayList<Skill> getRecruiterSkill(int recruiterId) {
