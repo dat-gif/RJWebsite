@@ -75,6 +75,7 @@ public class JobDAO extends DBContext implements IJob {
             }
         } catch (Exception e) {
             System.out.println("getJobLandingPage() :" + e);
+            throw new Error(e);
         }
         return list;
     }
@@ -135,6 +136,7 @@ public class JobDAO extends DBContext implements IJob {
             }
         } catch (Exception e) {
             System.out.println("get skill :" + e);
+            throw new Error(e);
         }
         return skillList;
     }
@@ -184,6 +186,7 @@ public class JobDAO extends DBContext implements IJob {
             }
         } catch (Exception e) {
             System.err.println(e);
+            throw new Error(e);
         }
         return null;
 
@@ -215,6 +218,7 @@ public class JobDAO extends DBContext implements IJob {
             }
         } catch (Exception e) {
             System.err.println(e);
+            throw new Error(e);
         }
         return null;
     }
@@ -238,6 +242,7 @@ public class JobDAO extends DBContext implements IJob {
             }
         } catch (Exception e) {
             System.out.println("get skill :" + e);
+            throw new Error(e);
         }
         return skillName;
     }
@@ -298,6 +303,7 @@ public class JobDAO extends DBContext implements IJob {
             }
         } catch (Exception e) {
             System.out.println("getAllJob :" + e);
+            throw new Error(e);
         }
         return list;
     }
@@ -328,6 +334,7 @@ public class JobDAO extends DBContext implements IJob {
             }
         } catch (Exception e) {
             System.out.println("getAllSkill() :" + e);
+            throw new Error(e);
         }
         return skillList;
     }
@@ -429,6 +436,7 @@ public class JobDAO extends DBContext implements IJob {
             }
         } catch (Exception e) {
             System.err.println("Job City Skill" + e);
+            throw new Error(e);
         }
         return list;
     }
@@ -462,6 +470,7 @@ public class JobDAO extends DBContext implements IJob {
             ps.executeUpdate();
         } catch (Exception e) {
             System.err.println(e);
+            throw new Error(e);
         }
     }
 
@@ -491,21 +500,41 @@ public class JobDAO extends DBContext implements IJob {
                 + "      ,[createAt]\n"
                 + "      ,[updateAt])\n";
 
-        String freeTextQuery = " select job.[job_id]\n"
-                + "      ,job.[recruiter_id]\n"
-                + "      ,job.[title]\n"
-                + "      ,job.[description]\n"
-                + "      ,job.[salary_range]\n"
-                + "      ,job.[quantity]\n"
-                + "      ,job.[role]\n"
-                + "      ,job.[experience]\n"
-                + "      ,job.[location]\n"
-                + "      ,job.[hire_date]\n"
-                + "      ,job.[questions]\n"
-                + "      ,job.[status]\n"
-                + "      ,job.[createAt]\n"
-                + "      ,job.[updateAt]\n"
-                + " from job where freetext(title, ? )\n";
+        String freeTextQuery = "  select TOP (9223372036854775807) unionTable.[job_id]\n"
+                + "      ,unionTable.[recruiter_id]\n"
+                + "      ,unionTable.[title]\n"
+                + "      ,unionTable.[description]\n"
+                + "      ,unionTable.[salary_range]\n"
+                + "      ,unionTable.[quantity]\n"
+                + "      ,unionTable.[role]\n"
+                + "      ,unionTable.[experience]\n"
+                + "      ,unionTable.[location]\n"
+                + "      ,unionTable.[hire_date]\n"
+                + "      ,unionTable.[questions]\n"
+                + "      ,unionTable.[status]\n"
+                + "      ,unionTable.[createAt]\n"
+                + "      ,unionTable.[updateAt]\n"
+                + "from (\n"
+                + " select DISTINCT job.[job_id]\n"
+                + ",job.[recruiter_id]\n"
+                + ",job.[title]\n"
+                + ",job.[description]\n"
+                + ",job.[salary_range]\n"
+                + ",job.[quantity]\n"
+                + ",job.[role]\n"
+                + ",job.[experience]\n"
+                + ",job.[location]\n"
+                + ",job.[hire_date]\n"
+                + ",job.[questions]\n"
+                + ",job.[status]\n"
+                + ",job.[createAt]\n"
+                + ",job.[updateAt]\n"
+                + "from job\n"
+                + "left join job_skill on job_skill.job_id = job.job_id\n"
+                + "left join skill on job_skill.skill_id = skill.skill_id\n"
+                + "where (freetext(job.title, ? ) or freetext(skill.name , ? )) and job.status=1) \n"
+                + "as unionTable\n";
+
         String mainQuery = clearQuery + insertTable + freeTextQuery;
 
         if (!skillValue.equalsIgnoreCase("All") || !cityValue.equalsIgnoreCase("All")) {
@@ -529,10 +558,11 @@ public class JobDAO extends DBContext implements IJob {
             mainQuery = mainQuery + joinQuery + queryWhere;
         }
         try {
-            int count = 1;
+            int count = 2;
             Connection conn = new DBContext().getConnection();
             PreparedStatement ps = conn.prepareStatement(mainQuery);
-            ps.setString(count, txtSearch);
+            ps.setString(1, txtSearch);
+            ps.setString(2, txtSearch);
             if (!skillValue.equalsIgnoreCase("All") || !cityValue.equalsIgnoreCase("All")) {
                 count++;
                 if (!skillValue.equalsIgnoreCase("All")) {
@@ -547,7 +577,8 @@ public class JobDAO extends DBContext implements IJob {
             }
             ps.executeUpdate();
         } catch (Exception e) {
-            System.err.println("Bug insert: " + e);
+            System.err.println("insertJobByTextSearch: " + e);
+            throw new Error(e);
         }
     }
 
@@ -624,6 +655,7 @@ public class JobDAO extends DBContext implements IJob {
 
         } catch (Exception e) {
             System.err.println("Job City Skill" + e);
+            throw new Error(e);
         }
     }
 
@@ -689,6 +721,7 @@ public class JobDAO extends DBContext implements IJob {
 
         } catch (Exception e) {
             System.err.println("getJobSearching " + e);
+//            throw new Error(e);
         }
         return list;
     }
@@ -706,6 +739,7 @@ public class JobDAO extends DBContext implements IJob {
             }
         } catch (Exception e) {
             System.out.println("getTotalJobRow()  " + e);
+            throw new Error(e);
         }
         return totalRow;
 
@@ -724,6 +758,7 @@ public class JobDAO extends DBContext implements IJob {
             }
         } catch (Exception e) {
             System.out.println("getTotalTempJobRow() " + e);
+
         }
         return totalRow;
 
@@ -766,14 +801,12 @@ public class JobDAO extends DBContext implements IJob {
                         rs.getString("hire_date"),
                         rs.getBoolean("status")
                 );
-
                 job.setRecruiter(getRecruterById(rs.getInt("recruiter_id")));
                 job.setSkillListName(getSkillNameByJobId(job.getjId()));
-
             }
         } catch (Exception e) {
-
             System.out.println("getJobById: " + e);
+            throw new Error(e);
         }
         return job;
     }
@@ -844,6 +877,7 @@ public class JobDAO extends DBContext implements IJob {
             }
         } catch (Exception e) {
             System.out.println("Bug ApplyJobPanging:" + e);
+            throw new Error(e);
         }
         return list;
     }
@@ -872,6 +906,7 @@ public class JobDAO extends DBContext implements IJob {
             }
         } catch (Exception e) {
             System.out.println("bug get row Temp job " + e);
+            throw new Error(e);
         }
         return totalRow;
     }
@@ -902,6 +937,7 @@ public class JobDAO extends DBContext implements IJob {
             }
         } catch (Exception e) {
             System.out.println("checkJobBeenApply " + e);
+            throw new Error(e);
         }
         return true;
     }
@@ -925,6 +961,7 @@ public class JobDAO extends DBContext implements IJob {
             ps.executeUpdate();
         } catch (Exception e) {
             System.out.println("createRequestApplyJob: " + e);
+            throw new Error(e);
         }
     }
 
@@ -949,6 +986,7 @@ public class JobDAO extends DBContext implements IJob {
             ps.executeUpdate();
         } catch (Exception e) {
             System.out.println("Bug editRequestApplyJob: " + e);
+            throw new Error(e);
         }
     }
 
@@ -970,6 +1008,7 @@ public class JobDAO extends DBContext implements IJob {
             ps.executeUpdate();
         } catch (Exception e) {
             System.out.println("Bug delete apply job: " + e);
+            throw new Error(e);
         }
     }
 
@@ -997,6 +1036,7 @@ public class JobDAO extends DBContext implements IJob {
             }
         } catch (Exception e) {
             System.out.println("bug get row Temp job " + e);
+            throw new Error(e);
         }
         return totalRow;
     }
@@ -1018,6 +1058,7 @@ public class JobDAO extends DBContext implements IJob {
             }
         } catch (Exception e) {
             System.out.println("bug get row Temp job " + e);
+            throw new Error(e);
         }
         return totalRow;
     }
@@ -1036,6 +1077,7 @@ public class JobDAO extends DBContext implements IJob {
             }
         } catch (Exception e) {
             System.out.println("getLatestUpdatedJobId " + e);
+            throw new Error(e);
         }
         return 0;
 

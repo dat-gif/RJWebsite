@@ -28,7 +28,7 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav ml-auto align-items-center pr-5">
                         <li class="nav-item ml-3">
-                            <a class="nav-link" href="#">My Profile</a>
+                            <a class="nav-link" href="candidateprofilecontroller">My Profile</a>
                         </li>
                         <li class="nav-item ml-3">
                             <a class="nav-link" href="RecruiterDashBoard">I'm Recruiter</a>
@@ -50,7 +50,7 @@
                             <div class="dropdown-menu ml-3" aria-labelledby="navbarDropdown">
                                 <a class="dropdown-item small" href="seachingcompany">Search Company</a>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item small" href="#">Following Company</a>
+                                <a class="dropdown-item small" href="companyfollowingPage">Following Company</a>
                             </div>
                         </li>
 

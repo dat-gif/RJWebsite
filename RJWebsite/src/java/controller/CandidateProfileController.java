@@ -5,21 +5,23 @@
  */
 package controller;
 
+import dao.CandidateDAO;
+import dao.idao.ICandidate;
+import entity.Account;
+import entity.Candidate;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import utils.AppUtils;
 
 /**
  *
  * @author Admin
  */
-public class ErrorPageController extends HttpServlet {
-
-    private static final long serialVersionUID = 1L;
+public class CandidateProfileController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -32,7 +34,6 @@ public class ErrorPageController extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
 
     }
 
@@ -48,35 +49,13 @@ public class ErrorPageController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        Throwable throwable = (Throwable) request.getAttribute("javax.servlet.error.exception");
-        Integer statusCode = (Integer) request.getAttribute("javax.servlet.error.status_code");
-        String servletName = (String) request.getAttribute("javax.servlet.error.servlet_name");
-
-        if (servletName == null) {
-            servletName = "Unknown";
-        }
-        String requestUri = (String) request.getAttribute("javax.servlet.error.request_uri");
-        if (requestUri == null) {
-            requestUri = "Unknown";
-        }
-        if (throwable == null && statusCode == null) {
-            request.setAttribute("systemErrorMesg", requestUri);
-            request.setAttribute("errorMesg", "The page you requested was not found.");
-        } else if (statusCode != null) {
-            request.setAttribute("errorCode", statusCode);
-            switch (statusCode) {
-                case 404:
-                    request.setAttribute("systemErrorMesg", requestUri);
-                    request.setAttribute("errorMesg", "The page you requested was not found.");
-                    break;
-                case 500:
-                    request.setAttribute("systemErrorMesg", "HTTP ERROR 500");
-                    request.setAttribute("errorMesg", "Internal Server Error! <br/> Unfortunately we're having trouble loading the page you are looking for. Please refresh or come back in a while.");
-            }
-        } else {
-            request.setAttribute("errorMesg", "There are some unexpected errors, please contact with admin for more detail.");
-        }
-        request.getRequestDispatcher("ErrorPage.jsp").forward(request, response);
+        response.setContentType("text/html;charset=UTF-8");
+        ICandidate iCandidate = new CandidateDAO();
+        Account loginedUser = AppUtils.getLoginedUser(request.getSession());
+        Candidate candidateInfo = iCandidate.getCandidateProfileById(loginedUser.getAccId());
+        System.out.println(candidateInfo.isGender());
+        request.setAttribute("candidateInfo", candidateInfo);
+        request.getRequestDispatcher("CandidateProfilePage.jsp").forward(request, response);
     }
 
     /**
@@ -90,7 +69,7 @@ public class ErrorPageController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        response.setContentType("text/html;charset=UTF-8");
     }
 
     /**

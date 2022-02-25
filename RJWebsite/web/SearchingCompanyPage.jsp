@@ -59,18 +59,35 @@
             <hr class="my-4"/>
             <!-- Result -->
             <div class="row row-cols-4 align-content-center ">
-                <c:forEach items="${listRecruiter}" var="recruiter"> 
-                    <div class="col p-1 mt-1">
-                        <% request.setCharacterEncoding("utf-8");%>
-                        <jsp:include page="component/CardInfo.jsp">
-                            <jsp:param name="img" value="${recruiter.getAvatar()}"/>
-                            <jsp:param name="title1" value="${recruiter.getName()}"/>
-                            <jsp:param name="title2" value="${recruiter.getWebsite()}"/>
-                            <jsp:param name="arraySkill" value="${recruiter.getSkillListName()}"/>
-                            <jsp:param name="link" value="candidateviewrecruiterdetail?recruiterId=${recruiter.getRecruiterId()}"/>
-                        </jsp:include>
-                    </div>
-                </c:forEach> 
+                <c:choose>
+                    <c:when test="${listRecruiter.size() >0}">
+                        <c:forEach items="${listRecruiter}" var="recruiter"> 
+                            <div class="col p-1 mt-1">
+                                <% request.setCharacterEncoding("utf-8");%>
+                                <jsp:include page="component/CardInfo.jsp">
+                                    <jsp:param name="img" value="${recruiter.getAvatar()}"/>
+                                    <jsp:param name="title1" value="${recruiter.getName()}"/>
+                                    <jsp:param name="title2" value="${recruiter.getWebsite()}"/>
+                                    <jsp:param name="arraySkill" value="${recruiter.getSkillListName()}"/>
+                                    <jsp:param name="link" value="candidateviewrecruiterdetail?recruiterId=${recruiter.getRecruiterId()}"/>
+                                </jsp:include>
+                            </div>
+                        </c:forEach> 
+                    </c:when>
+                    <c:otherwise>
+                        <p class="text-left mt-3 text-secondary lead" style="font-size: 2rem">Sorry, data is no found.</p>
+                        <section class="text-left mt-3 mx-auto text-secondary lead">
+                            <p>Suggestion:</p>
+                            <ul>
+                                <li>Please make sure all words are spelled correctly.</li>
+                                <li>Try other keywords.</li>
+                                <li>Try different filter info (different city, skill).</li>
+                                <li>Try removing keywords.</li>
+                            </ul>
+                        </section>
+                    </c:otherwise>
+                </c:choose>
+
 
 
             </div>

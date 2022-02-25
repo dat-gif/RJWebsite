@@ -72,6 +72,18 @@
         <servlet-name>CandidateViewRecruiterDetail</servlet-name>
         <servlet-class>controller.CandidateViewRecruiterDetail</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>CandidateProfileController</servlet-name>
+        <servlet-class>controller.CandidateProfileController</servlet-class>
+    </servlet>
+   
+    <servlet>
+        <servlet-name>ErrorPageController</servlet-name>
+        <servlet-class>controller.ErrorPageController</servlet-class>
+    </servlet>
+   
+
+
     <servlet-mapping>
         <servlet-name>LandingPage</servlet-name>
         <url-pattern>/landingpage</url-pattern>
@@ -128,6 +140,33 @@
         <servlet-name>CandidateViewRecruiterDetail</servlet-name>
         <url-pattern>/candidateviewrecruiterdetail</url-pattern>
     </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CandidateProfileController</servlet-name>
+        <url-pattern>/candidateprofilecontroller</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ErrorPageController</servlet-name>
+        <url-pattern>/errorPage</url-pattern>
+    </servlet-mapping>
+    
+    <error-page>
+        <error-code>400</error-code>
+        <location>/errorPage</location>
+    </error-page>
+    <error-page>
+        <error-code>404</error-code>
+        <location>/errorPage</location>
+    </error-page>
+    <error-page>
+        <error-code>500</error-code>
+        <location>/errorPage</location>
+    </error-page>
+
+    <error-page>
+        <exception-type>javax.servlet.ServletException</exception-type>
+        <location>/errorPage</location>
+    </error-page>
+   
     <session-config>
         <session-timeout>
             30

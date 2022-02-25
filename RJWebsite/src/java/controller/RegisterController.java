@@ -6,11 +6,16 @@
 package controller;
 
 import dao.AccountDAO;
+import dao.CityDAO;
 import dao.idao.IAccount;
+import dao.idao.ICity;
 import entity.Account;
+import entity.City;
 import entity.Recruiter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -50,8 +55,14 @@ public class RegisterController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        request.setCharacterEncoding("UTF-8");
         try {
-
+            ICity daoCity = new CityDAO();
+            ArrayList<City> listCity = (ArrayList<City>) daoCity.getAllCity();
+            listCity.remove(0);
+            String citySelect = request.getParameter("citySelect");
+            request.setAttribute("listCity", listCity);
+            request.setAttribute("citySelect", citySelect);
             request.getRequestDispatcher("RegisterPage.jsp").forward(request, response);
         } catch (Exception e) {
         }
@@ -69,6 +80,7 @@ public class RegisterController extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
+        request.setCharacterEncoding("UTF-8");
         IAccount accountDao = new AccountDAO();
 
         String email = request.getParameter("email");
@@ -79,15 +91,22 @@ public class RegisterController extends HttpServlet {
         String companyName = request.getParameter("companyName");
         String address = request.getParameter("address");
         String recruiterName = request.getParameter("recruiterName");
-
+        String citySelect = request.getParameter("citySelect");
         Account registerAccount = new Account();
-
+        ICity daoCity = new CityDAO();
+        ArrayList<City> listCity = (ArrayList<City>) daoCity.getAllCity();
+        listCity.remove(0);
+        request.setAttribute("listCity", listCity);
+        request.setAttribute("citySelect", citySelect);
         try {
-            if (!checkAccountBasicInfo(request, email, phone, password, confirmPassword)) {
+            if (!checkAccountBasicInfo(request, email, phone, password, confirmPassword, citySelect)) {
                 // If account basic info wrong format, redirect to Register Page
                 request.setAttribute("email", email);
                 request.setAttribute("phone", phone);
                 request.setAttribute("password", password);
+                request.setAttribute("companyName", companyName);
+                request.setAttribute("address", address);
+
                 request.getRequestDispatcher("RegisterPage.jsp").forward(request, response);
             } else {
                 registerAccount.setEmail(email.trim());
@@ -96,7 +115,7 @@ public class RegisterController extends HttpServlet {
                 // Add candidate account
                 if (role.equalsIgnoreCase("candidate")) {
                     registerAccount.setRoleId(2);
-                    accountDao.insertCandidateAccount(registerAccount);
+                    accountDao.insertCandidateAccount(registerAccount, citySelect);
                     try {
                         response.setContentType("text/html");
                         PrintWriter out = response.getWriter();
@@ -116,6 +135,7 @@ public class RegisterController extends HttpServlet {
                     recruiter.setName(companyName);
                     recruiter.setAddress(address);
                     recruiter.setContacterName(recruiterName);
+                    recruiter.setCity(citySelect);
                     accountDao.insertRecruitorAccount(registerAccount, recruiter);
                     try {
                         response.setContentType("text/html");
@@ -130,11 +150,13 @@ public class RegisterController extends HttpServlet {
                     }
 
                 } else {
+
                     request.setAttribute("email", email);
                     request.setAttribute("phone", phone);
                     request.setAttribute("password", password);
                     request.setAttribute("companyName", companyName);
                     request.setAttribute("address", address);
+
                     request.setAttribute("recruiterName", recruiterName);
                     request.getRequestDispatcher("RegisterPage.jsp").forward(request, response);
                 }
@@ -166,7 +188,7 @@ public class RegisterController extends HttpServlet {
      * @param confirmPassword
      * @return
      */
-    public boolean checkAccountBasicInfo(HttpServletRequest request, String email, String phoneNumber, String password, String confirmPassword) {
+    public boolean checkAccountBasicInfo(HttpServletRequest request, String email, String phoneNumber, String password, String confirmPassword, String city) {
         IAccount accountDao = new AccountDAO();
         Validation validation = new Validation();
         boolean isAccountBasicInforCorrect = true;
@@ -180,6 +202,10 @@ public class RegisterController extends HttpServlet {
         }
         if (!validation.phoneNumberValidation(phoneNumber)) {
             request.setAttribute("phoneErrorMesg", "Phone is incorrect format.");
+            isAccountBasicInforCorrect = false;
+        }
+        if (city.isEmpty()) {
+            request.setAttribute("cityError", "Please choose city.");
             isAccountBasicInforCorrect = false;
         }
         if (!validation.passwordValidation(password)) {

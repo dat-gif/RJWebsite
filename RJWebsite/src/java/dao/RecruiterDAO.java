@@ -529,8 +529,8 @@ public class RecruiterDAO extends DBContext implements dao.idao.IRecruiter {
         try {
             Connection conn = getConnection();
             PreparedStatement ps = conn.prepareStatement(query);
-            ps.setInt(1, recruiterId);
-            ps.setInt(2, candidateId);
+            ps.setInt(1, candidateId);
+            ps.setInt(2, recruiterId);
             ResultSet rs = ps.executeQuery();
             if (rs.isBeforeFirst()) {
                 return false;

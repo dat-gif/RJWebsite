@@ -57,6 +57,7 @@ public class LoginController extends HttpServlet {
             request.getSession().invalidate();
             request.getRequestDispatcher("Login.jsp").forward(request, response);
         } catch (Exception e) {
+            throw new Error(e);
         }
     }
 
@@ -74,17 +75,20 @@ public class LoginController extends HttpServlet {
         IAccount accountDao = new AccountDAO();
         String userEmail = request.getParameter("userEmail");
         String password = request.getParameter("password");
+        try {
 
-        Account userAccount = accountDao.getAccountByEmailAndPassword(userEmail.trim(), password);
+            Account userAccount = accountDao.getAccountByEmailAndPassword(userEmail.trim(), password);
 
-        if (userAccount != null) {
-            AppUtils.storeLoginedUser(request.getSession(), userAccount);
-            response.sendRedirect("landingpage");
-        } else {
-            request.setAttribute("isWrongAccount", "Wrong email / password");
-            request.getRequestDispatcher("Login.jsp").forward(request, response);
+            if (userAccount != null) {
+                AppUtils.storeLoginedUser(request.getSession(), userAccount);
+                response.sendRedirect("landingpage");
+            } else {
+                request.setAttribute("isWrongAccount", "Wrong email / password");
+                request.getRequestDispatcher("Login.jsp").forward(request, response);
+            }
+        } catch (Exception e) {
+            throw new Error(e);
         }
-
     }
 
     /**

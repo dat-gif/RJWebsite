@@ -19,7 +19,7 @@ public interface IAccount {
 
     public boolean checkExistAccountEmail(String email);
 
-    public void insertCandidateAccount(Account account);
+    public void insertCandidateAccount(Account account, String city);
 
     public void insertRecruitorAccount(Account account, Recruiter recruoterBasicInfo);
 

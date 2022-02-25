@@ -30,8 +30,16 @@ public class Candidate {
     private int projectManageId;
     private int certificateManageId;
     private int prizeManageId;
+    private CandidateCV candidateCV;
+    private CandidatePrize candidatePrize;
+    private CandidateProject candidateProject;
+    private Certificate certificate;
+    private Education education;
+    private Exception exception;
+    private Social social;
     private Date createAt;
     private Date updateAt;
+    private String email;
 
     public Candidate() {
     }
@@ -217,5 +225,68 @@ public class Candidate {
         this.updateAt = updateAt;
     }
 
+    public CandidateCV getCandidateCV() {
+        return candidateCV;
+    }
+
+    public void setCandidateCV(CandidateCV candidateCV) {
+        this.candidateCV = candidateCV;
+    }
+
+    public CandidatePrize getCandidatePrize() {
+        return candidatePrize;
+    }
+
+    public void setCandidatePrize(CandidatePrize candidatePrize) {
+        this.candidatePrize = candidatePrize;
+    }
+
+    public CandidateProject getCandidateProject() {
+        return candidateProject;
+    }
+
+    public void setCandidateProject(CandidateProject candidateProject) {
+        this.candidateProject = candidateProject;
+    }
+
+    public Certificate getCertificate() {
+        return certificate;
+    }
+
+    public void setCertificate(Certificate certificate) {
+        this.certificate = certificate;
+    }
+
+    public Education getEducation() {
+        return education;
+    }
+
+    public void setEducation(Education education) {
+        this.education = education;
+    }
+
+    public Exception getException() {
+        return exception;
+    }
+
+    public void setException(Exception exception) {
+        this.exception = exception;
+    }
+
+    public Social getSocial() {
+        return social;
+    }
+
+    public void setSocial(Social social) {
+        this.social = social;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
 }
