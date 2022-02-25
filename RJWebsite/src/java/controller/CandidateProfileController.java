@@ -9,8 +9,11 @@ import dao.CandidateDAO;
 import dao.idao.ICandidate;
 import entity.Account;
 import entity.Candidate;
+import entity.Education;
+import entity.Skill;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -53,7 +56,10 @@ public class CandidateProfileController extends HttpServlet {
         ICandidate iCandidate = new CandidateDAO();
         Account loginedUser = AppUtils.getLoginedUser(request.getSession());
         Candidate candidateInfo = iCandidate.getCandidateProfileById(loginedUser.getAccId());
-        System.out.println(candidateInfo.isGender());
+        List<Education> educations = iCandidate.getEducationByCandidateId(candidateInfo.getCandIdateId());
+        List<Skill> listSkill = iCandidate.getSkillByCandidateId(candidateInfo.getCandIdateId());
+        request.setAttribute("eduList", educations);
+        request.setAttribute("skillList", listSkill);
         request.setAttribute("candidateInfo", candidateInfo);
         request.getRequestDispatcher("CandidateProfilePage.jsp").forward(request, response);
     }

@@ -13,10 +13,12 @@ import entity.CandidatePrize;
 import entity.Certificate;
 import entity.City;
 import entity.Education;
+import entity.Skill;
 import entity.Social;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -79,20 +81,19 @@ public class CandidateDAO extends DBContext implements ICandidate {
                 candidate.setEmail(rs.getString("email"));
                 return candidate;
             }
-            
+
         } catch (Exception e) {
             System.out.println("getCandidateProfileById :" + e);
             throw new Error(e);
         }
         return null;
     }
-    
+
     @Override
     public CandidateCV getCandidateCVByCandidateId(int candidateId) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
-  
+
     private Exception Error(Exception e) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
@@ -109,7 +110,44 @@ public class CandidateDAO extends DBContext implements ICandidate {
 
     @Override
     public List<Education> getEducationByCandidateId(int candidateId) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        List<Education> listEducations = new ArrayList<>();
+        String query = "SELECT TOP (1000) [id]\n"
+                + "      ,[school]\n"
+                + "      ,[degree]\n"
+                + "      ,[field]\n"
+                + "      ,[start_time]\n"
+                + "      ,[end_time]\n"
+                + "      ,[description]\n"
+                + "      ,[media]\n"
+                + "      ,[link]\n"
+                + "      ,[candidate_id]\n"
+                + "  FROM [SWP391].[dbo].[education]\n"
+                + "  where candidate_id=?";
+        try {
+            Connection conn = getConnection();
+            PreparedStatement ps = conn.prepareStatement(query);
+            ps.setInt(1, candidateId);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Education e = new Education(rs.getInt("id"),
+                        rs.getString("school"),
+                        rs.getString("degree"),
+                        rs.getString("field"),
+                        rs.getString("start_time"),
+                        rs.getString("end_time"),
+                        rs.getString("description"),
+                        rs.getString("media"),
+                        rs.getString("link"),
+                        rs.getString("candidate_id")
+                );
+                listEducations.add(e);
+            }
+            return listEducations;
+        } catch (Exception e) {
+            throw new Error(e);
+        } finally {
+
+        }
     }
 
     @Override
@@ -121,5 +159,35 @@ public class CandidateDAO extends DBContext implements ICandidate {
     public List<Social> getSocialByCandidateId(int candidateId) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
+
+    @Override
+    public List<Skill> getSkillByCandidateId(int candidateId) {
+        String query = "SELECT TOP (5) skill.[skill_id]\n"
+                + "      ,[name]\n"
+                + "      ,[description]\n"
+                + "      ,[question]\n"
+                + "      ,[icon]\n"
+                + "      ,[status]\n"
+                + "  FROM [SWP391].[dbo].[skill]\n"
+                + "  inner join candidate_skill on candidate_skill.skill_id= skill.skill_id\n"
+                + "  where candidate_id=?";
+        List<Skill> skills = new ArrayList<>();
+        try {
+            Connection conn = getConnection();
+            PreparedStatement ps = conn.prepareStatement(query);
+            ps.setInt(1, candidateId);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Skill skill = new Skill(rs.getInt("skill_id"),
+                        rs.getString("name"),
+                        rs.getString("icon"),
+                        rs.getString("description"));
+                skills.add(skill);
+            }
+            return skills;
+        } catch (Exception e) {
+        }
+        return null;
+    }
+
 }

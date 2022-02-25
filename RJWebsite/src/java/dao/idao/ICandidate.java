@@ -10,6 +10,7 @@ import entity.CandidateCV;
 import entity.CandidatePrize;
 import entity.Certificate;
 import entity.Education;
+import entity.Skill;
 import entity.Social;
 import java.util.List;
 
@@ -32,4 +33,6 @@ public interface ICandidate {
     public List<Exception> getExceptionByCandidateId(int candidateId);
 
     public List<Social> getSocialByCandidateId(int candidateId);
+
+    public List<Skill> getSkillByCandidateId(int candidateId);
 }

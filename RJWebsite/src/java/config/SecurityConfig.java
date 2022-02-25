@@ -45,8 +45,6 @@ public class SecurityConfig {
         // Configuration "RECRUITER" role.
         List<String> urlPatterns2 = new ArrayList<String>();
 
-        urlPatterns2.add("/RecruiterDashBoard");
-
         mapConfig.put(ROLE_RECRUITER, urlPatterns2);
     }
 
