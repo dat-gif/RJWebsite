@@ -4,6 +4,9 @@
     Author     : admin
 --%>
 
+<%@page import="entity.Skill"%>
+<%@page import="java.util.List"%>
+<%@page import="java.util.List"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -96,18 +99,18 @@
                             <tr>
                                 <th scope="col">Name</th>
                                 <th scope="col">Description</th>
-                                <th scope="col">Status</th>
                                 <th scope="col">Action</th>
                             </tr>
                         </thead>
+                        <% List<Skill> list = (List<Skill>) request.getAttribute("skills");%>
                         <tbody>
+                            <% for (Skill s : list) {%>
                             <tr>
-                                <th scope="row">ORA</th>
-                                <td><p>C++ là một loại ngôn ngữ lập trình bậc trung. Đây là ngôn ngữ lập trình đa năng được tạo ra bởi Bjarne Stroustrup như một phần mở rộng của ngôn ngữ lập trình C, hoặc "C với các lớp Class", Ngôn ngữ đã được mở rộng đáng kể theo thời gian và C ++ hiện đại có các tính năng: lập trình tổng quát, lập trình hướng đối tượng</p></td>
-                                <td><a href="url">Deactivate</a></td>
-                                <td><a href="url" id ="a2">Details</a></td>
+                                <th scope="row"><%= s.getName() %></th>
+                                <td class="de"><p><%= s.getName() %></p></td>
+                                <td><a href="url" id ="a2">Add</a>&nbsp;&nbsp;<a href="url" id ="a2">Edit</a></td>
                             </tr>
-
+                            <%}%>
                         </tbody>
                     </table>
                     <div class="row justify-content-center mt-4 mb-4">

@@ -13,12 +13,15 @@ import entity.Skill;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * The data access object performs the data query and updates from the Job table
@@ -75,6 +78,34 @@ public class JobDAO extends DBContext implements IJob {
             throw new Error(e);
         }
         return list;
+    }
+
+    public List<Job> getJobs() {
+        List<Job> jobList = new ArrayList<>();
+        try {
+            Connection conn = getConnection();
+            PreparedStatement ps = conn.prepareStatement("SELECT * FROM Job");
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Job job = new Job();
+                job.setjId(rs.getInt("job_id"));
+                job.setTitle(rs.getString("title"));
+                job.setDescription(rs.getString("description"));
+                job.setSalaryRange(rs.getString("salary_range"));
+                job.setQuantity(rs.getString("quantity"));
+                job.setRole(rs.getString("role"));
+                job.setRole(rs.getString("role"));
+                job.setExperience(rs.getString("experience"));
+                job.setLocation(rs.getString("location"));
+                job.setHireDate(rs.getString("hire_date"));
+                job.setStatus(rs.getBoolean("status"));
+                job.setRecruiter(getRecruiterIdNameById(rs.getInt("recruiter_id")));
+                jobList.add(job);
+            }
+        } catch (Exception e) {
+            System.out.println("getJobLandingPage() :" + e);
+        }
+        return jobList;
     }
 
     /**
@@ -299,6 +330,7 @@ public class JobDAO extends DBContext implements IJob {
                         rs.getNString("name"),
                         rs.getNString("icon"),
                         rs.getNString("description")));
+
             }
         } catch (Exception e) {
             System.out.println("getAllSkill() :" + e);

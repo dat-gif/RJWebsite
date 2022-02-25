@@ -4,6 +4,8 @@
     Author     : admin
 --%>
 
+<%@page import="entity.Recruiter"%>
+<%@page import="java.util.List"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -91,27 +93,31 @@
                             <button type="button" class="btn btn-outline-primary ml-1">search</button>
                         </div>
                     </main>
+                    <% List<Recruiter> list = (List<Recruiter>) request.getAttribute("recruiters");%>
                     <table class="table">
                         <thead class="thead-dark">
                             <tr>
                                 <th scope="col">Name</th>
                                 <th scope="col">Website</th>
                                 <th scope="col">Phone</th>
-                                <th scope="col">Status</th>
-                                <th scope="col">Premium</th>
+                                <th scope="col">Address</th>
+                                <th scope="col">City</th>
                                 <th scope="col">Action</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <th scope="row">ORA</th>
-                                <td><a href="https://tuyendung.vietis.com.vn/">https://tuyendung.vietis.com.vn/</a></td>
-                                <td>0393958404</td>
-                                <td><a href="url">Activate</a></td>
-                                <td><a href="url">Deactivate</a></td>
-                                <td><a href="url" id ="a1">Review</a><a href="url" id ="a2">Details</a></td>
-                            </tr>
 
+                            <% for (Recruiter r : list) {%>
+                            <tr>
+                                <th scope="row"><%= r.getName()%></th>
+                                <td><a href="<%= r.getWebsite()%>"><%= r.getWebsite()%></a></td>
+                                <td><%= r.getPhone()%></td>
+                                <td><%= r.getAddress()%></td>
+                                <td><%= r.getCity()%></td>
+                                <td><a href="url" id ="a1">Review</a><a href="url" id ="a2">Details</a></td>
+
+                            </tr>
+                            <%}%> 
                         </tbody>
                     </table>
                     <div class="row justify-content-center mt-4 mb-4">
