@@ -38,7 +38,7 @@ import javax.servlet.http.HttpServletResponse;
 public class SeachingCompanyController extends HttpServlet {
 
     int pageNumber = 1;
-    static int recordNumber = 2;
+    static int recordNumber = 8;
     int totalPage = 8;
 
     /**
