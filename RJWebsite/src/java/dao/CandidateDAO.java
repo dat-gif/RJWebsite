@@ -125,8 +125,8 @@ public class CandidateDAO extends DBContext implements ICandidate {
                 Certificate c = new Certificate(rs.getInt("id"), rs.getString("name"),
                         rs.getString("host"),
                         rs.getString("certificate_time"),
-                        rs.getString("certificate_time"),
                         rs.getString("media"),
+                        rs.getString("link"),
                         rs.getInt("candidate_id"));
                 certificates.add(c);
             }

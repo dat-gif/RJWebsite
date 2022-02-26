@@ -17,7 +17,7 @@
             <div class="card">
                 <!-- Image -->
                 <c:if test="${empty param.img}">
-                    <img src="../asset/placeImg.png" class="card-img-top "/>
+                    <img src="<c:url value="asset\placeImg.png"></c:url>" class="card-img-top "/>
                 </c:if>
                 <img src="${param.img}" class="card-img-top "/>
                 <span class="border-bottom"></span>

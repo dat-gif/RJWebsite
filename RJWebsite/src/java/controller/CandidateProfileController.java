@@ -9,7 +9,9 @@ import dao.CandidateDAO;
 import dao.idao.ICandidate;
 import entity.Account;
 import entity.Candidate;
+import entity.Certificate;
 import entity.Education;
+import entity.Experience;
 import entity.Skill;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -58,8 +60,13 @@ public class CandidateProfileController extends HttpServlet {
         Candidate candidateInfo = iCandidate.getCandidateProfileById(loginedUser.getAccId());
         List<Education> educations = iCandidate.getEducationByCandidateId(candidateInfo.getCandIdateId());
         List<Skill> listSkill = iCandidate.getSkillByCandidateId(candidateInfo.getCandIdateId());
+        List<Certificate> certificates = iCandidate.getCertificateByCandidateId(candidateInfo.getCandIdateId());
+        List<Experience> experiences = iCandidate.getExperienceByCandidateId(candidateInfo.getCandIdateId());
+
         request.setAttribute("eduList", educations);
         request.setAttribute("skillList", listSkill);
+        request.setAttribute("certList", certificates);
+        request.setAttribute("expList", experiences);
         request.setAttribute("candidateInfo", candidateInfo);
         request.getRequestDispatcher("CandidateProfilePage.jsp").forward(request, response);
     }
