@@ -80,6 +80,12 @@ public class JobDAO extends DBContext implements IJob {
         return list;
     }
 
+    /**
+     * get All job from database
+     *
+     * @return
+     */
+    @Override
     public List<Job> getJobs() {
         List<Job> jobList = new ArrayList<>();
         try {
@@ -140,29 +146,10 @@ public class JobDAO extends DBContext implements IJob {
         }
         return skillList;
     }
-@Override
-    public void deleteJobSkill(int id) {
-        try {
-            Connection conn = getConnection();
-            PreparedStatement ps = conn.prepareStatement("DELETE FROM job_skill where job_id = ?");
-            ps.setInt(1, id);
-            ps.executeUpdate();
-        } catch (Exception e) {
-            System.out.println("deleteJobSkill() :" + e);
-        }
-    }
-    @Override
-    public void deleteJob(int id) {
-        try {
-            Connection conn = getConnection();
-            PreparedStatement ps = conn.prepareStatement("DELETE FROM job where job_id = ?");
-            ps.setInt(1, id);
-            ps.executeUpdate();
-        } catch (Exception e) {
-            System.out.println("deleteJob() :" + e);
-        }
-    }
 
+    /**
+     * Active/Inactive Status
+     */
     @Override
     public void updateStatus(int Id, boolean status
     ) {
@@ -299,6 +286,7 @@ public class JobDAO extends DBContext implements IJob {
      * @param recordNumber
      * @return ArrayList<Job>
      */
+//
     @Override
     public ArrayList<Job> getAllJob(int pageNumber, int recordNumber
     ) {
@@ -353,6 +341,14 @@ public class JobDAO extends DBContext implements IJob {
         return list;
     }
 
+    /**
+     * Get all Skill record in database
+     *
+     *
+     *
+     *
+     * @return ArrayList<Skill>;
+     */
     @Override
     public ArrayList<Skill> getAllSkill() {
         ArrayList<Skill> skillList = new ArrayList<>();

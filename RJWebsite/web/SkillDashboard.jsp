@@ -114,7 +114,6 @@
                                 <td class="de"><p><%= s.getDepscription()%></p></td>
                                 <td>
                                     <a href ="EditSkillController?id=<%=s.getId()%>" id ="a2" >Edit</a>
-                                    <a href ="DeleteSkillController?id=<%=s.getId()%>" id ="a2" >Delete</a>
                                 </td>
                             </tr>
                             <%}%>

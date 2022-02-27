@@ -28,11 +28,8 @@ import java.util.List;
  */
 public class CandidateDAO extends DBContext implements ICandidate {
 
-    /**
-     * Get basic info about candidate like email, address,etc...
-     *
-     * @param account_id int, id account access to website
-     * @return
+    /**get all candidates from Record;
+     * @return List;
      */
     @Override
     public List<Candidate> getCandidates() {
@@ -59,7 +56,7 @@ public class CandidateDAO extends DBContext implements ICandidate {
         }
         return canList;
     }
-    
+
     @Override
     public Candidate getCandidateProfileById(int account_id) {
         String query = "SELECT [candidate_id]\n"
@@ -106,46 +103,46 @@ public class CandidateDAO extends DBContext implements ICandidate {
                 candidate.setEmail(rs.getString("email"));
                 return candidate;
             }
-            
+
         } catch (Exception e) {
             System.out.println("getCandidateProfileById :" + e);
             throw new Error(e);
         }
         return null;
     }
-    
+
     @Override
     public CandidateCV getCandidateCVByCandidateId(int candidateId) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
+
     @Override
     public CandidatePrize getCandidatePrizeByCandidateId(int candidateId) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
+
     @Override
     public Certificate getCertificateByCandidateId(int candidateId) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
+
     @Override
     public Education getEducationByCandidateId(int candidateId) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
+
     @Override
     public Exception getExceptionByCandidateId(int candidateId) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
+
     @Override
     public Social getSocialByCandidateId(int candidateId) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
+
     private Exception Error(Exception e) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
+
 }

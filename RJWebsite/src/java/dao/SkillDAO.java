@@ -18,6 +18,12 @@ import java.sql.ResultSet;
  */
 public class SkillDAO extends DBContext implements ISkill {
 
+    /**
+     * get Skill from record filter by skill_id
+     *
+     * @param Id
+     * @return Skill
+     */
     @Override
     public Skill getSkillById(int Id) {
         try {
@@ -39,6 +45,10 @@ public class SkillDAO extends DBContext implements ISkill {
         return null;
     }
 
+    /**
+     * Update skill to record
+     * @param s
+     */
     @Override
     public void updateSkill(Skill s) {
         try {
@@ -52,19 +62,9 @@ public class SkillDAO extends DBContext implements ISkill {
             System.out.println("UpdateSkill() :" + e);
         }
     }
-
-    @Override
-    public void removeSkill(int Id) {
-        try {
-            Connection conn = getConnection();
-            PreparedStatement ps = conn.prepareStatement("DELETE FROM skill WHERE skill_id = ?");
-            ps.setInt(1, Id);
-            ps.executeUpdate();
-        } catch (Exception e) {
-            System.out.println("DeleteSkill() :" + e);
-        }
-    }
-
+/**Add skill to Database
+     * @param s
+*/
     @Override
     public void insertSkill(Skill s) {
         try {
@@ -77,48 +77,5 @@ public class SkillDAO extends DBContext implements ISkill {
         } catch (Exception e) {
             System.out.println("InsertSkill() :" + e);
         }
-    }
-
-    @Override
-    public void DeleteRecruiterSkill(int Id) {
-        try {
-            Connection conn = getConnection();
-            PreparedStatement ps = conn.prepareStatement("DELETE FROM recruiter_skill WHERE skill_id = ?");
-            ps.setInt(1, Id);
-            ps.executeUpdate();
-        } catch (Exception e) {
-            System.out.println("DeleteSkill() :" + e);
-        }
-    }
-
-    @Override
-    public void DeleteCandidateSkill(int Id) {
-        try {
-            Connection conn = getConnection();
-            PreparedStatement ps = conn.prepareStatement("DELETE FROM candidate_skill WHERE skill_id = ?");
-            ps.setInt(1, Id);
-            ps.executeUpdate();
-        } catch (Exception e) {
-            System.out.println("DeleteSkill() :" + e);
-        }
-    }
-
-    @Override
-    public void DeleteJobSkill(int Id) {
-        try {
-            Connection conn = getConnection();
-            PreparedStatement ps = conn.prepareStatement("DELETE FROM job_skill WHERE skill_id = ?");
-            ps.setInt(1, Id);
-            ps.executeUpdate();
-        } catch (Exception e) {
-            System.out.println("DeleteSkill() :" + e);
-        }
-    }
-
-    public static void main(String[] args) {
-        ISkill sdao = new SkillDAO();
-
-        System.out.println(sdao.getSkillById(3).toString());
-
     }
 }

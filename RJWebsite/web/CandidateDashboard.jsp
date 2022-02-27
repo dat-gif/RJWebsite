@@ -115,7 +115,6 @@
                                 <td><%=c.getBirthDate()%></td>
                                 <td><%if (c.isGender()) {%>
                                     female
-
                                     <%} else {%>
                                     male
                                     <%}%>

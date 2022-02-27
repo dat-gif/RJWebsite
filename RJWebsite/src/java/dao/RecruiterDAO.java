@@ -413,6 +413,11 @@ public class RecruiterDAO extends DBContext implements dao.idao.IRecruiter {
         return recruitersList;
     }
 
+    /**
+     * Get all Recruiter from records
+     *
+     * @return
+     */
     @Override
     public List<Recruiter> getRecruiters() {
         List<Recruiter> list = new ArrayList<>();

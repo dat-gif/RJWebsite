@@ -121,9 +121,7 @@
                                     </a></td>
                                 <td><a href="CandidateApplyJobPage.jsp" id ="a1">Candidate Applied</a>
 
-                                    <a href="url" id ="a2">Details</a>
-
-                                    <a href="DeleteJobController?id=<%= j.getjId()%>" id ="a3">Delete</a>
+                                    <a href="jobdetail?jobId=<%=j.getjId()%>" id ="a2">Details</a>
                                 </td>
                             </tr>
                             <%}%> 
