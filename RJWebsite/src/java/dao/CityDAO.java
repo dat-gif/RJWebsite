@@ -19,7 +19,7 @@ import java.util.List;
  *
  * @author Nguyen Dinh Dat
  */
-public class CityDAO extends DBContext implements ICity {
+        public class CityDAO extends DBContext implements ICity {
 
     @Override
     public List<City> getAllCity() {
@@ -29,7 +29,7 @@ public class CityDAO extends DBContext implements ICity {
                 + "      ,[area]\n"
                 + "      ,[population]\n"
                 + "  FROM [SWP391].[dbo].[vn_city]\n"
-                + " ORDER BY [city]";
+                     + " ORDER BY [city]";
         try {
             Connection conn = getConnection();
             PreparedStatement ps = conn.prepareStatement(query);

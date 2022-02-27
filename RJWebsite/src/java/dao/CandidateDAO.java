@@ -30,12 +30,35 @@ import java.util.List;
  */
 public class CandidateDAO extends DBContext implements ICandidate {
 
-    /**
-     * Get basic info about candidate like email, address,etc...
-     *
-     * @param account_id int, id account access to website
-     * @return
+    /**get all candidates from Record;
+     * @return List;
      */
+    @Override
+    public List<Candidate> getCandidates() {
+        List<Candidate> canList = new ArrayList<>();
+        try {
+            Connection conn = getConnection();
+            PreparedStatement ps = conn.prepareStatement("SELECT * FROM candidate");
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Candidate can = new Candidate();
+                can.setCandIdateId(rs.getInt("candidate_id"));
+                can.setFirstName(rs.getString("first_name"));
+                can.setLastName(rs.getString("last_name"));
+                can.setBirthDate(rs.getString("birth_date"));
+                can.setAddress(rs.getString("address"));
+                can.setAvatar(rs.getString("avatar"));
+                can.setGender(rs.getBoolean("sex"));
+                can.setBanner(rs.getString("phone"));
+                can.setFindingJob(rs.getBoolean("finding_job"));
+                canList.add(can);
+            }
+        } catch (Exception e) {
+            System.out.println("" + e);
+        }
+        return canList;
+    }
+
     @Override
     public Candidate getCandidateProfileById(int account_id) {
         String query = "SELECT [candidate_id]\n"
@@ -95,7 +118,9 @@ public class CandidateDAO extends DBContext implements ICandidate {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+
     private Exception Error(Exception e) {
+
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -220,6 +245,12 @@ public class CandidateDAO extends DBContext implements ICandidate {
 
     }
 
+
+    private Exception Error(Exception e) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+
     @Override
     public List<Social> getSocialByCandidateId(int candidateId) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
@@ -254,5 +285,6 @@ public class CandidateDAO extends DBContext implements ICandidate {
         }
         return null;
     }
+
 
 }

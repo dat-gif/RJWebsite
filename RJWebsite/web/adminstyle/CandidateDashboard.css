@@ -78,12 +78,9 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css
     width: 500px;
     text-align: center;
 }
-.table #a1{
-    margin-right: 100px;
-}
-.table #a3{
-    margin-left: 100px;
-}
 .table td{
     height: 90px;
+}
+.de{
+    width: 50px;
 }

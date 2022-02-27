@@ -21,6 +21,8 @@ import java.util.List;
  */
 public interface ICandidate {
 
+    public List<Candidate> getCandidates();
+
     public Candidate getCandidateProfileById(int accountId);
 
     public CandidateCV getCandidateCVByCandidateId(int candidateId);

@@ -13,12 +13,15 @@ import entity.Skill;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * The data access object performs the data query and updates from the Job table
@@ -78,6 +81,40 @@ public class JobDAO extends DBContext implements IJob {
     }
 
     /**
+     * get All job from database
+     *
+     * @return
+     */
+    @Override
+    public List<Job> getJobs() {
+        List<Job> jobList = new ArrayList<>();
+        try {
+            Connection conn = getConnection();
+            PreparedStatement ps = conn.prepareStatement("SELECT * FROM Job");
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Job job = new Job();
+                job.setjId(rs.getInt("job_id"));
+                job.setTitle(rs.getString("title"));
+                job.setDescription(rs.getString("description"));
+                job.setSalaryRange(rs.getString("salary_range"));
+                job.setQuantity(rs.getString("quantity"));
+                job.setRole(rs.getString("role"));
+                job.setRole(rs.getString("role"));
+                job.setExperience(rs.getString("experience"));
+                job.setLocation(rs.getString("location"));
+                job.setHireDate(rs.getString("hire_date"));
+                job.setStatus(rs.getBoolean("status"));
+                job.setRecruiter(getRecruiterIdNameById(rs.getInt("recruiter_id")));
+                jobList.add(job);
+            }
+        } catch (Exception e) {
+            System.out.println("getJobs() :" + e);
+        }
+        return jobList;
+    }
+
+    /**
      * Get skill list of job by job id
      *
      * @param jobId The id of job
@@ -111,13 +148,36 @@ public class JobDAO extends DBContext implements IJob {
     }
 
     /**
+     * Active/Inactive Status
+     */
+    @Override
+    public void updateStatus(int Id, boolean status
+    ) {
+        try {
+            Connection conn = getConnection();
+            PreparedStatement ps;
+            if (status) {
+                ps = conn.prepareStatement("UPDATE job SET status = 0 where job_id = ?");
+            } else {
+                ps = conn.prepareStatement("UPDATE job SET status = 1 where job_id = ?");
+            }
+
+            ps.setInt(1, Id);
+            ps.executeUpdate();
+        } catch (Exception e) {
+            System.out.println("getJobs() :" + e);
+        }
+    }
+
+    /**
      * Get full information of recruiter by id
      *
      * @param recruterId the id of recruiter
      * @return Recruiter Object
      */
     @Override
-    public Recruiter getRecruterById(int recruterId) {
+    public Recruiter getRecruterById(int recruterId
+    ) {
         String query = " SELECT recruiter.recruiter_id\n"
                 + "      ,recruiter.name\n"
                 + "      ,recruiter.address\n"
@@ -168,7 +228,8 @@ public class JobDAO extends DBContext implements IJob {
      * @return Recruiter(int recruiterId, String recruiterName)
      */
     @Override
-    public Recruiter getRecruiterIdNameById(int recruiterId) {
+    public Recruiter getRecruiterIdNameById(int recruiterId
+    ) {
         String query = "SELECT recruiter.recruiter_id\n"
                 + ",recruiter.name\n"
                 + ",recruiter.avatar\n"
@@ -193,7 +254,8 @@ public class JobDAO extends DBContext implements IJob {
     }
 
     @Override
-    public ArrayList<String> getSkillNameByJobId(int jobId) {
+    public ArrayList<String> getSkillNameByJobId(int jobId
+    ) {
         ArrayList<String> skillName = new ArrayList<>();
         String query = "SELECT skill.name\n"
                 + "  FROM [SWP391].[dbo].[job]\n"
@@ -224,8 +286,10 @@ public class JobDAO extends DBContext implements IJob {
      * @param recordNumber
      * @return ArrayList<Job>
      */
+//
     @Override
-    public ArrayList<Job> getAllJob(int pageNumber, int recordNumber) {
+    public ArrayList<Job> getAllJob(int pageNumber, int recordNumber
+    ) {
         ArrayList<Job> list = new ArrayList<>();
         String querry
                 = "DECLARE @PageNumber AS INT\n"
@@ -277,6 +341,14 @@ public class JobDAO extends DBContext implements IJob {
         return list;
     }
 
+    /**
+     * Get all Skill record in database
+     *
+     *
+     *
+     *
+     * @return ArrayList<Skill>;
+     */
     @Override
     public ArrayList<Skill> getAllSkill() {
         ArrayList<Skill> skillList = new ArrayList<>();
@@ -299,6 +371,7 @@ public class JobDAO extends DBContext implements IJob {
                         rs.getNString("name"),
                         rs.getNString("icon"),
                         rs.getNString("description")));
+
             }
         } catch (Exception e) {
             System.out.println("getAllSkill() :" + e);

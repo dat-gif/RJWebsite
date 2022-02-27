@@ -10,6 +10,7 @@ import entity.Recruiter;
 import entity.Skill;
 import java.sql.Array;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -17,8 +18,11 @@ import java.util.ArrayList;
  */
 public interface IJob {
 
+    public void updateStatus(int id, boolean status);
+
     public ArrayList<Job> getAllJob(int pageNumber, int recordNumber);
 
+    public List<Job> getJobs();
     //Remove in future
     public ArrayList<Job> getJobBySkillAndCity(String skillValue, String cityValue);
 
@@ -51,7 +55,6 @@ public interface IJob {
     public ArrayList<Job> getApplyJobPangingByAccountId(int accountId, int currentPage, int recordQuantity);
 
     public int getTotalApplyJobRow(int candidateId);
-
 
     public boolean checkJobBeenApply(int jobId, int cadidateId);
 

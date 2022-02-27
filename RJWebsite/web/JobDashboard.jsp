@@ -4,6 +4,8 @@
     Author     : admin
 --%>
 
+<%@page import="entity.Job"%>
+<%@page import="java.util.List"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -33,7 +35,7 @@
                                 </a>
                             </h6>
                             <li class="nav-item">
-                                <a class="nav-link active" href="#">
+                                <a class="nav-link active" href="Dashboard">
                                     <span data-feather="home"></span>
                                     Dashboard <span class="sr-only">(current)</span>
                                 </a>
@@ -49,13 +51,13 @@
                                 </a>
                             </h6>
                             <li class="nav-item">
-                                <a class="nav-link" href="#">
+                                <a class="nav-link" href="CandidateDashboard">
                                     <span data-feather="file-text"></span>
                                     Candidate
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#">
+                                <a class="nav-link" href="RecruiterDashBoard">
                                     <span data-feather="file-text"></span>
                                     Recruiter
                                 </a>
@@ -69,18 +71,19 @@
                                 </a>
                             </h6>
                             <li class="nav-item">
-                                <a class="nav-link" href="#">
+                                <a class="nav-link" href="JobDashboard">
                                     <span data-feather="file-text"></span>
                                     Job
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#">
+                                <a class="nav-link" href="SkillDashboard">
                                     <span data-feather="file-text"></span>
                                     Skill
                                 </a>
                             </li>
                         </ul>
+
                     </div>
                 </nav>
                 <div class="content">
@@ -91,6 +94,7 @@
                             <button type="button" class="btn btn-outline-primary ml-1">search</button>
                         </div>
                     </main>
+                    <% List<Job> list = (List<Job>) request.getAttribute("jobs");%>
                     <table class="table">
                         <thead class="thead-dark">
                             <tr>
@@ -103,15 +107,24 @@
                             </tr>
                         </thead>
                         <tbody>
+                            <% for (Job j : list) {%>
                             <tr>
-                                <th scope="row">Tester</th>
-                                <td>Momo</td>
-                                <td>21/01/2022</td>
-                                <td>Hanoi</td>
-                                <td><a href="url">Deactivate</a></td>
-                                <td><a href="url" id ="a1">Candidate Applied</a><a href="url" id ="a2">Details</a><a href="url" id ="a3">Delete</a></td>
-                            </tr>
+                                <th scope="row"><%= j.getTitle()%></th>
+                                <td><%= j.getRecruiter().getName()%></td>
+                                <td><%= j.getHireDate()%> </td>
+                                <td><%= j.getLocation()%></td>
+                                <td><a href="UpdateStatusController?id=<%=j.getjId()%>"><%if (j.isStatus()) {%>
+                                        Deactivate
+                                        <%} else {%>
+                                        Activate
+                                        <%}%>
+                                    </a></td>
+                                <td><a href="CandidateApplyJobPage.jsp" id ="a1">Candidate Applied</a>
 
+                                    <a href="jobdetail?jobId=<%=j.getjId()%>" id ="a2">Details</a>
+                                </td>
+                            </tr>
+                            <%}%> 
                         </tbody>
                     </table>
                     <div class="row justify-content-center mt-4 mb-4">
