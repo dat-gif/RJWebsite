@@ -57,7 +57,7 @@ public class EditSkillController extends HttpServlet {
             SkillDAO sdao = new SkillDAO();
             Skill skill = sdao.getSkillById(id);
             request.setAttribute("skill", skill);
-            request.getRequestDispatcher("EditTest.jsp").forward(request, response);
+            request.getRequestDispatcher("EditSkill.jsp").forward(request, response);
         }
     }
 
