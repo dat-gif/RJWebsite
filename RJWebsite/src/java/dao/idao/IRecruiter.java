@@ -9,6 +9,7 @@ import entity.Job;
 import entity.Recruiter;
 import entity.Skill;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -27,6 +28,8 @@ public interface IRecruiter {
     public ArrayList<Recruiter> getRecruiterPaging(int pageNumber, int recordNumber);
 
     public ArrayList<Recruiter> getAllRecruiter(int pageNumber, int recordNumber);
+
+    public List<Recruiter> getRecruiters();
 
     public int getTotalRecruiterRow();
 

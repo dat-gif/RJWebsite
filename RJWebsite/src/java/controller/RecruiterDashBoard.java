@@ -5,6 +5,7 @@
 package controller;
 
 import dao.RecruiterDAO;
+import dao.idao.IRecruiter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -32,9 +33,9 @@ public class RecruiterDashBoard extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        RecruiterDAO rdao = new RecruiterDAO();
-        request.setAttribute("recruiters", rdao.getRecruiter());
-        request.getRequestDispatcher("RecruiterDashBoard").forward(request, response);
+        IRecruiter rdao = new RecruiterDAO();
+        request.setAttribute("recruiters", rdao.getRecruiters());
+        request.getRequestDispatcher("RecruiterDashboard.jsp").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

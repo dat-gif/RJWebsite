@@ -44,6 +44,8 @@ public class Candidate {
     public Candidate() {
     }
 
+
+
     public Candidate(int candIdateId, int accountId, String firstName, String lastName, String birthDate, String address, String avatar, boolean gender, String banner, String phone, boolean findingJob, int cvManageId, int experienceManageId, int educationMangeId, int socialManageId, int projectManageId, int certificateManageId, int prizeManageId) {
         this.candIdateId = candIdateId;
         this.accountId = accountId;

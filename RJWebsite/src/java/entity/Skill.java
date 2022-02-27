@@ -23,7 +23,6 @@ public class Skill {
         this.name = name;
         this.iconBase64 = iconBase64;
     }
-
     public Skill(int id, String name, String iconBase64, String depscription) {
         this.id = id;
         this.name = name;

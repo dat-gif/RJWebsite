@@ -35,7 +35,7 @@
                                 </a>
                             </h6>
                             <li class="nav-item">
-                                <a class="nav-link active" href="#">
+                                <a class="nav-link active" href="Dashboard">
                                     <span data-feather="home"></span>
                                     Dashboard <span class="sr-only">(current)</span>
                                 </a>
@@ -51,13 +51,13 @@
                                 </a>
                             </h6>
                             <li class="nav-item">
-                                <a class="nav-link" href="#">
+                                <a class="nav-link" href="CandidateDashboard">
                                     <span data-feather="file-text"></span>
                                     Candidate
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#">
+                                <a class="nav-link" href="RecruiterDashBoard">
                                     <span data-feather="file-text"></span>
                                     Recruiter
                                 </a>
@@ -71,18 +71,19 @@
                                 </a>
                             </h6>
                             <li class="nav-item">
-                                <a class="nav-link" href="#">
+                                <a class="nav-link" href="JobDashboard">
                                     <span data-feather="file-text"></span>
                                     Job
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#">
+                                <a class="nav-link" href="SkillDashboard">
                                     <span data-feather="file-text"></span>
                                     Skill
                                 </a>
                             </li>
                         </ul>
+
                     </div>
                 </nav>
                 <div class="content">
@@ -109,12 +110,17 @@
                             <% for (Job j : list) {%>
                             <tr>
                                 <th scope="row"><%= j.getTitle()%></th>
-                                <td></td>
+                                <td><%= j.getRecruiter().getName()%></td>
                                 <td><%= j.getHireDate()%> </td>
                                 <td><%= j.getLocation()%></td>
-                                <td><a href="url">Activate</a></td>
-                                <td><a href="url" id ="a1">Candidate Applied</a>
-                                   
+                                <td><a href="UpdateStatusController?id=<%=j.getjId()%>"><%if (j.isStatus()) {%>
+                                        Deactivate
+                                        <%} else {%>
+                                        Activate
+                                        <%}%>
+                                    </a></td>
+                                <td><a href="CandidateApplyJobPage.jsp" id ="a1">Candidate Applied</a>
+
                                     <a href="url" id ="a2">Details</a>
 
                                     <a href="url" id ="a3">Delete</a>

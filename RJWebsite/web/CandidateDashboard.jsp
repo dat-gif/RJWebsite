@@ -3,6 +3,8 @@
     Created on : Jan 18, 2022, 11:27:19 PM
     Author     : admin
 --%>
+<%@page import="entity.Candidate"%>
+<%@page import="java.util.List"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -33,7 +35,7 @@
                                 </a>
                             </h6>
                             <li class="nav-item">
-                                <a class="nav-link active" href="#">
+                                <a class="nav-link active" href="Dashboard">
                                     <span data-feather="home"></span>
                                     Dashboard <span class="sr-only">(current)</span>
                                 </a>
@@ -49,13 +51,13 @@
                                 </a>
                             </h6>
                             <li class="nav-item">
-                                <a class="nav-link" href="#">
+                                <a class="nav-link" href="CandidateDashboard">
                                     <span data-feather="file-text"></span>
                                     Candidate
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#">
+                                <a class="nav-link" href="RecruiterDashBoard">
                                     <span data-feather="file-text"></span>
                                     Recruiter
                                 </a>
@@ -69,19 +71,21 @@
                                 </a>
                             </h6>
                             <li class="nav-item">
-                                <a class="nav-link" href="#">
+                                <a class="nav-link" href="JobDashboard">
                                     <span data-feather="file-text"></span>
                                     Job
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#">
+                                <a class="nav-link" href="SkillDashboard">
                                     <span data-feather="file-text"></span>
                                     Skill
                                 </a>
                             </li>
                         </ul>
+
                     </div>
+
                 </nav>
                 <div class="content">
                     <h1>Candidate Dashboard</h1>
@@ -96,22 +100,31 @@
                             <tr>
                                 <th scope="col">Name</th>
                                 <th scope="col">Date of birth</th>
+                                <th scope="col">Gender</th>
                                 <th scope="col">Email</th>
                                 <th scope="col">Phone</th>
-                                <th scope="col">Status</th>
+
                                 <th scope="col">Action</th>
                             </tr>
                         </thead>
+                        <% List<Candidate> list = (List<Candidate>) request.getAttribute("canList");%>
                         <tbody>
+                            <% for (Candidate c : list) {%>
                             <tr>
-                                <th scope="row">Huyc</th>
-                                <td>12/12/2022</td>
-                                <td>namndwebdev@gmail.com</td>
-                                <td>0393958404</td>
-                                <td><a href="url">Activate</a></td>
-                                <td><a href="url" id ="a1">Review</a><a href="url" id="a2">Details</a></td>
-                            </tr>
+                                <th scope="row"><%=c.getFirstName()%>&nbsp;<%= c.getLastName()%></th>
+                                <td><%=c.getBirthDate()%></td>
+                                <td><%if (c.isGender()) {%>
+                                    female
 
+                                    <%} else {%>
+                                    male
+                                    <%}%>
+                                </td>
+                                <td><%=c.getEmail()%></td>
+                                <td><%=c.getPhone()%></td>                     
+                                <td><a href="url" id ="a1">Review</a>&nbsp;&nbsp;<a href="url" id="a2">Details</a></td>
+                            </tr>
+                            <%}%>
                         </tbody>
                     </table>
                     <div class="row justify-content-center mt-4 mb-4">

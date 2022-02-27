@@ -29,13 +29,13 @@
                     <div class="sidebar-sticky pt-3">
                         <ul class="nav flex-column">
                             <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
-                                <span>Personal</span>
+                               <span>Personal</span>
                                 <a class="d-flex align-items-center text-muted" href="#" aria-label="Add a new report">
                                     <span data-feather="plus-circle"></span>
                                 </a>
                             </h6>
                             <li class="nav-item">
-                                <a class="nav-link active" href="#">
+                                <a class="nav-link active" href="Dashboard">
                                     <span data-feather="home"></span>
                                     Dashboard <span class="sr-only">(current)</span>
                                 </a>
@@ -51,13 +51,13 @@
                                 </a>
                             </h6>
                             <li class="nav-item">
-                                <a class="nav-link" href="#">
+                                <a class="nav-link" href="CandidateDashboard">
                                     <span data-feather="file-text"></span>
                                     Candidate
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#">
+                                <a class="nav-link" href="RecruiterDashBoard">
                                     <span data-feather="file-text"></span>
                                     Recruiter
                                 </a>
@@ -71,18 +71,19 @@
                                 </a>
                             </h6>
                             <li class="nav-item">
-                                <a class="nav-link" href="#">
+                                <a class="nav-link" href="JobDashboard">
                                     <span data-feather="file-text"></span>
                                     Job
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#">
+                                <a class="nav-link" href="SkillDashboard">
                                     <span data-feather="file-text"></span>
                                     Skill
                                 </a>
                             </li>
                         </ul>
+
                     </div>
                 </nav>
                 <div class="content">
@@ -114,7 +115,7 @@
                                 <td><%= r.getPhone()%></td>
                                 <td><%= r.getAddress()%></td>
                                 <td><%= r.getCity()%></td>
-                                <td><a href="url" id ="a1">Review</a><a href="url" id ="a2">Details</a></td>
+                                <td><a href="url" id ="a1">Review</a>&nbsp;&nbsp;<a href="url" id ="a2">Details</a></td>
 
                             </tr>
                             <%}%> 

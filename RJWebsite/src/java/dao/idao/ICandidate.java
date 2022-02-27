@@ -11,12 +11,15 @@ import entity.CandidatePrize;
 import entity.Certificate;
 import entity.Education;
 import entity.Social;
+import java.util.List;
 
 /**
  *
  * @author Admin
  */
 public interface ICandidate {
+
+    public List<Candidate> getCandidates();
 
     public Candidate getCandidateProfileById(int accountId);
 

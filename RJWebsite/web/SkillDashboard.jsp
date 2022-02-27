@@ -23,7 +23,8 @@
     </head>
     <body>
         <jsp:include page="component/Adminheader.jsp"/>
-
+        <% List<Skill> list = (List<Skill>) request.getAttribute("skills");%>
+            
         <div class="container-fluid">
             <div class="row">
                 <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
@@ -36,14 +37,12 @@
                                 </a>
                             </h6>
                             <li class="nav-item">
-                                <a class="nav-link active" href="#">
+                                <a class="nav-link active" href="Dashboard">
                                     <span data-feather="home"></span>
                                     Dashboard <span class="sr-only">(current)</span>
                                 </a>
                             </li>
                         </ul>
-
-
                         <ul class="nav flex-column mb-2">
                             <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
                                 <span>Account</span>
@@ -52,13 +51,13 @@
                                 </a>
                             </h6>
                             <li class="nav-item">
-                                <a class="nav-link" href="#">
+                                <a class="nav-link" href="CandidateDashboard">
                                     <span data-feather="file-text"></span>
                                     Candidate
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#">
+                                <a class="nav-link" href="RecruiterDashBoard">
                                     <span data-feather="file-text"></span>
                                     Recruiter
                                 </a>
@@ -72,20 +71,22 @@
                                 </a>
                             </h6>
                             <li class="nav-item">
-                                <a class="nav-link" href="#">
+                                <a class="nav-link" href="JobDashboard">
                                     <span data-feather="file-text"></span>
                                     Job
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#">
+                                <a class="nav-link" href="SkillDashboard">
                                     <span data-feather="file-text"></span>
                                     Skill
                                 </a>
                             </li>
                         </ul>
+
                     </div>
                 </nav>
+
                 <div class="content">
                     <h1>Skill Dashboard</h1>
                     <main role="main" class="searchcontainer">
@@ -102,13 +103,14 @@
                                 <th scope="col">Action</th>
                             </tr>
                         </thead>
-                        <% List<Skill> list = (List<Skill>) request.getAttribute("skills");%>
+
                         <tbody>
                             <% for (Skill s : list) {%>
                             <tr>
-                                <th scope="row"><%= s.getName() %></th>
-                                <td class="de"><p><%= s.getName() %></p></td>
-                                <td><a href="url" id ="a2">Add</a>&nbsp;&nbsp;<a href="url" id ="a2">Edit</a></td>
+                                <th scope="row"><%= s.getName()%></th>
+                                <td class="de"><p><%= s.getDepscription()%></p></td>
+                                <td><a href="#" id ="a2">Add</a>&nbsp;&nbsp;
+                                    <a href ="EditSkillController?id=<%=s.getId()%>" id ="a2" >Edit</a></td>
                             </tr>
                             <%}%>
                         </tbody>
@@ -119,6 +121,7 @@
                 </div>
             </div>
         </div>
+
         <script src="bootstrap-4.6.1-dist/js/bootstrap.min.js"></script>
     </body>
 </html>

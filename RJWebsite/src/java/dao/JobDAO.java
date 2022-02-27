@@ -103,7 +103,7 @@ public class JobDAO extends DBContext implements IJob {
                 jobList.add(job);
             }
         } catch (Exception e) {
-            System.out.println("getJobLandingPage() :" + e);
+            System.out.println("getJobs() :" + e);
         }
         return jobList;
     }
@@ -141,6 +141,23 @@ public class JobDAO extends DBContext implements IJob {
         return skillList;
     }
 
+    public void updateStatus(int Id, boolean status) {
+        try {
+            Connection conn = getConnection();
+            PreparedStatement ps;
+            if (status) {
+                ps = conn.prepareStatement("UPDATE job SET status = 0 where job_id = ?");
+            } else {
+                ps = conn.prepareStatement("UPDATE job SET status = 1 where job_id = ?");
+            }
+
+            ps.setInt(1, Id);
+            ps.executeUpdate();
+        } catch (Exception e) {
+            System.out.println("getJobs() :" + e);
+        }
+    }
+
     /**
      * Get full information of recruiter by id
      *
@@ -148,7 +165,8 @@ public class JobDAO extends DBContext implements IJob {
      * @return Recruiter Object
      */
     @Override
-    public Recruiter getRecruterById(int recruterId) {
+    public Recruiter getRecruterById(int recruterId
+    ) {
         String query = " SELECT recruiter.recruiter_id\n"
                 + "      ,recruiter.name\n"
                 + "      ,recruiter.address\n"
@@ -199,7 +217,8 @@ public class JobDAO extends DBContext implements IJob {
      * @return Recruiter(int recruiterId, String recruiterName)
      */
     @Override
-    public Recruiter getRecruiterIdNameById(int recruiterId) {
+    public Recruiter getRecruiterIdNameById(int recruiterId
+    ) {
         String query = "SELECT recruiter.recruiter_id\n"
                 + ",recruiter.name\n"
                 + ",recruiter.avatar\n"
@@ -224,7 +243,8 @@ public class JobDAO extends DBContext implements IJob {
     }
 
     @Override
-    public ArrayList<String> getSkillNameByJobId(int jobId) {
+    public ArrayList<String> getSkillNameByJobId(int jobId
+    ) {
         ArrayList<String> skillName = new ArrayList<>();
         String query = "SELECT skill.name\n"
                 + "  FROM [SWP391].[dbo].[job]\n"
@@ -256,7 +276,8 @@ public class JobDAO extends DBContext implements IJob {
      * @return ArrayList<Job>
      */
     @Override
-    public ArrayList<Job> getAllJob(int pageNumber, int recordNumber) {
+    public ArrayList<Job> getAllJob(int pageNumber, int recordNumber
+    ) {
         ArrayList<Job> list = new ArrayList<>();
         String querry
                 = "DECLARE @PageNumber AS INT\n"

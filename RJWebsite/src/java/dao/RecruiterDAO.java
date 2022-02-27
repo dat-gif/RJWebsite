@@ -330,7 +330,6 @@ public class RecruiterDAO extends DBContext implements dao.idao.IRecruiter {
                 + "ORDER BY [recruiter_id] desc\n"
                 + "OFFSET (@PageNumber-1)*@RowsOfPage ROWS\n"
                 + "FETCH NEXT @RowsOfPage ROWS ONLY";
-
         try {
             Connection conn = new DBContext().getConnection();
             PreparedStatement ps = conn.prepareStatement(query);
@@ -413,8 +412,38 @@ public class RecruiterDAO extends DBContext implements dao.idao.IRecruiter {
         }
         return recruitersList;
     }
-    @Override
 
+    @Override
+    public List<Recruiter> getRecruiters() {
+        List<Recruiter> list = new ArrayList<>();
+        try {
+            Connection conn = getConnection();
+            PreparedStatement ps = conn.prepareStatement("SELECT * FROM recruiter");
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Recruiter r = new Recruiter(rs.getInt("recruiter_id"),
+                        rs.getString("city"),
+                        rs.getString("name"),
+                        rs.getString("address"),
+                        rs.getString("avatar"),
+                        rs.getString("banner"),
+                        rs.getString("phone"),
+                        rs.getString("website"),
+                        rs.getString("description"),
+                        rs.getString("employee_quantity"),
+                        rs.getString("contacter_name"),
+                        rs.getString("contacter_phone")
+                );
+                list.add(r);
+
+            }
+        } catch (Exception e) {
+            System.out.println("getJobLandingPage() :" + e);
+        }
+        return list;
+    }
+
+    @Override
     public ArrayList<Skill> getRecruiterSkill(int recruiterId) {
         ArrayList<Skill> skillList = new ArrayList<>();
         String query = "SELECT skill.skill_id, skill.name, skill.icon, skill.description\n"
