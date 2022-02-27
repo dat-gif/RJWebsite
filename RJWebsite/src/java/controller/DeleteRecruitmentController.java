@@ -6,10 +6,8 @@ package controller;
 
 import dao.JobDAO;
 import dao.idao.IJob;
-import entity.Skill;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -19,7 +17,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author USE
  */
-public class CreateRecruitment extends HttpServlet {
+public class DeleteRecruitmentController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -33,15 +31,26 @@ public class CreateRecruitment extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+        try {
+            //khoi dao obj dao
+            IJob ijob = new JobDAO();
 
-        IJob ijob = new JobDAO();
-        List<Skill> listSkill = ijob.getAllSkill();
-        request.setAttribute("listSkill", listSkill);
-        request.getRequestDispatcher("CreateRecruitment.jsp").forward(request, response);
+            //get jobid
+            String id = request.getParameter("jobId");
+            int jobId = Integer.parseInt(id);
 
+            int total = ijob.deleteJob(jobId);
+
+            //chuyen huong den trang jsp dich
+            request.getRequestDispatcher("ManageRecruitmentPostedController").forward(request, response);
+        } catch (Exception e) {
+            //neu co loi thi chuyen huong den trang bao loi
+            request.setAttribute("error", e);
+            request.getRequestDispatcher("ErrorPage.jsp").forward(request, response);
+        }
     }
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+// <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
      *

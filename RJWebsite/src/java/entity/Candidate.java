@@ -30,6 +30,7 @@ public class Candidate {
     private int projectManageId;
     private int certificateManageId;
     private int prizeManageId;
+
     private CandidateCV candidateCV;
     private CandidatePrize candidatePrize;
     private CandidateProject candidateProject;
@@ -40,6 +41,9 @@ public class Candidate {
     private Date createAt;
     private Date updateAt;
     private String email;
+    private String jobStatus;
+    private String city;
+
 
     public Candidate() {
     }
@@ -65,6 +69,51 @@ public class Candidate {
         this.projectManageId = projectManageId;
         this.certificateManageId = certificateManageId;
         this.prizeManageId = prizeManageId;
+    }
+
+    public Candidate(String firstName, String lastName, String address, String jobStatus) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.address = address;
+        this.jobStatus = jobStatus;
+    }
+
+    public Candidate(int candIdateId, int accountId, String firstName, String lastName, String birthDate, String address, String avatar, boolean gender, String banner, String phone, boolean findingJob, int cvManageId, int experienceManageId, int educationMangeId, int socialManageId, int projectManageId, int certificateManageId, int prizeManageId, String city) {
+        this.candIdateId = candIdateId;
+        this.accountId = accountId;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.birthDate = birthDate;
+        this.address = address;
+        this.avatar = avatar;
+        this.gender = gender;
+        this.banner = banner;
+        this.phone = phone;
+        this.findingJob = findingJob;
+        this.cvManageId = cvManageId;
+        this.experienceManageId = experienceManageId;
+        this.educationMangeId = educationMangeId;
+        this.socialManageId = socialManageId;
+        this.projectManageId = projectManageId;
+        this.certificateManageId = certificateManageId;
+        this.prizeManageId = prizeManageId;
+        this.city = city;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getJobStatus() {
+        return jobStatus;
+    }
+
+    public void setJobStatus(String jobStatus) {
+        this.jobStatus = jobStatus;
     }
 
     public int getCandIdateId() {
@@ -227,6 +276,7 @@ public class Candidate {
         this.updateAt = updateAt;
     }
 
+
     public CandidateCV getCandidateCV() {
         return candidateCV;
     }
@@ -290,5 +340,6 @@ public class Candidate {
     public void setEmail(String email) {
         this.email = email;
     }
+
 
 }

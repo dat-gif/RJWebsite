@@ -41,49 +41,16 @@
                     <p>${recruiter.getName()}</p>
                     <p>${recruiter.getWebsite()}</p>
                     <p>${recruiter.getSkillList()}</p>
-                    <p>Angular, ReactJS</p>
                 </div>
-            </c:forEach>
-
-            <div class="company">
-                <img src="https://daihoc.fpt.edu.vn/media/2019/04/fsoft.png"></img>
-                <p>https://www.fpt-software.com/</p>
-                <p>Angular, ReactJS</p>
-            </div>
-            <div class="company">
-                <img src="https://daihoc.fpt.edu.vn/media/2019/04/fsoft.png"></img>
-                <p>https://www.fpt-software.com/</p>
-                <p>Angular, ReactJS</p>
-            </div>
-            <div class="company">
-                <img src="https://daihoc.fpt.edu.vn/media/2019/04/fsoft.png"></img>
-                <p>https://www.fpt-software.com/</p>
-                <p>Angular, ReactJS</p>
-            </div>
-            <div class="company">
-                <img src="https://daihoc.fpt.edu.vn/media/2019/04/fsoft.png"></img>
-                <p>https://www.fpt-software.com/</p>
-                <p>Angular, ReactJS</p>
-            </div>
+            </c:forEach>       
             <h3>Candidate</h3>
-            <div class="candidate">
-                <img src="https://media-cdn.laodong.vn/storage/newsportal/2022/1/17/995694/Pham-Nhat-Vuong.jpg"></img>
-                <p>https://www.fpt-software.com/</p>
-                <p>Angular, ReactJS</p>
-            </div>
-            <div class="candidate">
-                <img src="https://media-cdn.laodong.vn/storage/newsportal/2022/1/17/995694/Pham-Nhat-Vuong.jpg"></img>
-                <p>https://www.fpt-software.com/</p>
-                <p>Angular, ReactJS</p>
-            </div><div class="candidate">
-                <img src="https://media-cdn.laodong.vn/storage/newsportal/2022/1/17/995694/Pham-Nhat-Vuong.jpg"></img>
-                <p>https://www.fpt-software.com/</p>
-                <p>Angular, ReactJS</p>
-            </div><div class="candidate">
-                <img src="https://media-cdn.laodong.vn/storage/newsportal/2022/1/17/995694/Pham-Nhat-Vuong.jpg"></img>
-                <p>https://www.fpt-software.com/</p>
-                <p>Angular, ReactJS</p>
-            </div>
+            <c:forEach items="${listCandidate}" var="candidate">
+                <div class="candidate">
+                    <img src="${candidate.avatar}"></img>
+                    <p>${candidate.address}</p>
+                    <p>${candidate.firstName} ${candidate.lastName}</p>
+                </div>  
+            </c:forEach>                 
         </div>
         <jsp:include page="component/HiepFooter.jsp"/>
     </body>

@@ -6,6 +6,7 @@ package controller;
 
 import dao.JobDAO;
 import dao.idao.IJob;
+import entity.Job;
 import entity.Skill;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -19,7 +20,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author USE
  */
-public class CreateRecruitmentController extends HttpServlet {
+public class UpdateRecruitmentController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -37,12 +38,20 @@ public class CreateRecruitmentController extends HttpServlet {
             //khoi dao obj dao
             IJob ijob = new JobDAO();
 
+            //get jobid
+            String id = request.getParameter("jobId");
+            int jobId = Integer.parseInt(id);
+
+            //get job theo jobId
+            Job job = ijob.getJobById(jobId);
+            request.setAttribute("job", job);
+
             //lay ra danh sach cac skill va gui attribute len dropdown list tren trang jsp
             List<Skill> listSkill = ijob.getAllSkill();
             request.setAttribute("listSkill", listSkill);
 
             //chuyen huong den trang jsp dich
-            request.getRequestDispatcher("CreateRecruitment.jsp").forward(request, response);
+            request.getRequestDispatcher("UpdateRecruitment.jsp").forward(request, response);
         } catch (Exception e) {
             //neu co loi thi chuyen huong den trang bao loi
             request.setAttribute("error", e);
@@ -80,8 +89,11 @@ public class CreateRecruitmentController extends HttpServlet {
             //khoi dao obj dao
             IJob ijob = new JobDAO();
 
-            //nhan lai value tu cac field tren form cua trang jsp
-            int recruiterId = 1;
+            //get jobid
+            String id = request.getParameter("jobId");
+            int jobId = Integer.parseInt(id);
+
+            //nhan lai value tu cac field tren form cua trang jsp          
             String jobName = request.getParameter("jobName");
             String salary = request.getParameter("salary");
             String quantity = request.getParameter("quantity");
@@ -91,30 +103,24 @@ public class CreateRecruitmentController extends HttpServlet {
             String location = request.getParameter("location");
             String description = request.getParameter("description");
 
-            //insert vao db voi data nhan lai o tren
-            int total = ijob.insertRecruitment(recruiterId, role, description, salary, quantity, role, experience, location, hireDate);
+            //update vao db voi data nhan lai o tren
+            int total = ijob.updateJob(jobId, jobName, description, salary, quantity, role, experience, location, hireDate);
 
-            //insert vao job_skill
-            String skillPicked = request.getParameter("skill");
-            int skillId = Integer.parseInt(skillPicked);
-            int jobId = ijob.getLatestInsertedJobId();
-            ijob.insertJobSkill(jobId, skillId);
-
-            //neu insert thanh cong hoac that bai thi hien thi message
+            //neu update thanh cong hoac that bai thi hien thi message
             if (total > 0) {
                 response.setContentType("text/html");
                 PrintWriter out = response.getWriter();
                 out.println("<script type=\"text/javascript\">");
-                out.println("alert('Create Successfull');");
-                out.println("location='CreateRecruitment.jsp';");
+                out.println("alert('Update Successfull');");
+                out.println("location='UpdateRecruitment.jsp';");
                 out.println("</script>");
                 out.flush();
             } else {
                 response.setContentType("text/html");
                 PrintWriter out = response.getWriter();
                 out.println("<script type=\"text/javascript\">");
-                out.println("alert('Create fail');");
-                out.println("location='CreateRecruitment.jsp';");
+                out.println("alert('Update fail');");
+                out.println("location='UpdateRecruitment.jsp';");
                 out.println("</script>");
                 out.flush();
             }

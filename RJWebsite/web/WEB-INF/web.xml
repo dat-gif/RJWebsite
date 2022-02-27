@@ -46,7 +46,19 @@
     </servlet>
     <servlet>
         <servlet-name>CreateRecruitment</servlet-name>
-        <servlet-class>controller.CreateRecruitmentController</servlet-class>
+        <servlet-class>controller.CreateRecruitmentController1</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>RecruitmentPosted</servlet-name>
+        <servlet-class>controller.RecruitmentPostedController1</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>RecruiterDetail</servlet-name>
+        <servlet-class>controller.RecruiterDetailController1</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>CandidateCompanyFollowingPage</servlet-name>
+        <servlet-class>controller.CandidateCompanyFollowingPage</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>RecruitmentPostedController</servlet-name>
@@ -65,14 +77,40 @@
         <servlet-class>controller.RecruiterDetailController</servlet-class>
     </servlet>
     <servlet>
+    
+    <servlet>
+        <servlet-name>CreateRecruitmentController</servlet-name>
+        <servlet-class>controller.CreateRecruitmentController</servlet-class>
+    </servlet>
+    
+	<servlet>
+        <servlet-name>ManageRecruitmentPostedController</servlet-name>
+        <servlet-class>controller.ManageRecruitmentPostedController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>UpdateRecruitmentController</servlet-name>
+        <servlet-class>controller.UpdateRecruitmentController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>SearchCandidateController</servlet-name>
+        <servlet-class>controller.SearchCandidateController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>DeleteRecruitmentController</servlet-name>
+        <servlet-class>controller.DeleteRecruitmentController</servlet-class>
+    </servlet>
+    
+	<servlet>
         <servlet-name>CreateRecruiter</servlet-name>
         <servlet-class>controller.CreateRecruiter</servlet-class>
     </servlet>
-    <servlet>
+    
+	<servlet>
         <servlet-name>CandidateViewRecruiterDetail</servlet-name>
         <servlet-class>controller.CandidateViewRecruiterDetail</servlet-class>
     </servlet>
-    <servlet>
+    
+	<servlet>
         <servlet-name>CandidateProfileController</servlet-name>
         <servlet-class>controller.CandidateProfileController</servlet-class>
     </servlet>
@@ -132,6 +170,32 @@
         <servlet-name>RecruiterDetailController</servlet-name>
         <url-pattern>/RecruiterDetailController</url-pattern>
     </servlet-mapping>
+    <servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CreateRecruitmentController</servlet-name>
+        <url-pattern>/CreateRecruitmentController</url-pattern>
+    </servlet-mapping>
+    
+	<servlet-mapping>
+        <servlet-name>ManageRecruitmentPostedController</servlet-name>
+        <url-pattern>/ManageRecruitmentPostedController</url-pattern>
+    </servlet-mapping>
+    
+	<servlet-mapping>
+        <servlet-name>UpdateRecruitmentController</servlet-name>
+        <url-pattern>/UpdateRecruitmentController</url-pattern>
+    </servlet-mapping>
+    
+	<servlet-mapping>
+        <servlet-name>SearchCandidateController</servlet-name>
+        <url-pattern>/SearchCandidateController</url-pattern>
+    </servlet-mapping>
+    
+	<servlet-mapping>
+        <servlet-name>DeleteRecruitmentController</servlet-name>
+        <url-pattern>/DeleteRecruitmentController</url-pattern>
+    </servlet-mapping>
+
     <servlet-mapping>
         <servlet-name>CreateRecruiter</servlet-name>
         <url-pattern>/CreateRecruiter</url-pattern>

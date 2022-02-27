@@ -23,11 +23,9 @@
                 <p>CMC GLOBAL</p>
                 <p>Create date: ${recruiter.getCreateAt()}</p>
             </div>           
-            <button><a href="#">Edit</a></button>
         </div>
         <div class="content">
-            <div class="left">
-
+            <div class="left">     
                 <div class="information"><a>Information</a></div>
                 <div class="candidate"><a>Candidate</a></div>
 
@@ -85,18 +83,14 @@
                             <td>Profile</td>
                             <td>Status</td>
                             </thead>
-                            <tr>
-                                <td>Ronal Richard</td>
-                                <td>Ha Noi</td>
-                                <td><a href="#">View Profile</a></td>
-                                <td>Pending</td>
-                            </tr>
-                            <tr>
-                                <td>Ronal Richard</td>
-                                <td>Ha Noi</td>
-                                <td><a href="#">View Profile</a></td>
-                                <td>Pending</td>
-                            </tr>
+                            <c:forEach items="${listCandidate}" var="candidate">
+                                <tr>
+                                    <td>${candidate.getFirstName()} ${candidate.getLastName()}</td>
+                                    <td>${candidate.getAddress()}</td>
+                                    <td><a href="#">View Profile</a></td>
+                                    <td>${candidate.getJobStatus()}</td>
+                                </tr>
+                            </c:forEach>
                         </table>
                     </div>
                 </div>           
@@ -115,6 +109,7 @@
             </div>
         </div>
         <script>
+            <!-- co 2 tab information va candidateList. Khi click tab nay se display thong tin cua tab do va an di tab con lai-->
             document.querySelector(".candidate").addEventListener("click", () => {
                 document.querySelector(".informationWrap").style.display = "none";
                 document.querySelector(".candidateWrap").style.display = "block";

@@ -19,6 +19,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to ed
     background-color: #1874CD;
     color: white;
     width: 200px;
+    cursor: pointer;
 }
 
 table{

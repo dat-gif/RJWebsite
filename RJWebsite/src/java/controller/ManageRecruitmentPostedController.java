@@ -4,11 +4,11 @@
  */
 package controller;
 
-import dao.CandidateDAO;
+import dao.JobDAO;
 import dao.RecruiterDAO;
-import dao.idao.ICandidate;
+import dao.idao.IJob;
 import dao.idao.IRecruiter;
-import entity.Candidate;
+import entity.Job;
 import entity.Recruiter;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -22,7 +22,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author USE
  */
-public class RecruitmentPostedController extends HttpServlet {
+public class ManageRecruitmentPostedController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -36,28 +36,23 @@ public class RecruitmentPostedController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-
         try {
-            //khoi tao object dao
-            IRecruiter iRecruiter = new RecruiterDAO();
-            ICandidate iCandidate = new CandidateDAO();
+//            String id = request.getParameter("recruiterId");
+//            int recruiterId = Integer.parseInt(id);
 
-            //get ra danh sach top 8 cac recruiter, top 4 candidate
-            List<Recruiter> listRecruiter = iRecruiter.getTop8Recruiter();
-            List<Candidate> listCandidate = iCandidate.getTop4Candidate();
+            int recruiterId = 1;
+            IJob iJob = new JobDAO();
+            List<Job> listJob = iJob.getJobByRecruiterId(recruiterId);
 
-            //gui danh sach len trang jsp
-            request.setAttribute("listRecruiter", listRecruiter);
-            request.setAttribute("listCandidate", listCandidate);
+            request.setAttribute("listJob", listJob);
 
             //chuyen huong den trang jsp dich
-            request.getRequestDispatcher("RecruitmentPosted.jsp").forward(request, response);
+            request.getRequestDispatcher("ManageRecruitmentPosted.jsp").forward(request, response);
         } catch (Exception e) {
             //neu co loi thi chuyen huong den trang bao loi
             request.setAttribute("error", e);
             request.getRequestDispatcher("ErrorPage.jsp").forward(request, response);
         }
-
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
