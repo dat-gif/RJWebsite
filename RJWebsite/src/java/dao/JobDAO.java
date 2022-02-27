@@ -1113,7 +1113,7 @@ public class JobDAO extends DBContext implements IJob {
             System.out.println("bug get row Temp job " + e);
             throw new Error(e);
         }
-        return 0;
+       
     }
 
     /**
@@ -1139,8 +1139,7 @@ public class JobDAO extends DBContext implements IJob {
         } catch (Exception e) {
             System.out.println("bug get row Temp job " + e);
             throw new Error(e);
-        }
-        return 0;
+        }       
     }
 
     /**
