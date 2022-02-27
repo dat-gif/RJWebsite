@@ -5,6 +5,7 @@
 package controller;
 
 import dao.JobDAO;
+import dao.idao.IJob;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -33,7 +34,7 @@ public class SkillDashboard extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
   
-            JobDAO jdao = new JobDAO();
+            IJob jdao = new JobDAO();
             request.setAttribute("skills", jdao.getAllSkill());
             request.getRequestDispatcher("SkillDashboard.jsp").forward(request, response);
 

@@ -140,8 +140,32 @@ public class JobDAO extends DBContext implements IJob {
         }
         return skillList;
     }
+@Override
+    public void deleteJobSkill(int id) {
+        try {
+            Connection conn = getConnection();
+            PreparedStatement ps = conn.prepareStatement("DELETE FROM job_skill where job_id = ?");
+            ps.setInt(1, id);
+            ps.executeUpdate();
+        } catch (Exception e) {
+            System.out.println("deleteJobSkill() :" + e);
+        }
+    }
+    @Override
+    public void deleteJob(int id) {
+        try {
+            Connection conn = getConnection();
+            PreparedStatement ps = conn.prepareStatement("DELETE FROM job where job_id = ?");
+            ps.setInt(1, id);
+            ps.executeUpdate();
+        } catch (Exception e) {
+            System.out.println("deleteJob() :" + e);
+        }
+    }
 
-    public void updateStatus(int Id, boolean status) {
+    @Override
+    public void updateStatus(int Id, boolean status
+    ) {
         try {
             Connection conn = getConnection();
             PreparedStatement ps;

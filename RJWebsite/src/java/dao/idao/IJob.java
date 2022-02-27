@@ -18,9 +18,13 @@ import java.util.List;
  */
 public interface IJob {
 
+    public void updateStatus(int id, boolean status);
+
     public ArrayList<Job> getAllJob(int pageNumber, int recordNumber);
 
     public List<Job> getJobs();
+    public void deleteJobSkill(int id);
+    public void deleteJob(int id);
 
     //Remove in future
     public ArrayList<Job> getJobBySkillAndCity(String skillValue, String cityValue);

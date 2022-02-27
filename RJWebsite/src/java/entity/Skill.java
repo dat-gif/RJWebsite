@@ -18,6 +18,7 @@ public class Skill {
     public Skill() {
     }
 
+
     public Skill(int id, String name, String iconBase64) {
         this.id = id;
         this.name = name;

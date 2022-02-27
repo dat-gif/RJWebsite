@@ -20,4 +20,14 @@ public interface ISkill {
     public void updateSkill(Skill s);
 
     public Skill getSkillById(int Id);
+
+    public void insertSkill(Skill s);
+
+    public void removeSkill(int Id);
+
+    public void DeleteRecruiterSkill(int Id);
+
+    public void DeleteCandidateSkill(int Id);
+
+    public void DeleteJobSkill(int Id);
 }

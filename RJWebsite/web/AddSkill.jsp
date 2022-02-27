@@ -1,6 +1,6 @@
 <%-- 
-    Document   : EditTest
-    Created on : Feb 27, 2022, 4:25:46 AM
+    Document   : AddSkill
+    Created on : Feb 27, 2022, 2:35:39 PM
     Author     : admin
 --%>
 
@@ -16,32 +16,33 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link rel="stylesheet" href="adminstyle/CandidateDashboard.css">
-        <title>Edit Skill</title>
+        <title>Add Skill</title>
     </head>
     <body>
         <%
-            Skill skill = (Skill) request.getAttribute("skill");
+            Skill s = (Skill) request.getAttribute("skill");
         %>
+        <jsp:include page="component/Adminheader.jsp"/>
+        <br>
         <div class="container col-md-5">
             <div class="card">
                 <div class="card-body">
-                    <form action="EditSkillController" method="post">
-                        <Input type="text" value="<%= skill.getId()%>" name="id" class="form-control" id="recipient-name">
+                    <form action="AddSkillController" method="post">
                         <fieldset class="form-group">
-                            <label>Skill Name</label> <input type="text" value="<%=skill.getName()%>"
+                            <label>Skill Name</label> <input type="text"
                                                              class="form-control"
                                                              name="name" required="required">
                         </fieldset>
 
                         <fieldset class="form-group">
-                            <label>Description</label><textarea type="text" value="<%=skill.getDepscription()%>"
-                                                                class="form-control"
-                                                                name="description"><%=skill.getDepscription()%></textarea>
+                            <label>Description</label><textarea type="text"
+                                                               class="form-control"
+                                                               name="description"></textarea>
                         </fieldset>
-                        <button type="submit" value="Update" name="op" class="btn btn-success">Edit</button>
+                        <button type="submit" class="btn btn-success">Add</button>
                     </form>
                 </div>
             </div>
-
+        </div>
     </body>
 </html>

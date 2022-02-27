@@ -24,7 +24,7 @@
     <body>
         <jsp:include page="component/Adminheader.jsp"/>
         <% List<Skill> list = (List<Skill>) request.getAttribute("skills");%>
-            
+
         <div class="container-fluid">
             <div class="row">
                 <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
@@ -95,9 +95,11 @@
                             <button type="button" class="btn btn-outline-primary ml-1">search</button>
                         </div>
                     </main>
+                    <a href="AddSkill.jsp"><button>Add</button></a>
                     <table class="table">
                         <thead class="thead-dark">
                             <tr>
+                                <th scope="col">ID</th>
                                 <th scope="col">Name</th>
                                 <th scope="col">Description</th>
                                 <th scope="col">Action</th>
@@ -107,10 +109,13 @@
                         <tbody>
                             <% for (Skill s : list) {%>
                             <tr>
+                                <td><%= s.getId() %></td>
                                 <th scope="row"><%= s.getName()%></th>
                                 <td class="de"><p><%= s.getDepscription()%></p></td>
-                                <td><a href="#" id ="a2">Add</a>&nbsp;&nbsp;
-                                    <a href ="EditSkillController?id=<%=s.getId()%>" id ="a2" >Edit</a></td>
+                                <td>
+                                    <a href ="EditSkillController?id=<%=s.getId()%>" id ="a2" >Edit</a>
+                                    <a href ="DeleteSkillController?id=<%=s.getId()%>" id ="a2" >Delete</a>
+                                </td>
                             </tr>
                             <%}%>
                         </tbody>

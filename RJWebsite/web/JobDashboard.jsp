@@ -123,7 +123,7 @@
 
                                     <a href="url" id ="a2">Details</a>
 
-                                    <a href="url" id ="a3">Delete</a>
+                                    <a href="DeleteJobController?id=<%= j.getjId()%>" id ="a3">Delete</a>
                                 </td>
                             </tr>
                             <%}%> 

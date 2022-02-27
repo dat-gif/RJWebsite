@@ -5,6 +5,7 @@
 package controller;
 
 import dao.JobDAO;
+import dao.idao.IJob;
 import entity.Job;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -34,7 +35,7 @@ public class UpdateStatusController extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         int id = Integer.parseInt(request.getParameter("id"));
-        JobDAO jdao = new JobDAO();
+        IJob jdao = new JobDAO();
         Job job = jdao.getJobById(id);
         boolean status = job.isStatus();
         jdao.updateStatus(id, status);

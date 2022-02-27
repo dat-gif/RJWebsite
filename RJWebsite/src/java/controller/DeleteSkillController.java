@@ -6,7 +6,8 @@ package controller;
 
 import dao.JobDAO;
 import dao.SkillDAO;
-import entity.Skill;
+import dao.idao.IJob;
+import dao.idao.ISkill;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -19,8 +20,8 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author admin
  */
-@WebServlet(name = "EditSkillController", urlPatterns = {"/EditSkillController"})
-public class EditSkillController extends HttpServlet {
+@WebServlet(name = "DeleteSkillController", urlPatterns = {"/DeleteSkillController"})
+public class DeleteSkillController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -34,31 +35,15 @@ public class EditSkillController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        String op = request.getParameter("op");
-        if ("Update".equals(op)) {
-            SkillDAO sdao = new SkillDAO();
-            try {
-                int Id = Integer.parseInt(request.getParameter("id"));
-                String Name = request.getParameter("name");
-                String Description = request.getParameter("description");
-                Skill s = new Skill();
-                s.setId(Id);
-                s.setName(Name);
-                s.setDepscription(Description);
-                sdao.updateSkill(s);
-            } catch (Exception e) {
-                System.out.println("error" + e);
-            }
-            JobDAO jdao = new JobDAO();
-            request.setAttribute("skills", jdao.getAllSkill());
-            request.getRequestDispatcher("SkillDashboard").forward(request, response);
-        } else {
-            int id = Integer.parseInt(request.getParameter("id"));
-            SkillDAO sdao = new SkillDAO();
-            Skill skill = sdao.getSkillById(id);
-            request.setAttribute("skill", skill);
-            request.getRequestDispatcher("EditTest.jsp").forward(request, response);
-        }
+        ISkill sDAO = new SkillDAO();
+        int id = Integer.parseInt(request.getParameter("id"));
+        sDAO.DeleteCandidateSkill(id);
+        sDAO.DeleteRecruiterSkill(id);
+        sDAO.DeleteJobSkill(id);
+        sDAO.removeSkill(id);
+        IJob jdao = new JobDAO();
+        request.setAttribute("skills", jdao.getAllSkill());
+        request.getRequestDispatcher("SkillDashboard.jsp").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

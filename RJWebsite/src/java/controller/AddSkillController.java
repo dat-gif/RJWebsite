@@ -6,6 +6,8 @@ package controller;
 
 import dao.JobDAO;
 import dao.SkillDAO;
+import dao.idao.IJob;
+import dao.idao.ISkill;
 import entity.Skill;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -19,8 +21,8 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author admin
  */
-@WebServlet(name = "EditSkillController", urlPatterns = {"/EditSkillController"})
-public class EditSkillController extends HttpServlet {
+@WebServlet(name = "AddSkillController", urlPatterns = {"/AddSkillController"})
+public class AddSkillController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -34,31 +36,19 @@ public class EditSkillController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        String op = request.getParameter("op");
-        if ("Update".equals(op)) {
-            SkillDAO sdao = new SkillDAO();
-            try {
-                int Id = Integer.parseInt(request.getParameter("id"));
-                String Name = request.getParameter("name");
-                String Description = request.getParameter("description");
-                Skill s = new Skill();
-                s.setId(Id);
-                s.setName(Name);
-                s.setDepscription(Description);
-                sdao.updateSkill(s);
-            } catch (Exception e) {
-                System.out.println("error" + e);
-            }
-            JobDAO jdao = new JobDAO();
-            request.setAttribute("skills", jdao.getAllSkill());
-            request.getRequestDispatcher("SkillDashboard").forward(request, response);
-        } else {
-            int id = Integer.parseInt(request.getParameter("id"));
-            SkillDAO sdao = new SkillDAO();
-            Skill skill = sdao.getSkillById(id);
-            request.setAttribute("skill", skill);
-            request.getRequestDispatcher("EditTest.jsp").forward(request, response);
+        IJob jdao = new JobDAO();
+        ISkill sDAO = new SkillDAO();
+        try {
+            String Name = request.getParameter("name");
+            String Description = request.getParameter("description");
+            Skill skill = new Skill();
+            skill.setName(Name);
+            skill.setDepscription(Description);
+            sDAO.insertSkill(skill);
+        } catch (Exception e) {
+            System.out.println("error" + e);
         }
+        request.getRequestDispatcher("SkillDashboard").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

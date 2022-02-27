@@ -18,6 +18,7 @@ import java.sql.ResultSet;
  */
 public class SkillDAO extends DBContext implements ISkill {
 
+    @Override
     public Skill getSkillById(int Id) {
         try {
             Connection conn = getConnection();
@@ -42,14 +43,75 @@ public class SkillDAO extends DBContext implements ISkill {
     public void updateSkill(Skill s) {
         try {
             Connection conn = getConnection();
-            PreparedStatement ps = conn.prepareStatement("UPDATE skill SET name = ?, description = ?, icon = ? where skill_id = ?");
+            PreparedStatement ps = conn.prepareStatement("UPDATE skill SET name = ?, description = ? where skill_id = ?");
             ps.setString(1, s.getName());
             ps.setString(2, s.getDepscription());
-            ps.setString(3, s.getIconBase64());
-            ps.setInt(4, s.getId());
+            ps.setInt(3, s.getId());
             ps.executeUpdate();
         } catch (Exception e) {
             System.out.println("UpdateSkill() :" + e);
+        }
+    }
+
+    @Override
+    public void removeSkill(int Id) {
+        try {
+            Connection conn = getConnection();
+            PreparedStatement ps = conn.prepareStatement("DELETE FROM skill WHERE skill_id = ?");
+            ps.setInt(1, Id);
+            ps.executeUpdate();
+        } catch (Exception e) {
+            System.out.println("DeleteSkill() :" + e);
+        }
+    }
+
+    @Override
+    public void insertSkill(Skill s) {
+        try {
+            Connection conn = getConnection();
+            PreparedStatement ps = conn.prepareStatement("INSERT INTO skill (name, description, icon) VALUES (?, ?, ?)");
+            ps.setString(1, s.getName());
+            ps.setString(2, s.getDepscription());
+            ps.setString(3, s.getIconBase64());
+            ps.executeUpdate();
+        } catch (Exception e) {
+            System.out.println("InsertSkill() :" + e);
+        }
+    }
+
+    @Override
+    public void DeleteRecruiterSkill(int Id) {
+        try {
+            Connection conn = getConnection();
+            PreparedStatement ps = conn.prepareStatement("DELETE FROM recruiter_skill WHERE skill_id = ?");
+            ps.setInt(1, Id);
+            ps.executeUpdate();
+        } catch (Exception e) {
+            System.out.println("DeleteSkill() :" + e);
+        }
+    }
+
+    @Override
+    public void DeleteCandidateSkill(int Id) {
+        try {
+            Connection conn = getConnection();
+            PreparedStatement ps = conn.prepareStatement("DELETE FROM candidate_skill WHERE skill_id = ?");
+            ps.setInt(1, Id);
+            ps.executeUpdate();
+        } catch (Exception e) {
+            System.out.println("DeleteSkill() :" + e);
+        }
+    }
+
+    @Override
+    public void DeleteJobSkill(int Id) {
+        try {
+            Connection conn = getConnection();
+            PreparedStatement ps = conn.prepareStatement("DELETE FROM job_skill WHERE skill_id = ?");
+            ps.setInt(1, Id);
+            ps.executeUpdate();
+        } catch (Exception e) {
+            System.out.println("DeleteSkill() :" + e);
         }
     }
 
