@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
+ * Get data, handle the logic for the LandingPage page.
  *
  * @author Admin
  */
@@ -35,12 +36,12 @@ public class LandingPage extends HttpServlet {
         try {
             IJob daoJob = new JobDAO();
             List<Job> listJob = daoJob.getJobLandingPage();
-            
+
             request.setAttribute("listJob", listJob);
-           
+
             request.getRequestDispatcher("LandingPage.jsp").forward(request, response);
         } catch (Exception e) {
-            System.out.println(e);
+            System.out.println("Exception" + e);
         }
 
     }

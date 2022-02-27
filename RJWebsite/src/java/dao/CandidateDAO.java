@@ -427,10 +427,6 @@ public class CandidateDAO extends DBContext implements ICandidate {
     }
 
 
-    private Exception Error(Exception e) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
 
     @Override
     public List<Social> getSocialByCandidateId(int candidateId) {
