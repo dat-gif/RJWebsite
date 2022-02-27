@@ -10,6 +10,8 @@ import entity.CandidateCV;
 import entity.CandidatePrize;
 import entity.Certificate;
 import entity.Education;
+import entity.Experience;
+import entity.Skill;
 import entity.Social;
 import java.util.List;
 
@@ -25,13 +27,15 @@ public interface ICandidate {
 
     public CandidateCV getCandidateCVByCandidateId(int candidateId);
 
-    public CandidatePrize getCandidatePrizeByCandidateId(int candidateId);
+    public List<CandidatePrize> getCandidatePrizeByCandidateId(int candidateId);
 
-    public Certificate getCertificateByCandidateId(int candidateId);
+    public List<Certificate> getCertificateByCandidateId(int candidateId);
 
-    public Education getEducationByCandidateId(int candidateId);
+    public List<Education> getEducationByCandidateId(int candidateId);
 
-    public Exception getExceptionByCandidateId(int candidateId);
+    public List<Experience> getExperienceByCandidateId(int candidateId);
 
-    public Social getSocialByCandidateId(int candidateId);
+    public List<Social> getSocialByCandidateId(int candidateId);
+
+    public List<Skill> getSkillByCandidateId(int candidateId);
 }

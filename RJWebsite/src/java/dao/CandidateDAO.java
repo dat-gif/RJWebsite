@@ -13,6 +13,8 @@ import entity.CandidatePrize;
 import entity.Certificate;
 import entity.City;
 import entity.Education;
+import entity.Experience;
+import entity.Skill;
 import entity.Social;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -116,33 +118,173 @@ public class CandidateDAO extends DBContext implements ICandidate {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    @Override
-    public CandidatePrize getCandidatePrizeByCandidateId(int candidateId) {
+
+    private Exception Error(Exception e) {
+
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public Certificate getCertificateByCandidateId(int candidateId) {
+    public List<CandidatePrize> getCandidatePrizeByCandidateId(int candidateId) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public Education getEducationByCandidateId(int candidateId) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public List<Certificate> getCertificateByCandidateId(int candidateId) {
+        List<Certificate> certificates = new ArrayList<>();
+        String query = "SELECT TOP (5) [id]\n"
+                + "      ,[name]\n"
+                + "      ,[host]\n"
+                + "      ,[certificate_time]\n"
+                + "      ,[media]\n"
+                + "      ,[link]\n"
+                + "      ,[candidate_id]\n"
+                + "  FROM [SWP391].[dbo].[certificate]\n"
+                + "  where candidate_id=?";
+        try {
+            Connection conn = getConnection();
+            PreparedStatement ps = conn.prepareStatement(query);
+            ps.setInt(1, candidateId);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Certificate c = new Certificate(rs.getInt("id"), rs.getString("name"),
+                        rs.getString("host"),
+                        rs.getString("certificate_time"),
+                        rs.getString("media"),
+                        rs.getString("link"),
+                        rs.getInt("candidate_id"));
+                certificates.add(c);
+            }
+            return certificates;
+        } catch (Exception e) {
+            System.err.println("getCertificateByCandidateId :" + e);
+            throw new Error(e);
+        }
+
     }
 
     @Override
-    public Exception getExceptionByCandidateId(int candidateId) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public List<Education> getEducationByCandidateId(int candidateId) {
+        List<Education> listEducations = new ArrayList<>();
+        String query = "SELECT TOP (5) [id]\n"
+                + "      ,[school]\n"
+                + "      ,[degree]\n"
+                + "      ,[field]\n"
+                + "      ,[start_time]\n"
+                + "      ,[end_time]\n"
+                + "      ,[description]\n"
+                + "      ,[media]\n"
+                + "      ,[link]\n"
+                + "      ,[candidate_id]\n"
+                + "  FROM [SWP391].[dbo].[education]\n"
+                + "  where candidate_id=?";
+        try {
+            Connection conn = getConnection();
+            PreparedStatement ps = conn.prepareStatement(query);
+            ps.setInt(1, candidateId);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Education e = new Education(rs.getInt("id"),
+                        rs.getString("school"),
+                        rs.getString("degree"),
+                        rs.getString("field"),
+                        rs.getString("start_time"),
+                        rs.getString("end_time"),
+                        rs.getString("description"),
+                        rs.getString("media"),
+                        rs.getString("link"),
+                        rs.getString("candidate_id")
+                );
+                listEducations.add(e);
+            }
+            return listEducations;
+        } catch (Exception e) {
+            System.err.println("");
+            throw new Error(e);
+        } finally {
+
+        }
     }
 
     @Override
-    public Social getSocialByCandidateId(int candidateId) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public List<Experience> getExperienceByCandidateId(int candidateId) {
+        String query = "SELECT TOP (5) [id]\n"
+                + "      ,[company_name]\n"
+                + "      ,[working_role]\n"
+                + "      ,[start_time]\n"
+                + "      ,[end_time]\n"
+                + "      ,[description]\n"
+                + "      ,[media]\n"
+                + "      ,[link]\n"
+                + "      ,[candidate_id]\n"
+                + "  FROM [SWP391].[dbo].[experience]\n"
+                + "where candidate_id=?";
+        List<Experience> list = new ArrayList();
+        try {
+            Connection conn = getConnection();
+            PreparedStatement ps = conn.prepareStatement(query);
+            ps.setInt(1, candidateId);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Experience e = new Experience(rs.getInt("id"),
+                        rs.getString("company_name"),
+                        rs.getString("working_role"),
+                        rs.getString("start_time"),
+                        rs.getString("end_time"),
+                        rs.getString("description"),
+                        rs.getString("media"),
+                        rs.getString("link"),
+                        rs.getInt("candidate_id"));
+                list.add(e);
+            }
+            return list;
+        } catch (Exception e) {
+            System.err.println("getExperienceByCandidateId: " + e);
+            throw new Error(e);
+        }
+
     }
+
 
     private Exception Error(Exception e) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+
+
+    @Override
+    public List<Social> getSocialByCandidateId(int candidateId) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public List<Skill> getSkillByCandidateId(int candidateId) {
+        String query = "SELECT TOP (5) skill.[skill_id]\n"
+                + "      ,[name]\n"
+                + "      ,[description]\n"
+                + "      ,[question]\n"
+                + "      ,[icon]\n"
+                + "      ,[status]\n"
+                + "  FROM [SWP391].[dbo].[skill]\n"
+                + "  inner join candidate_skill on candidate_skill.skill_id= skill.skill_id\n"
+                + "  where candidate_id=?";
+        List<Skill> skills = new ArrayList<>();
+        try {
+            Connection conn = getConnection();
+            PreparedStatement ps = conn.prepareStatement(query);
+            ps.setInt(1, candidateId);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Skill skill = new Skill(rs.getInt("skill_id"),
+                        rs.getString("name"),
+                        rs.getString("icon"),
+                        rs.getString("description"));
+                skills.add(skill);
+            }
+            return skills;
+        } catch (Exception e) {
+        }
+        return null;
+    }
+
 
 }

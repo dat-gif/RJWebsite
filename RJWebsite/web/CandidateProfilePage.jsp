@@ -99,14 +99,29 @@
                                         <image src="https://picsum.photos/50/50" class="mt-2 mb-2" >
                                     </div>                                 
                                     <!-- Edu list -->
-                                    <div class="ml-4 mt-2">
-                                        <h5 class="text-uppercase">FPT University</h5>
-                                        <div style="font-size: 1rem; line-height: 1.6">
-                                            <p class="lead mb-1">Majors: Somr thing</p>
-                                            <p class="lead mb-1">From: 00/00/000</p>
-                                            <p class="lead mb-1">Description: Somr thing</p>
-                                        </div>
-                                    </div>
+                                    <c:choose>
+                                        <c:when test="${not empty eduList}">
+                                            <div class="flex-column">
+                                                <c:forEach items="${eduList}" var="edu">
+                                                    <div class="ml-4 mt-2">
+                                                        <h5 class="text-uppercase">${edu.getSchool()}</h5>
+                                                        <div style="font-size: 1rem; line-height: 1.6">
+                                                            <p class="lead mb-1">Majors: ${edu.getField()}</p>
+                                                            <p class="lead mb-1">Degree: ${edu.getDegree()}</p>
+                                                            <p class="lead mb-1">From: ${edu.getStartTime()} - ${edu.getEndTime()}</p>
+                                                            <p class="lead mb-1">Description: ${edu.getDescription()}</p>
+                                                        </div>
+                                                        <hr>
+                                                    </div>
+                                                </c:forEach>
+                                            </div>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <h5 class="text-uppercase">List still empty</h5>
+                                        </c:otherwise>
+                                    </c:choose>
+
+
                                 </div>
                                 <button class="btn btn-primary btn-sm" style="max-height: 2.3rem" >Edit</button>
                             </div>
@@ -119,17 +134,29 @@
                                 <button class="btn btn-outline-primary btn-sm" style="max-height: 2.6rem; min-width: 4rem">Add</button>
                             </div>
                             <div class="d-flex flex-row mt-3 justify-content-between">
-                                <div class="d-flex flex-row mt-2">
-                                    <!-- Skill list -->
-                                    <div>
-                                        <image src="https://picsum.photos/50/50" class="mt-2 mb-2" >
-                                    </div>
-                                    <div class="ml-4 mt-2">
-                                        <h5 class="text-uppercase">Jaca</h5>
-                                        <div style="font-size: 1rem; line-height: 1.6">
-                                            <p class="lead mb-1">Description: Somr thing</p>
-                                        </div>
-                                    </div>
+                                <div class="d-flex flex-column">
+                                    <c:choose>
+                                        <c:when test="${not empty skillList}">
+                                            <c:forEach items="${skillList}" var="skill">
+                                                <div class="d-flex flex-row">
+                                                    <!-- Skill list -->
+                                                    <div>
+                                                        <image src="${skill.getIconBase64()}" class="mt-2 mb-2" style="width: 50px;height: 50px" >
+                                                    </div>
+                                                    <div class="ml-4 " style="max-width: 40rem;">
+                                                        <h5 class="text-uppercase">${skill.getName()}</h5>
+                                                        <div style="font-size: 1rem; line-height: 1.6">
+                                                            <p class="lead mb-1  ">Description: ${skill.getDepscription()}</p>
+                                                        </div>
+                                                    </div>
+                                                </div>             
+                                                <hr style="border-bottom: solid 0.5px #dfe0e1; width: 80%">
+                                            </c:forEach>                
+                                        </c:when>
+                                        <c:otherwise>
+                                            <h5 class="text-uppercase">List still empty</h5>
+                                        </c:otherwise>
+                                    </c:choose>
                                 </div>
                                 <button class="btn btn-primary btn-sm" style="max-height: 2.3rem">Edit</button>
                             </div>
@@ -146,14 +173,20 @@
                                     <div>
                                         <image src="https://picsum.photos/50/50" class="mt-2 mb-2" >
                                     </div>
+
                                     <!-- Experiecnce list -->
-                                    <div class="ml-4 mt-2">
-                                        <h5 class="text-uppercase">FPT University</h5>
-                                        <div style="font-size: 1rem; line-height: 1.6">
-                                            <p class="lead mb-1">Position: Somr thing</p>
-                                            <p class="lead mb-1">From: 00/00/000</p>
-                                            <p class="lead mb-1">Description: Somr thing</p>
-                                        </div>
+                                    <div class="d-flex flex-column">
+                                        <c:forEach items="${expList}" var="exp">
+                                            <div class="ml-4 mt-2">
+                                                <h5 class="text-uppercase">${exp.getCompanyName()}</h5>
+                                                <div style="font-size: 1rem; line-height: 1.6">
+                                                    <p class="lead mb-1">Position: ${exp.getWorkingRole()}</p>
+                                                    <p class="lead mb-1">From: ${exp.getStartTime()}-${exp.getStartTime()}</p>
+                                                    <p class="lead mb-1">Description:<br> ${exp.getDescription()}</p>
+                                                </div>
+                                                <hr>
+                                            </div>   
+                                        </c:forEach>
                                     </div>
                                 </div>
                                 <button class="btn btn-primary btn-sm" style="max-height: 2.3rem">Edit</button>
@@ -179,7 +212,7 @@
                                             <p class="lead mb-1">From: 00/00/000</p>
                                             <p class="lead mb-1">Description: Somr thing</p>
                                         </div>
-                                        <image src="https://picsum.photos/450/300" class="mt-2 mb-2" >
+                                        <image src="https://picsum.photos/470/300" class="mt-2 mb-2" >
                                     </div>
 
                                 </div>
@@ -198,14 +231,18 @@
                                         <image src="https://picsum.photos/50/50" class="mt-2 mb-2" >
                                     </div>
                                     <!-- Certificate list -->
-                                    <div class="ml-4 mt-2">
-                                        <h5 class="text-uppercase">FPT University</h5>
-                                        <div style="font-size: 1rem; line-height: 1.6">
-                                            <p class="lead mb-1">Organization: Somr thing</p>
-                                            <p class="lead mb-1">Date: 00/00/000</p>
-                                            <p class="lead mb-1">Link: </p>
-                                        </div>
-                                        <image src="https://picsum.photos/450/300" class="mt-2 mb-2" >
+                                    <div class="d-flex flex-column">
+                                        <c:forEach items="${certList}" var="cert">
+                                            <div class="ml-4 mt-2">
+                                                <h5 class="text-uppercase">${cert.getName()}</h5>
+                                                <div style="font-size: 1rem; line-height: 1.6">
+                                                    <p class="lead mb-1">Organization: ${cert.getHost()}</p>
+                                                    <p class="lead mb-1">Date: ${cert.getCertificateTime()}</p>
+                                                    <a class="lead mb-1" href="${cert.getLink()}">Link: ${cert.getLink()}</a>
+                                                </div>
+                                                <image src="${cert.getMedia()}" class="mt-2 mb-2" style="width: 34rem; height: fit-content"  >
+                                            </div>
+                                        </c:forEach>
                                     </div>
                                 </div>
                                 <button class="btn btn-primary btn-sm" style="max-height: 2.3rem">Edit</button>
