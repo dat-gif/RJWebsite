@@ -9,6 +9,7 @@ import entity.Job;
 import entity.Recruiter;
 import entity.Skill;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -27,6 +28,8 @@ public interface IRecruiter {
     public ArrayList<Recruiter> getRecruiterPaging(int pageNumber, int recordNumber);
 
     public ArrayList<Recruiter> getAllRecruiter(int pageNumber, int recordNumber);
+
+    public List<Recruiter> getRecruiters();
 
     public int getTotalRecruiterRow();
 
@@ -48,5 +51,7 @@ public interface IRecruiter {
 
     public ArrayList<Recruiter> getTop8Recruiter();
 
+    public ArrayList<Job> getRecruimnetByRecruiterIdPagening(String recruiterId, int currentPage, int recordQuantity);
 
+    public int getTotalRecruimnetByRecruiterId(String recruiterId);
 }

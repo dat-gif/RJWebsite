@@ -24,10 +24,13 @@ public class Validation {
      * Check if the input email contains username, an @ symbol, domain name, a
      * dot, and the domain
      *
-     * @param inputEmail
+     * @param inputEmail String
      * @return
      */
     public boolean emailValidation(String inputEmail) {
+        if (inputEmail.isEmpty() || inputEmail.length() > 320) {
+            return false;
+        }
         Matcher m = VALID_EMAIL_ADDRESS_REGEX.matcher(inputEmail);
         return m.find();
     }
@@ -35,7 +38,7 @@ public class Validation {
     /**
      * Check if phone number in VietNam phone number format
      *
-     * @param inputPhoneNumber
+     * @param inputPhoneNumber String 
      * @return
      */
     public boolean phoneNumberValidation(String inputPhoneNumber) {
@@ -47,7 +50,7 @@ public class Validation {
      * Check if the input password contains word, number and at least 8
      * character
      *
-     * @param inputPassword
+     * @param inputPassword String
      * @return
      */
     public boolean passwordValidation(String inputPassword) {
@@ -56,7 +59,7 @@ public class Validation {
     }
 
     public boolean checkConfirmPassword(String password, String confirmPassword) {
-       
+
         return password.equals(confirmPassword);
     }
 

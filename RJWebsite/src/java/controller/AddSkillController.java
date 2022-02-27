@@ -4,8 +4,11 @@
  */
 package controller;
 
-import dao.CandidateDAO;
-import dao.idao.ICandidate;
+import dao.JobDAO;
+import dao.SkillDAO;
+import dao.idao.IJob;
+import dao.idao.ISkill;
+import entity.Skill;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -18,8 +21,8 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author admin
  */
-@WebServlet(name = "CandidateDashboard", urlPatterns = {"/CandidateDashboard"})
-public class CandidateDashboard extends HttpServlet {
+@WebServlet(name = "AddSkillController", urlPatterns = {"/AddSkillController"})
+public class AddSkillController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -33,10 +36,19 @@ public class CandidateDashboard extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        ICandidate cdao = new CandidateDAO();
-        request.setAttribute("canList",cdao.getCandidates());
-        request.getRequestDispatcher("CandidateDashboard.jsp").forward(request, response);
-        
+        IJob jdao = new JobDAO();
+        ISkill sDAO = new SkillDAO();
+        try {
+            String Name = request.getParameter("name");
+            String Description = request.getParameter("description");
+            Skill skill = new Skill();
+            skill.setName(Name);
+            skill.setDepscription(Description);
+            sDAO.insertSkill(skill);
+        } catch (Exception e) {
+            System.out.println("error" + e);
+        }
+        request.getRequestDispatcher("SkillDashboard").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

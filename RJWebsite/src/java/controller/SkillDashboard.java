@@ -4,6 +4,8 @@
  */
 package controller;
 
+import dao.JobDAO;
+import dao.idao.IJob;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -31,10 +33,11 @@ public class SkillDashboard extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try {
+  
+            IJob jdao = new JobDAO();
+            request.setAttribute("skills", jdao.getAllSkill());
             request.getRequestDispatcher("SkillDashboard.jsp").forward(request, response);
-        } catch (Exception e) {
-        }
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

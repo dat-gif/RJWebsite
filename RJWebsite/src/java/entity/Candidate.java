@@ -30,13 +30,25 @@ public class Candidate {
     private int projectManageId;
     private int certificateManageId;
     private int prizeManageId;
-    private String jobStatus;
+
+    private CandidateCV candidateCV;
+    private CandidatePrize candidatePrize;
+    private CandidateProject candidateProject;
+    private Certificate certificate;
+    private Education education;
+    private Exception exception;
+    private Social social;
     private Date createAt;
     private Date updateAt;
+    private String email;
+    private String jobStatus;
     private String city;
+
 
     public Candidate() {
     }
+
+
 
     public Candidate(int candIdateId, int accountId, String firstName, String lastName, String birthDate, String address, String avatar, boolean gender, String banner, String phone, boolean findingJob, int cvManageId, int experienceManageId, int educationMangeId, int socialManageId, int projectManageId, int certificateManageId, int prizeManageId) {
         this.candIdateId = candIdateId;
@@ -263,5 +275,71 @@ public class Candidate {
     public void setUpdateAt(Date updateAt) {
         this.updateAt = updateAt;
     }
+
+
+    public CandidateCV getCandidateCV() {
+        return candidateCV;
+    }
+
+    public void setCandidateCV(CandidateCV candidateCV) {
+        this.candidateCV = candidateCV;
+    }
+
+    public CandidatePrize getCandidatePrize() {
+        return candidatePrize;
+    }
+
+    public void setCandidatePrize(CandidatePrize candidatePrize) {
+        this.candidatePrize = candidatePrize;
+    }
+
+    public CandidateProject getCandidateProject() {
+        return candidateProject;
+    }
+
+    public void setCandidateProject(CandidateProject candidateProject) {
+        this.candidateProject = candidateProject;
+    }
+
+    public Certificate getCertificate() {
+        return certificate;
+    }
+
+    public void setCertificate(Certificate certificate) {
+        this.certificate = certificate;
+    }
+
+    public Education getEducation() {
+        return education;
+    }
+
+    public void setEducation(Education education) {
+        this.education = education;
+    }
+
+    public Exception getException() {
+        return exception;
+    }
+
+    public void setException(Exception exception) {
+        this.exception = exception;
+    }
+
+    public Social getSocial() {
+        return social;
+    }
+
+    public void setSocial(Social social) {
+        this.social = social;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
 
 }

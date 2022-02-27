@@ -4,6 +4,9 @@
     Author     : admin
 --%>
 
+<%@page import="entity.Skill"%>
+<%@page import="java.util.List"%>
+<%@page import="java.util.List"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -20,6 +23,7 @@
     </head>
     <body>
         <jsp:include page="component/Adminheader.jsp"/>
+        <% List<Skill> list = (List<Skill>) request.getAttribute("skills");%>
 
         <div class="container-fluid">
             <div class="row">
@@ -33,14 +37,12 @@
                                 </a>
                             </h6>
                             <li class="nav-item">
-                                <a class="nav-link active" href="#">
+                                <a class="nav-link active" href="Dashboard">
                                     <span data-feather="home"></span>
                                     Dashboard <span class="sr-only">(current)</span>
                                 </a>
                             </li>
                         </ul>
-
-
                         <ul class="nav flex-column mb-2">
                             <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
                                 <span>Account</span>
@@ -49,13 +51,13 @@
                                 </a>
                             </h6>
                             <li class="nav-item">
-                                <a class="nav-link" href="#">
+                                <a class="nav-link" href="CandidateDashboard">
                                     <span data-feather="file-text"></span>
                                     Candidate
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#">
+                                <a class="nav-link" href="RecruiterDashBoard">
                                     <span data-feather="file-text"></span>
                                     Recruiter
                                 </a>
@@ -69,20 +71,22 @@
                                 </a>
                             </h6>
                             <li class="nav-item">
-                                <a class="nav-link" href="#">
+                                <a class="nav-link" href="JobDashboard">
                                     <span data-feather="file-text"></span>
                                     Job
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#">
+                                <a class="nav-link" href="SkillDashboard">
                                     <span data-feather="file-text"></span>
                                     Skill
                                 </a>
                             </li>
                         </ul>
+
                     </div>
                 </nav>
+
                 <div class="content">
                     <h1>Skill Dashboard</h1>
                     <main role="main" class="searchcontainer">
@@ -91,23 +95,28 @@
                             <button type="button" class="btn btn-outline-primary ml-1">search</button>
                         </div>
                     </main>
+                    <a href="AddSkill.jsp"><button>Add</button></a>
                     <table class="table">
                         <thead class="thead-dark">
                             <tr>
+                                <th scope="col">ID</th>
                                 <th scope="col">Name</th>
                                 <th scope="col">Description</th>
-                                <th scope="col">Status</th>
                                 <th scope="col">Action</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            <tr>
-                                <th scope="row">ORA</th>
-                                <td><p>C++ là một loại ngôn ngữ lập trình bậc trung. Đây là ngôn ngữ lập trình đa năng được tạo ra bởi Bjarne Stroustrup như một phần mở rộng của ngôn ngữ lập trình C, hoặc "C với các lớp Class", Ngôn ngữ đã được mở rộng đáng kể theo thời gian và C ++ hiện đại có các tính năng: lập trình tổng quát, lập trình hướng đối tượng</p></td>
-                                <td><a href="url">Deactivate</a></td>
-                                <td><a href="url" id ="a2">Details</a></td>
-                            </tr>
 
+                        <tbody>
+                            <% for (Skill s : list) {%>
+                            <tr>
+                                <td><%= s.getId() %></td>
+                                <th scope="row"><%= s.getName()%></th>
+                                <td class="de"><p><%= s.getDepscription()%></p></td>
+                                <td>
+                                    <a href ="EditSkillController?id=<%=s.getId()%>" id ="a2" >Edit</a>
+                                </td>
+                            </tr>
+                            <%}%>
                         </tbody>
                     </table>
                     <div class="row justify-content-center mt-4 mb-4">
@@ -116,6 +125,7 @@
                 </div>
             </div>
         </div>
+
         <script src="bootstrap-4.6.1-dist/js/bootstrap.min.js"></script>
     </body>
 </html>

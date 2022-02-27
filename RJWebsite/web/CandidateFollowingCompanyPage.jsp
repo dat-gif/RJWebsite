@@ -23,17 +23,26 @@
 
             <!-- List following company  -->
             <div class="row row-cols-4 align-content-center ">
-                <c:forEach items="${listRecruiter}" var="recruiter"> 
-                    <div class="col p-1 mt-1">
-                        <% request.setCharacterEncoding("utf-8");%>
-                        <jsp:include page="component/CardInfo.jsp">
-                            <jsp:param name="img" value="${recruiter.getAvatar()}"/>
-                            <jsp:param name="title1" value="${recruiter.getName()}"/>
-                            <jsp:param name="title2" value="${recruiter.getWebsite()}"/>
-                            <jsp:param name="arraySkill" value="${recruiter.getSkillListName()}"/>
-                        </jsp:include>
-                    </div>
-                </c:forEach> 
+                <c:choose>
+                    <c:when test="${listRecruiter.size()>0}">
+                        <c:forEach items="${listRecruiter}" var="recruiter"> 
+                            <div class="col p-1 mt-1">
+                                <% request.setCharacterEncoding("utf-8");%>
+                                <jsp:include page="component/CardInfo.jsp">
+                                    <jsp:param name="img" value="${recruiter.getAvatar()}"/>
+                                    <jsp:param name="title1" value="${recruiter.getName()}"/>
+                                    <jsp:param name="title2" value="${recruiter.getWebsite()}"/>
+                                    <jsp:param name="arraySkill" value="${recruiter.getSkillListName()}"/>
+                                    <jsp:param name="link" value="candidateviewrecruiterdetail?recruiterId=${recruiter.getRecruiterId()}"/>
+                                </jsp:include>
+                            </div>
+                        </c:forEach> 
+                    </c:when>
+                    <c:otherwise>
+                        <p class="text-center mt-3 mx-auto text-secondary lead" style="font-size: 2rem">Follow list is still empty</p>
+                    </c:otherwise>
+                </c:choose>
+
             </div>
 
             <!-- Paging -->

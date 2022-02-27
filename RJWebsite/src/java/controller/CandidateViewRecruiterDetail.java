@@ -1,40 +1,44 @@
-package controller;
-
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+package controller;
+
 import dao.AccountDAO;
-import dao.idao.IJob;
-import dao.JobDAO;
+import dao.RecruiterDAO;
 import dao.idao.IAccount;
+import dao.idao.IRecruiter;
 import entity.Account;
 import entity.Candidate;
 import entity.Job;
+import entity.Recruiter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import jdk.nashorn.internal.ir.ContinueNode;
 import utils.AppUtils;
 
 /**
  *
  * @author Admin
  */
-public class JobDetailController extends HttpServlet {
+public class CandidateViewRecruiterDetail extends HttpServlet {
 
-    private String jobDetailId;
+    int pageNumber = 1;
+    static int recordNumber = 8;
+    int totalPage = 10;
+    int recruiterId;
 
-    public String getJobDetailId() {
-        return jobDetailId;
+    public int getRecruiterId() {
+        return recruiterId;
     }
 
-    public void setJobDetailId(String jobDetailId) {
-        this.jobDetailId = jobDetailId;
+    public void setRecruiterId(int recruiterId) {
+        this.recruiterId = recruiterId;
     }
 
     /**
@@ -64,41 +68,51 @@ public class JobDetailController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        IJob daoJob = new JobDAO();
-        String jobId = request.getParameter("jobId");
-        setJobDetailId(jobId);
-
+        String recruiterId = request.getParameter("recruiterId");
+        setRecruiterId(Integer.parseInt(recruiterId));
+        IRecruiter iRecruiter = new RecruiterDAO();
+        int totalRecordNumber = 1;
+        String currentPage = request.getParameter("page");
         try {
+
+            Recruiter recruiter = iRecruiter.getRecruiterById(Integer.parseInt(recruiterId));
             IAccount iAccount = new AccountDAO();
-            Job job = daoJob.getJobById(Integer.parseInt(jobId));
+            //Check if user are login
             Account userAccount = AppUtils.getLoginedUser(request.getSession());
             if (userAccount == null) {
-                request.setAttribute("jobApplyButton", "Apply");
+                request.setAttribute("followButton", "Follow");
             } else {
                 Candidate candidate = iAccount.getCandidateInfoByAccountId(userAccount.getAccId());
-                if (daoJob.checkJobBeenApply(Integer.parseInt(jobId), candidate.getCandIdateId())) {
-                    request.setAttribute("jobApplyButton", "Apply");
+                if (iRecruiter.checkRecruiterBeenFollowing(recruiter.getRecruiterId(), candidate.getCandIdateId())) {
+                    request.setAttribute("followButton", "Follow");
                 } else {
-                    request.setAttribute("jobApplyButton", "Withdraw");
+                    request.setAttribute("followButton", "Unfollow");
                 }
             }
-            request.setAttribute("recruiterId", job.getRecruiter().getRecruiterId());
-            request.setAttribute("avatar", job.getRecruiter().getAvatar());
-            request.setAttribute("jobTile", job.getTitle());
-            request.setAttribute("jobCompany", job.getRecruiter().getName());
-            request.setAttribute("endDate", job.getHireDate());
-            request.setAttribute("salary", job.getSalaryRange());
-            request.setAttribute("role", job.getRole());
-            request.setAttribute("quantity", job.getQuantity());
-            request.setAttribute("experience", job.getExperience());
-            request.setAttribute("location", job.getLocation());
-            request.setAttribute("description", job.getDescription());
-            request.setAttribute("skill", job.getSkillListName());
-            request.setAttribute("recruiterId", job.getRecruiter().getRecruiterId());
-            request.getRequestDispatcher("ViewJobDetailPage.jsp").forward(request, response);
+
+            //Set current page, default = 1
+            if (currentPage != null) {
+                pageNumber = Integer.parseInt(currentPage);
+            }
+
+            ArrayList<Job> jobs = iRecruiter.getRecruimnetByRecruiterIdPagening(recruiterId, pageNumber, recordNumber);
+            totalRecordNumber = iRecruiter.getTotalRecruimnetByRecruiterId(recruiterId);
+            totalPage = (int) Math.ceil((double) totalRecordNumber / recordNumber);
+            request.setAttribute("recruiterId", recruiter.getRecruiterId());
+            request.setAttribute("description", recruiter.getDescription());
+            request.setAttribute("avatar", recruiter.getAvatar());
+            request.setAttribute("banner", recruiter.getBanner());
+            request.setAttribute("name", recruiter.getName());
+            request.setAttribute("website", recruiter.getWebsite());
+            request.setAttribute("qEmployee", recruiter.getEmployeeQuantity());
+            request.setAttribute("address", recruiter.getAddress());
+            request.setAttribute("phone", recruiter.getPhone());
+            request.setAttribute("jobTotalPage", totalPage);
+            request.setAttribute("jobList", jobs);
         } catch (Exception e) {
-            System.out.println("bug get detail " + e);
         }
+
+        request.getRequestDispatcher("CandidateViewRecruiterDetail.jsp").forward(request, response);
     }
 
     /**
@@ -113,8 +127,8 @@ public class JobDetailController extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
-        String jobId = getJobDetailId();
-        IJob daoJob = new JobDAO();
+        int recruiterId = getRecruiterId();
+        IRecruiter iRecruiter = new RecruiterDAO();
         IAccount iAccount = new AccountDAO();
         try {
             //Get account in session
@@ -123,16 +137,18 @@ public class JobDetailController extends HttpServlet {
                 response.sendRedirect("login");
             } else {
                 Candidate candidate = iAccount.getCandidateInfoByAccountId(AppUtils.getLoginedUser(request.getSession()).getAccId());
-                // Thêm check cv trống.
-                if (daoJob.checkJobBeenApply(Integer.parseInt(jobId), candidate.getCandIdateId())) {
-                    daoJob.createRequestApplyJob(Integer.parseInt(jobId), candidate.getCandIdateId());
+                boolean text = iRecruiter.checkRecruiterBeenFollowing(recruiterId, candidate.getCandIdateId());
+                System.out.println(text);
+                if (iRecruiter.checkRecruiterBeenFollowing(recruiterId, candidate.getCandIdateId())) {
+                    iRecruiter.createRequestFollowingCompany(recruiterId, candidate.getCandIdateId());
                 } else {
-                    daoJob.deleteRequestApplyJob(Integer.parseInt(jobId), candidate.getCandIdateId());
+                    iRecruiter.deleteRequestFollowingCompany(recruiterId, candidate.getCandIdateId());
                 }
             }
-            response.sendRedirect("jobdetail?jobId=" + jobId);
+            response.sendRedirect("candidateviewrecruiterdetail?recruiterId=" + recruiterId);
         } catch (Exception e) {
         }
+
     }
 
     /**
