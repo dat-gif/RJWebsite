@@ -75,15 +75,13 @@
     <servlet>
         <servlet-name>RecruiterDetailController</servlet-name>
         <servlet-class>controller.RecruiterDetailController</servlet-class>
-    </servlet>
-    <servlet>
-    
+    </servlet> 
     <servlet>
         <servlet-name>CreateRecruitmentController</servlet-name>
         <servlet-class>controller.CreateRecruitmentController</servlet-class>
     </servlet>
     
-	<servlet>
+    <servlet>
         <servlet-name>ManageRecruitmentPostedController</servlet-name>
         <servlet-class>controller.ManageRecruitmentPostedController</servlet-class>
     </servlet>
@@ -100,17 +98,17 @@
         <servlet-class>controller.DeleteRecruitmentController</servlet-class>
     </servlet>
     
-	<servlet>
+    <servlet>
         <servlet-name>CreateRecruiter</servlet-name>
         <servlet-class>controller.CreateRecruiter</servlet-class>
     </servlet>
     
-	<servlet>
+    <servlet>
         <servlet-name>CandidateViewRecruiterDetail</servlet-name>
         <servlet-class>controller.CandidateViewRecruiterDetail</servlet-class>
     </servlet>
     
-	<servlet>
+    <servlet>
         <servlet-name>CandidateProfileController</servlet-name>
         <servlet-class>controller.CandidateProfileController</servlet-class>
     </servlet>
@@ -170,28 +168,28 @@
         <servlet-name>RecruiterDetailController</servlet-name>
         <url-pattern>/RecruiterDetailController</url-pattern>
     </servlet-mapping>
-    <servlet-mapping>
+        
     <servlet-mapping>
         <servlet-name>CreateRecruitmentController</servlet-name>
         <url-pattern>/CreateRecruitmentController</url-pattern>
     </servlet-mapping>
     
-	<servlet-mapping>
+    <servlet-mapping>
         <servlet-name>ManageRecruitmentPostedController</servlet-name>
         <url-pattern>/ManageRecruitmentPostedController</url-pattern>
     </servlet-mapping>
     
-	<servlet-mapping>
+    <servlet-mapping>
         <servlet-name>UpdateRecruitmentController</servlet-name>
         <url-pattern>/UpdateRecruitmentController</url-pattern>
     </servlet-mapping>
     
-	<servlet-mapping>
+    <servlet-mapping>
         <servlet-name>SearchCandidateController</servlet-name>
         <url-pattern>/SearchCandidateController</url-pattern>
     </servlet-mapping>
     
-	<servlet-mapping>
+    <servlet-mapping>
         <servlet-name>DeleteRecruitmentController</servlet-name>
         <url-pattern>/DeleteRecruitmentController</url-pattern>
     </servlet-mapping>
