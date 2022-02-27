@@ -6,6 +6,9 @@ package context;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 /**
  *
@@ -31,4 +34,16 @@ public class DBContext {
     private final String instance = "";//LEAVE THIS ONE EMPTY IF YOUR SQL IS A SINGLE INSTANCE
     private final String userID = "sa";
     private final String password = "123";
+
+    public void closeConnection(ResultSet rs, PreparedStatement ps, Connection con) throws SQLException {
+        if (rs != null && !rs.isClosed()) {
+            rs.close();
+        }
+        if (ps != null && !ps.isClosed()) {
+            ps.close();
+        }
+        if (con != null && !con.isClosed()) {
+            con.close();
+        }
+    }
 }

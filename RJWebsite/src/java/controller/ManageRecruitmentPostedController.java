@@ -4,8 +4,11 @@
  */
 package controller;
 
+import dao.JobDAO;
 import dao.RecruiterDAO;
+import dao.idao.IJob;
 import dao.idao.IRecruiter;
+import entity.Job;
 import entity.Recruiter;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -34,7 +37,15 @@ public class ManageRecruitmentPostedController extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try {
-          
+//            String id = request.getParameter("recruiterId");
+//            int recruiterId = Integer.parseInt(id);
+
+            int recruiterId = 1;
+            IJob iJob = new JobDAO();
+            List<Job> listJob = iJob.getJobByRecruiterId(recruiterId);
+
+            request.setAttribute("listJob", listJob);
+
             //chuyen huong den trang jsp dich
             request.getRequestDispatcher("ManageRecruitmentPosted.jsp").forward(request, response);
         } catch (Exception e) {

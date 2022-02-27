@@ -33,6 +33,7 @@ public class Candidate {
     private String jobStatus;
     private Date createAt;
     private Date updateAt;
+    private String city;
 
     public Candidate() {
     }
@@ -63,6 +64,36 @@ public class Candidate {
         this.lastName = lastName;
         this.address = address;
         this.jobStatus = jobStatus;
+    }
+
+    public Candidate(int candIdateId, int accountId, String firstName, String lastName, String birthDate, String address, String avatar, boolean gender, String banner, String phone, boolean findingJob, int cvManageId, int experienceManageId, int educationMangeId, int socialManageId, int projectManageId, int certificateManageId, int prizeManageId, String city) {
+        this.candIdateId = candIdateId;
+        this.accountId = accountId;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.birthDate = birthDate;
+        this.address = address;
+        this.avatar = avatar;
+        this.gender = gender;
+        this.banner = banner;
+        this.phone = phone;
+        this.findingJob = findingJob;
+        this.cvManageId = cvManageId;
+        this.experienceManageId = experienceManageId;
+        this.educationMangeId = educationMangeId;
+        this.socialManageId = socialManageId;
+        this.projectManageId = projectManageId;
+        this.certificateManageId = certificateManageId;
+        this.prizeManageId = prizeManageId;
+        this.city = city;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
     }
 
     public String getJobStatus() {

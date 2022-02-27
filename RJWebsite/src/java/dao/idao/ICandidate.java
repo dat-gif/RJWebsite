@@ -18,8 +18,8 @@ public interface ICandidate {
 
     public ArrayList<Candidate> getCandidateListByRecruiterId(int recruiterId);
 
-    public int getNumberPageSearchCandidate(String txtSearch);
+    public int getNumberPageSearchCandidate(String txtSearch, String city);
 
-    public ArrayList<Candidate> getPaging(int index, String txtSearch);
+    public ArrayList<Candidate> getCandidateSearchPaging(int index, String txtSearch, String city);
 
 }

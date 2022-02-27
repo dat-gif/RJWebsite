@@ -62,8 +62,13 @@ public interface IJob {
 
     public int insertRecruitment(int recruiterId, String title, String description, String salary, String quantity, String role, String experience, String location, String hiredDate);
 
+    public int getLatestInsertedJobId();
+
     public int insertJobSkill(int jobId, int skillId);
 
     public int updateJob(int jobId, String title, String description, String salary, String quantity, String role, String experience, String location, String hiredDate);
 
+    public ArrayList<Job> getJobByRecruiterId(int recruiterId);
+
+    public int deleteJob(int jobId);
 }

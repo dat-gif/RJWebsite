@@ -21,9 +21,9 @@
                 <form action="SearchCandidateController" method="POST">
                     <input type="text" name="txtSearch" class="txtSeach" required="" placeholder="Enter skill"> 
                     <input type="submit" value="search" class="btn">
-                    <select>
+                    <select name="city">
                         <c:forEach items="${listCity}" var="city">
-                            <option value="${city.getName()}" name="city">${city.getName()}</option>
+                            <option value="${city.getName()}">${city.getName()}</option>
                         </c:forEach>                       
                     </select>
                 </form>

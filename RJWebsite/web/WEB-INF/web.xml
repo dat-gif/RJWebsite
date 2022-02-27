@@ -84,6 +84,10 @@
         <servlet-name>SearchCandidateController</servlet-name>
         <servlet-class>controller.SearchCandidateController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>DeleteRecruitmentController</servlet-name>
+        <servlet-class>controller.DeleteRecruitmentController</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>LandingPage</servlet-name>
         <url-pattern>/landingpage</url-pattern>
@@ -147,6 +151,10 @@
     <servlet-mapping>
         <servlet-name>SearchCandidateController</servlet-name>
         <url-pattern>/SearchCandidateController</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DeleteRecruitmentController</servlet-name>
+        <url-pattern>/DeleteRecruitmentController</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

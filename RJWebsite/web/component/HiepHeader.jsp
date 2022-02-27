@@ -24,8 +24,11 @@
                     <a href="SearchCandidateController">Searching Candidate</a>
                 </li>
                 <li>
-                    <a>Company Profile</a>
-                </li>
+                    <a href="ManageRecruitmentPostedController">Manage Recruitment</a>
+                </li>    
+                <li>
+                    <a href="#">Company Profile</a>
+                </li>   
             </ul>
             <i class="far fa-user"></i>
         </div>

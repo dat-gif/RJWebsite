@@ -18,8 +18,9 @@ import java.util.ArrayList;
  */
 public class CandidateDAO extends DBContext implements ICandidate {
 
-/**
+    /**
      * get top 4 candidate
+     *
      * @return
      */
     @Override
@@ -59,7 +60,7 @@ public class CandidateDAO extends DBContext implements ICandidate {
         return candidateList;
     }
 
-/**
+    /**
      * get candidate theo recruiterId
      *
      * @param recruiterId int
@@ -93,23 +94,30 @@ public class CandidateDAO extends DBContext implements ICandidate {
         return candidateList;
     }
 
-/**
+    /**
      * get tong so page theo dieu kien search
      *
      * @param txtSearch String
      * @return
      */
     @Override
-    public int getNumberPageSearchCandidate(String txtSearch) {
+    public int getNumberPageSearchCandidate(String txtSearch, String city) {
         int totalPage = 0;
+        String cityQuery = " and candidate.city = ? ";
         String query = "select count(*) from candidate join candidate_skill on candidate.candidate_id = candidate_skill.candidate_id \n"
                 + "join skill on candidate_skill.skill_id = skill.skill_id\n"
                 + "where skill.[name] like ?";
         try {
+            if (!city.equalsIgnoreCase("All")) {
+                query = query + cityQuery;
+            }
             //mo ket noi, set du lieu vao cac dau ? va lay du lieu tra ve
             Connection conn = getConnection();
             PreparedStatement ps = conn.prepareStatement(query);
             ps.setString(1, "%" + txtSearch + "%");
+            if (!city.equalsIgnoreCase("All")) {
+                ps.setString(2, city);
+            }
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 //page nay hien thi 2 record trong 1 trang nen neu record le thi + them 1 trang nua
@@ -127,26 +135,42 @@ public class CandidateDAO extends DBContext implements ICandidate {
         return 0;
     }
 
-/**
+    /**
      * Phan trang theo dieu kien search
      *
      * @param index int
      * @param txtSearch String
+     * @param city
      * @return
      */
     @Override
-    public ArrayList<Candidate> getPaging(int index, String txtSearch) {
+    public ArrayList<Candidate> getCandidateSearchPaging(int index, String txtSearch, String city) {
         ArrayList<Candidate> candidateList = new ArrayList<>();
+
+        String cityQuery = "and candidate.city = ? ";
+        String orderBy = " order by candidate.candidate_id offset ? rows fetch first 2 rows only";
+
         //query select cac record tuong ung voi indexPage (2 record/trang)
         String query = "select * from candidate join candidate_skill on candidate.candidate_id = candidate_skill.candidate_id \n"
                 + "join skill on candidate_skill.skill_id = skill.skill_id\n"
-                + "where skill.[name] like ? order by candidate.candidate_id offset ? rows fetch first 2 rows only";
+                + "where skill.[name] like ? ";
         try {
+            if (!city.equalsIgnoreCase("All")) {
+                query = query + cityQuery + orderBy;
+            } else {
+                query = query + orderBy;
+            }
+            System.out.println(query);
             //mo ket noi, set du lieu vao cac dau ? va lay du lieu tra ve
             Connection conn = getConnection();
             PreparedStatement ps = conn.prepareStatement(query);
             ps.setString(1, "%" + txtSearch + "%");
-            ps.setInt(2, (index - 1) * 2);
+            if (!city.equalsIgnoreCase("All")) {
+                ps.setString(2, city);
+                ps.setInt(3, (index - 1) * 2);
+            } else {
+                ps.setInt(2, (index - 1) * 2);
+            }
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 Candidate candidate = new Candidate(
@@ -178,7 +202,7 @@ public class CandidateDAO extends DBContext implements ICandidate {
 
     public static void main(String[] args) {
         CandidateDAO dao = new CandidateDAO();
-        ArrayList<Candidate> candidateList = dao.getCandidateListByRecruiterId(1);
+        ArrayList<Candidate> candidateList = dao.getCandidateSearchPaging(1, "ang", "All");
         System.out.println(candidateList);
 
     }

@@ -18,7 +18,7 @@
     <body>
         <jsp:include page="component/HiepHeader.jsp"/>
         <h1>Update Recruitment</h1>
-        <form class="form" action="UpdateRecruitmentController" method="POST">
+        <form class="form" action="UpdateRecruitmentController?jobId=${job.getjId()}" method="POST">
             <table>
                 <tr>
                     <td>Job Name</td>

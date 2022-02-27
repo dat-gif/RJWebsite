@@ -42,9 +42,9 @@
                     <td>Location</td>
                     <td><input type="text" name="location" required=""></td>
                     <td>Skill</td>
-                    <td><select name="" id="">
+                    <td><select name="skill" id="">
                             <c:forEach items="${listSkill}" var="skill">
-                                <option value="${skill.getId()}" name="skillId">${skill.getName()}</option>
+                                <option value="${skill.getId()}" name="">${skill.getName()}</option>
                             </c:forEach>                         
                         </select>
                     </td>

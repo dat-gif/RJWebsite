@@ -41,30 +41,8 @@
                     <p>${recruiter.getName()}</p>
                     <p>${recruiter.getWebsite()}</p>
                     <p>${recruiter.getSkillList()}</p>
-                    <p>Angular, ReactJS</p>
                 </div>
-            </c:forEach>
-
-            <div class="company">
-                <img src="https://daihoc.fpt.edu.vn/media/2019/04/fsoft.png"></img>
-                <p>https://www.fpt-software.com/</p>
-                <p>Angular, ReactJS</p>
-            </div>
-            <div class="company">
-                <img src="https://daihoc.fpt.edu.vn/media/2019/04/fsoft.png"></img>
-                <p>https://www.fpt-software.com/</p>
-                <p>Angular, ReactJS</p>
-            </div>
-            <div class="company">
-                <img src="https://daihoc.fpt.edu.vn/media/2019/04/fsoft.png"></img>
-                <p>https://www.fpt-software.com/</p>
-                <p>Angular, ReactJS</p>
-            </div>
-            <div class="company">
-                <img src="https://daihoc.fpt.edu.vn/media/2019/04/fsoft.png"></img>
-                <p>https://www.fpt-software.com/</p>
-                <p>Angular, ReactJS</p>
-            </div>
+            </c:forEach>       
             <h3>Candidate</h3>
             <c:forEach items="${listCandidate}" var="candidate">
                 <div class="candidate">

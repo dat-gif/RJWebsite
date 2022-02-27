@@ -109,7 +109,7 @@
             </div>
         </div>
         <script>
-            <-<!-- co 2 tab information va candidateList. Khi click tab nay se display thong tin cua tab do va an di tab con lai-->
+            <!-- co 2 tab information va candidateList. Khi click tab nay se display thong tin cua tab do va an di tab con lai-->
             document.querySelector(".candidate").addEventListener("click", () => {
                 document.querySelector(".informationWrap").style.display = "none";
                 document.querySelector(".candidateWrap").style.display = "block";

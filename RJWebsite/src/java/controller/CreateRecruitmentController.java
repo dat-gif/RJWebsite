@@ -76,46 +76,53 @@ public class CreateRecruitmentController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        try {
+            //khoi dao obj dao
+            IJob ijob = new JobDAO();
 
-        //khoi dao obj dao
-        IJob ijob = new JobDAO();
+            //nhan lai value tu cac field tren form cua trang jsp
+            int recruiterId = 1;
+            String jobName = request.getParameter("jobName");
+            String salary = request.getParameter("salary");
+            String quantity = request.getParameter("quantity");
+            String role = request.getParameter("role");
+            String experience = request.getParameter("experience");
+            String hireDate = request.getParameter("hireDate");
+            String location = request.getParameter("location");
+            String description = request.getParameter("description");
 
-        //nhan lai value tu cac field tren form cua trang jsp
-        int recruiterId = 3;
-        String jobName = request.getParameter("jobName");
-        String salary = request.getParameter("salary");
-        String quantity = request.getParameter("quantity");
-        String role = request.getParameter("role");
-        String experience = request.getParameter("experience");
-        String hireDate = request.getParameter("hireDate");
-        String location = request.getParameter("location");
-        String description = request.getParameter("description");
+            //insert vao db voi data nhan lai o tren
+            int total = ijob.insertRecruitment(recruiterId, role, description, salary, quantity, role, experience, location, hireDate);
 
-        //insert vao db voi data nhan lai o tren
-        int total = ijob.insertRecruitment(recruiterId, role, description, salary, quantity, role, experience, location, hireDate);
+            //insert vao job_skill
+            String skillPicked = request.getParameter("skill");
+            int skillId = Integer.parseInt(skillPicked);
+            int jobId = ijob.getLatestInsertedJobId();
+            ijob.insertJobSkill(jobId, skillId);
 
-        //neu insert thanh cong hoac that bai thi hien thi message
-        if (total == 1) {
-            response.setContentType("text/html");
-            PrintWriter out = response.getWriter();
-            out.println("<script type=\"text/javascript\">");
-            out.println("alert('Insert Successfull');");
-            out.println("location='CreateRecruitment.jsp';");
-            out.println("</script>");
-            out.flush();
-        } else {
-            response.setContentType("text/html");
-            PrintWriter out = response.getWriter();
-            out.println("<script type=\"text/javascript\">");
-            out.println("alert('Insert fail');");
-            out.println("location='CreateRecruitment.jsp';");
-            out.println("</script>");
-            out.flush();
+            //neu insert thanh cong hoac that bai thi hien thi message
+            if (total > 0) {
+                response.setContentType("text/html");
+                PrintWriter out = response.getWriter();
+                out.println("<script type=\"text/javascript\">");
+                out.println("alert('Create Successfull');");
+                out.println("location='CreateRecruitment.jsp';");
+                out.println("</script>");
+                out.flush();
+            } else {
+                response.setContentType("text/html");
+                PrintWriter out = response.getWriter();
+                out.println("<script type=\"text/javascript\">");
+                out.println("alert('Create fail');");
+                out.println("location='CreateRecruitment.jsp';");
+                out.println("</script>");
+                out.flush();
+            }
+        } catch (Exception e) {
+            //neu co loi thi chuyen huong den trang bao loi
+            request.setAttribute("error", e);
+            request.getRequestDispatcher("ErrorPage.jsp").forward(request, response);
         }
-//            int skillId = Integer.parseInt(request.getParameter("skillId"));
-//            int jobId = ijob.getLatestUpdatedJobId();
-//            ijob.insertJobSkill(jobId, skillId);
-
     }
 
     /**

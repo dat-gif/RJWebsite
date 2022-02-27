@@ -20,7 +20,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author USE
  */
-public class UpdateRecruitmentController extends HttpServlet {   
+public class UpdateRecruitmentController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -39,7 +39,8 @@ public class UpdateRecruitmentController extends HttpServlet {
             IJob ijob = new JobDAO();
 
             //get jobid
-            int jobId = Integer.parseInt(request.getParameter("jobId"));
+            String id = request.getParameter("jobId");
+            int jobId = Integer.parseInt(id);
 
             //get job theo jobId
             Job job = ijob.getJobById(jobId);
@@ -84,45 +85,50 @@ public class UpdateRecruitmentController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        try {
+            //khoi dao obj dao
+            IJob ijob = new JobDAO();
 
-        //khoi dao obj dao
-        IJob ijob = new JobDAO();
+            //get jobid
+            String id = request.getParameter("jobId");
+            int jobId = Integer.parseInt(id);
 
-        //get jobid
-        int jobId = Integer.parseInt(request.getParameter("jobId"));
+            //nhan lai value tu cac field tren form cua trang jsp          
+            String jobName = request.getParameter("jobName");
+            String salary = request.getParameter("salary");
+            String quantity = request.getParameter("quantity");
+            String role = request.getParameter("role");
+            String experience = request.getParameter("experience");
+            String hireDate = request.getParameter("hireDate");
+            String location = request.getParameter("location");
+            String description = request.getParameter("description");
 
-        //nhan lai value tu cac field tren form cua trang jsp          
-        String jobName = request.getParameter("jobName");
-        String salary = request.getParameter("salary");
-        String quantity = request.getParameter("quantity");
-        String role = request.getParameter("role");
-        String experience = request.getParameter("experience");
-        String hireDate = request.getParameter("hireDate");
-        String location = request.getParameter("location");
-        String description = request.getParameter("description");
+            //update vao db voi data nhan lai o tren
+            int total = ijob.updateJob(jobId, jobName, description, salary, quantity, role, experience, location, hireDate);
 
-        //update vao db voi data nhan lai o tren
-        int total = ijob.updateJob(jobId, jobName, description, salary, quantity, role, experience, location, hireDate);
-
-        //neu insert thanh cong hoac that bai thi hien thi message
-        if (total == 1) {
-            response.setContentType("text/html");
-            PrintWriter out = response.getWriter();
-            out.println("<script type=\"text/javascript\">");
-            out.println("alert('Update Successfull');");
-            out.println("location='UpdateRecruitment.jsp';");
-            out.println("</script>");
-            out.flush();
-        } else {
-            response.setContentType("text/html");
-            PrintWriter out = response.getWriter();
-            out.println("<script type=\"text/javascript\">");
-            out.println("alert('Update fail');");
-            out.println("location='UpdateRecruitment.jsp';");
-            out.println("</script>");
-            out.flush();
+            //neu update thanh cong hoac that bai thi hien thi message
+            if (total > 0) {
+                response.setContentType("text/html");
+                PrintWriter out = response.getWriter();
+                out.println("<script type=\"text/javascript\">");
+                out.println("alert('Update Successfull');");
+                out.println("location='UpdateRecruitment.jsp';");
+                out.println("</script>");
+                out.flush();
+            } else {
+                response.setContentType("text/html");
+                PrintWriter out = response.getWriter();
+                out.println("<script type=\"text/javascript\">");
+                out.println("alert('Update fail');");
+                out.println("location='UpdateRecruitment.jsp';");
+                out.println("</script>");
+                out.flush();
+            }
+        } catch (Exception e) {
+            //neu co loi thi chuyen huong den trang bao loi
+            request.setAttribute("error", e);
+            request.getRequestDispatcher("ErrorPage.jsp").forward(request, response);
         }
-
     }
 
     /**
