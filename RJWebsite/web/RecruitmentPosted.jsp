@@ -20,17 +20,17 @@
             <div class="apply">
                 <i class="fas fa-rocket"></i>
                 <p>Apply Pending</p>
-                <p>16</p>
+                <p>3</p>
             </div>
             <div class="recruit">
                 <i class="fas fa-project-diagram"></i>
                 <p>Recruit</p>
-                <p>30</p>
+                <p>2</p>
             </div>
             <div class="followers">
                 <i class="fas fa-database"></i>
                 <p>Followers</p>
-                <p>20</p>
+                <p>0</p>
             </div>
         </div>
         <div class="content">

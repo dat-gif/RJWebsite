@@ -19,9 +19,9 @@
             <div class="form">
                 <p>Search Candidate</p>
                 <form action="SearchCandidateController" method="POST">
-                    <input type="text" name="txtSearch" class="txtSeach" required="" placeholder="Enter skill"> 
+                    <input type="text" name="txtSearch" class="txtSeach" required="" maxlength="100" placeholder="Enter skill" value="${txtSearch}"> 
                     <input type="submit" value="search" class="btn">
-                    <select name="city">
+                    <select name="cityName">
                         <c:forEach items="${listCity}" var="city">
                             <option value="${city.getName()}">${city.getName()}</option>
                         </c:forEach>                       
@@ -48,7 +48,7 @@
             </c:if>
             <c:if test="${maxPage > 1}">
                 <c:forEach begin="1" end="${maxPage}" var="i">
-                    <a class="${indexPage==i?"active":"number"}" href="SearchCandidateController?index=${i}&&txtSearch=${txtSearch}">${i}</a>
+                    <a class="${indexPage==i?"active":"number"}" href="SearchCandidateController?index=${i}&&txtSearch=${txtSearch}&&cityName=${cityName}">${i}</a>
                 </c:forEach>
             </c:if>
         </div>

@@ -1098,6 +1098,12 @@ public class JobDAO extends DBContext implements IJob {
         return total;
     }
 
+/**
+     * Get job theo recruiterID
+     *
+     * @param recruiterId int
+     * @return
+     */
     @Override
     public ArrayList<Job> getJobByRecruiterId(int recruiterId) {
         ArrayList<Job> listJob = new ArrayList<>();

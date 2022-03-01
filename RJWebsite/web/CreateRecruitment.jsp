@@ -22,25 +22,25 @@
             <table>
                 <tr>
                     <td>Job Name</td>
-                    <td><input type="text" name="jobName" required=""></td>
+                    <td><input type="text" name="jobName" required="" minlength="10" maxlength="100"></td>
                     <td>Salary</td>
-                    <td><input type="text" name="salary" required=""></td>
+                    <td><input type="text" name="salary" required="" minlength="10" maxlength="100"></td>
                 </tr>
                 <tr>
                     <td>Quantity</td>
-                    <td><input type="text" name="quantity" required=""></td>
+                    <td><input type="text" name="quantity" required="" minlength="10" maxlength="100"></td>
                     <td>Role</td>
-                    <td><input type="text" name="role" required=""></td>
+                    <td><input type="text" name="role" required="" minlength="10" maxlength="100"></td>
                 </tr>
                 <tr>
                     <td>Experience</td>
-                    <td><input type="text" name="experience" required=""></td>
+                    <td><input type="text" name="experience" required="" minlength="10" maxlength="100"></td>
                     <td>Hire Date</td>
-                    <td><input type="text" name="hireDate" required=""></td>
+                    <td><input type="text" name="hireDate" required="" minlength="10" maxlength="100"></td>
                 </tr>
                 <tr>
                     <td>Location</td>
-                    <td><input type="text" name="location" required=""></td>
+                    <td><input type="text" name="location" required="" minlength="10" maxlength="100"></td>
                     <td>Skill</td>
                     <td><select name="skill" id="">
                             <c:forEach items="${listSkill}" var="skill">
@@ -50,7 +50,7 @@
                     </td>
                 </tr>           
             </table>
-            <span>Description</span><input class="des" type="text" name="description" required="">
+            <span>Description</span><input class="des" type="text" name="description" required="" minlength="10" maxlength="1000">
             <input class="btn" type="submit" value="Create new recruitment">
         </form>
         <jsp:include page="component/HiepFooter.jsp"/>

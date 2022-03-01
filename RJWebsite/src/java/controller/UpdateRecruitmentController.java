@@ -94,14 +94,14 @@ public class UpdateRecruitmentController extends HttpServlet {
             int jobId = Integer.parseInt(id);
 
             //nhan lai value tu cac field tren form cua trang jsp          
-            String jobName = request.getParameter("jobName");
-            String salary = request.getParameter("salary");
-            String quantity = request.getParameter("quantity");
-            String role = request.getParameter("role");
-            String experience = request.getParameter("experience");
-            String hireDate = request.getParameter("hireDate");
-            String location = request.getParameter("location");
-            String description = request.getParameter("description");
+            String jobName = request.getParameter("jobName").trim();
+            String salary = request.getParameter("salary").trim();
+            String quantity = request.getParameter("quantity").trim();
+            String role = request.getParameter("role").trim();
+            String experience = request.getParameter("experience").trim();
+            String hireDate = request.getParameter("hireDate").trim();
+            String location = request.getParameter("location").trim();
+            String description = request.getParameter("description").trim();
 
             //update vao db voi data nhan lai o tren
             int total = ijob.updateJob(jobId, jobName, description, salary, quantity, role, experience, location, hireDate);

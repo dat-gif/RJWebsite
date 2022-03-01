@@ -160,7 +160,7 @@ public class CandidateDAO extends DBContext implements ICandidate {
             } else {
                 query = query + orderBy;
             }
-            System.out.println(query);
+
             //mo ket noi, set du lieu vao cac dau ? va lay du lieu tra ve
             Connection conn = getConnection();
             PreparedStatement ps = conn.prepareStatement(query);
@@ -202,7 +202,8 @@ public class CandidateDAO extends DBContext implements ICandidate {
 
     public static void main(String[] args) {
         CandidateDAO dao = new CandidateDAO();
-        ArrayList<Candidate> candidateList = dao.getCandidateSearchPaging(1, "ang", "All");
+        int totalPage = dao.getNumberPageSearchCandidate("ang", "All");
+        ArrayList<Candidate> candidateList = dao.getCandidateSearchPaging(3, "ang", "All");
         System.out.println(candidateList);
 
     }

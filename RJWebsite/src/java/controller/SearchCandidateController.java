@@ -43,7 +43,7 @@ public class SearchCandidateController extends HttpServlet {
             //get ve index page, txtSearch, city
             String index = request.getParameter("index");
             String txtSearch = request.getParameter("txtSearch");
-            String city = request.getParameter("city");
+            String cityName = request.getParameter("cityName");
 
             //neu index null thi trang khoi tao se là trang dau tien
             if (index == null) {
@@ -54,19 +54,21 @@ public class SearchCandidateController extends HttpServlet {
             ICandidate iCandidate = new CandidateDAO();
 
             //get ra listCandidate theo phan trang
-            List<Candidate> listCandidate = iCandidate.getCandidateSearchPaging(indexPage, txtSearch, city);
+            List<Candidate> listCandidate = iCandidate.getCandidateSearchPaging(indexPage, txtSearch, cityName);
 
             //get ra city cho dropdown list
             List<City> listCity = iCity.getAllCity();
 
             //get ra tong so trang theo dieu kien search
-            int maxPage = iCandidate.getNumberPageSearchCandidate(txtSearch, city);
+            int maxPage = iCandidate.getNumberPageSearchCandidate(txtSearch, cityName);
 
             //set cac attribute len trang jsp
             request.setAttribute("listCity", listCity);
             request.setAttribute("maxPage", maxPage);
             request.setAttribute("listCandidate", listCandidate);
             request.setAttribute("indexPage", indexPage);
+            request.setAttribute("cityName", cityName);
+            request.setAttribute("txtSearch", txtSearch);
 
             //chuyen huong den trang jsp dich
             request.getRequestDispatcher("SearchCandidate.jsp").forward(request, response);

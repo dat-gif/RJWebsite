@@ -39,6 +39,9 @@
                 </c:forEach>                              
             </table>
         </div>     
+        <div class="pagging">
+            <div class="number"><a href="#">1</a></div>
+        </div>
         <jsp:include page="component/HiepFooter.jsp"/>
     </body>
 </html>
