@@ -83,7 +83,7 @@
             <hr class="my-4"/>
 
             <!-- Result -->
-            <div class="row row-cols-4 align-content-center ">
+            <div class="row row-cols-4 align-content-center " id="list">
                 <c:choose>
                     <c:when test="${listJob.size() >0}">
                         <c:forEach items="${listJob}" var="job"> 
@@ -101,7 +101,7 @@
                         </c:forEach>                  
                     </c:when>
                     <c:otherwise>
-                        <p class="text-left mt-3 text-secondary lead" style="font-size: 2rem">Sorry, data is no found.</p>
+                        <p class="text-left mt-3 text-secondary lead" style="font-size: 2rem; margin-left: 4em">Sorry, data is no found.</p>
                         <section class="text-left mt-3 mx-auto text-secondary lead">
                             <p>Suggestion:</p>
                             <ul>

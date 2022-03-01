@@ -1,6 +1,6 @@
 /*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ * R & IT J:
+ * Recruitment And IT Job Search Website
  */
 package dao;
 
@@ -47,6 +47,7 @@ public class SkillDAO extends DBContext implements ISkill {
 
     /**
      * Update skill to record
+     *
      * @param s
      */
     @Override
@@ -62,9 +63,12 @@ public class SkillDAO extends DBContext implements ISkill {
             System.out.println("UpdateSkill() :" + e);
         }
     }
-/**Add skill to Database
+
+    /**
+     * Add skill to Database
+     *
      * @param s
-*/
+     */
     @Override
     public void insertSkill(Skill s) {
         try {

@@ -1,7 +1,6 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * R & IT J:
+ * Recruitment And IT Job Search Website
  */
 package dao;
 
@@ -19,7 +18,7 @@ import java.util.List;
  *
  * @author Nguyen Dinh Dat
  */
-        public class CityDAO extends DBContext implements ICity {
+public class CityDAO extends DBContext implements ICity {
 
     @Override
     public List<City> getAllCity() {
@@ -29,7 +28,7 @@ import java.util.List;
                 + "      ,[area]\n"
                 + "      ,[population]\n"
                 + "  FROM [SWP391].[dbo].[vn_city]\n"
-                     + " ORDER BY [city]";
+                + " ORDER BY [city]";
         try {
             Connection conn = getConnection();
             PreparedStatement ps = conn.prepareStatement(query);

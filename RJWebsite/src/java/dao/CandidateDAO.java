@@ -1,9 +1,6 @@
 /*
-
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
-
+ * R & IT J:
+ * Recruitment And IT Job Search Website
  */
 package dao;
 
@@ -211,7 +208,10 @@ public class CandidateDAO extends DBContext implements ICandidate {
         }
         return candidateList;
     }
-    /**get all candidates from Record;
+
+    /**
+     * get all candidates from Record;
+     *
      * @return List;
      */
     @Override
@@ -298,7 +298,6 @@ public class CandidateDAO extends DBContext implements ICandidate {
     public CandidateCV getCandidateCVByCandidateId(int candidateId) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-
 
     private Exception Error(Exception e) {
 
@@ -425,8 +424,6 @@ public class CandidateDAO extends DBContext implements ICandidate {
         }
 
     }
-
-
 
     @Override
     public List<Social> getSocialByCandidateId(int candidateId) {
