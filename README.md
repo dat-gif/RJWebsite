@@ -6,10 +6,7 @@
 |**Account**      | **Name**          |**Student id**| **Main branch**|
 |-----------------|-------------------|--------------|----------------|
 |dat-gif          |Nguyễn Đình Đạt      |HE140411      |dat-website|
-|HuyCQHE153009   |Chu Quốc Huy         |HE153009       |Huycq153009|
-|DannyL999       |Đỗ Ngọc Hoàng Anh    |HE150204       |HoangAnh|
-|nth2k (USE)          |Nguyễn Tuấn Hiệp     |HE140416       |hiep-website|
-|PhucHungTran    |Trần Phúc Hưng       |HE130612       
-|kekewow2207     |Nguyễn Hoàng Anh Tú  |HE151251|
+|HuyCQHE153009(commit name: admin)   |Chu Quốc Huy         |HE153009       |Huycq153009|
+|nth2k (commits name: USE)          |Nguyễn Tuấn Hiệp     |HE140416       |hiep-website|
 
 *The branch update is every Saturday.*
