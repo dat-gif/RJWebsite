@@ -9,6 +9,7 @@ import dao.CandidateDAO;
 import dao.idao.ICandidate;
 import entity.Account;
 import entity.Candidate;
+import entity.CandidateProject;
 import entity.Certificate;
 import entity.Education;
 import entity.Experience;
@@ -55,18 +56,23 @@ public class CandidateProfileController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+        request.setCharacterEncoding("UTF-8");
         ICandidate iCandidate = new CandidateDAO();
         Account loginedUser = AppUtils.getLoginedUser(request.getSession());
+
+        //Get candidate info 
         Candidate candidateInfo = iCandidate.getCandidateProfileById(loginedUser.getAccId());
         List<Education> educations = iCandidate.getEducationByCandidateId(candidateInfo.getCandIdateId());
         List<Skill> listSkill = iCandidate.getSkillByCandidateId(candidateInfo.getCandIdateId());
         List<Certificate> certificates = iCandidate.getCertificateByCandidateId(candidateInfo.getCandIdateId());
         List<Experience> experiences = iCandidate.getExperienceByCandidateId(candidateInfo.getCandIdateId());
+        List<CandidateProject> projects = iCandidate.getCandidateProjectByCandidateId(candidateInfo.getCandIdateId());
 
         request.setAttribute("eduList", educations);
         request.setAttribute("skillList", listSkill);
         request.setAttribute("certList", certificates);
         request.setAttribute("expList", experiences);
+        request.setAttribute("projectList", projects);
         request.setAttribute("candidateInfo", candidateInfo);
         request.getRequestDispatcher("CandidateProfilePage.jsp").forward(request, response);
     }

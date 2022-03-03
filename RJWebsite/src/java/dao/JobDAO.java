@@ -593,13 +593,6 @@ public class JobDAO extends DBContext implements IJob {
         } catch (Exception e) {
             System.err.println(e);
             throw new Error(e);
-        } finally {
-            try {
-                closeConnection(rs, ps, conn);
-            } catch (SQLException ex) {
-                Logger.getLogger(JobDAO.class.getName()).log(Level.SEVERE, null, ex);
-                throw new Error(ex);
-            }
         }
     }
 
@@ -710,14 +703,9 @@ public class JobDAO extends DBContext implements IJob {
             ps.executeUpdate();
         } catch (Exception e) {
             System.err.println("insertJobByTextSearch: " + e);
+            createTempoTableSearchJobData();
             throw new Error(e);
-        } finally {
-            try {
-                closeConnection(rs, ps, conn);
-            } catch (SQLException ex) {
-                Logger.getLogger(JobDAO.class.getName()).log(Level.SEVERE, null, ex);
-                throw new Error(ex);
-            }
+
         }
     }
 

@@ -10,6 +10,7 @@ import entity.Candidate;
 
 import entity.CandidateCV;
 import entity.CandidatePrize;
+import entity.CandidateProject;
 import entity.Certificate;
 import entity.City;
 import entity.Education;
@@ -20,9 +21,12 @@ import entity.Social;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * The data access object executes a data query from the Candidate table or main
@@ -139,7 +143,7 @@ public class CandidateDAO extends DBContext implements ICandidate {
                 return countPage;
             }
         } catch (Exception e) {
-            System.out.println("get skill :" + e);
+            System.out.println("getNumberPageSearchCandidate :" + e);
         }
         return 0;
     }
@@ -204,7 +208,7 @@ public class CandidateDAO extends DBContext implements ICandidate {
                 candidateList.add(candidate);
             }
         } catch (Exception e) {
-            System.out.println("get skill :" + e);
+            System.out.println("getCandidateSearchPaging :" + e);
         }
         return candidateList;
     }
@@ -458,6 +462,58 @@ public class CandidateDAO extends DBContext implements ICandidate {
         } catch (Exception e) {
         }
         return null;
+    }
+
+    /**
+     * Get candidate working project by candidate id
+     *
+     * @param candidateId <code>int</code> id of candidate
+     * @return
+     */
+    @Override
+    public List<CandidateProject> getCandidateProjectByCandidateId(int candidateId) {
+        String query = "SELECT TOP (5) [id]\n"
+                + "      ,[name]\n"
+                + "      ,[role]\n"
+                + "      ,[start_time]\n"
+                + "      ,[end_time]\n"
+                + "      ,[description]\n"
+                + "      ,[media]\n"
+                + "      ,[link]\n"
+                + "      ,[candidate_id]\n"
+                + "  FROM [SWP391].[dbo].[project]";
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        ArrayList<CandidateProject> candidateProjects = new ArrayList<>();
+        try {
+            conn = getConnection();
+            ps = conn.prepareStatement(query);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                CandidateProject candidateProject = new CandidateProject(rs.getInt("id"),
+                        rs.getNString("name"),
+                        rs.getNString("role"),
+                        rs.getString("start_time"),
+                        rs.getString("end_time"),
+                        rs.getString("description"),
+                        rs.getString("media"),
+                        rs.getString("link"),
+                        candidateId);
+                candidateProjects.add(candidateProject);
+            }
+        } catch (Exception e) {
+            System.err.println("getCandidateProjectByCandidateId: " + e);
+            throw new Error(e);
+        } finally {
+            try {
+                closeConnection(rs, ps, conn);
+            } catch (SQLException ex) {
+                Logger.getLogger(JobDAO.class.getName()).log(Level.SEVERE, null, ex);
+                throw new Error(ex);
+            }
+        }
+        return candidateProjects;
     }
 
 }

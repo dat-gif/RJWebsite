@@ -71,7 +71,7 @@
                         <div style="padding: 2.5rem 3rem" class="bg-light mb-2">
                             <div class="d-flex flex-row justify-content-between">
                                 <h4 class="mt-2 mb-2" >My CV</h4>
-                                <button class="btn btn-outline-primary btn-sm" style="max-height: 2.6rem; min-width: 4rem">Add</button>
+                                <button class="btn btn-outline-primary btn-sm" style="max-height: 2.6rem; min-width: 4rem" data-toggle="modal" data-target="#cvModal">Edit</button>
                             </div>
                             <div class="d-flex flex-row mt-3 justify-content-between">
                                 <div class="d-flex flex-row mt-2">
@@ -83,8 +83,36 @@
                                         <a href="#">some-link-test</a>
                                     </div>
                                 </div>
-                                <button class="btn btn-primary btn-sm" style="max-height: 2.3rem">Edit</button>
                             </div>
+
+                            <div class="modal fade" id="cvModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title text-center text-capitalize" id="exampleModalLabel">My CV</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form>
+                                                <div class="form-group">
+                                                    <label for="recipient-name" class="col-form-label">Upload CV:</label>
+                                                    <input type="text" class="form-control" id="recipient-name">
+                                                    <p class="text-danger small font-italic font-weight-light">*Please choose image under 2.5 MB</p>
+                                                </div>
+
+                                            </form>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                            <button type="button" class="btn btn-primary">Save changes</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
                         </div>
 
                         <!-- Education -->
@@ -204,17 +232,23 @@
                                     <div>
                                         <image src="https://picsum.photos/50/50" class="mt-2 mb-2" >
                                     </div>
-                                    <!-- Project list -->
-                                    <div class="ml-4 mt-2">
-                                        <h5 class="text-uppercase">FPT University</h5>
-                                        <div style="font-size: 1rem; line-height: 1.6">
-                                            <p class="lead mb-1">Position: Somr thing</p>
-                                            <p class="lead mb-1">From: 00/00/000</p>
-                                            <p class="lead mb-1">Description: Somr thing</p>
-                                        </div>
-                                        <image src="https://picsum.photos/470/300" class="mt-2 mb-2" >
-                                    </div>
 
+                                    <!-- Project list -->
+                                    <c:forEach items="${projectList}" var="project">
+
+                                        <div class="ml-4 mt-2">
+                                            <h5 class="text-uppercase">${project.getName()}</h5>
+                                            <div style="font-size: 1rem; line-height: 1.6">
+                                                <p class="lead mb-1 text-capitalize">Position: ${project.getRole()}</p>
+                                                <p class="lead mb-1">From: ${project.getStartTime()} - ${project.getEndTime()} </p>
+                                                <p class="mb-1 text-secondary" style="font-size: 0.99rem">
+                                                    Description: ${project.getDescription()}</p>
+                                            </div>
+                                            <c:if test="${not empty project.getMedia()}">
+                                                <image src="${project.getMedia()}" class="mt-2 mb-2" style="width: 470px; height: 300px">
+                                            </c:if>
+                                        </div>
+                                    </c:forEach>
                                 </div>
                                 <button class="btn btn-primary btn-sm" style="max-height: 2.3rem">Edit</button>
                             </div>
@@ -249,52 +283,8 @@
                             </div>
                         </div>
                         <hr>
-                        <!-- Prize -->
-                        <div style="padding: 2.5rem 3rem" class="bg-light mb-2">
-                            <div class="d-flex flex-row justify-content-between">
-                                <h4 class="mt-2 mb-2" >Prize</h4>
-                                <button class="btn btn-outline-primary btn-sm" style="max-height: 2.6rem; min-width: 4rem">Add</button>
-                            </div>
-                            <div class="d-flex flex-row mt-3 justify-content-between">
-                                <div class="d-flex flex-row mt-2">
-                                    <div>
-                                        <image src="https://picsum.photos/50/50" class="mt-2 mb-2" >
-                                    </div>
-                                    <!-- Prize -->
-                                    <div class="ml-4 mt-2">
-                                        <h5 class="text-uppercase">FPT University</h5>
-                                        <div style="font-size: 1rem; line-height: 1.6">
-                                            <p class="lead mb-1">Organization: Somr thing</p>
-                                            <p class="lead mb-1">From: 00/00/000</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <button class="btn btn-primary btn-sm" style="max-height: 2.3rem">Edit</button>
-                            </div>
-                        </div>
-                        <!-- Social Activities -->
-                        <div style="padding: 2.5rem 3rem" class="bg-light mb-2">
-                            <div class="d-flex flex-row justify-content-between">
-                                <h4 class="mt-2 mb-2" >Social Activities</h4>
-                                <button class="btn btn-outline-primary btn-sm" style="max-height: 2.6rem; min-width: 4rem">Add</button>
-                            </div>
-                            <div class="d-flex flex-row mt-3 justify-content-between">
-                                <div class="d-flex flex-row mt-2">
-                                    <div>
-                                        <image src="https://picsum.photos/50/50" class="mt-2 mb-2" >
-                                    </div>
-                                    <!-- Social list -->
-                                    <div class="ml-4 mt-2">
-                                        <h5 class="text-uppercase">FPT University</h5>
-                                        <div style="font-size: 1rem; line-height: 1.6">
-                                            <p class="lead mb-1">Organization:: Somr thing</p>
-                                            <p class="lead mb-1">Date: 00/00/000</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <button class="btn btn-primary btn-sm" style="max-height: 2.3rem">Edit</button>
-                            </div>
-                        </div>
+
+
                     </div>
 
 
