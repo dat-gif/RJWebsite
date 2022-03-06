@@ -5,16 +5,19 @@
  */
 package entity;
 
+import java.sql.Blob;
+
 /**
  *
  * @author Admin
  */
 public class CandidateCV {
+
     int id;
     String mediaCv;
-    String originCv;
+    Blob originCv;
 
-    public CandidateCV(int id, String mediaCv, String originCv) {
+    public CandidateCV(int id, String mediaCv, Blob originCv) {
         this.id = id;
         this.mediaCv = mediaCv;
         this.originCv = originCv;
@@ -36,13 +39,12 @@ public class CandidateCV {
         this.mediaCv = mediaCv;
     }
 
-    public String getOriginCv() {
+    public Blob getOriginCv() {
         return originCv;
     }
 
-    public void setOriginCv(String originCv) {
+    public void setOriginCv(Blob originCv) {
         this.originCv = originCv;
     }
-    
-    
+
 }
