@@ -238,5 +238,4 @@
             <url-pattern>/seachingcompany</url-pattern>
         </servlet-mapping>
     </session-config>
-    <mvc:resources location="/asset/" mapping="/asset/**"></mvc:resources>
 </web-app>
