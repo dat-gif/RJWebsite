@@ -19,7 +19,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <link rel="stylesheet" href="adminstyle/CandidateDashboard.css">
+        <link rel="stylesheet" href="adminstyle/admin.css">
     </head>
     <body>
         <jsp:include page="component/Adminheader.jsp"/>
@@ -95,7 +95,7 @@
                             <button type="button" class="btn btn-outline-primary ml-1">search</button>
                         </div>
                     </main>
-                    <a href="AddSkill.jsp"><button>Add</button></a>
+                    <a id="addbtn" class="btn btn-primary" href="AddSkill.jsp">Add New Skill</a>
                     <table class="table">
                         <thead class="thead-dark">
                             <tr>
@@ -109,7 +109,7 @@
                         <tbody>
                             <% for (Skill s : list) {%>
                             <tr>
-                                <td><%= s.getId() %></td>
+                                <td><%= s.getId()%></td>
                                 <th scope="row"><%= s.getName()%></th>
                                 <td class="de"><p><%= s.getDepscription()%></p></td>
                                 <td>

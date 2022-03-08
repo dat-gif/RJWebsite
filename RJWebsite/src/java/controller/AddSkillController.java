@@ -11,6 +11,8 @@ import dao.idao.ISkill;
 import entity.Skill;
 import java.io.IOException;
 import java.io.PrintWriter;
+import static java.util.Collections.list;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -38,20 +40,30 @@ public class AddSkillController extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         IJob jdao = new JobDAO();
         ISkill sDAO = new SkillDAO();
+        Skill skill = new Skill();
+        String name = request.getParameter("name");
+        String description = request.getParameter("description");
+        List<Skill> list = jdao.getAllSkill();
+        String cName = name.toLowerCase();
         try {
-            String Name = request.getParameter("name");
-            String Description = request.getParameter("description");
-            Skill skill = new Skill();
-            skill.setName(Name);
-            skill.setDepscription(Description);
-            sDAO.insertSkill(skill);
+
+            if (sDAO.checkExistedSkillName(cName)) {
+                request.setAttribute("error", "Skill name is already exist");
+                request.getRequestDispatcher("AddSkill.jsp").forward(request, response);
+
+            } else {
+                skill.setName(name);
+                skill.setDepscription(description);
+                sDAO.insertSkill(skill);
+                request.getRequestDispatcher("SkillDashboard").forward(request, response);
+            }
+
         } catch (Exception e) {
             System.out.println("error" + e);
         }
-        request.getRequestDispatcher("SkillDashboard").forward(request, response);
     }
-
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+
     /**
      * Handles the HTTP <code>GET</code> method.
      *

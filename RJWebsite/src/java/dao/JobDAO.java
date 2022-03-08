@@ -149,10 +149,12 @@ public class JobDAO extends DBContext implements IJob {
 
     /**
      * Active/Inactive Status
+     *
+     * @param id
+     * @param status
      */
     @Override
-    public void updateStatus(int Id, boolean status
-    ) {
+    public void updateStatus(int id, boolean status) {
         try {
             Connection conn = getConnection();
             PreparedStatement ps;
@@ -161,8 +163,7 @@ public class JobDAO extends DBContext implements IJob {
             } else {
                 ps = conn.prepareStatement("UPDATE job SET status = 1 where job_id = ?");
             }
-
-            ps.setInt(1, Id);
+            ps.setInt(1, id);
             ps.executeUpdate();
         } catch (Exception e) {
             System.out.println("getJobs() :" + e);
@@ -1113,7 +1114,7 @@ public class JobDAO extends DBContext implements IJob {
             System.out.println("bug get row Temp job " + e);
             throw new Error(e);
         }
-       
+
     }
 
     /**
@@ -1139,7 +1140,7 @@ public class JobDAO extends DBContext implements IJob {
         } catch (Exception e) {
             System.out.println("bug get row Temp job " + e);
             throw new Error(e);
-        }       
+        }
     }
 
     /**
@@ -1243,7 +1244,6 @@ public class JobDAO extends DBContext implements IJob {
 
     public static void main(String[] args) {
         IJob jobDao = new JobDAO();
-
 
     }
 

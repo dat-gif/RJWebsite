@@ -28,11 +28,12 @@
                     <form action="EditSkillController" method="post">
                         <Input type="text" value="<%= skill.getId()%>" name="id" class="form-control" id="recipient-name">
                         <fieldset class="form-group">
-                            <label>Skill Name</label> <input type="text" value="<%=skill.getName()%>"
+                            <label>Skill Name</label>
+                            <input type="text" value="<%=skill.getName()%>"
                                                              class="form-control"
                                                              name="name" required="required">
+                            
                         </fieldset>
-
                         <fieldset class="form-group">
                             <label>Description</label><textarea type="text" value="<%=skill.getDepscription()%>"
                                                                 class="form-control"

@@ -98,6 +98,7 @@
                     <table class="table">
                         <thead class="thead-dark">
                             <tr>
+                                <th scope="col">ID</th>
                                 <th scope="col">Job Title</th>
                                 <th scope="col">Recruiter</th>
                                 <th scope="col">HireDate</th>
@@ -109,6 +110,7 @@
                         <tbody>
                             <% for (Job j : list) {%>
                             <tr>
+                                <td><%= j.getjId() %> </td>
                                 <th scope="row"><%= j.getTitle()%></th>
                                 <td><%= j.getRecruiter().getName()%></td>
                                 <td><%= j.getHireDate()%> </td>

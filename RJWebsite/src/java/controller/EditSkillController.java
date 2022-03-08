@@ -35,8 +35,12 @@ public class EditSkillController extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         String op = request.getParameter("op");
+        String name = request.getParameter("name");
+        String uid = request.getParameter("id");
+        int id = Integer.parseInt(request.getParameter("id"));
+        SkillDAO sdao = new SkillDAO();
+        Skill skill = sdao.getSkillById(id);
         if ("Update".equals(op)) {
-            SkillDAO sdao = new SkillDAO();
             try {
                 int Id = Integer.parseInt(request.getParameter("id"));
                 String Name = request.getParameter("name");
@@ -53,9 +57,7 @@ public class EditSkillController extends HttpServlet {
             request.setAttribute("skills", jdao.getAllSkill());
             request.getRequestDispatcher("SkillDashboard").forward(request, response);
         } else {
-            int id = Integer.parseInt(request.getParameter("id"));
-            SkillDAO sdao = new SkillDAO();
-            Skill skill = sdao.getSkillById(id);
+
             request.setAttribute("skill", skill);
             request.getRequestDispatcher("EditSkill.jsp").forward(request, response);
         }

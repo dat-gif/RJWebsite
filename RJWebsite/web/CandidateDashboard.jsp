@@ -98,6 +98,7 @@
                     <table class="table">
                         <thead class="thead-dark">
                             <tr>
+                                <th scope="col">ID</th>
                                 <th scope="col">Name</th>
                                 <th scope="col">Date of birth</th>
                                 <th scope="col">Gender</th>
@@ -111,6 +112,7 @@
                         <tbody>
                             <% for (Candidate c : list) {%>
                             <tr>
+                                <td><%=c.getCandIdateId() %></td>
                                 <th scope="row"><%=c.getFirstName()%>&nbsp;<%= c.getLastName()%></th>
                                 <td><%=c.getBirthDate()%></td>
                                 <td><%if (c.isGender()) {%>

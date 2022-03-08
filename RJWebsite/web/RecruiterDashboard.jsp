@@ -98,6 +98,7 @@
                     <table class="table">
                         <thead class="thead-dark">
                             <tr>
+                                <th scope="col">ID</th>
                                 <th scope="col">Name</th>
                                 <th scope="col">Website</th>
                                 <th scope="col">Phone</th>
@@ -110,6 +111,7 @@
 
                             <% for (Recruiter r : list) {%>
                             <tr>
+                                <td><%= r.getRecruiterId() %></td>
                                 <th scope="row"><%= r.getName()%></th>
                                 <td><a href="<%= r.getWebsite()%>"><%= r.getWebsite()%></a></td>
                                 <td><%= r.getPhone()%></td>
