@@ -8,6 +8,7 @@
 <%@page import="java.util.List"%>
 <%@page import="java.util.List"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -23,7 +24,7 @@
     </head>
     <body>
         <jsp:include page="component/Adminheader.jsp"/>
-        <% List<Skill> list = (List<Skill>) request.getAttribute("skills");%>
+ 
 
         <div class="container-fluid">
             <div class="row">
@@ -107,16 +108,16 @@
                         </thead>
 
                         <tbody>
-                            <% for (Skill s : list) {%>
+                            <c:forEach items="${skills}" var="s">
                             <tr>
-                                <td><%= s.getId()%></td>
-                                <th scope="row"><%= s.getName()%></th>
-                                <td class="de"><p><%= s.getDepscription()%></p></td>
+                                <td>${s.id}</td>
+                                <th scope="row">${s.name}</th>
+                                <td class="de"><p>${s.depscription}</p></td>
                                 <td>
-                                    <a href ="EditSkillController?id=<%=s.getId()%>" id ="a2" >Edit</a>
+                                    <a href ="EditSkillController?id=${s.id}" id ="a2" >Edit</a>
                                 </td>
                             </tr>
-                            <%}%>
+                            </c:forEach>
                         </tbody>
                     </table>
                     <div class="row justify-content-center mt-4 mb-4">

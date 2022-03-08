@@ -8,6 +8,7 @@
 <%@page import="dao.SkillDAO"%>
 <%@page import="entity.Skill"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -31,9 +32,11 @@
                             <label>Skill Name</label> <input type="text"
                                                              class="form-control"
                                                              name="name" required="required">
-                            <%if (request.getAttribute("error")!= null) {%>
-                            <p style="color: red" id="firstName-length-error" role="alert"><%= request.getAttribute("error")%></p>
-                            <%}%>
+                            <c:choose>
+                            <c:when test="${not empty error}">
+                            <p style="color: red" id="firstName-length-error" role="alert">${error}</p>
+                            </c:when>
+                            </c:choose>
                         </fieldset>
 
                         <fieldset class="form-group">

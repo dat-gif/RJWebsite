@@ -211,7 +211,10 @@ public class CandidateDAO extends DBContext implements ICandidate {
         }
         return candidateList;
     }
-    /**get all candidates from Record;
+
+    /**
+     * get all candidates from Record;
+     *
      * @return List;
      */
     @Override
@@ -230,7 +233,6 @@ public class CandidateDAO extends DBContext implements ICandidate {
                 can.setAddress(rs.getString("address"));
                 can.setAvatar(rs.getString("avatar"));
                 can.setGender(rs.getBoolean("sex"));
-                can.setBanner(rs.getString("phone"));
                 can.setFindingJob(rs.getBoolean("finding_job"));
                 canList.add(can);
             }
@@ -298,7 +300,6 @@ public class CandidateDAO extends DBContext implements ICandidate {
     public CandidateCV getCandidateCVByCandidateId(int candidateId) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-
 
     private Exception Error(Exception e) {
 
@@ -425,8 +426,6 @@ public class CandidateDAO extends DBContext implements ICandidate {
         }
 
     }
-
-
 
     @Override
     public List<Social> getSocialByCandidateId(int candidateId) {

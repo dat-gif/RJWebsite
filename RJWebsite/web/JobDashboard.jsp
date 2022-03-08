@@ -7,6 +7,7 @@
 <%@page import="entity.Job"%>
 <%@page import="java.util.List"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -94,7 +95,7 @@
                             <button type="button" class="btn btn-outline-primary ml-1">search</button>
                         </div>
                     </main>
-                    <% List<Job> list = (List<Job>) request.getAttribute("jobs");%>
+
                     <table class="table">
                         <thead class="thead-dark">
                             <tr>
@@ -108,25 +109,29 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <% for (Job j : list) {%>
-                            <tr>
-                                <td><%= j.getjId() %> </td>
-                                <th scope="row"><%= j.getTitle()%></th>
-                                <td><%= j.getRecruiter().getName()%></td>
-                                <td><%= j.getHireDate()%> </td>
-                                <td><%= j.getLocation()%></td>
-                                <td><a href="UpdateStatusController?id=<%=j.getjId()%>"><%if (j.isStatus()) {%>
-                                        Deactivate
-                                        <%} else {%>
-                                        Activate
-                                        <%}%>
-                                    </a></td>
-                                <td><a href="CandidateApplyJobPage.jsp" id ="a1">Candidate Applied</a>
+                            <c:forEach items="${jobs}" var="j">
+                                <tr>
+                                    <td>${j.jId}</td>
+                                    <th scope="row">${j.title}</th>
+                                    <td>${j.getRecruiter().name}</td>
+                                    <td>${j.hireDate}</td>
+                                    <td>${j.location}</td>
+                                    <td><a href="UpdateStatusController?id=${j.jId}">
+                                            <c:choose>
+                                                <c:when test="${j.status}">
+                                                    Deactivate
+                                                </c:when>
+                                                <c:otherwise>
+                                                    Activate
+                                                </c:otherwise>
+                                            </c:choose>
+                                        </a></td>
+                                    <td><a href="CandidateApplyJobPage.jsp" id ="a1">Candidate Applied</a>
 
-                                    <a href="jobdetail?jobId=<%=j.getjId()%>" id ="a2">Details</a>
-                                </td>
-                            </tr>
-                            <%}%> 
+                                        <a href="jobdetail?jobId=${j.jId}" id ="a2">Details</a>
+                                    </td>
+                                </tr>
+                            </c:forEach> 
                         </tbody>
                     </table>
                     <div class="row justify-content-center mt-4 mb-4">

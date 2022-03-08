@@ -108,24 +108,26 @@
                                 <th scope="col">Action</th>
                             </tr>
                         </thead>
-                        <% List<Candidate> list = (List<Candidate>) request.getAttribute("canList");%>
                         <tbody>
-                            <% for (Candidate c : list) {%>
-                            <tr>
-                                <td><%=c.getCandIdateId() %></td>
-                                <th scope="row"><%=c.getFirstName()%>&nbsp;<%= c.getLastName()%></th>
-                                <td><%=c.getBirthDate()%></td>
-                                <td><%if (c.isGender()) {%>
-                                    female
-                                    <%} else {%>
-                                    male
-                                    <%}%>
-                                </td>
-                                <td><%=c.getEmail()%></td>
-                                <td><%=c.getPhone()%></td>                     
-                                <td><a href="url" id ="a1">Review</a>&nbsp;&nbsp;<a href="url" id="a2">Details</a></td>
-                            </tr>
-                            <%}%>
+                            <c:forEach items="${canList}" var="c">
+                                <tr>
+                                    <td>${c.candIdateId}</td>
+                                    <th scope="row">${c.firstName}&nbsp;${c.lastName}</th>
+                                    <td>${c.birthDate}</td>
+                                    <td><c:choose>
+                                            <c:when test="${c.gender}">
+                                                female
+                                            </c:when>
+                                            <c:otherwise>
+                                                male  
+                                            </c:otherwise>
+                                        </c:choose>
+                                    </td>
+                                    <td>${c.email}</td>
+                                    <td>${c.phone}</td>                     
+                                    <td><a href="url" id ="a1">Review</a>&nbsp;&nbsp;<a href="url" id="a2">Details</a></td>
+                                </tr>
+                            </c:forEach>
                         </tbody>
                     </table>
                     <div class="row justify-content-center mt-4 mb-4">

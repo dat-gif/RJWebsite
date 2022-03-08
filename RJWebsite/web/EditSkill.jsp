@@ -6,6 +6,7 @@
 
 <%@page import="entity.Skill"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -19,25 +20,23 @@
         <title>Edit Skill</title>
     </head>
     <body>
-        <%
-            Skill skill = (Skill) request.getAttribute("skill");
-        %>
+        <c:set var="s" value="${skill}"/>
         <div class="container col-md-5">
             <div class="card">
                 <div class="card-body">
                     <form action="EditSkillController" method="post">
-                        <Input type="text" value="<%= skill.getId()%>" name="id" class="form-control" id="recipient-name">
+                        <Input type="hidden" value="${s.id}" name="id" class="form-control" id="recipient-name">
                         <fieldset class="form-group">
                             <label>Skill Name</label>
-                            <input type="text" value="<%=skill.getName()%>"
+                            <input type="text" value="${s.name}"
                                                              class="form-control"
                                                              name="name" required="required">
                             
                         </fieldset>
                         <fieldset class="form-group">
-                            <label>Description</label><textarea type="text" value="<%=skill.getDepscription()%>"
+                            <label>Description</label><textarea type="text" value="${s.depscription}"
                                                                 class="form-control"
-                                                                name="description"><%=skill.getDepscription()%></textarea>
+                                                                name="description">${s.depscription}</textarea>
                         </fieldset>
                         <button type="submit" value="Update" name="op" class="btn btn-success">Edit</button>
                     </form>

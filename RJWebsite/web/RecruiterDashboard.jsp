@@ -7,6 +7,7 @@
 <%@page import="entity.Recruiter"%>
 <%@page import="java.util.List"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -94,7 +95,7 @@
                             <button type="button" class="btn btn-outline-primary ml-1">search</button>
                         </div>
                     </main>
-                    <% List<Recruiter> list = (List<Recruiter>) request.getAttribute("recruiters");%>
+                    
                     <table class="table">
                         <thead class="thead-dark">
                             <tr>
@@ -109,18 +110,18 @@
                         </thead>
                         <tbody>
 
-                            <% for (Recruiter r : list) {%>
+                            <c:forEach items ="${recruiters}" var="r">
                             <tr>
-                                <td><%= r.getRecruiterId() %></td>
-                                <th scope="row"><%= r.getName()%></th>
-                                <td><a href="<%= r.getWebsite()%>"><%= r.getWebsite()%></a></td>
-                                <td><%= r.getPhone()%></td>
-                                <td><%= r.getAddress()%></td>
-                                <td><%= r.getCity()%></td>
+                                <td>${r.recruiterId}</td>
+                                <th scope="row">${r.name}</th>
+                                <td><a href="${r.website}">${r.website}</a></td>
+                                <td>${r.phone}</td>
+                                <td>${r.address}</td>
+                                <td>${r.city}</td>
                                 <td><a href="url" id ="a1">Review</a>&nbsp;&nbsp;<a href="url" id ="a2">Details</a></td>
 
                             </tr>
-                            <%}%> 
+                            </c:forEach> 
                         </tbody>
                     </table>
                     <div class="row justify-content-center mt-4 mb-4">
