@@ -15,9 +15,9 @@ public class CandidateCV {
 
     int id;
     String mediaCv;
-    Blob originCv;
+    String originCv;
 
-    public CandidateCV(int id, String mediaCv, Blob originCv) {
+    public CandidateCV(int id, String mediaCv, String originCv) {
         this.id = id;
         this.mediaCv = mediaCv;
         this.originCv = originCv;
@@ -39,12 +39,14 @@ public class CandidateCV {
         this.mediaCv = mediaCv;
     }
 
-    public Blob getOriginCv() {
+    public String getOriginCv() {
         return originCv;
     }
 
-    public void setOriginCv(Blob originCv) {
+    public void setOriginCv(String originCv) {
         this.originCv = originCv;
     }
+
+
 
 }

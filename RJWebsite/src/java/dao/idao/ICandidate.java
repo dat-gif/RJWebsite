@@ -18,6 +18,7 @@ import entity.Education;
 import entity.Experience;
 import entity.Skill;
 import entity.Social;
+import java.io.InputStream;
 
 import java.util.List;
 
@@ -32,6 +33,8 @@ public interface ICandidate {
     public Candidate getCandidateProfileById(int accountId);
 
     public CandidateCV getCandidateCVByCandidateId(int candidateId);
+
+    public void editCandidateCVByCandidateId(int candidateId, String fileDataBase64, String link);
 
     public List<CandidatePrize> getCandidatePrizeByCandidateId(int candidateId);
 
