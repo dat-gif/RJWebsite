@@ -29,6 +29,7 @@
             #btnControl:checked + label > img {
                 width: 36vw;
                 height:auto;
+                image-rendering: pixelated;
             }
         </style>
         <!-- Header.jsp -->
@@ -138,7 +139,14 @@
                         <div style="padding: 2.5rem 3rem" class="bg-light mb-2">
                             <div class="d-flex flex-row justify-content-between">
                                 <h4 class="mt-2 mb-2" >Education</h4>
-                                <button class="btn btn-outline-primary btn-sm" style="max-height: 2.6rem; min-width: 4rem">Add</button>
+                                <button class="btn btn-outline-primary btn-sm" style="max-height: 2.6rem; min-width: 4rem" 
+                                        data-toggle="modal" data-target="#eduEdit"
+                                        data-majors=""
+                                        data-degree=""
+                                        data-startdate=""
+                                        data-enddate=""
+                                        data-description=""
+                                        >Add</button>
                             </div>
                             <div class="d-flex flex-row mt-3 justify-content-between">
                                 <div class="d-flex flex-row mt-2 flex-grow-1">
@@ -161,7 +169,14 @@
                                                             </div>
                                                             <hr>
                                                         </div>
-                                                        <button class="btn btn-primary btn-sm" style="max-height: 2.3rem" >Edit</button>
+                                                        <button class="btn btn-primary btn-sm" style="max-height: 2.3rem" 
+                                                                data-toggle="modal" data-target="#eduEdit" 
+                                                                data-majors="${edu.getField()}"
+                                                                data-degree="${edu.getDegree()}"
+                                                                data-startdate="${edu.getStartTime()}"
+                                                                data-enddate="${edu.getEndTime()}"
+                                                                data-description="${edu.getDescription()}"
+                                                                >Edit</button>
                                                     </div>  
                                                 </c:forEach>
                                             </div>
@@ -170,10 +185,82 @@
                                             <h5 class="text-uppercase">List still empty</h5>
                                         </c:otherwise>
                                     </c:choose>
-
-
                                 </div>
+                            </div>
+                            <!--Edu modal-->
+                            <div class="modal fade bd-example-modal-lg show" id="eduEdit" tabindex="-1" role="dialog" 
+                                 aria-labelledby="eduEdit" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered showing modal-lg" role="document">
+                                    <div class="modal-content ">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">Education</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form action="" method="POST"  enctype="multipart/form-data">
+                                                <div class="modal-body">
+                                                    <div class="form-group">                                         
+                                                        <div class="d-flex flex-row " style="gap: 10px">
+                                                            <div class="form-outline mb-4 flex-grow-1">
+                                                                <label class="form-label" for="form1Example1">Degree</label>
+                                                                <input type="text" id="degree" class="form-control degree" 
+                                                                       name="degree">
+                                                            </div>    
+                                                            <div class="form-outline mb-4 flex-grow-1">
+                                                                <label class="form-label" for="form1Example1">Majors</label>
+                                                                <input type="email" id="majors" class="form-control" name="majors" />
+                                                            </div>
+                                                        </div>
+                                                        <div class="d-flex flex-row " style="gap: 10px">
 
+                                                            <div class="form-outline mb-4 flex-grow-1">
+                                                                <label class="form-label" for="form1Example1">Start Date</label>
+                                                                <input class="form-control" 
+                                                                       type="date" name="startDate" 
+                                                                       placeholder="dd/MM/yyyy"
+                                                                       value="{{formatDate invoice.date 'YYYY-MM-DD'}}"
+                                                                       min="1997-01-01" max="2030-12-31"
+                                                                       style="min-width: 205px"
+                                                                       id="startdate"
+                                                                       >
+                                                            </div>
+                                                            <div class="form-outline mb-4 flex-grow-1">
+                                                                <label class="form-label" for="form1Example1">End Date</label>
+                                                                <input class="form-control" 
+                                                                       type="date" name="endDate" 
+                                                                       placeholder="dd/MM/yyyy"
+                                                                       min="1997-01-01" max="2030-12-31"
+                                                                       style="min-width: 205px"
+                                                                       id="enddate"
+                                                                       >
+                                                            </div>
+                                                        </div>
+
+
+                                                        <div class="form-outline"style="flex-grow: 0">
+                                                            <div class="form-group">
+                                                                <label for="recipient-name" class="col-form-label">Upload image:</label>
+                                                                <input type="file" name="file" class="ml-2 align-content-center" id="recipient-name" accept="image/*">
+                                                                <p class="text-danger small font-italic font-weight-light m-0">*Please choose image under 5 MB</p>
+                                                            </div>
+                                                        </div> 
+                                                        <div class="form-outline mb-4" style="flex-grow: 2">
+                                                            <label class="form-label" for="form1Example1">Description</label>
+                                                            <textarea type="email" id="description" class="form-control" name="address" value="${description}"style="min-height: 150px" ></textarea>
+                                                        </div> 
+
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                    <button type="submit" class="btn btn-primary">Save changes</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
 
@@ -341,14 +428,119 @@
                                 </c:choose>
                             </div>
                         </div>
-                        <button class="btn btn-primary btn-sm float-right px-2" style="max-height: 2.5rem; min-width: 4rem">
+                        <button class="btn btn-primary btn-sm float-right px-2" 
+                                style="max-height: 2.5rem; min-width: 4rem" 
+                                data-toggle="modal" 
+                                data-target="#personnalModal"
+                                >
                             Change Info
                         </button>
+                        <!--Personnal info modal-->
+                        <div class="modal fade bd-example-modal-lg show" id="personnalModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered showing modal-lg" role="document">
+                                <div class="modal-content ">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">Edit Personal Information</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form action="" method="POST"  enctype="multipart/form-data">
+                                            <div class="modal-body">
+                                                <div class="form-group">
+                                                    <label for="recipient-name" class="col-form-label">Wallpaper:</label>
+                                                    <input type="file" name="file" class="ml-2 align-content-center" id="recipient-name" accept="image/*">
+                                                    <p class="text-danger small font-italic font-weight-light">*Please choose image under 5 MB</p>
+                                                    <label for="recipient-name" class="col-form-label">Avatar:</label>
+                                                    <input type="file" name="file" class="ml-2 align-content-center" id="recipient-name" accept="image/*">
+                                                    <p class="text-danger small font-italic font-weight-light">*Please choose image under 5 MB</p>
+                                                    <hr>
+                                                    <div class="d-flex flex-row " style="gap: 10px">
+                                                        <div class="form-outline mb-4 flex-grow-1">
+                                                            <label class="form-label" for="form1Example1">Fisrt Name</label>
+                                                            <input type="email" id="form1Example1" class="form-control" name="fisrtName" value="${fisrtName}">
+                                                        </div>    
+                                                        <div class="form-outline mb-4 flex-grow-1">
+                                                            <label class="form-label" for="form1Example1">Last Name</label>
+                                                            <input type="email" id="form1Example1" class="form-control" name="lastName" value="${lastName}"/>
+                                                        </div>
+                                                    </div>
+                                                    <div class="d-flex flex-row " style="gap: 10px">
+                                                        <div class="form-outline mb-4 flex-grow-1">
+                                                            <label class="form-label" for="form1Example1">Phone number</label>
+                                                            <input type="email" id="form1Example1" class="form-control" name="phoneNumber" value="${phoneNumber}" />
+                                                        </div>    
+                                                        <div class="form-outline mb-4 flex-grow-1">
+                                                            <label class="form-label" for="form1Example1">Birthday</label>
+                                                            <input class="form-control" 
+                                                                   type="date" name="dob" 
+                                                                   placeholder="dd-mm-yyyy" value="${dob}"
+                                                                   min="1997-01-01" max="2030-12-31"
+                                                                   style="min-width: 205px"
+                                                                   >
+                                                        </div>
+                                                    </div>
+                                                    <div class="d-flex flex-row " style="gap: 10px">
+                                                        <div class="form-outline mb-4" style="flex-grow: 2">
+                                                            <label class="form-label" for="form1Example1">Address</label>
+                                                            <input type="email" id="form1Example1" class="form-control" name="address" value="${address}" />
+                                                        </div> 
+                                                        <div class="form-outline mb-4 ml-5"style="flex-grow: 1">
+                                                            <label class="form-label" for="gender">Gender</label>
+                                                            <div id="gender" class="d-flex flex-row mt-2">
+                                                                <div class="form-check">
+                                                                    <label class="form-check-label mr-4">
+                                                                        <input type="radio" class="form-check-input" name="optradio">Male
+                                                                    </label>
+                                                                </div>
+                                                                <div class="form-check">
+                                                                    <label class="form-check-label">
+                                                                        <input type="radio" class="form-check-input" name="optradio">Female
+                                                                    </label>
+                                                                </div>
+                                                            </div>
+                                                        </div> 
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                <button type="submit" class="btn btn-primary">Save changes</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
             <footer> <jsp:include page="component/Footer.jsp"/></footer>
             <script src="bootstrap-4.6.1-dist/js/bootstrap.min.js"></script>
+            <script>
+$('#eduEdit').on('show.bs.modal', function (event) {
+    var button = $(event.relatedTarget); // Button that triggered the modal
+    var majors = button.data('majors');  // Extract info from data-* attributes
+    var degree = button.data('degree');
+    console.log(button.data('startdate'));
+    var startDateArray = button.data('startdate').split("/");
+    var startDate = startDateArray[2] + "-" + startDateArray[1] + "-" + startDateArray[0];
+    startDate = startDate.replace(/\s/g, '');
+    var endDateArray = button.data('enddate').split("/");
+    var endDate = endDateArray[2] + "-" + endDateArray[1] + "-" + endDateArray[0];
+    endDate = endDate.replace(/\s/g, '');
+    var description = button.data('description');
+
+    var modal = $(this);
+    modal.find('#majors').val(majors);
+    modal.find('#degree').val(degree);
+    modal.find('#startdate').val(startDate);
+    modal.find('#enddate').val(endDate);
+    modal.find('#description').val(description);
+});
+            </script>
         </main>
     </body>
 </html>
