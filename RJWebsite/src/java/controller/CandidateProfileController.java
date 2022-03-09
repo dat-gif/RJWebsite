@@ -82,6 +82,10 @@ public class CandidateProfileController extends HttpServlet {
         request.setAttribute("expList", experiences);
         request.setAttribute("projectList", projects);
         request.setAttribute("candidateInfo", candidateInfo);
+
+        //Seting modal display
+        request.setAttribute("isShowEdu", "false");
+
         request.getRequestDispatcher("CandidateProfilePage.jsp").forward(request, response);
     }
 

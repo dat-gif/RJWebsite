@@ -139,14 +139,26 @@
                         <div style="padding: 2.5rem 3rem" class="bg-light mb-2">
                             <div class="d-flex flex-row justify-content-between">
                                 <h4 class="mt-2 mb-2" >Education</h4>
-                                <button class="btn btn-outline-primary btn-sm" style="max-height: 2.6rem; min-width: 4rem" 
-                                        data-toggle="modal" data-target="#eduEdit"
-                                        data-majors=""
-                                        data-degree=""
-                                        data-startdate=""
-                                        data-enddate=""
-                                        data-description=""
-                                        >Add</button>
+                                <c:choose>
+                                    <c:when test="${eduList.size() >= 5}">
+                                        <button class="btn btn-outline-primary btn-sm disabled" 
+                                                style="max-height: 2.6rem; min-width: 4rem">
+                                            Add
+                                        </button>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <button class="btn btn-outline-primary btn-sm" style="max-height: 2.6rem; min-width: 4rem" 
+                                                data-toggle="modal" data-target="#eduEdit"
+                                                data-majors=""
+                                                data-degree=""
+                                                data-startdate=""
+                                                data-enddate=""
+                                                data-description="">
+                                            Add
+                                        </button>             
+                                    </c:otherwise>
+                                </c:choose>
+
                             </div>
                             <div class="d-flex flex-row mt-3 justify-content-between">
                                 <div class="d-flex flex-row mt-2 flex-grow-1">
@@ -520,6 +532,7 @@
             <footer> <jsp:include page="component/Footer.jsp"/></footer>
             <script src="bootstrap-4.6.1-dist/js/bootstrap.min.js"></script>
             <script>
+$('#eduEdit').modal({show:${isShowEdu}});
 $('#eduEdit').on('show.bs.modal', function (event) {
     var button = $(event.relatedTarget); // Button that triggered the modal
     var majors = button.data('majors');  // Extract info from data-* attributes

@@ -81,6 +81,7 @@ public class UpdateCVController extends HttpServlet {
         String cvLink = request.getParameter("cvLink");
         Account loginedUser = AppUtils.getLoginedUser(request.getSession());
         Candidate candidateInfo = iCandidate.getCandidateProfileById(loginedUser.getAccId());
+       
         if (cvLink.isEmpty()) {
             //Set null will not change data in database
             cvLink = null;
