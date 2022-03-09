@@ -61,7 +61,7 @@ public class ErrorPageController extends HttpServlet {
         }
         if (throwable == null && statusCode == null) {
             request.setAttribute("systemErrorMesg", requestUri);
-            request.setAttribute("errorMesg", "The page you requested was not found.");
+            request.setAttribute("errorMesg", "There are some unexpected errors, please contact with admin for more detail.");
         } else if (statusCode != null) {
             request.setAttribute("errorCode", statusCode);
             switch (statusCode) {

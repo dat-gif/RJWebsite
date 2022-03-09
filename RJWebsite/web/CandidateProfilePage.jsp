@@ -18,9 +18,19 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link href="css/root.css" media="all" type="text/css" rel="stylesheet">
+        <link href="css/root.css" media="all" type="text/css" rel="stylesheet">
         <title>Profile</title>
     </head>
     <body>
+        <style>
+            #btnControl {
+                display: none;
+            }
+            #btnControl:checked + label > img {
+                width: 36vw;
+                height:auto;
+            }
+        </style>
         <!-- Header.jsp -->
         <header>
             <jsp:include page="component/Header.jsp"/>
@@ -73,19 +83,31 @@
                                 <h4 class="mt-2 mb-2" >My CV</h4>
                                 <button class="btn btn-outline-primary btn-sm" style="max-height: 2.6rem; min-width: 4rem" data-toggle="modal" data-target="#cvModal">Edit</button>
                             </div>
-                            <div class="d-flex flex-row mt-3 justify-content-between">
+
+                            <div class="flex-column w-100">
                                 <div class="d-flex flex-row mt-2">
                                     <div>
                                         <image src="https://picsum.photos/50/50" class="mt-2 mb-2" >
                                     </div>
                                     <div class="ml-4 mt-2">
                                         <h5>My CV</h5>
-                                        <a href="#">some-link-test</a>
+                                        <c:if test="${not empty cvLink}">
+                                            <p class="text-secondary mb-1">Link CV: </p>
+                                            <a href="${cvLink}" class="text-truncate">${cvLink}</a>
+                                        </c:if>
+
                                     </div>
                                 </div>
+
+                                <input type="checkbox" id="btnControl"/>
+                                <label class="btn" for="btnControl">                            
+                                    <img src="${imgDecode}" alt="alt" class="img" style="max-width: 730px" id="btnLeft"/>
+                                </label>
+                                <p class="text-primary small font-italic font-weight-light">*Try click on to zoom image</p>
                             </div>
 
-                            <div class="modal fade" id="cvModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <!-- CV Modal -->
+                            <div class="modal " id="cvModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                 <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
                                     <div class="modal-content">
                                         <div class="modal-header">
@@ -94,20 +116,20 @@
                                                 <span aria-hidden="true">&times;</span>
                                             </button>
                                         </div>
-                                        <div class="modal-body">
-                                            <form>
+                                        <form action="updatecv" method="POST"  enctype="multipart/form-data">
+                                            <div class="modal-body">
                                                 <div class="form-group">
                                                     <label for="recipient-name" class="col-form-label">Upload CV:</label>
-                                                    <input type="text" class="form-control" id="recipient-name">
-                                                    <p class="text-danger small font-italic font-weight-light">*Please choose image under 2.5 MB</p>
+                                                    <input type="file" name="file" class="ml-2 align-content-center" id="recipient-name" accept="image/*">
+                                                    <p class="text-danger small font-italic font-weight-light">*Please choose image under 5 MB</p>
+                                                    <input type="text" class="form-control" name="cvLink" placeholder="Link CV if you has..." />
                                                 </div>
-
-                                            </form>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                            <button type="button" class="btn btn-primary">Save changes</button>
-                                        </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                <button type="submit" class="btn btn-primary">Save changes</button>
+                                            </div>
+                                        </form>
                                     </div>
                                 </div>
                             </div>
