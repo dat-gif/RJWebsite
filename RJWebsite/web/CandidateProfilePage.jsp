@@ -98,7 +98,6 @@
 
                                     </div>
                                 </div>
-
                                 <input type="checkbox" id="btnControl"/>
                                 <label class="btn" for="btnControl">                            
                                     <img src="${imgDecode}" alt="alt" class="img" style="max-width: 730px" id="btnLeft"/>
@@ -133,8 +132,6 @@
                                     </div>
                                 </div>
                             </div>
-
-
                         </div>
 
                         <!-- Education -->
@@ -144,25 +141,28 @@
                                 <button class="btn btn-outline-primary btn-sm" style="max-height: 2.6rem; min-width: 4rem">Add</button>
                             </div>
                             <div class="d-flex flex-row mt-3 justify-content-between">
-                                <div class="d-flex flex-row mt-2">
+                                <div class="d-flex flex-row mt-2 flex-grow-1">
                                     <div>
                                         <image src="https://picsum.photos/50/50" class="mt-2 mb-2" >
                                     </div>                                 
                                     <!-- Edu list -->
                                     <c:choose>
                                         <c:when test="${not empty eduList}">
-                                            <div class="flex-column">
+                                            <div class="flex-column" style="flex: 1;">
                                                 <c:forEach items="${eduList}" var="edu">
-                                                    <div class="ml-4 mt-2">
-                                                        <h5 class="text-uppercase">${edu.getSchool()}</h5>
-                                                        <div style="font-size: 1rem; line-height: 1.6">
-                                                            <p class="lead mb-1">Majors: ${edu.getField()}</p>
-                                                            <p class="lead mb-1">Degree: ${edu.getDegree()}</p>
-                                                            <p class="lead mb-1">From: ${edu.getStartTime()} - ${edu.getEndTime()}</p>
-                                                            <p class="lead mb-1">Description: ${edu.getDescription()}</p>
+                                                    <div class="d-flex flex-row justify-content-between">
+                                                        <div class="ml-4 mt-2 ">
+                                                            <h5 class="text-uppercase">${edu.getSchool()}</h5>
+                                                            <div style="font-size: 1rem; line-height: 1.6">
+                                                                <p class="lead mb-1">Majors: ${edu.getField()}</p>
+                                                                <p class="lead mb-1">Degree: ${edu.getDegree()}</p>
+                                                                <p class="lead mb-1">From: ${edu.getStartTime()} - ${edu.getEndTime()}</p>
+                                                                <p class="lead mb-1">Description: ${edu.getDescription()}</p>
+                                                            </div>
+                                                            <hr>
                                                         </div>
-                                                        <hr>
-                                                    </div>
+                                                        <button class="btn btn-primary btn-sm" style="max-height: 2.3rem" >Edit</button>
+                                                    </div>  
                                                 </c:forEach>
                                             </div>
                                         </c:when>
@@ -173,7 +173,7 @@
 
 
                                 </div>
-                                <button class="btn btn-primary btn-sm" style="max-height: 2.3rem" >Edit</button>
+
                             </div>
                         </div>
 
