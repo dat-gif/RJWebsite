@@ -5,7 +5,6 @@
 package controller;
 
 import dao.JobDAO;
-import dao.idao.IJob;
 import entity.Job;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -20,8 +19,8 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author admin
  */
-@WebServlet(name = "JobDashboard", urlPatterns = {"/JobDashboard"})
-public class JobDashboard extends HttpServlet {
+@WebServlet(name = "DashboardSearchingController", urlPatterns = {"/DashboardSearchingController"})
+public class DashboardSearchingController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -35,20 +34,30 @@ public class JobDashboard extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        JobDAO jdao = new JobDAO();
-        int count = jdao.countTotalJob();
-        int pageSize = 6;
-        int endPage = 0;
-        endPage = count / pageSize;
-        if (count % pageSize != 0) {
-            endPage++;
+        try {
+            String txtSearch = request.getParameter("txtSearch");
+            JobDAO jdao = new JobDAO();
+            int index = Integer.parseInt(request.getParameter("index"));
+            int count = jdao.countTotalJobSearch(txtSearch);
+            int pageSize = 6;
+            int endPage = 0;
+            endPage = count / pageSize;
+            if (count % pageSize != 0) {
+                endPage++;
+            }
+            List<Job> list = jdao.getJobDashboardSearching(txtSearch, index, pageSize);
+            request.setAttribute("end", endPage);
+            request.setAttribute("jobs", jdao.getJobDashboardSearching(txtSearch, index, pageSize));
+            for (Job j : list) {
+                System.out.println(j);
+            }
+            request.getRequestDispatcher("JobDashboard.jsp").forward(request, response);
+        } catch (Exception e) {
         }
-        request.setAttribute("end", endPage);
-        request.setAttribute("jobs", jdao.getJobs() );
-        request.getRequestDispatcher("JobDashboard.jsp").forward(request, response);
+
     }
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+// <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
      *

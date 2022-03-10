@@ -114,6 +114,98 @@ public class JobDAO extends DBContext implements IJob {
         return jobList;
     }
 
+    public List<Job> getJobDashboardSearching(String txtSearch, int index, int size) {
+        List<Job> jobList = new ArrayList<>();
+        try {
+            Connection conn = getConnection();
+            PreparedStatement ps = conn.prepareStatement("with x as(SELECT ROW_NUMBER() over (order by job_id asc) as r ,* from job "
+                    + "where title like ?)\n"
+                    + " select * from x where r between ?*?-5 and ?*?");
+            ps.setString(1, "%" + txtSearch + "%");
+            ps.setInt(2, index);
+            ps.setInt(3, size);
+            ps.setInt(4, size);
+            ps.setInt(5, index);
+            ps.setInt(6, size);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Job job = new Job();
+                job.setjId(rs.getInt("job_id"));
+                job.setTitle(rs.getString("title"));
+                job.setDescription(rs.getString("description"));
+                job.setSalaryRange(rs.getString("salary_range"));
+                job.setQuantity(rs.getString("quantity"));
+                job.setRole(rs.getString("role"));
+                job.setRole(rs.getString("role"));
+                job.setExperience(rs.getString("experience"));
+                job.setLocation(rs.getString("location"));
+                job.setHireDate(rs.getString("hire_date"));
+                job.setStatus(rs.getBoolean("status"));
+                job.setRecruiter(getRecruiterIdNameById(rs.getInt("recruiter_id")));
+                jobList.add(job);
+            }
+        } catch (Exception e) {
+            System.out.println("getJobs() :" + e);
+        }
+        return jobList;
+    }
+
+    public List<Job> getJobPaging(String txtSearch) {
+        List<Job> jobList = new ArrayList<>();
+        try {
+            Connection conn = getConnection();
+            PreparedStatement ps = conn.prepareStatement("SELECT * from job where title like ?");
+            ps.setString(1, "%" + txtSearch + "%");
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Job job = new Job();
+                job.setjId(rs.getInt("job_id"));
+                job.setTitle(rs.getString("title"));
+                job.setDescription(rs.getString("description"));
+                job.setSalaryRange(rs.getString("salary_range"));
+                job.setQuantity(rs.getString("quantity"));
+                job.setRole(rs.getString("role"));
+                job.setRole(rs.getString("role"));
+                job.setExperience(rs.getString("experience"));
+                job.setLocation(rs.getString("location"));
+                job.setHireDate(rs.getString("hire_date"));
+                job.setStatus(rs.getBoolean("status"));
+                job.setRecruiter(getRecruiterIdNameById(rs.getInt("recruiter_id")));
+                jobList.add(job);
+            }
+        } catch (Exception e) {
+            System.out.println("getJobs() :" + e);
+        }
+        return jobList;
+    }
+
+    public int countTotalJobSearch(String txtSearch) {
+        try {
+            Connection conn = getConnection();
+            PreparedStatement ps = conn.prepareStatement("SELECT count(*) from job where title like ?");
+            ps.setString(1, "%" + txtSearch + "%");
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (Exception e) {
+        }
+        return 0;
+    }
+
+    public int countTotalJob() {
+        try {
+            Connection conn = getConnection();
+            PreparedStatement ps = conn.prepareStatement("SELECT count(*) from job");
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (Exception e) {
+        }
+        return 0;
+    }
+
     /**
      * Get skill list of job by job id
      *
@@ -1243,8 +1335,11 @@ public class JobDAO extends DBContext implements IJob {
     }
 
     public static void main(String[] args) {
-        IJob jobDao = new JobDAO();
-
+        JobDAO jobDao = new JobDAO();
+        List<Job> list = jobDao.getJobDashboardSearching("Fresher", 1, 6);
+        for (Job j : list) {
+            System.out.println(j);
+        }
     }
 
 }

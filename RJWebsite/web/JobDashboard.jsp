@@ -19,7 +19,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <link rel="stylesheet" href="adminstyle/CandidateDashboard.css">
+        <link rel="stylesheet" href="adminstyle/job.css">
     </head>
     <body>
         <jsp:include page="component/Adminheader.jsp"/>
@@ -42,8 +42,6 @@
                                 </a>
                             </li>
                         </ul>
-
-
                         <ul class="nav flex-column mb-2">
                             <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
                                 <span>Account</span>
@@ -89,12 +87,14 @@
                 </nav>
                 <div class="content">
                     <h1>Job Dashboard</h1>
-                    <main role="main" class="searchcontainer">
-                        <div class="input-group">
-                            <input type="search" class="form-control  rounded border-secondary" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
-                            <button type="button" class="btn btn-outline-primary ml-1">search</button>
-                        </div>
-                    </main>
+                    <div class="searchcontainer">
+                        <form action="DashboardSearchingController?index=1" method="post">
+                            <div class="input-group">
+                                <input type="search" name="txtSearch" class="form-control  rounded border-secondary" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
+                                <button type="submit" name="btnSearch" value="search" class="btn btn-outline-primary ml-1">search</button>
+                            </div>
+                        </form>
+                    </div>
 
                     <table class="table">
                         <thead class="thead-dark">
@@ -127,16 +127,22 @@
                                             </c:choose>
                                         </a></td>
                                     <td><a href="CandidateApplyJobPage.jsp" id ="a1">Candidate Applied</a>
-
                                         <a href="jobdetail?jobId=${j.jId}" id ="a2">Details</a>
                                     </td>
                                 </tr>
                             </c:forEach> 
                         </tbody>
                     </table>
-                    <div class="row justify-content-center mt-4 mb-4">
-                        <jsp:include page="component/Pagination.jsp"/>
-                    </div>
+                    <nav aria-label="Page navigation example" style="text-align: center">
+                        <ul class="pagination">
+                            <li class="page-item"><a class="page-link" href="#">Previous</a></li>
+                                <c:forEach begin="1" end="${end}" var="i">
+                                <li class="page-item"><a class="page-link" href="DashboardSearchingController?index=${i}">${i}</a></li>
+                                </c:forEach>
+                            <li class="page-item"><a class="page-link" href="#">Next</a></li>
+
+                        </ul>
+                    </nav>
                 </div>
             </div>
         </div>

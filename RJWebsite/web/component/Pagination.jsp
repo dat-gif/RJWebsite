@@ -21,7 +21,6 @@
                                         <li class="page-item active" aria-current="page">
                                             <a class="page-link" href="${param.text2}" id="test" >${param.text2}</a>
                                         </li>-->
-
                 </ul>
             </form>
         </nav>
