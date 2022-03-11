@@ -84,25 +84,41 @@
 
                     </div>
                 </nav>
-
-                <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4">
-
-                    <div class= "container-fluid">
-                        <div class = "box">
-                            <div class="col">
-                                <h4>110</h4>
-                                <h5>Number of candidates</h5>
-                            </div>
-                            <div class="col">
-                                <h4>110</h4>
-                                <h5>Number of candidates</h5>
-                            </div>
-                            <div class="col">
-                                <h4>110</h4>
-                                <h5>Number of candidates</h5>
-                            </div> 
+                <div class="container">
+                    <div class="row">
+                        <br/>
+                        <div class="col text-center">
+                            <h2>Recruitment And IT Job Search Website</h2>
+                            <p>Admin Dashboard</p>
                         </div>
-                </main>
+
+
+
+                    </div>
+                    <div class="row text-center">
+                        <div class="col">
+                            <div class="counter">
+                                <i class="fa fa-code fa-2x"></i>
+                                <h2 class="timer count-title count-number" data-to="100" data-speed="1500">${totalRecruiter}</h2>
+                                <p class="count-text ">Our Customer</p>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="counter">
+                                <i class="fa fa-coffee fa-2x"></i>
+                                <h2 class="timer count-title count-number" data-to="1700" data-speed="1500">${totalCandidate}</h2>
+                                <p class="count-text ">Happy Clients</p>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="counter">
+                                <i class="fa fa-lightbulb-o fa-2x"></i>
+                                <h2 class="timer count-title count-number" data-to="11900" data-speed="1500">${totalJob}</h2>
+                                <p class="count-text ">Project Complete</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
         <script src="bootstrap-4.6.1-dist/js/bootstrap.min.js"></script>

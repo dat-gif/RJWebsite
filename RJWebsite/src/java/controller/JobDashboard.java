@@ -40,11 +40,12 @@ public class JobDashboard extends HttpServlet {
         int index = 1;
         int count = jdao.countTotalJob();
         int pageSize = 6;
-        int endPage = 0;
+        int endPage;
         endPage = count / pageSize;
         if (count % pageSize != 0) {
             endPage++;
         }
+        request.setAttribute("index", index);
         request.setAttribute("end", endPage);
         request.setAttribute("jobs", jdao.getJobs(index, pageSize));
         request.getRequestDispatcher("JobDashboard.jsp").forward(request, response);

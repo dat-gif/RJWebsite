@@ -18,7 +18,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <link rel="stylesheet" href="adminstyle/CandidateDashboard.css">
+        <link rel="stylesheet" href="adminstyle/Dashboard.css">
     </head>
     <body>
         <jsp:include page="component/Adminheader.jsp"/>
@@ -87,14 +87,14 @@
                     </div>
 
                 </nav>
-                <div class="content">
-                    <h1>Candidate Dashboard</h1>
+                <div class="content" >
+                    <h1 class="title">Candidate Dashboard</h1>
                     <form action="CandidateDashboardSearchingController?index=1" method="post">
-                            <div class="input-group">
-                                <input type="search" name="txtSearch" class="form-control  rounded border-secondary" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
-                                <button type="submit" name="btnSearch" value="search" class="btn btn-outline-primary ml-1">search</button>
-                            </div>
-                        </form>
+                        <div class="input-group searchbar">
+                            <input type="search" name="txtSearch" class="form-control  rounded border-secondary" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
+                            <button type="submit" name="btnSearch" value="search" class="btn btn-outline-primary ml-1">search</button>
+                        </div>
+                    </form>
                     <table class="table">
                         <thead class="thead-dark">
                             <tr>
@@ -125,18 +125,22 @@
                                     </td>
                                     <td>${c.email}</td>
                                     <td>${c.phone}</td>                     
-                                    <td><a href="url" id ="a1">Review</a>&nbsp;&nbsp;<a href="url" id="a2">Details</a></td>
+                                    <td><a href="url" id="a2">Details</a></td>
                                 </tr>
                             </c:forEach>
                         </tbody>
                     </table>
-                    <nav aria-label="Page navigation example" style="text-align: center">
-                        <ul class="pagination">
-                            <li class="page-item"><a class="page-link" href="#">Previous</a></li>
+                    <nav aria-label="Page navigation example">
+                        <ul class="pagination"  >
+                            <c:if test="${index >1}">
+                                <li class="page-item"><a class="page-link" href="CandidateDashboardSearchingController?index=${index-1}&txtSearch=${save}">Previous</a></li>
+                                </c:if>
                                 <c:forEach begin="1" end="${end}" var="i">
                                 <li class="page-item"><a class="page-link" href="CandidateDashboardSearchingController?index=${i}&txtSearch=${save}">${i}</a></li>
                                 </c:forEach>
-                            <li class="page-item"><a class="page-link" href="#">Next</a></li>
+                                <c:if test="${index<end}">
+                                <li class="page-item"><a class="page-link" href="CandidateDashboardSearchingController?index=${index+1}&txtSearch=${save}">Next</a></li>
+                                </c:if>
                         </ul>
                     </nav>
 

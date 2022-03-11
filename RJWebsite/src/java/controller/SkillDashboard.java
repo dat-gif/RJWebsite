@@ -43,6 +43,7 @@ public class SkillDashboard extends HttpServlet {
         if (count % pageSize != 0) {
             endPage++;
         }
+        request.setAttribute("index", index);
         request.setAttribute("end", endPage);
         request.setAttribute("skills", sdao.getSkills(index, pageSize));
         request.getRequestDispatcher("SkillDashboard.jsp").forward(request, response);

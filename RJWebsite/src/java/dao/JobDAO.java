@@ -98,11 +98,11 @@ public class JobDAO extends DBContext implements IJob {
     /**
      * Get all job from database
      *
-
+     *
      * @param index
      * @param size
      * @return list of <code>Job</code> object.
-
+     *
      */
     @Override
     public List<Job> getJobs(int index, int size) {
@@ -136,8 +136,8 @@ public class JobDAO extends DBContext implements IJob {
             }
         } catch (Exception e) {
             System.out.println("getJobs() :" + e);
-        } 
-        
+        }
+
         return jobList;
     }
 
@@ -1495,10 +1495,11 @@ public class JobDAO extends DBContext implements IJob {
 
     public static void main(String[] args) {
         JobDAO jobDao = new JobDAO();
+        int count = jobDao.countTotalJob();
         List<Job> list = jobDao.getJobs(1, 6);
-        for (Job j : list) {
-            System.out.println(j);
-        }
+
+            System.out.println(count);
+        
 
     }
 

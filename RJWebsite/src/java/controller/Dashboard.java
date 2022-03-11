@@ -4,6 +4,9 @@
  */
 package controller;
 
+import dao.CandidateDAO;
+import dao.JobDAO;
+import dao.RecruiterDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -32,6 +35,15 @@ public class Dashboard extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try {
+            JobDAO jdao = new JobDAO();
+            CandidateDAO cdao = new CandidateDAO();
+            RecruiterDAO rdao = new RecruiterDAO();
+            int countJob = jdao.countTotalJob();
+            int countCan = cdao.countTotalCandidate();
+            int countR = rdao.countTotalRecruiter();
+            request.setAttribute("totalJob", countJob);
+            request.setAttribute("totalCandidate", countCan);
+            request.setAttribute("totalRecruiter", countR);
             request.getRequestDispatcher("Dashboard.jsp").forward(request, response);
         } catch (Exception e) {
         }

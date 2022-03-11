@@ -42,6 +42,7 @@ public class RecruiterDashBoard extends HttpServlet {
         if (count % pageSize != 0) {
             endPage++;
         }
+        request.setAttribute("index", index);
         request.setAttribute("end", endPage);
         request.setAttribute("recruiters", rdao.getRecruiters(index, pageSize));
         request.getRequestDispatcher("RecruiterDashboard.jsp").forward(request, response);
