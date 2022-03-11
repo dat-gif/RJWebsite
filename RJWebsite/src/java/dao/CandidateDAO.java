@@ -14,6 +14,7 @@ import entity.CandidateProject;
 import entity.Certificate;
 import entity.Education;
 import entity.Experience;
+import entity.Job;
 import entity.Skill;
 import entity.Social;
 import java.io.InputStream;
@@ -157,6 +158,96 @@ public class CandidateDAO extends DBContext implements ICandidate {
      * @param city
      * @return
      */
+    public List<Candidate> getCandidates(int index, int size) {
+        List<Candidate> list = new ArrayList<>();
+        try {
+            Connection conn = getConnection();
+            PreparedStatement ps = conn.prepareStatement("with x as(SELECT ROW_NUMBER() over (order by candidate_id asc) as r ,* from candidate) "
+                    + " select * from x where r between ?*?-(?-1) and ?*?");
+            ps.setInt(1, index);
+            ps.setInt(2, size);
+            ps.setInt(3, size);
+            ps.setInt(4, index);
+            ps.setInt(5, size);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Candidate can = new Candidate();
+                can.setCandIdateId(rs.getInt("candidate_id"));
+                can.setFirstName(rs.getString("first_name"));
+                can.setLastName(rs.getString("last_name"));
+                can.setBirthDate(rs.getString("birth_date"));
+                can.setAddress(rs.getString("address"));
+                can.setAvatar(rs.getString("avatar"));
+                can.setGender(rs.getBoolean("sex"));
+                can.setFindingJob(rs.getBoolean("finding_job"));
+                list.add(can);
+            }
+        } catch (Exception e) {
+            System.out.println("getJobs() :" + e);
+        }
+
+        return list;
+    }
+
+    public List<Candidate> getCandidateDashboardSearching(String txtSearch, int index, int size) {
+        List<Candidate> list = new ArrayList<>();
+        try {
+            Connection conn = getConnection();
+            PreparedStatement ps = conn.prepareStatement("with x as(SELECT ROW_NUMBER() over (order by candidate_id asc) as r ,* from candidate "
+                    + "where concat(first_name, ' ' , last_name) like ?)\n"
+                    + " select * from x where r between ?*?-(?-1) and ?*?");
+            ps.setString(1, "%" + txtSearch + "%");
+            ps.setInt(2, index);
+            ps.setInt(3, size);
+            ps.setInt(4, size);
+            ps.setInt(5, index);
+            ps.setInt(6, size);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Candidate can = new Candidate();
+                can.setCandIdateId(rs.getInt("candidate_id"));
+                can.setFirstName(rs.getString("first_name"));
+                can.setLastName(rs.getString("last_name"));
+                can.setBirthDate(rs.getString("birth_date"));
+                can.setAddress(rs.getString("address"));
+                can.setAvatar(rs.getString("avatar"));
+                can.setGender(rs.getBoolean("sex"));
+                can.setFindingJob(rs.getBoolean("finding_job"));
+                list.add(can);
+            }
+        } catch (Exception e) {
+            System.out.println("getJobs() :" + e);
+        }
+        return list;
+    }
+
+    public int countTotalCandidate() {
+        try {
+            Connection conn = getConnection();
+            PreparedStatement ps = conn.prepareStatement("SELECT count(*) from Candidate");
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (Exception e) {
+        }
+        return 0;
+    }
+
+    public int countTotalCandidateSearch(String txtSearch) {
+        try {
+            Connection conn = getConnection();
+            PreparedStatement ps = conn.prepareStatement("SELECT count(*) from Candidate Where concat(first_name, ' ' , last_name) like ?");
+            ps.setString(1, "%" + txtSearch + "%");
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (Exception e) {
+        }
+        return 0;
+    }
+
     @Override
     public ArrayList<Candidate> getCandidateSearchPaging(int index, String txtSearch, String city) {
         ArrayList<Candidate> candidateList = new ArrayList<>();
@@ -322,7 +413,6 @@ public class CandidateDAO extends DBContext implements ICandidate {
         return null;
     }
 
-
     /**
      * Add candidate cv if not exist, update if cv update.
      *
@@ -361,7 +451,7 @@ public class CandidateDAO extends DBContext implements ICandidate {
         PreparedStatement ps = null;
         ResultSet rs = null;
         System.out.println("link: ");
-        System.out.println("link: "+link);
+        System.out.println("link: " + link);
         try {
             conn = getConnection();
             ps = conn.prepareStatement(query);
@@ -377,8 +467,7 @@ public class CandidateDAO extends DBContext implements ICandidate {
         }
     }
 
-   
-  private Exception Error(Exception e) {
+    private Exception Error(Exception e) {
 
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
@@ -591,4 +680,11 @@ public class CandidateDAO extends DBContext implements ICandidate {
         return candidateProjects;
     }
 
+    public static void main(String[] args) {
+        CandidateDAO cDao = new CandidateDAO();
+        List<Candidate> list = cDao.getCandidateDashboardSearching("d", 1, 6);
+        for (Candidate j : list) {
+            System.out.println(j);
+        }
+    }
 }

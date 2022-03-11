@@ -24,7 +24,7 @@
         <div class="container col-md-5">
             <div class="card">
                 <div class="card-body">
-                    <form action="EditSkillController" method="post">
+                    <form action="EditSkillController?id=${s.id}&index=${index}&txtSearch=${save}" method="post">
                         <Input type="hidden" value="${s.id}" name="id" class="form-control" id="recipient-name">
                         <fieldset class="form-group">
                             <label>Skill Name</label>

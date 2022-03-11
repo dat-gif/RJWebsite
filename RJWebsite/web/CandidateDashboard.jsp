@@ -89,12 +89,12 @@
                 </nav>
                 <div class="content">
                     <h1>Candidate Dashboard</h1>
-                    <main role="main" class="searchcontainer">
-                        <div class="input-group">
-                            <input type="search" class="form-control  rounded border-secondary" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
-                            <button type="button" class="btn btn-outline-primary ml-1">search</button>
-                        </div>
-                    </main>
+                    <form action="CandidateDashboardSearchingController?index=1" method="post">
+                            <div class="input-group">
+                                <input type="search" name="txtSearch" class="form-control  rounded border-secondary" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
+                                <button type="submit" name="btnSearch" value="search" class="btn btn-outline-primary ml-1">search</button>
+                            </div>
+                        </form>
                     <table class="table">
                         <thead class="thead-dark">
                             <tr>
@@ -130,9 +130,15 @@
                             </c:forEach>
                         </tbody>
                     </table>
-                    <div class="row justify-content-center mt-4 mb-4">
-                        <jsp:include page="component/Pagination.jsp"/>
-                    </div>
+                    <nav aria-label="Page navigation example" style="text-align: center">
+                        <ul class="pagination">
+                            <li class="page-item"><a class="page-link" href="#">Previous</a></li>
+                                <c:forEach begin="1" end="${end}" var="i">
+                                <li class="page-item"><a class="page-link" href="CandidateDashboardSearchingController?index=${i}&txtSearch=${save}">${i}</a></li>
+                                </c:forEach>
+                            <li class="page-item"><a class="page-link" href="#">Next</a></li>
+                        </ul>
+                    </nav>
 
                 </div>
             </div>

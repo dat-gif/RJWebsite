@@ -30,7 +30,7 @@
                     <div class="sidebar-sticky pt-3">
                         <ul class="nav flex-column">
                             <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
-                               <span>Personal</span>
+                                <span>Personal</span>
                                 <a class="d-flex align-items-center text-muted" href="#" aria-label="Add a new report">
                                     <span data-feather="plus-circle"></span>
                                 </a>
@@ -89,13 +89,13 @@
                 </nav>
                 <div class="content">
                     <h1>Recruiter Dashboard</h1>
-                    <main role="main" class="searchcontainer">
+                    <form action="RecruiterDashboardSearchingController?index=1" method="post">
                         <div class="input-group">
-                            <input type="search" class="form-control  rounded border-secondary" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
-                            <button type="button" class="btn btn-outline-primary ml-1">search</button>
+                            <input type="search" name="txtSearch" class="form-control  rounded border-secondary" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
+                            <button type="submit" name="btnSearch" value="search" class="btn btn-outline-primary ml-1">search</button>
                         </div>
-                    </main>
-                    
+                    </form>
+
                     <table class="table">
                         <thead class="thead-dark">
                             <tr>
@@ -111,22 +111,28 @@
                         <tbody>
 
                             <c:forEach items ="${recruiters}" var="r">
-                            <tr>
-                                <td>${r.recruiterId}</td>
-                                <th scope="row">${r.name}</th>
-                                <td><a href="${r.website}">${r.website}</a></td>
-                                <td>${r.phone}</td>
-                                <td>${r.address}</td>
-                                <td>${r.city}</td>
-                                <td><a href="url" id ="a1">Review</a>&nbsp;&nbsp;<a href="url" id ="a2">Details</a></td>
+                                <tr>
+                                    <td>${r.recruiterId}</td>
+                                    <th scope="row">${r.name}</th>
+                                    <td><a href="${r.website}">${r.website}</a></td>
+                                    <td>${r.phone}</td>
+                                    <td>${r.address}</td>
+                                    <td>${r.city}</td>
+                                    <td><a href="url" id ="a1">Review</a>&nbsp;&nbsp;<a href="url" id ="a2">Details</a></td>
 
-                            </tr>
+                                </tr>
                             </c:forEach> 
                         </tbody>
                     </table>
-                    <div class="row justify-content-center mt-4 mb-4">
-                        <jsp:include page="component/Pagination.jsp"/>
-                    </div>
+                    <nav aria-label="Page navigation example" style="text-align: center">
+                        <ul class="pagination">
+                            <li class="page-item"><a class="page-link" href="#">Previous</a></li>
+                                <c:forEach begin="1" end="${end}" var="i">
+                                <li class="page-item"><a class="page-link" href="RecruiterDashboardSearchingController?index=${i}&txtSearch=${save}">${i}</a></li>
+                                </c:forEach>
+                            <li class="page-item"><a class="page-link" href="#">Next</a></li>
+                        </ul>
+                    </nav>
                 </div>
             </div>
         </div>

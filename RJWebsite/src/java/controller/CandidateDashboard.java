@@ -33,8 +33,17 @@ public class CandidateDashboard extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        ICandidate cdao = new CandidateDAO();
-        request.setAttribute("canList",cdao.getCandidates());
+       int index = 1;
+        CandidateDAO sdao = new CandidateDAO();
+        int count = sdao.countTotalCandidate();
+        int pageSize = 6;
+        int endPage = 0;
+        endPage = count / pageSize;
+        if (count % pageSize != 0) {
+            endPage++;
+        }
+        request.setAttribute("end", endPage);
+        request.setAttribute("canList", sdao.getCandidates(index, pageSize));
         request.getRequestDispatcher("CandidateDashboard.jsp").forward(request, response);
         
     }

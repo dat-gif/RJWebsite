@@ -17,7 +17,7 @@ import java.util.List;
  */
 public interface ISkill {
 
-
+    public List<Skill> getSkills(int index, int size);
 
     public boolean checkExistedSkillName(String n);
 

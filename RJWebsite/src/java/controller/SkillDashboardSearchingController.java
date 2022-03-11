@@ -4,9 +4,7 @@
  */
 package controller;
 
-import dao.JobDAO;
 import dao.SkillDAO;
-import dao.idao.IJob;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -19,8 +17,8 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author admin
  */
-@WebServlet(name = "SkillDashboard", urlPatterns = {"/SkillDashboard"})
-public class SkillDashboard extends HttpServlet {
+@WebServlet(name = "SkillDashboardSearchingController", urlPatterns = {"/SkillDashboardSearchingController"})
+public class SkillDashboardSearchingController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -34,19 +32,31 @@ public class SkillDashboard extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        int index = 1;
-        SkillDAO sdao = new SkillDAO();
-        int count = sdao.countTotalSkill();
-        int pageSize = 6;
-        int endPage = 0;
-        endPage = count / pageSize;
-        if (count % pageSize != 0) {
-            endPage++;
+        request.setCharacterEncoding("UTF-8");
+        try {
+            int index;
+            String indexString = request.getParameter("index");
+            if (indexString.isEmpty()) {
+                index = 1;
+            } else {
+                index = Integer.parseInt(indexString);
+            }
+            String txtSearch = request.getParameter("txtSearch");
+            SkillDAO sdao = new SkillDAO();
+            int count = sdao.countTotalSkillSearch(txtSearch);
+            int pageSize = 6;
+            int endPage = 0;
+            endPage = count / pageSize;
+            if (count % pageSize != 0) {
+                endPage++;
+            }
+            request.setAttribute("index", index);
+            request.setAttribute("end", endPage);
+            request.setAttribute("skills", sdao.getSkillDashboardSearching(txtSearch, index, pageSize));
+            request.setAttribute("save", txtSearch);
+            request.getRequestDispatcher("SkillDashboard.jsp").forward(request, response);
+         } catch (Exception e) {
         }
-        request.setAttribute("end", endPage);
-        request.setAttribute("skills", sdao.getSkills(index, pageSize));
-        request.getRequestDispatcher("SkillDashboard.jsp").forward(request, response);
-
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

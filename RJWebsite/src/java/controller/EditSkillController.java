@@ -40,6 +40,8 @@ public class EditSkillController extends HttpServlet {
         int id = Integer.parseInt(request.getParameter("id"));
         SkillDAO sdao = new SkillDAO();
         Skill skill = sdao.getSkillById(id);
+        String txtSearch = request.getParameter("txtSearch");
+        int index = Integer.parseInt(request.getParameter("index"));
         if ("Update".equals(op)) {
             try {
                 int Id = Integer.parseInt(request.getParameter("id"));
@@ -53,11 +55,10 @@ public class EditSkillController extends HttpServlet {
             } catch (Exception e) {
                 System.out.println("error" + e);
             }
-            JobDAO jdao = new JobDAO();
-            request.setAttribute("skills", jdao.getAllSkill());
-            request.getRequestDispatcher("SkillDashboard").forward(request, response);
+            request.getRequestDispatcher("SkillDashboardSearchingController").forward(request, response);
         } else {
-
+            request.setAttribute("index", index);
+            request.setAttribute("txtSearch", txtSearch);
             request.setAttribute("skill", skill);
             request.getRequestDispatcher("EditSkill.jsp").forward(request, response);
         }

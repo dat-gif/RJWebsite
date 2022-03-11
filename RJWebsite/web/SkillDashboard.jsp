@@ -89,7 +89,7 @@
                 <div class="content" style="float:left; width: 80%" >
                     <h1>Skill Dashboard</h1>
                     <div class="searchcontainer">
-                        <form action="DashboardSearchingController" method="post">
+                        <form action="SkillDashboardSearchingController?index=1" method="post">
                             <div class="input-group">
                                 <input type="search" name="txtSearch" class="form-control  rounded border-secondary" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
                                 <button type="submit" name="btnSearch" value="search" class="btn btn-outline-primary ml-1">search</button>
@@ -113,12 +113,21 @@
                                     <th scope="row">${s.name}</th>
                                     <td class="de"><p>${s.depscription}</p></td>
                                     <td>
-                                        <a href ="EditSkillController?id=${s.id}" id ="a2" >Edit</a>
+                                        <a href ="EditSkillController?id=${s.id}&index=${index}&txtSearch=${save}" id ="a2" >Edit</a>
                                     </td>
                                 </tr>
                             </c:forEach>
                         </tbody>
                     </table>
+                    <nav aria-label="Page navigation example" style="text-align: center">
+                        <ul class="pagination">
+                            <li class="page-item"><a class="page-link" href="#">Previous</a></li>
+                                <c:forEach begin="1" end="${end}" var="i">
+                                <li class="page-item"><a class="page-link" href="SkillDashboardSearchingController?index=${i}&txtSearch=${save}">${i}</a></li>
+                                </c:forEach>
+                            <li class="page-item"><a class="page-link" href="#">Next</a></li>
+                        </ul>
+                    </nav>
                 </div>
             </div>
         </div>

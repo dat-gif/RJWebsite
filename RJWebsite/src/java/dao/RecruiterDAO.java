@@ -418,36 +418,6 @@ public class RecruiterDAO extends DBContext implements dao.idao.IRecruiter {
      * @return
      */
     @Override
-    public List<Recruiter> getRecruiters() {
-        List<Recruiter> list = new ArrayList<>();
-        try {
-            Connection conn = getConnection();
-            PreparedStatement ps = conn.prepareStatement("SELECT * FROM recruiter");
-            ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                Recruiter r = new Recruiter(rs.getInt("recruiter_id"),
-                        rs.getString("city"),
-                        rs.getString("name"),
-                        rs.getString("address"),
-                        rs.getString("avatar"),
-                        rs.getString("banner"),
-                        rs.getString("phone"),
-                        rs.getString("website"),
-                        rs.getString("description"),
-                        rs.getString("employee_quantity"),
-                        rs.getString("contacter_name"),
-                        rs.getString("contacter_phone")
-                );
-                list.add(r);
-
-            }
-        } catch (Exception e) {
-            System.out.println("getJobLandingPage() :" + e);
-        }
-        return list;
-    }
-
-    @Override
     public ArrayList<Skill> getRecruiterSkill(int recruiterId) {
         ArrayList<Skill> skillList = new ArrayList<>();
         String query = "SELECT skill.skill_id, skill.name, skill.icon, skill.description\n"
@@ -777,9 +747,111 @@ public class RecruiterDAO extends DBContext implements dao.idao.IRecruiter {
     }
 
     public static void main(String[] args) {
-        List<Job> list = new ArrayList<>();
-        RecruiterDAO dao = new RecruiterDAO();
+        RecruiterDAO rDao = new RecruiterDAO();
+        int count = rDao.countTotalRecruiterSearch("FPT");
+        List<Recruiter> list = rDao.getRecruiters( 1, 6);
+        for (Recruiter s : list) {
+            System.out.println(s);
+        }
 
+    }
+
+    public List<Recruiter> getRecruiters(int index, int size) {
+        List<Recruiter> list = new ArrayList<>();
+        try {
+            Connection conn = getConnection();
+            PreparedStatement ps = conn.prepareStatement("with x as(SELECT ROW_NUMBER() over (order by recruiter_id asc) as r ,* from recruiter) "
+                    + " select * from x where r between ?*?-(?-1) and ?*?");
+            ps.setInt(1, index);
+            ps.setInt(2, size);
+            ps.setInt(3, size);
+            ps.setInt(4, index);
+            ps.setInt(5, size);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Recruiter r = new Recruiter(rs.getInt("recruiter_id"),
+                        rs.getString("city"),
+                        rs.getString("name"),
+                        rs.getString("address"),
+                        rs.getString("avatar"),
+                        rs.getString("banner"),
+                        rs.getString("phone"),
+                        rs.getString("website"),
+                        rs.getString("description"),
+                        rs.getString("employee_quantity"),
+                        rs.getString("contacter_name"),
+                        rs.getString("contacter_phone")
+                );
+                list.add(r);
+            }
+        } catch (Exception e) {
+            System.out.println("getJobs() :" + e);
+        }
+
+        return list;
+    }
+
+    public List<Recruiter> getRecruiterDashboardSearching(String txtSearch, int index, int size) {
+        List<Recruiter> list = new ArrayList<>();
+        try {
+            Connection conn = getConnection();
+            PreparedStatement ps = conn.prepareStatement("with x as(SELECT ROW_NUMBER() over (order by recruiter_id asc) as r ,* from Recruiter "
+                    + "where name like ?)\n"
+                    + " select * from x where r between ?*?-(?-1) and ?*?");
+            ps.setString(1, "%" + txtSearch + "%");
+            ps.setInt(2, index);
+            ps.setInt(3, size);
+            ps.setInt(4, size);
+            ps.setInt(5, index);
+            ps.setInt(6, size);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Recruiter r = new Recruiter(rs.getInt("recruiter_id"),
+                        rs.getString("city"),
+                        rs.getString("name"),
+                        rs.getString("address"),
+                        rs.getString("avatar"),
+                        rs.getString("banner"),
+                        rs.getString("phone"),
+                        rs.getString("website"),
+                        rs.getString("description"),
+                        rs.getString("employee_quantity"),
+                        rs.getString("contacter_name"),
+                        rs.getString("contacter_phone")
+                );
+                list.add(r);
+            }
+        } catch (Exception e) {
+            System.out.println("getJobs() :" + e);
+        }
+        return list;
+    }
+
+    public int countTotalRecruiter() {
+        try {
+            Connection conn = getConnection();
+            PreparedStatement ps = conn.prepareStatement("SELECT count(*) from recruiter");
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (Exception e) {
+        }
+        return 0;
+    }
+
+    public int countTotalRecruiterSearch(String txtSearch) {
+        try {
+            Connection conn = getConnection();
+            PreparedStatement ps = conn.prepareStatement("SELECT count(*) from recruiter where name like ?");
+            ps.setString(1, "%" + txtSearch + "%");
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (Exception e) {
+        }
+        return 0;
     }
 
     @Override
@@ -803,4 +875,5 @@ public class RecruiterDAO extends DBContext implements dao.idao.IRecruiter {
         }
         return total;
     }
+
 }

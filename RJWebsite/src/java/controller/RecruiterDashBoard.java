@@ -33,8 +33,17 @@ public class RecruiterDashBoard extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        IRecruiter rdao = new RecruiterDAO();
-        request.setAttribute("recruiters", rdao.getRecruiters());
+        RecruiterDAO rdao = new RecruiterDAO();
+        int index = 1;
+        int count = rdao.countTotalRecruiter();
+        int pageSize = 6;
+        int endPage = 0;
+        endPage = count / pageSize;
+        if (count % pageSize != 0) {
+            endPage++;
+        }
+        request.setAttribute("end", endPage);
+        request.setAttribute("recruiters", rdao.getRecruiters(index, pageSize));
         request.getRequestDispatcher("RecruiterDashboard.jsp").forward(request, response);
     }
 

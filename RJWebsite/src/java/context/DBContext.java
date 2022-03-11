@@ -32,8 +32,8 @@ public class DBContext {
     private final String dbName = "SWP391";
     private final String portNumber = "1433";
     private final String instance = "";//LEAVE THIS ONE EMPTY IF YOUR SQL IS A SINGLE INSTANCE
-    private final String userID = "sa";
-    private final String password = "123";
+    private final String userID = "huycq";
+    private final String password = "1209";
 
     public void closeConnection(ResultSet rs, PreparedStatement ps, Connection con) throws SQLException {
         if (rs != null && !rs.isClosed()) {

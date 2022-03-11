@@ -7,10 +7,12 @@ package dao;
 import context.DBContext;
 import dao.idao.IJob;
 import dao.idao.ISkill;
+import entity.Job;
 import entity.Skill;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -46,6 +48,85 @@ public class SkillDAO extends DBContext implements ISkill {
         return null;
     }
 
+    @Override
+    public List<Skill> getSkills(int index, int size) {
+        List<Skill> list = new ArrayList<>();
+        try {
+            Connection conn = getConnection();
+            PreparedStatement ps = conn.prepareStatement("with x as(SELECT ROW_NUMBER() over (order by skill_id asc) as r ,* from skill) "
+                    + " select * from x where r between ?*?-(?-1) and ?*?");
+            ps.setInt(1, index);
+            ps.setInt(2, size);
+            ps.setInt(3, size);
+            ps.setInt(4, index);
+            ps.setInt(5, size);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                list.add(new Skill(rs.getInt("skill_id"),
+                        rs.getNString("name"),
+                        rs.getNString("icon"),
+                        rs.getNString("description")));
+            }
+        } catch (Exception e) {
+            System.out.println("getJobs() :" + e);
+        }
+
+        return list;
+    }
+
+    public List<Skill> getSkillDashboardSearching(String txtSearch, int index, int size) {
+        List<Skill> list = new ArrayList<>();
+        try {
+            Connection conn = getConnection();
+            PreparedStatement ps = conn.prepareStatement("with x as(SELECT ROW_NUMBER() over (order by skill_id asc) as r ,* from skill "
+                    + "where name like ?)\n"
+                    + " select * from x where r between ?*?-(?-1) and ?*?");
+            ps.setString(1, "%" + txtSearch + "%");
+            ps.setInt(2, index);
+            ps.setInt(3, size);
+            ps.setInt(4, size);
+            ps.setInt(5, index);
+            ps.setInt(6, size);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                list.add(new Skill(rs.getInt("skill_id"),
+                        rs.getNString("name"),
+                        rs.getNString("icon"),
+                        rs.getNString("description")));
+            }
+        } catch (Exception e) {
+            System.out.println("getJobs() :" + e);
+        }
+        return list;
+    }
+
+    public int countTotalSkill() {
+        try {
+            Connection conn = getConnection();
+            PreparedStatement ps = conn.prepareStatement("SELECT count(*) from skill");
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (Exception e) {
+        }
+        return 0;
+    }
+
+    public int countTotalSkillSearch(String txtSearch) {
+        try {
+            Connection conn = getConnection();
+            PreparedStatement ps = conn.prepareStatement("SELECT count(*) from skill where name like ?");
+            ps.setString(1, "%" + txtSearch + "%");
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (Exception e) {
+        }
+        return 0;
+    }
+
     /**
      * Update skill to record
      *
@@ -65,7 +146,6 @@ public class SkillDAO extends DBContext implements ISkill {
         }
     }
 
-
     @Override
     public boolean checkExistedSkillName(String n) {
         try {
@@ -82,7 +162,6 @@ public class SkillDAO extends DBContext implements ISkill {
         }
         return false;
     }
-
 
     /**
      * Add skill to Database
@@ -102,4 +181,15 @@ public class SkillDAO extends DBContext implements ISkill {
             System.out.println("InsertSkill() :" + e);
         }
     }
+
+    public static void main(String[] args) {
+        SkillDAO sDao = new SkillDAO();
+        int count = sDao.countTotalSkillSearch("Angular");
+        List<Skill> list = sDao.getSkillDashboardSearching("angular", 1, 6);
+        for (Skill s : list) {
+            System.out.println(count);
+        }
+
+    }
+
 }

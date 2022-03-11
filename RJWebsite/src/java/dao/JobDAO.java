@@ -107,11 +107,7 @@ public class JobDAO extends DBContext implements IJob {
     @Override
     public List<Job> getJobs(int index, int size) {
         List<Job> jobList = new ArrayList<>();
-        Connection conn = null;
-        PreparedStatement ps = null;
-        ResultSet rs = null;
         try {
-
             Connection conn = getConnection();
             PreparedStatement ps = conn.prepareStatement("with x as(SELECT ROW_NUMBER() over (order by job_id asc) as r ,* from job) "
                     + " select * from x where r between ?*?-(?-1) and ?*?");
@@ -140,14 +136,8 @@ public class JobDAO extends DBContext implements IJob {
             }
         } catch (Exception e) {
             System.out.println("getJobs() :" + e);
-        } finally {
-            try {
-                closeConnection(rs, ps, conn);
-            } catch (SQLException ex) {
-                Logger.getLogger(JobDAO.class.getName()).log(Level.SEVERE, null, ex);
-                throw new Error(ex);
-            }
-        }
+        } 
+        
         return jobList;
     }
 
