@@ -22,7 +22,7 @@ public interface IJob {
 
     public ArrayList<Job> getAllJob(int pageNumber, int recordNumber);
 
-    public List<Job> getJobs();
+    public List<Job> getJobs(int index, int size);
     //Remove in future
     public ArrayList<Job> getJobBySkillAndCity(String skillValue, String cityValue);
 

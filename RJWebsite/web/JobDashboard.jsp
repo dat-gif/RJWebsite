@@ -90,59 +90,65 @@
                     <div class="searchcontainer">
                         <form action="DashboardSearchingController?index=1" method="post">
                             <div class="input-group">
-                                <input type="search" name="txtSearch" class="form-control  rounded border-secondary" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
+                                <input  value="${save}"  type="search" name="txtSearch" class="form-control  rounded border-secondary" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
                                 <button type="submit" name="btnSearch" value="search" class="btn btn-outline-primary ml-1">search</button>
                             </div>
                         </form>
                     </div>
+                    <c:choose>
+                        <c:when test="${jobs.size() >0}">
+                            <table class="table" style="width: 100%">
+                                <thead class="thead-dark">
+                                    <tr>
+                                        <th scope="col">ID</th>
+                                        <th scope="col">Job Title</th>
+                                        <th scope="col">Recruiter</th>
+                                        <th scope="col">HireDate</th>
+                                        <th scope="col">Location</th>
+                                        <th scope="col">Status</th>
+                                        <th scope="col">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
 
-                    <table class="table">
-                        <thead class="thead-dark">
-                            <tr>
-                                <th scope="col">ID</th>
-                                <th scope="col">Job Title</th>
-                                <th scope="col">Recruiter</th>
-                                <th scope="col">HireDate</th>
-                                <th scope="col">Location</th>
-                                <th scope="col">Status</th>
-                                <th scope="col">Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <c:forEach items="${jobs}" var="j">
-                                <tr>
-                                    <td>${j.jId}</td>
-                                    <th scope="row">${j.title}</th>
-                                    <td>${j.getRecruiter().name}</td>
-                                    <td>${j.hireDate}</td>
-                                    <td>${j.location}</td>
-                                    <td><a href="UpdateStatusController?id=${j.jId}">
-                                            <c:choose>
-                                                <c:when test="${j.status}">
-                                                    Deactivate
-                                                </c:when>
-                                                <c:otherwise>
-                                                    Activate
-                                                </c:otherwise>
-                                            </c:choose>
-                                        </a></td>
-                                    <td><a href="CandidateApplyJobPage.jsp" id ="a1">Candidate Applied</a>
-                                        <a href="jobdetail?jobId=${j.jId}" id ="a2">Details</a>
-                                    </td>
-                                </tr>
-                            </c:forEach> 
-                        </tbody>
-                    </table>
-                    <nav aria-label="Page navigation example" style="text-align: center">
-                        <ul class="pagination">
-                            <li class="page-item"><a class="page-link" href="#">Previous</a></li>
-                                <c:forEach begin="1" end="${end}" var="i">
-                                <li class="page-item"><a class="page-link" href="DashboardSearchingController?index=${i}">${i}</a></li>
-                                </c:forEach>
-                            <li class="page-item"><a class="page-link" href="#">Next</a></li>
-
-                        </ul>
-                    </nav>
+                                    <c:forEach items="${jobs}" var="j">
+                                        <tr>
+                                            <td>${j.jId}</td>
+                                            <th scope="row">${j.title}</th>
+                                            <td>${j.getRecruiter().name}</td>
+                                            <td>${j.hireDate}</td>
+                                            <td>${j.location}</td>
+                                            <td><a href="UpdateStatusController?id=${j.jId}&index=${index}&txtSearch=${save}">
+                                                    <c:choose>
+                                                        <c:when test="${j.status}">
+                                                            Deactivate
+                                                        </c:when>
+                                                        <c:otherwise>
+                                                            Activate
+                                                        </c:otherwise>
+                                                    </c:choose>
+                                                </a></td>
+                                            <td><a href="CandidateApplyJobPage.jsp" id ="a1">Candidate Applied</a>
+                                                <a href="jobdetail?jobId=${j.jId}" id ="a2">Details</a>
+                                            </td>
+                                        </tr>
+                                    </c:forEach> 
+                                </tbody>
+                            </table>
+                            <nav aria-label="Page navigation example" style="text-align: center">
+                                <ul class="pagination">
+                                    <li class="page-item"><a class="page-link" href="#">Previous</a></li>
+                                        <c:forEach begin="1" end="${end}" var="i">
+                                        <li class="page-item"><a class="page-link" href="DashboardSearchingController?index=${i}&txtSearch=${save}">${i}</a></li>
+                                        </c:forEach>
+                                    <li class="page-item"><a class="page-link" href="#">Next</a></li>
+                                </ul>
+                            </nav>
+                        </c:when >
+                        <c:otherwise>
+                            <p class="text-left mt-3 text-secondary lead" style="font-size: 2rem">No data is found.</p>
+                        </c:otherwise>
+                    </c:choose>
                 </div>
             </div>
         </div>

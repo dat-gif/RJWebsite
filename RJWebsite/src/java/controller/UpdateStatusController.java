@@ -39,8 +39,7 @@ public class UpdateStatusController extends HttpServlet {
         Job job = jdao.getJobById(id);
         boolean status = job.isStatus();
         jdao.updateStatus(id, status);
-        request.setAttribute("jobs", jdao.getJobs());
-        request.getRequestDispatcher("JobDashboard.jsp").forward(request, response);
+        request.getRequestDispatcher("DashboardSearchingController").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

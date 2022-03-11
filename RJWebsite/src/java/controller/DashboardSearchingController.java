@@ -34,10 +34,17 @@ public class DashboardSearchingController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+        request.setCharacterEncoding("UTF-8");
         try {
+            int index;
+            String indexString = request.getParameter("index");
+            if (indexString.isEmpty()) {
+                index = 1;
+            } else {
+                index = Integer.parseInt(indexString);
+            }
             String txtSearch = request.getParameter("txtSearch");
             JobDAO jdao = new JobDAO();
-            int index = Integer.parseInt(request.getParameter("index"));
             int count = jdao.countTotalJobSearch(txtSearch);
             int pageSize = 6;
             int endPage = 0;
@@ -45,12 +52,10 @@ public class DashboardSearchingController extends HttpServlet {
             if (count % pageSize != 0) {
                 endPage++;
             }
-            List<Job> list = jdao.getJobDashboardSearching(txtSearch, index, pageSize);
+            request.setAttribute("index", index);
             request.setAttribute("end", endPage);
             request.setAttribute("jobs", jdao.getJobDashboardSearching(txtSearch, index, pageSize));
-            for (Job j : list) {
-                System.out.println(j);
-            }
+            request.setAttribute("save", txtSearch);
             request.getRequestDispatcher("JobDashboard.jsp").forward(request, response);
         } catch (Exception e) {
         }
