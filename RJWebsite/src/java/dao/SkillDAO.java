@@ -11,6 +11,7 @@ import entity.Skill;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.List;
 
 /**
  *
@@ -63,6 +64,25 @@ public class SkillDAO extends DBContext implements ISkill {
             System.out.println("UpdateSkill() :" + e);
         }
     }
+
+
+    @Override
+    public boolean checkExistedSkillName(String n) {
+        try {
+            Connection conn = getConnection();
+            PreparedStatement ps = conn.prepareStatement("SELECT * FROM skill");
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                if (n.equals(rs.getString("name").toLowerCase())) {
+                    return true;
+                }
+            }
+        } catch (Exception e) {
+            System.out.println("InsertSkill() :" + e);
+        }
+        return false;
+    }
+
 
     /**
      * Add skill to Database

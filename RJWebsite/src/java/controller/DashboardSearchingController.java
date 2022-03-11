@@ -5,13 +5,9 @@
 package controller;
 
 import dao.JobDAO;
-import dao.SkillDAO;
-import dao.idao.IJob;
-import dao.idao.ISkill;
-import entity.Skill;
+import entity.Job;
 import java.io.IOException;
 import java.io.PrintWriter;
-import static java.util.Collections.list;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -23,8 +19,8 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author admin
  */
-@WebServlet(name = "AddSkillController", urlPatterns = {"/AddSkillController"})
-public class AddSkillController extends HttpServlet {
+@WebServlet(name = "DashboardSearchingController", urlPatterns = {"/DashboardSearchingController"})
+public class DashboardSearchingController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -38,32 +34,35 @@ public class AddSkillController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        IJob jdao = new JobDAO();
-        ISkill sDAO = new SkillDAO();
-        Skill skill = new Skill();
-        String name = request.getParameter("name");
-        String description = request.getParameter("description");
-        List<Skill> list = jdao.getAllSkill();
-        String cName = name.toLowerCase();
+        request.setCharacterEncoding("UTF-8");
         try {
-
-            if (sDAO.checkExistedSkillName(cName)) {
-                request.setAttribute("error", "Skill name is already exist");
-                request.getRequestDispatcher("AddSkill.jsp").forward(request, response);
-
+            int index;
+            String indexString = request.getParameter("index");
+            if (indexString.isEmpty()) {
+                index = 1;
             } else {
-                skill.setName(name);
-                skill.setDepscription(description);
-                sDAO.insertSkill(skill);
-                request.getRequestDispatcher("SkillDashboard").forward(request, response);
+                index = Integer.parseInt(indexString);
             }
-
+            String txtSearch = request.getParameter("txtSearch");
+            JobDAO jdao = new JobDAO();
+            int count = jdao.countTotalJobSearch(txtSearch);
+            int pageSize = 6;
+            int endPage = 0;
+            endPage = count / pageSize;
+            if (count % pageSize != 0) {
+                endPage++;
+            }
+            request.setAttribute("index", index);
+            request.setAttribute("end", endPage);
+            request.setAttribute("jobs", jdao.getJobDashboardSearching(txtSearch, index, pageSize));
+            request.setAttribute("save", txtSearch);
+            request.getRequestDispatcher("JobDashboard.jsp").forward(request, response);
         } catch (Exception e) {
-            System.out.println("error" + e);
         }
-    }
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
 
+    }
+
+// <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
      *

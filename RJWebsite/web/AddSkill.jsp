@@ -4,8 +4,11 @@
     Author     : admin
 --%>
 
+<%@page import="dao.idao.ISkill"%>
+<%@page import="dao.SkillDAO"%>
 <%@page import="entity.Skill"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -19,9 +22,6 @@
         <title>Add Skill</title>
     </head>
     <body>
-        <%
-            Skill s = (Skill) request.getAttribute("skill");
-        %>
         <jsp:include page="component/Adminheader.jsp"/>
         <br>
         <div class="container col-md-5">
@@ -32,12 +32,17 @@
                             <label>Skill Name</label> <input type="text"
                                                              class="form-control"
                                                              name="name" required="required">
+                            <c:choose>
+                            <c:when test="${not empty error}">
+                            <p style="color: red" id="firstName-length-error" role="alert">${error}</p>
+                            </c:when>
+                            </c:choose>
                         </fieldset>
 
                         <fieldset class="form-group">
                             <label>Description</label><textarea type="text"
-                                                               class="form-control"
-                                                               name="description"></textarea>
+                                                                class="form-control"
+                                                                name="description" required="required"></textarea>
                         </fieldset>
                         <button type="submit" class="btn btn-success">Add</button>
                     </form>

@@ -35,9 +35,18 @@ public class JobDashboard extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+        request.setCharacterEncoding("UTF-8");
         JobDAO jdao = new JobDAO();
-
-        request.setAttribute("jobs", jdao.getJobs() );
+        int index = 1;
+        int count = jdao.countTotalJob();
+        int pageSize = 6;
+        int endPage = 0;
+        endPage = count / pageSize;
+        if (count % pageSize != 0) {
+            endPage++;
+        }
+        request.setAttribute("end", endPage);
+        request.setAttribute("jobs", jdao.getJobs(index, pageSize));
         request.getRequestDispatcher("JobDashboard.jsp").forward(request, response);
     }
 

@@ -8,6 +8,7 @@
 <%@page import="java.util.List"%>
 <%@page import="java.util.List"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -19,11 +20,11 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <link rel="stylesheet" href="adminstyle/CandidateDashboard.css">
+        <link rel="stylesheet" href="adminstyle/job.css">
     </head>
     <body>
         <jsp:include page="component/Adminheader.jsp"/>
-        <% List<Skill> list = (List<Skill>) request.getAttribute("skills");%>
+
 
         <div class="container-fluid">
             <div class="row">
@@ -83,19 +84,19 @@
                                 </a>
                             </li>
                         </ul>
-
                     </div>
                 </nav>
-
-                <div class="content">
+                <div class="content" style="float:left; width: 80%" >
                     <h1>Skill Dashboard</h1>
-                    <main role="main" class="searchcontainer">
-                        <div class="input-group">
-                            <input type="search" class="form-control  rounded border-secondary" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
-                            <button type="button" class="btn btn-outline-primary ml-1">search</button>
-                        </div>
-                    </main>
-                    <a href="AddSkill.jsp"><button>Add</button></a>
+                    <div class="searchcontainer">
+                        <form action="DashboardSearchingController" method="post">
+                            <div class="input-group">
+                                <input type="search" name="txtSearch" class="form-control  rounded border-secondary" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
+                                <button type="submit" name="btnSearch" value="search" class="btn btn-outline-primary ml-1">search</button>
+                            </div>
+                        </form>
+                    </div>
+                    <a id="addbtn" class="btn btn-primary" href="AddSkill.jsp" style="float: right">Add New Skill</a>
                     <table class="table">
                         <thead class="thead-dark">
                             <tr>
@@ -105,27 +106,22 @@
                                 <th scope="col">Action</th>
                             </tr>
                         </thead>
-
                         <tbody>
-                            <% for (Skill s : list) {%>
-                            <tr>
-                                <td><%= s.getId() %></td>
-                                <th scope="row"><%= s.getName()%></th>
-                                <td class="de"><p><%= s.getDepscription()%></p></td>
-                                <td>
-                                    <a href ="EditSkillController?id=<%=s.getId()%>" id ="a2" >Edit</a>
-                                </td>
-                            </tr>
-                            <%}%>
+                            <c:forEach items="${skills}" var="s">
+                                <tr>
+                                    <td>${s.id}</td>
+                                    <th scope="row">${s.name}</th>
+                                    <td class="de"><p>${s.depscription}</p></td>
+                                    <td>
+                                        <a href ="EditSkillController?id=${s.id}" id ="a2" >Edit</a>
+                                    </td>
+                                </tr>
+                            </c:forEach>
                         </tbody>
                     </table>
-                    <div class="row justify-content-center mt-4 mb-4">
-                        <jsp:include page="component/Pagination.jsp"/>
-                    </div>
                 </div>
             </div>
         </div>
-
         <script src="bootstrap-4.6.1-dist/js/bootstrap.min.js"></script>
     </body>
 </html>

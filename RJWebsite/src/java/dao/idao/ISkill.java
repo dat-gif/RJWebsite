@@ -17,6 +17,10 @@ import java.util.List;
  */
 public interface ISkill {
 
+
+
+    public boolean checkExistedSkillName(String n);
+
     public void updateSkill(Skill s);
 
     public Skill getSkillById(int Id);

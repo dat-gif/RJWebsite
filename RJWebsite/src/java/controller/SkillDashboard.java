@@ -33,10 +33,18 @@ public class SkillDashboard extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-  
-            IJob jdao = new JobDAO();
-            request.setAttribute("skills", jdao.getAllSkill());
-            request.getRequestDispatcher("SkillDashboard.jsp").forward(request, response);
+
+        JobDAO jdao = new JobDAO();
+        int count = jdao.countTotalJob();
+        int pageSize = 6;
+        int endPage = 0;
+        endPage = count / pageSize;
+        if (count % pageSize != 0) {
+            endPage++;
+        }
+        request.setAttribute("end", endPage);
+        request.setAttribute("skills", jdao.getAllSkill());
+        request.getRequestDispatcher("SkillDashboard.jsp").forward(request, response);
 
     }
 

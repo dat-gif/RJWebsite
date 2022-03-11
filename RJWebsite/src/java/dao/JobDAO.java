@@ -98,18 +98,30 @@ public class JobDAO extends DBContext implements IJob {
     /**
      * Get all job from database
      *
+
+     * @param index
+     * @param size
      * @return list of <code>Job</code> object.
+
      */
     @Override
-    public List<Job> getJobs() {
+    public List<Job> getJobs(int index, int size) {
         List<Job> jobList = new ArrayList<>();
         Connection conn = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
         try {
-            conn = getConnection();
-            ps = conn.prepareStatement("SELECT * FROM Job");
-            rs = ps.executeQuery();
+
+            Connection conn = getConnection();
+            PreparedStatement ps = conn.prepareStatement("with x as(SELECT ROW_NUMBER() over (order by job_id asc) as r ,* from job) "
+                    + " select * from x where r between ?*?-(?-1) and ?*?");
+            ps.setInt(1, index);
+            ps.setInt(2, size);
+            ps.setInt(3, size);
+            ps.setInt(4, index);
+            ps.setInt(5, size);
+            ResultSet rs = ps.executeQuery();
+
             while (rs.next()) {
                 Job job = new Job();
                 job.setjId(rs.getInt("job_id"));
@@ -137,6 +149,69 @@ public class JobDAO extends DBContext implements IJob {
             }
         }
         return jobList;
+    }
+
+    public List<Job> getJobDashboardSearching(String txtSearch, int index, int size) {
+        List<Job> jobList = new ArrayList<>();
+        try {
+            Connection conn = getConnection();
+            PreparedStatement ps = conn.prepareStatement("with x as(SELECT ROW_NUMBER() over (order by job_id asc) as r ,* from job "
+                    + "where title like ?)\n"
+                    + " select * from x where r between ?*?-(?-1) and ?*?");
+            ps.setString(1, "%" + txtSearch + "%");
+            ps.setInt(2, index);
+            ps.setInt(3, size);
+            ps.setInt(4, size);
+            ps.setInt(5, index);
+            ps.setInt(6, size);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Job job = new Job();
+                job.setjId(rs.getInt("job_id"));
+                job.setTitle(rs.getString("title"));
+                job.setDescription(rs.getString("description"));
+                job.setSalaryRange(rs.getString("salary_range"));
+                job.setQuantity(rs.getString("quantity"));
+                job.setRole(rs.getString("role"));
+                job.setRole(rs.getString("role"));
+                job.setExperience(rs.getString("experience"));
+                job.setLocation(rs.getString("location"));
+                job.setHireDate(rs.getString("hire_date"));
+                job.setStatus(rs.getBoolean("status"));
+                job.setRecruiter(getRecruiterIdNameById(rs.getInt("recruiter_id")));
+                jobList.add(job);
+            }
+        } catch (Exception e) {
+            System.out.println("getJobs() :" + e);
+        }
+        return jobList;
+    }
+
+    public int countTotalJobSearch(String txtSearch) {
+        try {
+            Connection conn = getConnection();
+            PreparedStatement ps = conn.prepareStatement("SELECT count(*) from job where title like ?");
+            ps.setString(1, "%" + txtSearch + "%");
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (Exception e) {
+        }
+        return 0;
+    }
+
+    public int countTotalJob() {
+        try {
+            Connection conn = getConnection();
+            PreparedStatement ps = conn.prepareStatement("SELECT count(*) from job");
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (Exception e) {
+        }
+        return 0;
     }
 
     /**
@@ -183,10 +258,12 @@ public class JobDAO extends DBContext implements IJob {
 
     /**
      * Active/Inactive Status
+     *
+     * @param id
+     * @param status
      */
     @Override
-    public void updateStatus(int Id, boolean status
-    ) {
+    public void updateStatus(int id, boolean status) {
         try {
             Connection conn = getConnection();
             PreparedStatement ps;
@@ -195,8 +272,7 @@ public class JobDAO extends DBContext implements IJob {
             } else {
                 ps = conn.prepareStatement("UPDATE job SET status = 1 where job_id = ?");
             }
-
-            ps.setInt(1, Id);
+            ps.setInt(1, id);
             ps.executeUpdate();
         } catch (Exception e) {
             System.out.println("getJobs() :" + e);
@@ -1428,7 +1504,11 @@ public class JobDAO extends DBContext implements IJob {
     }
 
     public static void main(String[] args) {
-        IJob jobDao = new JobDAO();
+        JobDAO jobDao = new JobDAO();
+        List<Job> list = jobDao.getJobs(1, 6);
+        for (Job j : list) {
+            System.out.println(j);
+        }
 
     }
 
