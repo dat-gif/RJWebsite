@@ -9,19 +9,18 @@ import dao.CandidateDAO;
 import dao.idao.ICandidate;
 import entity.Account;
 import entity.Candidate;
-import entity.CandidateCV;
-import entity.CandidateProject;
-import entity.Certificate;
-import entity.Education;
-import entity.Experience;
-import entity.Skill;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.PrintWriter;
 import java.util.Base64;
-import java.util.List;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.Part;
+import org.apache.commons.io.IOUtils;
 import utils.AppUtils;
 import utils.FileUtils;
 
@@ -29,7 +28,13 @@ import utils.FileUtils;
  *
  * @author Admin
  */
-public class CandidateProfileController extends HttpServlet {
+@WebServlet(name = "UpdateCVController", urlPatterns = {"/updatecv"})
+@MultipartConfig(fileSizeThreshold = 1024 * 1024 * 5, // 2MB
+        maxFileSize = 1024 * 1024 * 8, // (1024 bytes = 1 KB) x (1024 = 1 MB) x 7 = 8 MB 
+        maxRequestSize = 1024 * 1024 * 15)//(1024 bytes = 1 KB) x (1024 = 1 MB) x 15 = 15 MB
+public class UpdateCVController extends HttpServlet {
+
+    private static final long serialVersionUID = 1L;
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -57,36 +62,7 @@ public class CandidateProfileController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        request.setCharacterEncoding("UTF-8");
-        ICandidate iCandidate = new CandidateDAO();
-        Account loginedUser = AppUtils.getLoginedUser(request.getSession());
-        FileUtils fileUtils = new FileUtils();
 
-        //Get candidate info 
-        Candidate candidateInfo = iCandidate.getCandidateProfileById(loginedUser.getAccId());
-
-        CandidateCV candidateCV = iCandidate.getCandidateCVByCandidateId(candidateInfo.getCandIdateId());
-        String cvImgDecode = "data:image/png;base64," + candidateCV.getOriginCv();
-        List< Education> educations = iCandidate.getEducationByCandidateId(candidateInfo.getCandIdateId());
-        List<Skill> listSkill = iCandidate.getSkillByCandidateId(candidateInfo.getCandIdateId());
-        List<Certificate> certificates = iCandidate.getCertificateByCandidateId(candidateInfo.getCandIdateId());
-        List<Experience> experiences = iCandidate.getExperienceByCandidateId(candidateInfo.getCandIdateId());
-        List<CandidateProject> projects = iCandidate.getCandidateProjectByCandidateId(candidateInfo.getCandIdateId());
-
-        request.setAttribute("cvLink", candidateCV.getMediaCv());
-        request.setAttribute("imgDecode", cvImgDecode);
-        request.setAttribute("eduList", educations);
-        request.setAttribute("skillList", listSkill);
-        request.setAttribute("certList", certificates);
-        request.setAttribute("expList", experiences);
-        request.setAttribute("projectList", projects);
-        request.setAttribute("candidateInfo", candidateInfo);
-
-        //Seting modal display
-        request.setAttribute("isShowEdu", "false");
-
-        request.getRequestDispatcher("CandidateProfilePage.jsp").forward(request, response);
     }
 
     /**
@@ -100,7 +76,34 @@ public class CandidateProfileController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
+        FileUtils fileUtils = new FileUtils();
+        ICandidate iCandidate = new CandidateDAO();
+        String cvLink = request.getParameter("cvLink");
+        Account loginedUser = AppUtils.getLoginedUser(request.getSession());
+        Candidate candidateInfo = iCandidate.getCandidateProfileById(loginedUser.getAccId());
+       
+        if (cvLink.isEmpty()) {
+            //Set null will not change data in database
+            cvLink = null;
+        }
+        try {
+            for (Part part : request.getParts()) {
+                String fileName = fileUtils.extractFileName(part);
+                if (fileName != null && fileName.length() > 0) {
+                    // Get data file.
+                    InputStream is = part.getInputStream();
+                    // Encode file to base64.
+                    long size = part.getSize();
+                    String encoded = fileUtils.inputStreamToBase64(is, size);
+
+                    iCandidate.editCandidateCVByCandidateId(candidateInfo.getCandIdateId(), encoded, cvLink);
+                }
+            }
+            response.sendRedirect("candidateprofilecontroller");
+        } catch (Exception e) {
+            throw new Error();
+        }
+
     }
 
     /**

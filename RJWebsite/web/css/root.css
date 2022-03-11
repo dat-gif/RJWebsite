@@ -8,7 +8,11 @@ and open the template in the editor.
     Author     : Admin
 */
 
+
 body{
-   background: rgb(227,227,227);
-background: linear-gradient(180deg, rgba(227,227,227,1) 18%, rgba(199,205,212,1) 73%);
+    background: rgb(227,227,227);
+    background: linear-gradient(180deg, rgba(227,227,227,1) 18%, rgba(199,205,212,1) 73%);
 }
+
+
+

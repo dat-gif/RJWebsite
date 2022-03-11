@@ -1,9 +1,6 @@
 /*
-
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
-
+ * R & IT J:
+ * Recruitment And IT Job Search Website
  */
 package dao;
 
@@ -13,19 +10,24 @@ import entity.Candidate;
 
 import entity.CandidateCV;
 import entity.CandidatePrize;
+import entity.CandidateProject;
 import entity.Certificate;
-import entity.City;
 import entity.Education;
 import entity.Experience;
 import entity.Skill;
 import entity.Social;
+import java.io.InputStream;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import utils.FileUtils;
 
 /**
  * The data access object executes a data query from the Candidate table or main
@@ -142,7 +144,7 @@ public class CandidateDAO extends DBContext implements ICandidate {
                 return countPage;
             }
         } catch (Exception e) {
-            System.out.println("get skill :" + e);
+            System.out.println("getNumberPageSearchCandidate :" + e);
         }
         return 0;
     }
@@ -207,7 +209,7 @@ public class CandidateDAO extends DBContext implements ICandidate {
                 candidateList.add(candidate);
             }
         } catch (Exception e) {
-            System.out.println("get skill :" + e);
+            System.out.println("getCandidateSearchPaging :" + e);
         }
         return candidateList;
     }
@@ -298,10 +300,85 @@ public class CandidateDAO extends DBContext implements ICandidate {
 
     @Override
     public CandidateCV getCandidateCVByCandidateId(int candidateId) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        String query = "SELECT [id]\n"
+                + "      ,[media_cv]\n"
+                + "      ,[origin_cv]\n"
+                + "  FROM [dbo].[cv]\n"
+                + "  inner join candidate on candidate.cv_manage_id = cv.id\n"
+                + "  where candidate.candidate_id=?";
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        try {
+            conn = getConnection();
+            ps = conn.prepareStatement(query);
+            ps.setInt(1, candidateId);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                return new CandidateCV(candidateId, rs.getString("media_cv"), rs.getString("origin_cv"));
+            }
+        } catch (Exception e) {
+        }
+        return null;
     }
 
-    private Exception Error(Exception e) {
+
+    /**
+     * Add candidate cv if not exist, update if cv update.
+     *
+     *
+     * @param candidateId <code>int</code> candidate id
+     * @param fileDataBase64 <code>String</code> file after transform to base64
+     * type
+     * @param link <code>String</code> link cv of candidate
+     */
+    @Override
+    public void editCandidateCVByCandidateId(int candidateId, String fileDataBase64, String link) {
+        String query = "IF EXISTS (\n"
+                + " SELECT 1 \n"
+                + " FROM cv  \n"
+                + " inner join candidate on candidate.cv_manage_id= cv.id\n"
+                + " WHERE candidate.candidate_id=1)\n"
+                + " BEGIN\n"
+                + "     UPDATE cv \n"
+                + "     SET  media_cv = ISNULL(?,media_cv),\n"
+                + "	     origin_cv=ISNULL(?,origin_cv)\n"
+                + "     FROM cv\n"
+                + "     inner join candidate on candidate.cv_manage_id= cv.id\n"
+                + "     WHERE candidate.candidate_id=? ;\n"
+                + " END\n"
+                + " ELSE\n"
+                + " BEGIN\n"
+                + " INSERT INTO cv ([media_cv],[origin_cv])\n"
+                + " values (?, ?) \n"
+                + " DECLARE @LASTID int\n"
+                + " SET @LASTID = IDENT_CURRENT('dbo.cv')\n"
+                + " Update candidate\n"
+                + " set cv_manage_id=isnull(@LASTID, cv_manage_id)\n"
+                + " where candidate.candidate_id=?\n"
+                + " end";
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        System.out.println("link: ");
+        System.out.println("link: "+link);
+        try {
+            conn = getConnection();
+            ps = conn.prepareStatement(query);
+            ps.setInt(3, candidateId);
+            ps.setInt(6, candidateId);
+            ps.setString(1, link);
+            ps.setString(4, link);
+            ps.setString(2, fileDataBase64);
+            ps.setString(5, fileDataBase64);
+            ps.executeUpdate();
+        } catch (Exception e) {
+            throw new Error();
+        }
+    }
+
+   
+  private Exception Error(Exception e) {
 
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
@@ -460,6 +537,58 @@ public class CandidateDAO extends DBContext implements ICandidate {
         } catch (Exception e) {
         }
         return null;
+    }
+
+    /**
+     * Get candidate working project by candidate id
+     *
+     * @param candidateId <code>int</code> id of candidate
+     * @return
+     */
+    @Override
+    public List<CandidateProject> getCandidateProjectByCandidateId(int candidateId) {
+        String query = "SELECT TOP (5) [id]\n"
+                + "      ,[name]\n"
+                + "      ,[role]\n"
+                + "      ,[start_time]\n"
+                + "      ,[end_time]\n"
+                + "      ,[description]\n"
+                + "      ,[media]\n"
+                + "      ,[link]\n"
+                + "      ,[candidate_id]\n"
+                + "  FROM [SWP391].[dbo].[project]";
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        ArrayList<CandidateProject> candidateProjects = new ArrayList<>();
+        try {
+            conn = getConnection();
+            ps = conn.prepareStatement(query);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                CandidateProject candidateProject = new CandidateProject(rs.getInt("id"),
+                        rs.getNString("name"),
+                        rs.getNString("role"),
+                        rs.getString("start_time"),
+                        rs.getString("end_time"),
+                        rs.getString("description"),
+                        rs.getString("media"),
+                        rs.getString("link"),
+                        candidateId);
+                candidateProjects.add(candidateProject);
+            }
+        } catch (Exception e) {
+            System.err.println("getCandidateProjectByCandidateId: " + e);
+            throw new Error(e);
+        } finally {
+            try {
+                closeConnection(rs, ps, conn);
+            } catch (SQLException ex) {
+                Logger.getLogger(JobDAO.class.getName()).log(Level.SEVERE, null, ex);
+                throw new Error(ex);
+            }
+        }
+        return candidateProjects;
     }
 
 }

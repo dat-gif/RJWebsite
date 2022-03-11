@@ -73,7 +73,7 @@
                             <p class="text-justify">${description} </p>
                         </div>
                         <!-- Recruitment -->
-                        <div style="padding: 2.5rem 3rem" class="bg-light mb-2">
+                        <div style="padding: 2.5rem 3rem" class="bg-light mb-2" id="joblist">
                             <h4 class="mt-2 mb-2" >Recruitment</h4>
                             <!-- Job card -->
                             <c:forEach items="${jobList}" var="job">
@@ -104,7 +104,7 @@
                                     <ul class="pagination">
                                         <c:forEach begin="1" end="${jobTotalPage}" var="i">
                                             <li class="page-item" value="${page}"  name="page">
-                                                <a class="page-link" href="candidateviewrecruiterdetail?recruiterId=${recruiterId}&page=${i}" >${i}</a>
+                                                <a class="page-link" href="candidateviewrecruiterdetail?recruiterId=${recruiterId}&page=${i}#joblist" >${i}</a>
                                             </li>    
                                         </c:forEach>
                                     </ul>

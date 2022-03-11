@@ -1,7 +1,6 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * R & IT J:
+ * Recruitment And IT Job Search Website
  */
 package dao;
 
@@ -619,7 +618,7 @@ public class RecruiterDAO extends DBContext implements dao.idao.IRecruiter {
                 + "SELECT recruiter.[recruiter_id]\n"
                 + "      ,[name]\n"
                 + "      ,recruiter.[address]\n"
-                + "      ,[city]\n"
+                + "      ,recruiter.[city]\n"
                 + "      ,recruiter.[avatar]\n"
                 + "      ,recruiter.[banner]\n"
                 + "      ,recruiter.[phone]\n"

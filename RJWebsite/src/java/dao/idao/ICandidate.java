@@ -9,15 +9,16 @@ package dao.idao;
 
 import entity.Candidate;
 
-
 import java.util.ArrayList;
 import entity.CandidateCV;
 import entity.CandidatePrize;
+import entity.CandidateProject;
 import entity.Certificate;
 import entity.Education;
 import entity.Experience;
 import entity.Skill;
 import entity.Social;
+import java.io.InputStream;
 
 import java.util.List;
 
@@ -33,6 +34,8 @@ public interface ICandidate {
 
     public CandidateCV getCandidateCVByCandidateId(int candidateId);
 
+    public void editCandidateCVByCandidateId(int candidateId, String fileDataBase64, String link);
+
     public List<CandidatePrize> getCandidatePrizeByCandidateId(int candidateId);
 
     public List<Certificate> getCertificateByCandidateId(int candidateId);
@@ -44,7 +47,7 @@ public interface ICandidate {
     public List<Social> getSocialByCandidateId(int candidateId);
 
     public List<Skill> getSkillByCandidateId(int candidateId);
-    
+
     public ArrayList<Candidate> getTop4Candidate();
 
     public ArrayList<Candidate> getCandidateListByRecruiterId(int recruiterId);
@@ -52,5 +55,7 @@ public interface ICandidate {
     public int getNumberPageSearchCandidate(String txtSearch, String city);
 
     public ArrayList<Candidate> getCandidateSearchPaging(int index, String txtSearch, String city);
+
+    public List<CandidateProject> getCandidateProjectByCandidateId(int candidateId);
 
 }

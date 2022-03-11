@@ -89,9 +89,6 @@
                         </section>
                     </c:otherwise>
                 </c:choose>
-
-
-
             </div>
             <div class="row justify-content-center mt-4 mb-4">
                 <nav aria-label="...">
