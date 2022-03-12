@@ -43,12 +43,23 @@ public class Candidate {
     private String email;
     private String jobStatus;
     private String city;
-
+    private int job_id;
 
     public Candidate() {
     }
 
-
+    public Candidate(int candIdateId, String firstName, String lastName, String birthDate, String address, boolean gender, String phone, String email, String jobStatus, int job_id) {
+        this.candIdateId = candIdateId;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.birthDate = birthDate;
+        this.address = address;
+        this.gender = gender;
+        this.phone = phone;
+        this.email = email;
+        this.jobStatus = jobStatus;
+        this.job_id = job_id;
+    }
 
     public Candidate(int candIdateId, int accountId, String firstName, String lastName, String birthDate, String address, String avatar, boolean gender, String banner, String phone, boolean findingJob, int cvManageId, int experienceManageId, int educationMangeId, int socialManageId, int projectManageId, int certificateManageId, int prizeManageId) {
         this.candIdateId = candIdateId;
@@ -102,6 +113,14 @@ public class Candidate {
 
     public String getCity() {
         return city;
+    }
+
+    public int getJob_id() {
+        return job_id;
+    }
+
+    public void setJob_id(int job_id) {
+        this.job_id = job_id;
     }
 
     public void setCity(String city) {
@@ -276,7 +295,6 @@ public class Candidate {
         this.updateAt = updateAt;
     }
 
-
     public CandidateCV getCandidateCV() {
         return candidateCV;
     }
@@ -340,6 +358,5 @@ public class Candidate {
     public void setEmail(String email) {
         this.email = email;
     }
-
 
 }

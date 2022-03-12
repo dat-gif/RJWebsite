@@ -7,6 +7,7 @@ package dao;
 
 import dao.idao.IJob;
 import context.DBContext;
+import entity.Candidate;
 import entity.Job;
 import entity.Recruiter;
 import entity.Skill;
@@ -179,7 +180,120 @@ public class JobDAO extends DBContext implements IJob {
     }
 
     @Override
-    public int countTotalJobSearch(String txtSearch) {
+    public List<Candidate> getCandidateApplyJob(int id, int index, int size) {
+        List<Candidate> list = new ArrayList<>();
+        try {
+            Connection conn = getConnection();
+            PreparedStatement ps = conn.prepareStatement("with x as(SELECT ROW_NUMBER() over (order by candidate.candidate_id asc) as r,\n"
+                    + "candidate.candidate_id, account_id, first_name, last_name,birth_date ,avatar, address, sex, phone, finding_job, city, email, status, job_id  from candidate join candidate_job_apply on candidate.candidate_id = candidate_job_apply.candidate_id\n"
+                    + "where job_id = ?)\n"
+                    + "select * from x where r between ?*?-(?-1) and ?*?");
+            ps.setInt(1, id);
+            ps.setInt(2, index);
+            ps.setInt(3, size);
+            ps.setInt(4, size);
+            ps.setInt(5, index);
+            ps.setInt(6, size);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Candidate can = new Candidate();
+                can.setCandIdateId(rs.getInt("candidate_id"));
+                can.setFirstName(rs.getString("first_name"));
+                can.setLastName(rs.getString("last_name"));
+                can.setBirthDate(rs.getString("birth_date"));
+                can.setAddress(rs.getString("address"));
+                can.setAvatar(rs.getString("avatar"));
+                can.setGender(rs.getBoolean("sex"));
+                can.setPhone(rs.getString("phone"));
+                can.setEmail(rs.getString("email"));
+                can.setFindingJob(rs.getBoolean("finding_job"));
+                can.setJobStatus(rs.getString("status"));
+                can.setJob_id(rs.getInt("job_id"));
+                list.add(can);
+            }
+        } catch (Exception e) {
+        }
+        return list;
+    }
+
+    @Override
+    public List<Candidate> getCandidateApplyJobSearch(int id, String txtSearch, int index, int size) {
+        List<Candidate> list = new ArrayList<>();
+        try {
+            Connection conn = getConnection();
+            PreparedStatement ps = conn.prepareStatement("with x as(SELECT ROW_NUMBER() over (order by candidate.candidate_id asc) as r,\n"
+                    + "candidate.candidate_id, account_id, first_name, last_name,birth_date ,avatar, address, sex, phone, finding_job, city, email, status, job_id  from candidate join candidate_job_apply on candidate.candidate_id = candidate_job_apply.candidate_id\n"
+                    + "where job_id = ? and concat(first_name, ' ' , last_name) like ?)\n"
+                    + "select * from x where r between ?*?-(?-1) and ?*?");
+            ps.setInt(1, id);
+            ps.setString(2, "%" + txtSearch + "%");
+            ps.setInt(3, index);
+            ps.setInt(4, size);
+            ps.setInt(5, size);
+            ps.setInt(6, index);
+            ps.setInt(7, size);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Candidate can = new Candidate();
+                can.setCandIdateId(rs.getInt("candidate_id"));
+                can.setFirstName(rs.getString("first_name"));
+                can.setLastName(rs.getString("last_name"));
+                can.setBirthDate(rs.getString("birth_date"));
+                can.setAddress(rs.getString("address"));
+                can.setAvatar(rs.getString("avatar"));
+                can.setGender(rs.getBoolean("sex"));
+                can.setPhone(rs.getString("phone"));
+                can.setEmail(rs.getString("email"));
+                can.setFindingJob(rs.getBoolean("finding_job"));
+                can.setJobStatus(rs.getString("status"));
+                can.setJob_id(rs.getInt("job_id"));
+                list.add(can);
+            }
+        } catch (Exception e) {
+        }
+        return list;
+    }
+
+    @Override
+    public int countTotalApplyRow(int id) {
+        try {
+            Connection conn = getConnection();
+            PreparedStatement ps = conn.prepareStatement("with x as(SELECT ROW_NUMBER() over (order by candidate.candidate_id asc) as r,\n"
+                    + "candidate.candidate_id, account_id, first_name, last_name,birth_date ,avatar, address, sex, phone, finding_job, city, email, status, job_id  from candidate join candidate_job_apply on candidate.candidate_id = candidate_job_apply.candidate_id\n"
+                    + "where job_id = ?)\n"
+                    + "select COUNT(*) from x ");
+            ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (Exception e) {
+        }
+        return 0;
+    }
+
+    @Override
+    public int countTotalApplySearchRow(int id, String txtSearch) {
+        try {
+            Connection conn = getConnection();
+            PreparedStatement ps = conn.prepareStatement("with x as(SELECT ROW_NUMBER() over (order by candidate.candidate_id asc) as r,\n"
+                    + "candidate.candidate_id, account_id, first_name, last_name,birth_date ,avatar, address, sex, phone, finding_job, city, email, status, job_id  from candidate join candidate_job_apply on candidate.candidate_id = candidate_job_apply.candidate_id\n"
+                    + "where job_id = ? and concat(first_name, ' ' , last_name) like ? )\n"
+                    + "select COUNT(*) from x ");
+            ps.setInt(1, id);
+            ps.setString(2, "%" + txtSearch + "%");
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (Exception e) {
+        }
+        return 0;
+    }
+
+    @Override
+    public int countTotalJobSearch(String txtSearch
+    ) {
         try {
             Connection conn = getConnection();
             PreparedStatement ps = conn.prepareStatement("SELECT count(*) from job where title like ?");
@@ -214,7 +328,8 @@ public class JobDAO extends DBContext implements IJob {
      * @return skillList, list of <code>Skill</code> object.
      */
     @Override
-    public ArrayList<Skill> getSkillByJobId(int jobId) {
+    public ArrayList<Skill> getSkillByJobId(int jobId
+    ) {
         ArrayList<Skill> skillList = new ArrayList<>();
         String query = "SELECT skill.skill_id, skill.name, skill.icon, skill.description\n"
                 + "  FROM [SWP391].[dbo].[job]\n"
@@ -256,7 +371,8 @@ public class JobDAO extends DBContext implements IJob {
      * @param status
      */
     @Override
-    public void updateStatus(int id, boolean status) {
+    public void updateStatus(int id, boolean status
+    ) {
         try {
             Connection conn = getConnection();
             PreparedStatement ps;
@@ -279,7 +395,8 @@ public class JobDAO extends DBContext implements IJob {
      * @return Recruiter Object
      */
     @Override
-    public Recruiter getRecruterById(int recruterId) {
+    public Recruiter getRecruterById(int recruterId
+    ) {
         String query = " SELECT recruiter.recruiter_id\n"
                 + "      ,recruiter.name\n"
                 + "      ,recruiter.address\n"
@@ -341,7 +458,8 @@ public class JobDAO extends DBContext implements IJob {
      * object
      */
     @Override
-    public Recruiter getRecruiterIdNameById(int recruiterId) {
+    public Recruiter getRecruiterIdNameById(int recruiterId
+    ) {
         String query = "SELECT recruiter.recruiter_id\n"
                 + ",recruiter.name\n"
                 + ",recruiter.avatar\n"
@@ -370,7 +488,8 @@ public class JobDAO extends DBContext implements IJob {
      * @return skillName list of <code>String</code>
      */
     @Override
-    public ArrayList<String> getSkillNameByJobId(int jobId) {
+    public ArrayList<String> getSkillNameByJobId(int jobId
+    ) {
         ArrayList<String> skillName = new ArrayList<>();
         String query = "SELECT skill.name\n"
                 + "  FROM [SWP391].[dbo].[job]\n"
@@ -411,7 +530,8 @@ public class JobDAO extends DBContext implements IJob {
      * @return list, a list of <code>Job</code> object.
      */
     @Override
-    public ArrayList<Job> getAllJob(int pageNumber, int recordNumber) {
+    public ArrayList<Job> getAllJob(int pageNumber, int recordNumber
+    ) {
         ArrayList<Job> list = new ArrayList<>();
         String querry
                 = "DECLARE @PageNumber AS INT\n"
@@ -1494,15 +1614,6 @@ public class JobDAO extends DBContext implements IJob {
             System.out.println("Bug delete apply job: " + e);
         }
         return 0;
-    }
-
-    public static void main(String[] args) {
-        JobDAO jobDao = new JobDAO();
-        int count = jobDao.countTotalJob();
-        List<Job> list = jobDao.getJobs(1, 6);
-
-        System.out.println(count);
-
     }
 
 }

@@ -5,6 +5,7 @@
  */
 package dao.idao;
 
+import entity.Candidate;
 import entity.Job;
 import entity.Recruiter;
 import entity.Skill;
@@ -17,6 +18,14 @@ import java.util.List;
  * @author Admin
  */
 public interface IJob {
+
+    public List<Candidate> getCandidateApplyJob(int id, int index, int size);
+
+    public List<Candidate> getCandidateApplyJobSearch(int id, String txtSearch, int index, int size);
+
+    public int countTotalApplyRow(int id);
+
+    public int countTotalApplySearchRow(int id, String txtSearch);
 
     public void updateStatus(int id, boolean status);
 

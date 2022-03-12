@@ -179,6 +179,8 @@ public class CandidateDAO extends DBContext implements ICandidate {
                 can.setAddress(rs.getString("address"));
                 can.setAvatar(rs.getString("avatar"));
                 can.setGender(rs.getBoolean("sex"));
+                can.setPhone(rs.getString("phone"));
+                can.setEmail(rs.getString("email"));
                 can.setFindingJob(rs.getBoolean("finding_job"));
                 list.add(can);
             }
@@ -213,6 +215,8 @@ public class CandidateDAO extends DBContext implements ICandidate {
                 can.setAddress(rs.getString("address"));
                 can.setAvatar(rs.getString("avatar"));
                 can.setGender(rs.getBoolean("sex"));
+                can.setPhone(rs.getString("phone"));
+                can.setEmail(rs.getString("email"));
                 can.setFindingJob(rs.getBoolean("finding_job"));
                 list.add(can);
             }

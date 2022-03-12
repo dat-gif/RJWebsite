@@ -128,7 +128,7 @@
                                                         </c:otherwise>
                                                     </c:choose>
                                                 </a></td>
-                                            <td><a href="CandidateApplyJobPage.jsp" id ="a1">Candidate Applied</a>
+                                            <td><a href="DashboardCandidateApplyJobController?id=${j.jId}&index=1" id="a1">Candidate Applied</a>
                                                 <a href="jobdetail?jobId=${j.jId}" id ="a2">Details</a>
                                             </td>
                                         </tr>
