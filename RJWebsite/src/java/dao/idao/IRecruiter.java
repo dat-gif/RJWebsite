@@ -17,6 +17,14 @@ import java.util.List;
  */
 public interface IRecruiter {
 
+    public int countTotalRecruiterSearch(String txtSearch);
+
+    public int countTotalRecruiter();
+
+    public List<Recruiter> getRecruiterDashboardSearching(String txtSearch, int index, int size);
+
+    public List<Recruiter> getRecruiters(int index, int size);
+
     public Recruiter getRecruiterById(int recruterId);
 
     public void createRecruiterTempoTableSearchData();
@@ -28,7 +36,6 @@ public interface IRecruiter {
     public ArrayList<Recruiter> getRecruiterPaging(int pageNumber, int recordNumber);
 
     public ArrayList<Recruiter> getAllRecruiter(int pageNumber, int recordNumber);
-
 
     public int getTotalRecruiterRow();
 

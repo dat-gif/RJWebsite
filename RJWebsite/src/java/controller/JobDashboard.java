@@ -36,7 +36,7 @@ public class JobDashboard extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         request.setCharacterEncoding("UTF-8");
-        JobDAO jdao = new JobDAO();
+        IJob jdao = new JobDAO();
         int index = 1;
         int count = jdao.countTotalJob();
         int pageSize = 6;

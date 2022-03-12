@@ -749,13 +749,14 @@ public class RecruiterDAO extends DBContext implements dao.idao.IRecruiter {
     public static void main(String[] args) {
         RecruiterDAO rDao = new RecruiterDAO();
         int count = rDao.countTotalRecruiterSearch("FPT");
-        List<Recruiter> list = rDao.getRecruiters( 1, 6);
+        List<Recruiter> list = rDao.getRecruiters(1, 6);
         for (Recruiter s : list) {
             System.out.println(s);
         }
 
     }
 
+    @Override
     public List<Recruiter> getRecruiters(int index, int size) {
         List<Recruiter> list = new ArrayList<>();
         try {
@@ -791,6 +792,7 @@ public class RecruiterDAO extends DBContext implements dao.idao.IRecruiter {
         return list;
     }
 
+    @Override
     public List<Recruiter> getRecruiterDashboardSearching(String txtSearch, int index, int size) {
         List<Recruiter> list = new ArrayList<>();
         try {
@@ -827,6 +829,7 @@ public class RecruiterDAO extends DBContext implements dao.idao.IRecruiter {
         return list;
     }
 
+    @Override
     public int countTotalRecruiter() {
         try {
             Connection conn = getConnection();
@@ -840,6 +843,7 @@ public class RecruiterDAO extends DBContext implements dao.idao.IRecruiter {
         return 0;
     }
 
+    @Override
     public int countTotalRecruiterSearch(String txtSearch) {
         try {
             Connection conn = getConnection();

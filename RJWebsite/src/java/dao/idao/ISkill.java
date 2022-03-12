@@ -17,6 +17,12 @@ import java.util.List;
  */
 public interface ISkill {
 
+    public int countTotalSkillSearch(String txtSearch);
+
+    public int countTotalSkill();
+
+    public List<Skill> getSkillDashboardSearching(String txtSearch, int index, int size);
+
     public List<Skill> getSkills(int index, int size);
 
     public boolean checkExistedSkillName(String n);

@@ -5,6 +5,7 @@
 package controller;
 
 import dao.JobDAO;
+import dao.idao.IJob;
 import entity.Job;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -44,7 +45,7 @@ public class DashboardSearchingController extends HttpServlet {
                 index = Integer.parseInt(indexString);
             }
             String txtSearch = request.getParameter("txtSearch");
-            JobDAO jdao = new JobDAO();
+            IJob jdao = new JobDAO();
             int count = jdao.countTotalJobSearch(txtSearch);
             int pageSize = 6;
             int endPage = 0;

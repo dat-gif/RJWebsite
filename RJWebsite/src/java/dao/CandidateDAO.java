@@ -151,13 +151,13 @@ public class CandidateDAO extends DBContext implements ICandidate {
     }
 
     /**
-     * Phan trang theo dieu kien search
+     * get all candidates from Record;
      *
-     * @param index int
-     * @param txtSearch String
-     * @param city
-     * @return
+     * @param index
+     * @param size
+     * @return List;
      */
+    @Override
     public List<Candidate> getCandidates(int index, int size) {
         List<Candidate> list = new ArrayList<>();
         try {
@@ -189,6 +189,7 @@ public class CandidateDAO extends DBContext implements ICandidate {
         return list;
     }
 
+    @Override
     public List<Candidate> getCandidateDashboardSearching(String txtSearch, int index, int size) {
         List<Candidate> list = new ArrayList<>();
         try {
@@ -221,6 +222,7 @@ public class CandidateDAO extends DBContext implements ICandidate {
         return list;
     }
 
+    @Override
     public int countTotalCandidate() {
         try {
             Connection conn = getConnection();
@@ -234,6 +236,7 @@ public class CandidateDAO extends DBContext implements ICandidate {
         return 0;
     }
 
+    @Override
     public int countTotalCandidateSearch(String txtSearch) {
         try {
             Connection conn = getConnection();
@@ -303,36 +306,6 @@ public class CandidateDAO extends DBContext implements ICandidate {
             System.out.println("getCandidateSearchPaging :" + e);
         }
         return candidateList;
-    }
-
-    /**
-     * get all candidates from Record;
-     *
-     * @return List;
-     */
-    @Override
-    public List<Candidate> getCandidates() {
-        List<Candidate> canList = new ArrayList<>();
-        try {
-            Connection conn = getConnection();
-            PreparedStatement ps = conn.prepareStatement("SELECT * FROM candidate");
-            ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                Candidate can = new Candidate();
-                can.setCandIdateId(rs.getInt("candidate_id"));
-                can.setFirstName(rs.getString("first_name"));
-                can.setLastName(rs.getString("last_name"));
-                can.setBirthDate(rs.getString("birth_date"));
-                can.setAddress(rs.getString("address"));
-                can.setAvatar(rs.getString("avatar"));
-                can.setGender(rs.getBoolean("sex"));
-                can.setFindingJob(rs.getBoolean("finding_job"));
-                canList.add(can);
-            }
-        } catch (Exception e) {
-            System.out.println("" + e);
-        }
-        return canList;
     }
 
     @Override

@@ -5,6 +5,7 @@
 package controller;
 
 import dao.CandidateDAO;
+import dao.idao.ICandidate;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -42,7 +43,7 @@ public class CandidateDashboardSearchingController extends HttpServlet {
                 index = Integer.parseInt(indexString);
             }
             String txtSearch = request.getParameter("txtSearch");
-            CandidateDAO cdao = new CandidateDAO();
+            ICandidate cdao = new CandidateDAO();
             int count = cdao.countTotalCandidateSearch(txtSearch);
             int pageSize = 6;
             int endPage = 0;

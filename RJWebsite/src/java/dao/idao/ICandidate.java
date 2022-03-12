@@ -28,7 +28,13 @@ import java.util.List;
  */
 public interface ICandidate {
 
-    public List<Candidate> getCandidates();
+    public int countTotalCandidateSearch(String txtSearch);
+
+    public int countTotalCandidate();
+
+    public List<Candidate> getCandidateDashboardSearching(String txtSearch, int index, int size);
+
+    public List<Candidate> getCandidates(int index, int size);
 
     public Candidate getCandidateProfileById(int accountId);
 

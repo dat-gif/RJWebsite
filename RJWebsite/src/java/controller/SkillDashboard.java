@@ -7,6 +7,7 @@ package controller;
 import dao.JobDAO;
 import dao.SkillDAO;
 import dao.idao.IJob;
+import dao.idao.ISkill;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -35,7 +36,7 @@ public class SkillDashboard extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         int index = 1;
-        SkillDAO sdao = new SkillDAO();
+        ISkill sdao = new SkillDAO();
         int count = sdao.countTotalSkill();
         int pageSize = 6;
         int endPage = 0;

@@ -34,7 +34,7 @@ public class CandidateDashboard extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         int index = 1;
-        CandidateDAO sdao = new CandidateDAO();
+        ICandidate sdao = new CandidateDAO();
         int count = sdao.countTotalCandidate();
         int pageSize = 6;
         int endPage = 0;

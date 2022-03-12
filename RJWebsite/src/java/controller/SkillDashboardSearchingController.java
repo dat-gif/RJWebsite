@@ -5,6 +5,7 @@
 package controller;
 
 import dao.SkillDAO;
+import dao.idao.ISkill;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -42,7 +43,7 @@ public class SkillDashboardSearchingController extends HttpServlet {
                 index = Integer.parseInt(indexString);
             }
             String txtSearch = request.getParameter("txtSearch");
-            SkillDAO sdao = new SkillDAO();
+            ISkill sdao = new SkillDAO();
             int count = sdao.countTotalSkillSearch(txtSearch);
             int pageSize = 6;
             int endPage = 0;

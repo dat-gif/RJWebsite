@@ -33,7 +33,7 @@ public class RecruiterDashBoard extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        RecruiterDAO rdao = new RecruiterDAO();
+        IRecruiter rdao = new RecruiterDAO();
         int index = 1;
         int count = rdao.countTotalRecruiter();
         int pageSize = 6;

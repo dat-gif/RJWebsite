@@ -141,6 +141,7 @@ public class JobDAO extends DBContext implements IJob {
         return jobList;
     }
 
+    @Override
     public List<Job> getJobDashboardSearching(String txtSearch, int index, int size) {
         List<Job> jobList = new ArrayList<>();
         try {
@@ -177,6 +178,7 @@ public class JobDAO extends DBContext implements IJob {
         return jobList;
     }
 
+    @Override
     public int countTotalJobSearch(String txtSearch) {
         try {
             Connection conn = getConnection();
@@ -191,6 +193,7 @@ public class JobDAO extends DBContext implements IJob {
         return 0;
     }
 
+    @Override
     public int countTotalJob() {
         try {
             Connection conn = getConnection();
@@ -1498,8 +1501,7 @@ public class JobDAO extends DBContext implements IJob {
         int count = jobDao.countTotalJob();
         List<Job> list = jobDao.getJobs(1, 6);
 
-            System.out.println(count);
-        
+        System.out.println(count);
 
     }
 

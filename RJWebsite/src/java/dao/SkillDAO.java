@@ -74,6 +74,7 @@ public class SkillDAO extends DBContext implements ISkill {
         return list;
     }
 
+    @Override
     public List<Skill> getSkillDashboardSearching(String txtSearch, int index, int size) {
         List<Skill> list = new ArrayList<>();
         try {
@@ -100,6 +101,7 @@ public class SkillDAO extends DBContext implements ISkill {
         return list;
     }
 
+    @Override
     public int countTotalSkill() {
         try {
             Connection conn = getConnection();
@@ -113,6 +115,7 @@ public class SkillDAO extends DBContext implements ISkill {
         return 0;
     }
 
+    @Override
     public int countTotalSkillSearch(String txtSearch) {
         try {
             Connection conn = getConnection();
