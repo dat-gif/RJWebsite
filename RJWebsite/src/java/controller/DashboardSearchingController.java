@@ -45,6 +45,9 @@ public class DashboardSearchingController extends HttpServlet {
                 index = Integer.parseInt(indexString);
             }
             String txtSearch = request.getParameter("txtSearch");
+            if (txtSearch.trim().isEmpty()) {
+                txtSearch = "";
+            }
             IJob jdao = new JobDAO();
             int count = jdao.countTotalJobSearch(txtSearch);
             int pageSize = 6;

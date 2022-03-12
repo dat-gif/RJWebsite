@@ -43,6 +43,9 @@ public class RecruiterDashboardSearchingController extends HttpServlet {
                 index = Integer.parseInt(indexString);
             }
             String txtSearch = request.getParameter("txtSearch");
+            if (txtSearch.trim().isEmpty()) {
+                txtSearch = "";
+            }
             IRecruiter rdao = new RecruiterDAO();
             int count = rdao.countTotalRecruiterSearch(txtSearch);
             int pageSize = 6;

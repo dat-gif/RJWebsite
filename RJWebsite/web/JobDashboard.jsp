@@ -86,7 +86,7 @@
                     </div>
                 </nav>
                 <div class="content">
-                    <h1 class="title">Job Dashboard</h1>
+                    <h1 class="title">Job Manangement</h1>
                     <div class="searchcontainer">
                         <form action="DashboardSearchingController?index=1" method="post">
                             <div class="input-group searchbar" >

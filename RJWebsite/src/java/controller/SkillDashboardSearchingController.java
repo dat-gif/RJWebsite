@@ -43,6 +43,9 @@ public class SkillDashboardSearchingController extends HttpServlet {
                 index = Integer.parseInt(indexString);
             }
             String txtSearch = request.getParameter("txtSearch");
+            if (txtSearch.trim().isEmpty()) {
+                txtSearch = "";
+            }
             ISkill sdao = new SkillDAO();
             int count = sdao.countTotalSkillSearch(txtSearch);
             int pageSize = 6;
@@ -56,7 +59,7 @@ public class SkillDashboardSearchingController extends HttpServlet {
             request.setAttribute("skills", sdao.getSkillDashboardSearching(txtSearch, index, pageSize));
             request.setAttribute("save", txtSearch);
             request.getRequestDispatcher("SkillDashboard.jsp").forward(request, response);
-         } catch (Exception e) {
+        } catch (Exception e) {
         }
     }
 

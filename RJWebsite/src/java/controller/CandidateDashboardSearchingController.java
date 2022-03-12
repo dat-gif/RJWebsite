@@ -43,6 +43,9 @@ public class CandidateDashboardSearchingController extends HttpServlet {
                 index = Integer.parseInt(indexString);
             }
             String txtSearch = request.getParameter("txtSearch");
+            if (txtSearch.trim().isEmpty()) {
+                txtSearch = "";
+            }
             ICandidate cdao = new CandidateDAO();
             int count = cdao.countTotalCandidateSearch(txtSearch);
             int pageSize = 6;

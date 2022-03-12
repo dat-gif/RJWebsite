@@ -88,7 +88,7 @@
                     </div>
                 </nav>
                 <div class="content" style="width: 80%">
-                    <h1 class="title">Recruiter Dashboard</h1>
+                    <h1 class="title">Recruiter Manangement</h1>
                     <form action="RecruiterDashboardSearchingController?index=1" method="post">
                         <div class="input-group searchbar">
                             <input type="search" name="txtSearch" class="form-control  rounded border-secondary" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />

@@ -88,7 +88,7 @@
 
                 </nav>
                 <div class="content" >
-                    <h1 class="title">Candidate Dashboard</h1>
+                    <h1 class="title">Candidate Manangement</h1>
                     <form action="CandidateDashboardSearchingController?index=1" method="post">
                         <div class="input-group searchbar">
                             <input type="search" name="txtSearch" class="form-control  rounded border-secondary" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />

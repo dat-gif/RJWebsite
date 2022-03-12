@@ -87,7 +87,7 @@
                     </div>
                 </nav>
                 <div class="content" style="float:left; width: 80%" >
-                    <h1 class="title ">Skill Dashboard</h1>
+                    <h1 class="title ">Skill Management</h1>
                     <div class="searchcontainer">
                         <form action="SkillDashboardSearchingController?index=1" method="post">
                             <div class="input-group searchbar">
