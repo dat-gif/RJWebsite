@@ -54,6 +54,7 @@
                                 <h2 class="display-5 font-weight-normal" style="position: relative; right: 0.2rem" >
                                     ${candidateInfo.getFirstName()} ${candidateInfo.getLastName()} 
                                 </h2>
+
                                 <c:if test="${empty candidateInfo.getFirstName()}">
                                     <h2 class="display-5 font-weight-normal" style="position: relative; right: 0.2rem" >
                                         ${candidateInfo.getEmail()}
@@ -127,7 +128,7 @@
                                             </div>
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                                <button type="submit" class="btn btn-primary">Save changes</button>
+                                                <button type="submit" class="btn btn-primary" >Save changes</button>
                                             </div>
                                         </form>
                                     </div>
@@ -465,7 +466,7 @@
                                         </button>
                                     </div>
                                     <div class="modal-body">
-                                        <form action="personalInfo" method="POST"  enctype="multipart/form-data">
+                                        <form action="candidateprofilecontroller" method="POST"  enctype="multipart/form-data">
                                             <div class="modal-body">
                                                 <div class="form-group">
                                                     <label for="recipient-name" class="col-form-label">Wallpaper:</label>
@@ -477,25 +478,27 @@
                                                     <hr>
                                                     <div class="d-flex flex-row " style="gap: 10px">
                                                         <div class="form-outline mb-4 flex-grow-1">
-                                                            <label class="form-label" for="form1Example1">Fisrt Name</label>
-                                                            <input type="text" id="fisrtname" class="form-control" name="fisrtname">
+                                                            <label class="form-label" for="form1Example1">Firsrt Name</label>
+                                                            <input type="text" id="fisrtname" class="form-control" name="fisrtname" value="${candidateTemp.getFirstName()}">
                                                         </div>    
                                                         <div class="form-outline mb-4 flex-grow-1">
                                                             <label class="form-label" for="form1Example1">Last Name</label>
-                                                            <input type="text" class="form-control" name="lastname" id="lastname" value="${lastName}"/>
+                                                            <input type="text" class="form-control" name="lastname" id="lastname" value="${candidateTemp.getLastName()}"/>
                                                         </div>
                                                     </div>
+                                                    <p class="text-danger small font-italic font-weight-light">${nameErrorMesg}</p>
                                                     <div class="d-flex flex-row " style="gap: 10px">
                                                         <div class="form-outline mb-4 flex-grow-1">
                                                             <label class="form-label" for="form1Example1">Phone number</label>
-                                                            <input type="text"   class="form-control" name="phoneNumber" id="phone" value="${phoneNumber}" />
+                                                            <input type="text"   class="form-control" name="phoneNumber" id="phone" value="${candidateTemp.getPhone()}" />
+                                                            <p class="text-danger small font-italic font-weight-light">${phoneErrorMesg}</p>
                                                         </div>    
                                                         <div class="form-outline mb-4 flex-grow-1">
                                                             <label class="form-label" for="form1Example1">Birthday</label>
                                                             <input class="form-control" 
                                                                    type="date" name="dob" 
                                                                    placeholder="dd-mm-yyyy" value="${dob}"
-                                                                   min="1997-01-01" max="2030-12-31"
+                                                                   max="2030-12-31"
                                                                    style="min-width: 205px"
                                                                    id="dob"
                                                                    >
@@ -504,7 +507,8 @@
                                                     <div class="d-flex flex-row " style="gap: 10px">
                                                         <div class="form-outline mb-4" style="flex-grow: 2">
                                                             <label class="form-label" for="form1Example1">Address</label>
-                                                            <input type="text"   class="form-control" name="address" value="${address}" id="address"/>
+                                                            <input type="text"   class="form-control" name="address" value="${candidateTemp.getAddress()}" id="address"/>
+                                                            <p class="text-danger small font-italic font-weight-light">${addressErrorMesg}</p>
                                                         </div> 
                                                         <div class="form-outline mb-4 ml-5"style="flex-grow: 1">
                                                             <label class="form-label" for="gender">Gender</label>
@@ -527,7 +531,7 @@
 
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                                <button type="submit" class="btn btn-primary">Save changes</button>
+                                                <button type="submit" class="btn btn-primary" name="action" value="personalInfo">Save changes</button>
                                             </div>
                                         </form>
                                     </div>
@@ -540,8 +544,9 @@
             <footer> <jsp:include page="component/Footer.jsp"/></footer>
             <script src="bootstrap-4.6.1-dist/js/bootstrap.min.js"></script>
             <script>
-//$('#personnalModal').modal({show: true});
-$('#eduEdit').modal({show:${isShowEdu}});
+
+$('#personnalModal').modal({show:${isPersonalModalShow}});
+//$('#eduEdit').modal({show:${isShowEdu}});
 
 $('#personnalModal').on('show.bs.modal', function (event) {
     var button = $(event.relatedTarget);

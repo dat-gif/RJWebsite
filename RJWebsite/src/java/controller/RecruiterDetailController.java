@@ -4,7 +4,6 @@
  */
 package controller;
 
-import com.sun.org.apache.bcel.internal.generic.AALOAD;
 import dao.CandidateDAO;
 import dao.RecruiterDAO;
 import dao.idao.ICandidate;
@@ -13,7 +12,6 @@ import entity.Candidate;
 import entity.Recruiter;
 import entity.Skill;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
