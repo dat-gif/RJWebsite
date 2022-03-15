@@ -103,6 +103,7 @@
                                 <th scope="col">ID</th>
                                 <th scope="col">Name</th>
                                 <th scope="col">Description</th>
+                                <th scope="col">Status</th>
                                 <th scope="col">Action</th>
                             </tr>
                         </thead>
@@ -112,6 +113,16 @@
                                     <td>${s.id}</td>
                                     <th scope="row">${s.name}</th>
                                     <td class="de"><p>${s.depscription}</p></td>
+                                    <th scope="col"><a href="SkillStatusController?id=${s.id}&index=${index}&txtSearch=${save}">
+                                                    <c:choose>
+                                                        <c:when test="${s.status}">
+                                                            Activate
+                                                        </c:when>
+                                                        <c:otherwise>
+                                                            Deactivate
+                                                        </c:otherwise>
+                                                    </c:choose>
+                                                </a></th>
                                     <td>
                                         <a href ="EditSkillController?id=${s.id}&index=${index}&txtSearch=${save}" id ="a2" >Edit</a>
                                     </td>

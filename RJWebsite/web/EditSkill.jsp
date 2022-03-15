@@ -28,7 +28,7 @@
                         <Input type="hidden" value="${s.id}" name="id" class="form-control" id="recipient-name">
                         <fieldset class="form-group">
                             <label>Skill Name</label>
-                            <input type="text" value="${s.name}"
+                            <input type="text" value="${s.name}" maxlength="20"
                                                              class="form-control"
                                                              name="name" required="required">
                             

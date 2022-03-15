@@ -659,9 +659,9 @@ public class CandidateDAO extends DBContext implements ICandidate {
 
     public static void main(String[] args) {
         CandidateDAO cDao = new CandidateDAO();
-        List<Candidate> list = cDao.getCandidateDashboardSearching("d", 1, 6);
+        List<Candidate> list = cDao.getCandidateDashboardSearching("mi", 1, 6);
         for (Candidate j : list) {
-            System.out.println(j);
+            System.out.println(j.isGender());
         }
     }
 }

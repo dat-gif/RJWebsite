@@ -10,25 +10,43 @@ package entity;
  * @author Admin
  */
 public class Skill {
+
     private int id;
     private String name;
     private String iconBase64;
     private String depscription;
+    private boolean status;
 
     public Skill() {
     }
-
 
     public Skill(int id, String name, String iconBase64) {
         this.id = id;
         this.name = name;
         this.iconBase64 = iconBase64;
     }
+
     public Skill(int id, String name, String iconBase64, String depscription) {
         this.id = id;
         this.name = name;
         this.iconBase64 = iconBase64;
         this.depscription = depscription;
+    }
+
+    public Skill(int id, String name, String iconBase64, String depscription, boolean status) {
+        this.id = id;
+        this.name = name;
+        this.iconBase64 = iconBase64;
+        this.depscription = depscription;
+        this.status = status;
+    }
+
+    public boolean isStatus() {
+        return status;
+    }
+
+    public void setStatus(boolean status) {
+        this.status = status;
     }
 
     public int getId() {
@@ -67,5 +85,5 @@ public class Skill {
     public String toString() {
         return "Skill{" + "id=" + id + ", name=" + name + ", iconBase64=" + iconBase64 + ", depscription=" + depscription + '}';
     }
-    
+
 }

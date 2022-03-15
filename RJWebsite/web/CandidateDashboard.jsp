@@ -125,7 +125,7 @@
                                     </td>
                                     <td>${c.email}</td>
                                     <td>${c.phone}</td>                     
-                                    <td><a href="url" id="a2">Details</a></td>
+                                    <td><a href="CandidateDashboardProfileController?id=${c.candIdateId}" id="a2">Details</a></td>
                                 </tr>
                             </c:forEach>
                         </tbody>

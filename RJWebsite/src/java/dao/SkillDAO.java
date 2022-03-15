@@ -21,6 +21,26 @@ import java.util.List;
  */
 public class SkillDAO extends DBContext implements ISkill {
 
+    /*
+     */
+    @Override
+    public void updateStatus(int id, boolean status
+    ) {
+        try {
+            Connection conn = getConnection();
+            PreparedStatement ps;
+            if (status) {
+                ps = conn.prepareStatement("UPDATE skill SET status = 0 where skill_id = ?");
+            } else {
+                ps = conn.prepareStatement("UPDATE skill SET status = 1 where skill_id = ?");
+            }
+            ps.setInt(1, id);
+            ps.executeUpdate();
+        } catch (Exception e) {
+            System.out.println(" :" + e);
+        }
+    }
+
     /**
      * get Skill from record filter by skill_id
      *
@@ -40,6 +60,7 @@ public class SkillDAO extends DBContext implements ISkill {
                 s.setName(rs.getString("name"));
                 s.setIconBase64("icon");
                 s.setDepscription(rs.getString("description"));
+                s.setStatus(rs.getBoolean("status"));
                 return s;
             }
         } catch (Exception e) {
@@ -65,7 +86,9 @@ public class SkillDAO extends DBContext implements ISkill {
                 list.add(new Skill(rs.getInt("skill_id"),
                         rs.getNString("name"),
                         rs.getNString("icon"),
-                        rs.getNString("description")));
+                        rs.getNString("description"),
+                        rs.getBoolean("status")));
+
             }
         } catch (Exception e) {
             System.out.println("getJobs() :" + e);
@@ -93,7 +116,8 @@ public class SkillDAO extends DBContext implements ISkill {
                 list.add(new Skill(rs.getInt("skill_id"),
                         rs.getNString("name"),
                         rs.getNString("icon"),
-                        rs.getNString("description")));
+                        rs.getNString("description"),
+                        rs.getBoolean("status")));
             }
         } catch (Exception e) {
             System.out.println("getJobs() :" + e);

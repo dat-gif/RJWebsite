@@ -88,7 +88,7 @@
                     </div>
                 </nav>
                 <div class="content" style="width: 80%">
-                    <h1 class="title">Recruiter Manangement</h1>
+                    <h1 class="title">Recruiter Management</h1>
                     <form action="RecruiterDashboardSearchingController?index=1" method="post">
                         <div class="input-group searchbar">
                             <input type="search" name="txtSearch" class="form-control  rounded border-secondary" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
@@ -118,13 +118,13 @@
                                     <td>${r.phone}</td>
                                     <td>${r.address}</td>
                                     <td>${r.city}</td>
-                                    <td><a href="url" id ="a2">Details</a></td>
+                                    <td><a href="RecruiterDetailController?recruiterId=${r.recruiterId}" id ="a2">Details</a></td>
 
                                 </tr>
                             </c:forEach> 
                         </tbody>
                     </table>
-                    <nav aria-label="Page navigation example" style="text-align: center">
+                    <nav aria-label="Page navigation example">
                         <ul class="pagination">
                             <c:if test="${index >1}">
                                 <li class="page-item"><a class="page-link" href="RecruiterDashboardSearchingController?index=${index-1}&txtSearch=${save}">Previous</a></li>

@@ -17,6 +17,8 @@ import java.util.List;
  */
 public interface ISkill {
 
+    public void updateStatus(int id, boolean status);
+
     public int countTotalSkillSearch(String txtSearch);
 
     public int countTotalSkill();

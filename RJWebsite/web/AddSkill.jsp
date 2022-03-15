@@ -31,7 +31,7 @@
                         <fieldset class="form-group">
                             <label>Skill Name</label> <input type="text"
                                                              class="form-control"
-                                                             name="name" required="required">
+                                                             name="name" required="required" maxlength="20">
                             <c:choose>
                             <c:when test="${not empty error}">
                             <p style="color: red" id="firstName-length-error" role="alert">${error}</p>
