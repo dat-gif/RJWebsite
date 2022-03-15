@@ -222,7 +222,7 @@
                                                             </div>    
                                                             <div class="form-outline mb-4 flex-grow-1">
                                                                 <label class="form-label" for="form1Example1">Majors</label>
-                                                                <input type="email" id="majors" class="form-control" name="majors" />
+                                                                <input type="text" id="majors" class="form-control" name="majors" />
                                                             </div>
                                                         </div>
                                                         <div class="d-flex flex-row " style="gap: 10px">
@@ -442,12 +442,19 @@
                         </div>
                         <button class="btn btn-primary btn-sm float-right px-2" 
                                 style="max-height: 2.5rem; min-width: 4rem" 
-                                data-toggle="modal" 
+                                data-toggle="modal"                                 
                                 data-target="#personnalModal"
+                                data-fisrtname="${candidateInfo.getFirstName()} "
+                                data-lastname="${candidateInfo.getLastName()}"
+                                data-phone="${candidateInfo.getPhone()}"
+                                data-dob="${candidateInfo.getBirthDate()}"
+                                data-address="${candidateInfo.getAddress()}"
+                                data-gender="${candidateInfo.isGender()}"
                                 >
                             Change Info
                         </button>
-                        <!--Personnal info modal-->
+
+                        <!--Personal info modal-->
                         <div class="modal fade bd-example-modal-lg show" id="personnalModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                             <div class="modal-dialog modal-dialog-centered showing modal-lg" role="document">
                                 <div class="modal-content ">
@@ -458,30 +465,30 @@
                                         </button>
                                     </div>
                                     <div class="modal-body">
-                                        <form action="" method="POST"  enctype="multipart/form-data">
+                                        <form action="personalInfo" method="POST"  enctype="multipart/form-data">
                                             <div class="modal-body">
                                                 <div class="form-group">
                                                     <label for="recipient-name" class="col-form-label">Wallpaper:</label>
-                                                    <input type="file" name="file" class="ml-2 align-content-center" id="recipient-name" accept="image/*">
+                                                    <input type="file" name="fileWallpaper" class="ml-2 align-content-center" id="recipient-name" accept="image/*">
                                                     <p class="text-danger small font-italic font-weight-light">*Please choose image under 5 MB</p>
                                                     <label for="recipient-name" class="col-form-label">Avatar:</label>
-                                                    <input type="file" name="file" class="ml-2 align-content-center" id="recipient-name" accept="image/*">
+                                                    <input type="file" name="fileAvatar" class="ml-2 align-content-center" id="recipient-name" accept="image/*">
                                                     <p class="text-danger small font-italic font-weight-light">*Please choose image under 5 MB</p>
                                                     <hr>
                                                     <div class="d-flex flex-row " style="gap: 10px">
                                                         <div class="form-outline mb-4 flex-grow-1">
                                                             <label class="form-label" for="form1Example1">Fisrt Name</label>
-                                                            <input type="email" id="form1Example1" class="form-control" name="fisrtName" value="${fisrtName}">
+                                                            <input type="text" id="fisrtname" class="form-control" name="fisrtname">
                                                         </div>    
                                                         <div class="form-outline mb-4 flex-grow-1">
                                                             <label class="form-label" for="form1Example1">Last Name</label>
-                                                            <input type="email" id="form1Example1" class="form-control" name="lastName" value="${lastName}"/>
+                                                            <input type="text" class="form-control" name="lastname" id="lastname" value="${lastName}"/>
                                                         </div>
                                                     </div>
                                                     <div class="d-flex flex-row " style="gap: 10px">
                                                         <div class="form-outline mb-4 flex-grow-1">
                                                             <label class="form-label" for="form1Example1">Phone number</label>
-                                                            <input type="email" id="form1Example1" class="form-control" name="phoneNumber" value="${phoneNumber}" />
+                                                            <input type="text"   class="form-control" name="phoneNumber" id="phone" value="${phoneNumber}" />
                                                         </div>    
                                                         <div class="form-outline mb-4 flex-grow-1">
                                                             <label class="form-label" for="form1Example1">Birthday</label>
@@ -490,25 +497,26 @@
                                                                    placeholder="dd-mm-yyyy" value="${dob}"
                                                                    min="1997-01-01" max="2030-12-31"
                                                                    style="min-width: 205px"
+                                                                   id="dob"
                                                                    >
                                                         </div>
                                                     </div>
                                                     <div class="d-flex flex-row " style="gap: 10px">
                                                         <div class="form-outline mb-4" style="flex-grow: 2">
                                                             <label class="form-label" for="form1Example1">Address</label>
-                                                            <input type="email" id="form1Example1" class="form-control" name="address" value="${address}" />
+                                                            <input type="text"   class="form-control" name="address" value="${address}" id="address"/>
                                                         </div> 
                                                         <div class="form-outline mb-4 ml-5"style="flex-grow: 1">
                                                             <label class="form-label" for="gender">Gender</label>
                                                             <div id="gender" class="d-flex flex-row mt-2">
                                                                 <div class="form-check">
                                                                     <label class="form-check-label mr-4">
-                                                                        <input type="radio" class="form-check-input" name="optradio">Male
+                                                                        <input type="radio" id="checkMale" class="form-check-input" name="optradio" checked >Male
                                                                     </label>
                                                                 </div>
                                                                 <div class="form-check">
                                                                     <label class="form-check-label">
-                                                                        <input type="radio" class="form-check-input" name="optradio">Female
+                                                                        <input type="radio" class="form-check-input" name="optradio" id="checkFemale" >Female
                                                                     </label>
                                                                 </div>
                                                             </div>
@@ -532,10 +540,33 @@
             <footer> <jsp:include page="component/Footer.jsp"/></footer>
             <script src="bootstrap-4.6.1-dist/js/bootstrap.min.js"></script>
             <script>
+//$('#personnalModal').modal({show: true});
 $('#eduEdit').modal({show:${isShowEdu}});
+
+$('#personnalModal').on('show.bs.modal', function (event) {
+    var button = $(event.relatedTarget);
+    var dobArray = button.data('dob').split("/");
+    var dob = dobArray[2] + "-" + dobArray[1] + "-" + dobArray[0];
+    var fname = button.data('fisrtname');
+    console.log();
+    var modal = $(this);
+    modal.find('#fisrtname').val(fname);
+    modal.find('#dob').val(dob);
+    modal.find('#lastname').val(button.data('lastname'));
+    modal.find('#phone').val(button.data('phone'));
+    modal.find('#address').val(button.data('address'));
+    console.log(button.data('gender'));
+    if (button.data('gender')) {
+        modal.find('#checkMale').checked;
+
+    } else {
+        modal.find('#checkFemale').checked;
+    }
+
+});
 $('#eduEdit').on('show.bs.modal', function (event) {
     var button = $(event.relatedTarget); // Button that triggered the modal
-    var majors = button.data('majors');  // Extract info from data-* attributes
+    var majors = button.data('majors'); // Extract info from data-* attributes
     var degree = button.data('degree');
     console.log(button.data('startdate'));
     var startDateArray = button.data('startdate').split("/");
@@ -545,7 +576,6 @@ $('#eduEdit').on('show.bs.modal', function (event) {
     var endDate = endDateArray[2] + "-" + endDateArray[1] + "-" + endDateArray[0];
     endDate = endDate.replace(/\s/g, '');
     var description = button.data('description');
-
     var modal = $(this);
     modal.find('#majors').val(majors);
     modal.find('#degree').val(degree);
