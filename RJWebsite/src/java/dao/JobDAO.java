@@ -98,11 +98,11 @@ public class JobDAO extends DBContext implements IJob {
     /**
      * Get all job from database
      *
-
+     *
      * @param index
      * @param size
      * @return list of <code>Job</code> object.
-
+     *
      */
     @Override
     public List<Job> getJobs(int index, int size) {
@@ -112,15 +112,15 @@ public class JobDAO extends DBContext implements IJob {
         ResultSet rs = null;
         try {
 
-            Connection conn = getConnection();
-            PreparedStatement ps = conn.prepareStatement("with x as(SELECT ROW_NUMBER() over (order by job_id asc) as r ,* from job) "
+            conn = getConnection();
+            ps = conn.prepareStatement("with x as(SELECT ROW_NUMBER() over (order by job_id asc) as r ,* from job) "
                     + " select * from x where r between ?*?-(?-1) and ?*?");
             ps.setInt(1, index);
             ps.setInt(2, size);
             ps.setInt(3, size);
             ps.setInt(4, index);
             ps.setInt(5, size);
-            ResultSet rs = ps.executeQuery();
+            rs = ps.executeQuery();
 
             while (rs.next()) {
                 Job job = new Job();

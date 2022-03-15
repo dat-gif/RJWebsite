@@ -30,8 +30,8 @@ import utils.FileUtils;
  */
 @WebServlet(name = "UpdateCVController", urlPatterns = {"/updatecv"})
 @MultipartConfig(fileSizeThreshold = 1024 * 1024 * 5, // 2MB
-        maxFileSize = 1024 * 1024 * 8, // (1024 bytes = 1 KB) x (1024 = 1 MB) x 7 = 8 MB 
-        maxRequestSize = 1024 * 1024 * 15)//(1024 bytes = 1 KB) x (1024 = 1 MB) x 15 = 15 MB
+        maxFileSize = 1024 * 1024 * 6, // (1024 bytes = 1 KB) x (1024 = 1 MB) x 6 = 6 MB 
+        maxRequestSize = 1024 * 1024 * 10)//(1024 bytes = 1 KB) x (1024 = 1 MB) x 10 = 10 MB
 public class UpdateCVController extends HttpServlet {
 
     private static final long serialVersionUID = 1L;
@@ -81,7 +81,7 @@ public class UpdateCVController extends HttpServlet {
         String cvLink = request.getParameter("cvLink");
         Account loginedUser = AppUtils.getLoginedUser(request.getSession());
         Candidate candidateInfo = iCandidate.getCandidateProfileById(loginedUser.getAccId());
-       
+
         if (cvLink.isEmpty()) {
             //Set null will not change data in database
             cvLink = null;
