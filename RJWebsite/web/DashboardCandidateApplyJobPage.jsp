@@ -23,9 +23,9 @@
     <body>
         <jsp:include page="component/Adminheader.jsp"/>
 
-        <div class="container-fluid">
+        <div class="container-fluid" style="height: 850px;">
             <div class="row">
-                <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
+                <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse" style="height: 867px;">
                     <div class="sidebar-sticky pt-3">
                         <ul class="nav flex-column">
                             <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
@@ -138,4 +138,5 @@
         </div>
         <script src="bootstrap-4.6.1-dist/js/bootstrap.min.js"></script>
     </body>
+    <footer> <jsp:include page="component/Footer.jsp"/></footer>
 </html>

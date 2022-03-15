@@ -18,12 +18,12 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link rel="stylesheet" href="adminstyle/Dashboard.css">
     </head>
-    <body>
+    <body >
         <jsp:include page="component/Adminheader.jsp"/>
 
-        <div class="container-fluid">
+        <div class="container-fluid" style="height: 850px;" >
             <div class="row">
-                <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
+                <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse" style="height: 867px;" >
                     <div class="sidebar-sticky pt-3">
                         <ul class="nav flex-column">
                             <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
@@ -100,21 +100,21 @@
                             <div class="counter">
                                 <i class="fa fa-code fa-2x"></i>
                                 <h2 class="timer count-title count-number" data-to="100" data-speed="1500">${totalRecruiter}</h2>
-                                <p class="count-text ">Our Customer</p>
+                                <p class="count-text ">Number of Recruiters</p>
                             </div>
                         </div>
                         <div class="col">
                             <div class="counter">
                                 <i class="fa fa-coffee fa-2x"></i>
                                 <h2 class="timer count-title count-number" data-to="1700" data-speed="1500">${totalCandidate}</h2>
-                                <p class="count-text ">Happy Clients</p>
+                                <p class="count-text ">Number of Candidates</p>
                             </div>
                         </div>
                         <div class="col">
                             <div class="counter">
                                 <i class="fa fa-lightbulb-o fa-2x"></i>
                                 <h2 class="timer count-title count-number" data-to="11900" data-speed="1500">${totalJob}</h2>
-                                <p class="count-text ">Project Complete</p>
+                                <p class="count-text ">Number of Job</p>
                             </div>
                         </div>
                     </div>
@@ -123,4 +123,5 @@
         </div>
         <script src="bootstrap-4.6.1-dist/js/bootstrap.min.js"></script>
     </body>
+    <footer> <jsp:include page="component/Footer.jsp"/></footer>
 </html>

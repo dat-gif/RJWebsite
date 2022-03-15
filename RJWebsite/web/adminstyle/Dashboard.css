@@ -9,6 +9,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css
 
 .content{
     width: 80%;
+    
 }
 .title{
     text-align: center;
@@ -50,7 +51,8 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css
 }
 .container-fluid{
     position: relative;
+    
 }
 #sidebarMenu{
-    height: 400%;
+    
 }
