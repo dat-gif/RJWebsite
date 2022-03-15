@@ -16,6 +16,7 @@ import entity.Education;
 import entity.Experience;
 import entity.Skill;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
@@ -48,7 +49,7 @@ public class CandidateProfileController extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -72,7 +73,7 @@ public class CandidateProfileController extends HttpServlet {
         //Get candidate info 
         Candidate candidateInfo = iCandidate.getCandidateProfileById(loginedUser.getAccId());
         Candidate candidateTemp = iCandidate.getCandidateProfileById(loginedUser.getAccId());
-        
+
         CandidateCV candidateCV = iCandidate.getCandidateCVByCandidateId(candidateInfo.getCandIdateId());
         String cvImgDecode = "data:image/png;base64," + candidateCV.getOriginCv();
         List< Education> educations = iCandidate.getEducationByCandidateId(candidateInfo.getCandIdateId());
@@ -80,7 +81,7 @@ public class CandidateProfileController extends HttpServlet {
         List<Certificate> certificates = iCandidate.getCertificateByCandidateId(candidateInfo.getCandIdateId());
         List<Experience> experiences = iCandidate.getExperienceByCandidateId(candidateInfo.getCandIdateId());
         List<CandidateProject> projects = iCandidate.getCandidateProjectByCandidateId(candidateInfo.getCandIdateId());
-        
+
         request.setAttribute("cvLink", candidateCV.getMediaCv());
         request.setAttribute("imgDecode", cvImgDecode);
         request.setAttribute("eduList", educations);
@@ -116,7 +117,7 @@ public class CandidateProfileController extends HttpServlet {
 
         //Get candidate info 
         Candidate candidateInfo = iCandidate.getCandidateProfileById(loginedUser.getAccId());
-        
+
         CandidateCV candidateCV = iCandidate.getCandidateCVByCandidateId(candidateInfo.getCandIdateId());
         String cvImgDecode = "data:image/png;base64," + candidateCV.getOriginCv();
         List< Education> educations = iCandidate.getEducationByCandidateId(candidateInfo.getCandIdateId());
@@ -124,7 +125,7 @@ public class CandidateProfileController extends HttpServlet {
         List<Certificate> certificates = iCandidate.getCertificateByCandidateId(candidateInfo.getCandIdateId());
         List<Experience> experiences = iCandidate.getExperienceByCandidateId(candidateInfo.getCandIdateId());
         List<CandidateProject> projects = iCandidate.getCandidateProjectByCandidateId(candidateInfo.getCandIdateId());
-        
+
         request.setAttribute("cvLink", candidateCV.getMediaCv());
         request.setAttribute("imgDecode", cvImgDecode);
         request.setAttribute("eduList", educations);
@@ -142,7 +143,7 @@ public class CandidateProfileController extends HttpServlet {
         try {
                 Part fileWallpaper = request.getPart("fileWallpaper");
                 Part fileAvatar = request.getPart("fileAvatar");
-                
+
                 String firstName = request.getParameter("fisrtname").trim();
                 String lastName = request.getParameter("lastname").trim();
                 String phoneNumber = request.getParameter("phoneNumber").trim();
@@ -150,14 +151,18 @@ public class CandidateProfileController extends HttpServlet {
                 String address = request.getParameter("address").trim();
                 String fileWallpaperName = fileUtils.extractFileName(fileWallpaper);
                 String fileAvatarName = fileUtils.extractFileName(fileAvatar);
-                
+
                 if (fileWallpaperName != null && fileWallpaperName.length() > 0) {
-                    
+                    InputStream is = fileWallpaper.getInputStream();
+                    long fileWallpaperSize = fileWallpaper.getSize();
+                    String encodedFileWallpaper = fileUtils.inputStreamToBase64(is, fileWallpaperSize);
                 }
                 if (fileAvatarName != null && fileAvatarName.length() > 0) {
-                    
+                    InputStream is = fileAvatar.getInputStream();
+                    long fileAvatarNameSize = fileWallpaper.getSize();
+                    String encodedFileAvatar = fileUtils.inputStreamToBase64(is, fileAvatarNameSize);
                 }
-                
+
                 if (!checkPersonalInfo(request, firstName, lastName, phoneNumber, dob, address)) {
                     Candidate candidateTemp = new Candidate();
                     candidateTemp.setFirstName(firstName);
@@ -168,14 +173,15 @@ public class CandidateProfileController extends HttpServlet {
                     request.setAttribute("candidateTemp", candidateTemp);
                     request.getRequestDispatcher("CandidateProfilePage.jsp").forward(request, response);
                 }
+
             } catch (Exception e) {
                 System.out.println(e);
             }
             break;
         }
-        
+
     }
-    
+
     public boolean checkPersonalInfo(HttpServletRequest request, String fisrtName, String lastName, String phoneNumber, String dob, String address) {
         Validation validation = new Validation();
         boolean isDataCorrect = true;
@@ -194,6 +200,8 @@ public class CandidateProfileController extends HttpServlet {
         }
         if (!isDataCorrect) {
             request.setAttribute("isPersonalModalShow", "true");
+        } else {
+            request.setAttribute("isPersonalModalShow", "false");
         }
         return isDataCorrect;
     }
