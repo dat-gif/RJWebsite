@@ -29,7 +29,7 @@ import utils.FileUtils;
  * @author Admin
  */
 @WebServlet(name = "UpdateCVController", urlPatterns = {"/updatecv"})
-@MultipartConfig(fileSizeThreshold = 1024 * 1024 * 5, // 2MB
+@MultipartConfig(fileSizeThreshold = 1024 * 1024 * 2, // 2MB
         maxFileSize = 1024 * 1024 * 6, // (1024 bytes = 1 KB) x (1024 = 1 MB) x 6 = 6 MB 
         maxRequestSize = 1024 * 1024 * 10)//(1024 bytes = 1 KB) x (1024 = 1 MB) x 10 = 10 MB
 public class UpdateCVController extends HttpServlet {
