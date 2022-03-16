@@ -101,7 +101,7 @@ public class UpdateCVController extends HttpServlet {
             }
             response.sendRedirect("candidateprofilecontroller");
         } catch (Exception e) {
-            throw new Error();
+            response.sendRedirect("candidateprofilecontroller");
         }
 
     }

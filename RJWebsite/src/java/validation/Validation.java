@@ -79,6 +79,15 @@ public class Validation {
         return true;
     }
 
+    public String modifyString(String string) {
+        if (string.length() > 0 && string != null) {
+            string = string.replaceAll("\\s{2,}", " ").trim();
+            return string;
+        } else {
+            return string;
+        }
+    }
+
     public static void main(String[] args) {
         Validation v = new Validation();
         System.out.println(v.nameValidation("mad", "aad"));

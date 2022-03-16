@@ -128,6 +128,7 @@ public class CandidateProfileController extends HttpServlet {
         ICity daoCity = new CityDAO();
         List<City> listCity = daoCity.getAllCity();
         listCity.remove(0);
+        Validation validation = new Validation();
         Account loginedUser = AppUtils.getLoginedUser(request.getSession());
         FileUtils fileUtils = new FileUtils();
 
@@ -199,6 +200,11 @@ public class CandidateProfileController extends HttpServlet {
                     request.setAttribute("candidateTemp", candidateTemp);
                     request.getRequestDispatcher("CandidateProfilePage.jsp").forward(request, response);
                 } else {
+                    //Modify: remove more than 2 white place in string.
+                    firstName = validation.modifyString(firstName);
+                    lastName = validation.modifyString(lastName);
+                    address = validation.modifyString(address);
+                    phoneNumber = validation.modifyString(phoneNumber);
                     iCandidate.updateCandidatePersonalProfile(candidateInfo.getCandIdateId(), encodedFileWallpaper, encodedFileAvatar, firstName, lastName, address, city, phoneNumber, true, dob);
                     response.sendRedirect("candidateprofilecontroller");
                 }
