@@ -6,12 +6,15 @@
 package controller;
 
 import dao.CandidateDAO;
+import dao.CityDAO;
 import dao.idao.ICandidate;
+import dao.idao.ICity;
 import entity.Account;
 import entity.Candidate;
 import entity.CandidateCV;
 import entity.CandidateProject;
 import entity.Certificate;
+import entity.City;
 import entity.Education;
 import entity.Experience;
 import entity.Skill;
@@ -67,6 +70,9 @@ public class CandidateProfileController extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         request.setCharacterEncoding("UTF-8");
         ICandidate iCandidate = new CandidateDAO();
+        ICity daoCity = new CityDAO();
+        List<City> listCity = daoCity.getAllCity();
+        listCity.remove(0);
         Account loginedUser = AppUtils.getLoginedUser(request.getSession());
         FileUtils fileUtils = new FileUtils();
 
@@ -82,6 +88,8 @@ public class CandidateProfileController extends HttpServlet {
         List<Experience> experiences = iCandidate.getExperienceByCandidateId(candidateInfo.getCandIdateId());
         List<CandidateProject> projects = iCandidate.getCandidateProjectByCandidateId(candidateInfo.getCandIdateId());
 
+        request.setAttribute("listCity", listCity);
+        request.setAttribute("citySelect", candidateInfo.getCity());
         request.setAttribute("cvLink", candidateCV.getMediaCv());
         request.setAttribute("imgDecode", cvImgDecode);
         request.setAttribute("eduList", educations);
@@ -112,6 +120,9 @@ public class CandidateProfileController extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         request.setCharacterEncoding("UTF-8");
         ICandidate iCandidate = new CandidateDAO();
+        ICity daoCity = new CityDAO();
+        List<City> listCity = daoCity.getAllCity();
+        listCity.remove(0);
         Account loginedUser = AppUtils.getLoginedUser(request.getSession());
         FileUtils fileUtils = new FileUtils();
 
@@ -119,13 +130,16 @@ public class CandidateProfileController extends HttpServlet {
         Candidate candidateInfo = iCandidate.getCandidateProfileById(loginedUser.getAccId());
 
         CandidateCV candidateCV = iCandidate.getCandidateCVByCandidateId(candidateInfo.getCandIdateId());
-        String cvImgDecode = "data:image/png;base64," + candidateCV.getOriginCv();
+        String cvImgDecode = candidateCV.getOriginCv();
         List< Education> educations = iCandidate.getEducationByCandidateId(candidateInfo.getCandIdateId());
         List<Skill> listSkill = iCandidate.getSkillByCandidateId(candidateInfo.getCandIdateId());
         List<Certificate> certificates = iCandidate.getCertificateByCandidateId(candidateInfo.getCandIdateId());
         List<Experience> experiences = iCandidate.getExperienceByCandidateId(candidateInfo.getCandIdateId());
         List<CandidateProject> projects = iCandidate.getCandidateProjectByCandidateId(candidateInfo.getCandIdateId());
 
+//Set current user input data
+        request.setAttribute("listCity", listCity);
+        request.setAttribute("citySelect", candidateInfo.getCity());
         request.setAttribute("cvLink", candidateCV.getMediaCv());
         request.setAttribute("imgDecode", cvImgDecode);
         request.setAttribute("eduList", educations);
@@ -148,19 +162,22 @@ public class CandidateProfileController extends HttpServlet {
                 String lastName = request.getParameter("lastname").trim();
                 String phoneNumber = request.getParameter("phoneNumber").trim();
                 String dob = request.getParameter("dob");
+                String city = request.getParameter("citySelect");
+
                 String address = request.getParameter("address").trim();
                 String fileWallpaperName = fileUtils.extractFileName(fileWallpaper);
                 String fileAvatarName = fileUtils.extractFileName(fileAvatar);
-
+                String encodedFileWallpaper = "";
+                String encodedFileAvatar = "";
                 if (fileWallpaperName != null && fileWallpaperName.length() > 0) {
                     InputStream is = fileWallpaper.getInputStream();
                     long fileWallpaperSize = fileWallpaper.getSize();
-                    String encodedFileWallpaper = fileUtils.inputStreamToBase64(is, fileWallpaperSize);
+                    encodedFileWallpaper = fileUtils.inputStreamToBase64(is, fileWallpaperSize);
                 }
                 if (fileAvatarName != null && fileAvatarName.length() > 0) {
                     InputStream is = fileAvatar.getInputStream();
                     long fileAvatarNameSize = fileWallpaper.getSize();
-                    String encodedFileAvatar = fileUtils.inputStreamToBase64(is, fileAvatarNameSize);
+                    encodedFileAvatar = fileUtils.inputStreamToBase64(is, fileAvatarNameSize);
                 }
 
                 if (!checkPersonalInfo(request, firstName, lastName, phoneNumber, dob, address)) {
@@ -172,6 +189,10 @@ public class CandidateProfileController extends HttpServlet {
                     candidateTemp.setAddress(address);
                     request.setAttribute("candidateTemp", candidateTemp);
                     request.getRequestDispatcher("CandidateProfilePage.jsp").forward(request, response);
+                } else {
+                    System.out.println(firstName);
+                    iCandidate.updateCandidatePersonalProfile(candidateInfo.getCandIdateId(), encodedFileWallpaper, encodedFileAvatar, firstName, lastName, address, city, phoneNumber, true, dob);
+                    response.sendRedirect("candidateprofilecontroller");
                 }
 
             } catch (Exception e) {

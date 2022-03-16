@@ -43,12 +43,12 @@
                 <div class="container">
                     <!-- Banner -->
                     <div style="height: 20rem;margin-bottom: 1rem">
-                        <img src="https://picsum.photos/1000/300" style="width:100%; height:100% ; border: 5px; object-fit: cover;" class="mb-3" alt="Responsive image">
+                        <img src="${candidateInfo.getBanner()}" style="width:100%; height:100% ; border: 5px; object-fit: cover;" class="mb-3" alt="Responsive image">
                     </div>
                     <!-- Header -->
                     <div class="d-flex justify-content-between" style="max-height: 160px">
                         <div class="d-flex justify-content-center py-0" style="height: inherit">
-                            <image src="https://picsum.photos/300/300"  class="rounded-circle shadow" style="height: 14rem;position: relative; top: -4rem; left: 1rem"/>
+                            <image src="${candidateInfo.getAvatar()}"  class="rounded-circle shadow" style="height: 14rem;position: relative; top: -4rem; left: 1rem ;max-width: 226px"/>
                             <i class="bi bi-archive"></i>
                             <div class="mt-3 ml-5" style="max-height: 152px">   
                                 <h2 class="display-5 font-weight-normal" style="position: relative; right: 0.2rem" >
@@ -470,10 +470,10 @@
                                             <div class="modal-body">
                                                 <div class="form-group">
                                                     <label for="recipient-name" class="col-form-label">Wallpaper:</label>
-                                                    <input type="file" name="fileWallpaper" class="ml-2 align-content-center" id="recipient-name" accept="image/*">
+                                                    <input type="file" name="fileWallpaper" class="ml-2 align-content-center" id="recipient-name" accept="image/jpg">
                                                     <p class="text-danger small font-italic font-weight-light">*Please choose image under 5 MB</p>
                                                     <label for="recipient-name" class="col-form-label">Avatar:</label>
-                                                    <input type="file" name="fileAvatar" class="ml-2 align-content-center" id="recipient-name" accept="image/*">
+                                                    <input type="file" name="fileAvatar" class="ml-2 align-content-center" id="recipient-name" accept="image/jpg">
                                                     <p class="text-danger small font-italic font-weight-light">*Please choose image under 5 MB</p>
                                                     <hr>
                                                     <div class="d-flex flex-row " style="gap: 10px">
@@ -505,7 +505,7 @@
                                                         </div>
                                                     </div>
                                                     <div class="d-flex flex-row " style="gap: 10px">
-                                                        <div class="form-outline mb-4" style="flex-grow: 2">
+                                                        <div class="form-outline mb-2" style="flex-grow: 2">
                                                             <label class="form-label" for="form1Example1">Address</label>
                                                             <input type="text"   class="form-control" name="address" value="${candidateTemp.getAddress()}" id="address"/>
                                                             <p class="text-danger small font-italic font-weight-light">${addressErrorMesg}</p>
@@ -526,6 +526,19 @@
                                                             </div>
                                                         </div> 
                                                     </div>
+                                                    <label class="form-label" for="form1Example1">City</label>
+                                                    <select name="citySelect" class="form-select mr-2 border-secondary rounded w-25 form-control " value="${citySelect}">
+                                                        <c:choose>
+                                                            <c:when test="${not empty citySelect}">
+                                                                <option selected="selected" value="${citySelect}" >
+                                                                    ${citySelect}
+                                                                </option>    
+                                                            </c:when>
+                                                        </c:choose>
+                                                        <c:forEach items="${listCity}" var="city">
+                                                            <option value="${city.getName()}">${city.getName()}</option>
+                                                        </c:forEach>
+                                                    </select>
                                                 </div>
                                             </div>
 

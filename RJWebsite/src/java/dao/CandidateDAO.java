@@ -16,7 +16,6 @@ import entity.Education;
 import entity.Experience;
 import entity.Skill;
 import entity.Social;
-import java.io.InputStream;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -27,7 +26,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import utils.FileUtils;
 
 /**
  * The data access object executes a data query from the Candidate table or main
@@ -288,6 +286,7 @@ public class CandidateDAO extends DBContext implements ICandidate {
                 candidate.setAddress(rs.getString("address"));
                 candidate.setFindingJob(rs.getBoolean("finding_job"));
                 candidate.setEmail(rs.getString("email"));
+                candidate.setCity(rs.getString("city"));
                 return candidate;
             }
 
@@ -321,7 +320,6 @@ public class CandidateDAO extends DBContext implements ICandidate {
         }
         return null;
     }
-
 
     /**
      * Add candidate cv if not exist, update if cv update.
@@ -361,7 +359,7 @@ public class CandidateDAO extends DBContext implements ICandidate {
         PreparedStatement ps = null;
         ResultSet rs = null;
         System.out.println("link: ");
-        System.out.println("link: "+link);
+        System.out.println("link: " + link);
         try {
             conn = getConnection();
             ps = conn.prepareStatement(query);
@@ -377,8 +375,7 @@ public class CandidateDAO extends DBContext implements ICandidate {
         }
     }
 
-   
-  private Exception Error(Exception e) {
+    private Exception Error(Exception e) {
 
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
@@ -589,6 +586,42 @@ public class CandidateDAO extends DBContext implements ICandidate {
             }
         }
         return candidateProjects;
+    }
+
+    @Override
+    public void updateCandidatePersonalProfile(int candidateId, String bannerBase64, String avartaBase64, String fisrtName, String lastName, String address, String city, String phoneNumber, boolean gender, String dob) {
+        String query = "UPDATE [dbo].[candidate]\n"
+                + "   SET\n"
+                + "       [first_name] = ISNULL(?,first_name)\n"
+                + "      ,[last_name] = ISNULL(?,last_name)\n"
+                + "      ,[birth_date] = ISNULL(?,birth_date)\n"
+                + "      ,[address] = ISNULL(?,address)\n"
+                + "      ,[avatar] =ISNULL(?,avatar)\n"
+                + "      ,[sex] = ISNULL(?,sex)\n"
+                + "      ,[banner] = ISNULL(?,banner)\n"
+                + "      ,[phone] = ISNULL(?,phone)   \n"
+                + "      ,[city] = ISNULL(?,city)\n"
+                + " WHERE candidate.candidate_id=?";
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        try {
+            conn = getConnection();
+            ps = conn.prepareStatement(query);
+            ps.setString(1, fisrtName);
+            ps.setString(2, lastName);
+            ps.setString(3, dob);
+            ps.setString(4, address);
+            ps.setString(5, avartaBase64);
+            ps.setBoolean(6, gender);
+            ps.setString(7, bannerBase64);
+            ps.setString(8, phoneNumber);
+            ps.setString(9, city);
+            ps.setInt(10, candidateId);
+            rs = ps.executeQuery();
+        } catch (Exception e) {
+            System.out.println(e);
+        }
     }
 
 }
