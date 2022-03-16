@@ -53,7 +53,7 @@ public class FileUtils {
         is.read(imageBytes, 0, imageBytes.length);
         is.close();
         String encoded = Base64.getEncoder().encodeToString(imageBytes);
-        return encoded;
+        return "data:image/jpg;base64," + encoded;
     }
 
 }
