@@ -37,9 +37,9 @@ import validation.Validation;
  *
  * @author Admin
  */
-@MultipartConfig(fileSizeThreshold = 1024 * 1024 * 5, // 2MB
-        maxFileSize = 1024 * 1024 * 8, // (1024 bytes = 1 KB) x (1024 = 1 MB) x 7 = 8 MB 
-        maxRequestSize = 1024 * 1024 * 15)//(1024 bytes = 1 KB) x (1024 = 1 MB) x 15 = 15 MB
+@MultipartConfig(fileSizeThreshold = 1024 * 1024 * 2, // 2MB
+        maxFileSize = 1024 * 1024 * 6, // (1024 bytes = 1 KB) x (1024 = 1 MB) x 5 = 5 MB 
+        maxRequestSize = 1024 * 1024 * 6)//(1024 bytes = 1 KB) x (1024 = 1 MB) x 5 = 5 MB
 public class CandidateProfileController extends HttpServlet {
 
     /**
@@ -143,7 +143,6 @@ public class CandidateProfileController extends HttpServlet {
         List<Certificate> certificates = iCandidate.getCertificateByCandidateId(candidateInfo.getCandIdateId());
         List<Experience> experiences = iCandidate.getExperienceByCandidateId(candidateInfo.getCandIdateId());
         List<CandidateProject> projects = iCandidate.getCandidateProjectByCandidateId(candidateInfo.getCandIdateId());
-
 //Set current user input data
         request.setAttribute("banner", bannerBase64);
         request.setAttribute("avatar", avatarBase64);
@@ -158,12 +157,11 @@ public class CandidateProfileController extends HttpServlet {
         request.setAttribute("projectList", projects);
         request.setAttribute("candidateInfo", candidateInfo);
 
-        // Modal logic
-        String action = request.getParameter("action");
-        switch (action) {
-            case "personalInfo":
-        //Personal modal
         try {
+            // Modal logic
+            String action = request.getParameter("action");
+            if (action.equalsIgnoreCase("personalInfo")) {
+                //Personal modal
                 Part fileWallpaper = request.getPart("fileWallpaper");
                 Part fileAvatar = request.getPart("fileAvatar");
 
@@ -172,26 +170,24 @@ public class CandidateProfileController extends HttpServlet {
                 String phoneNumber = request.getParameter("phoneNumber").trim();
                 String dob = request.getParameter("dob");
                 String city = request.getParameter("citySelect");
-
                 String address = request.getParameter("address").trim();
                 String fileWallpaperName = fileUtils.extractFileName(fileWallpaper);
                 String fileAvatarName = fileUtils.extractFileName(fileAvatar);
                 String encodedFileWallpaper = null;
                 String encodedFileAvatar = null;
+
                 if (fileWallpaperName != null && fileWallpaperName.length() > 0) {
                     InputStream is = fileWallpaper.getInputStream();
                     long fileWallpaperSize = fileWallpaper.getSize();
                     encodedFileWallpaper = fileUtils.inputStreamToBase64(is, fileWallpaperSize);
                     IOUtils.closeQuietly(is);
                 }
-
                 if (fileAvatarName != null && fileAvatarName.length() > 0) {
                     InputStream is = fileAvatar.getInputStream();
                     long fileAvatarSize = fileAvatar.getSize();
                     encodedFileAvatar = fileUtils.inputStreamToBase64(is, fileAvatarSize);
                     IOUtils.closeQuietly(is);
                 }
-            
 
                 if (!checkPersonalInfo(request, firstName, lastName, phoneNumber, dob, address)) {
                     Candidate candidateTemp = new Candidate();
@@ -207,10 +203,15 @@ public class CandidateProfileController extends HttpServlet {
                     response.sendRedirect("candidateprofilecontroller");
                 }
 
-            } catch (Exception e) {
-                System.out.println(e);
             }
-            break;
+        } catch (IllegalStateException e) {
+            request.setAttribute("isPersonalModalShow", "true");
+            request.setAttribute("genderError", "File over size, please try smaller file.");
+            request.getRequestDispatcher("CandidateProfilePage.jsp").forward(request, response);
+        } catch (Exception e) {
+            request.setAttribute("isPersonalModalShow", "true");
+            request.setAttribute("genderError", "Something went wrong, please check all input data (file size, special character,etc..) or try later.");
+            request.getRequestDispatcher("CandidateProfilePage.jsp").forward(request, response);
         }
 
     }

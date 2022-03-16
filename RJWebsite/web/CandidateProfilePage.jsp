@@ -469,6 +469,10 @@
                                         <form action="candidateprofilecontroller" method="POST"  enctype="multipart/form-data">
                                             <div class="modal-body">
                                                 <div class="form-group">
+                                                    <c:if test="${not empty genderError}">
+                                                        <p class="text-danger font-italic font-weight-bold">*${genderError}*</p>
+                                                    </c:if>
+
                                                     <label for="recipient-name" class="col-form-label">Wallpaper:</label>
                                                     <input type="file" name="fileWallpaper" class="ml-2 align-content-center" id="recipient-name" accept="image/jpg">
                                                     <p class="text-danger small font-italic font-weight-light">*Please choose image under 5 MB</p>
@@ -478,7 +482,7 @@
                                                     <hr>
                                                     <div class="d-flex flex-row " style="gap: 10px">
                                                         <div class="form-outline mb-4 flex-grow-1">
-                                                            <label class="form-label" for="form1Example1">Firsrt Name</label>
+                                                            <label class="form-label" for="form1Example1">First Name</label>
                                                             <input type="text" id="fisrtname" class="form-control" name="fisrtname" value="${candidateTemp.getFirstName()}">
                                                         </div>    
                                                         <div class="form-outline mb-4 flex-grow-1">
