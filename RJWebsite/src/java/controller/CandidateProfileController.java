@@ -82,7 +82,6 @@ public class CandidateProfileController extends HttpServlet {
         Candidate candidateTemp = iCandidate.getCandidateProfileById(loginedUser.getAccId());
         String avatarBase64 = candidateInfo.getAvatar();
         String bannerBase64 = candidateInfo.getBanner();
-        System.out.println("get " + avatarBase64.length() + " " + bannerBase64.length());
 
         CandidateCV candidateCV = iCandidate.getCandidateCVByCandidateId(candidateInfo.getCandIdateId());
         String cvImgDecode = candidateCV.getOriginCv();
@@ -183,7 +182,6 @@ public class CandidateProfileController extends HttpServlet {
                     InputStream is = fileWallpaper.getInputStream();
                     long fileWallpaperSize = fileWallpaper.getSize();
                     encodedFileWallpaper = fileUtils.inputStreamToBase64(is, fileWallpaperSize);
-                    System.out.println("encodedFileWallpaper " + encodedFileWallpaper.length());
                     IOUtils.closeQuietly(is);
                 }
 
@@ -191,11 +189,9 @@ public class CandidateProfileController extends HttpServlet {
                     InputStream is = fileAvatar.getInputStream();
                     long fileAvatarSize = fileAvatar.getSize();
                     encodedFileAvatar = fileUtils.inputStreamToBase64(is, fileAvatarSize);
-                    System.out.println("encodedFileAvatar " + encodedFileAvatar.length());
                     IOUtils.closeQuietly(is);
                 }
-                System.out.println("fileAvatarName " + fileAvatarName + " " + encodedFileAvatar + "");
-                System.out.println("fileWallpaperName " + fileWallpaperName + " " + encodedFileWallpaper);
+            
 
                 if (!checkPersonalInfo(request, firstName, lastName, phoneNumber, dob, address)) {
                     Candidate candidateTemp = new Candidate();

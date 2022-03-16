@@ -635,7 +635,7 @@ public class CandidateDAO extends DBContext implements ICandidate {
             ps.executeUpdate();
 
         } catch (Exception e) {
-            System.out.println(e);
+            throw new Error();
         }
     }
 
