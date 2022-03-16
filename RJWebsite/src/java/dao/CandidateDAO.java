@@ -21,6 +21,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Types;
 import java.util.ArrayList;
 
 import java.util.List;
@@ -596,15 +597,21 @@ public class CandidateDAO extends DBContext implements ICandidate {
                 + "      ,[last_name] = ISNULL(?,last_name)\n"
                 + "      ,[birth_date] = ISNULL(?,birth_date)\n"
                 + "      ,[address] = ISNULL(?,address)\n"
-                + "      ,[avatar] =ISNULL(?,avatar)\n"
                 + "      ,[sex] = ISNULL(?,sex)\n"
-                + "      ,[banner] = ISNULL(?,banner)\n"
-                + "      ,[phone] = ISNULL(?,phone)   \n"
                 + "      ,[city] = ISNULL(?,city)\n"
-                + " WHERE candidate.candidate_id=?";
+                + "      ,[phone] = ISNULL(?,phone)   \n";
+        String updateBanner = "      ,[banner] = ISNULL(?,[banner])\n";
+        String updateAvatar = "      ,[avatar] = ISNULL(?,[avatar])\n";
+        String condition = " WHERE candidate.candidate_id=?";
         Connection conn = null;
         PreparedStatement ps = null;
-        ResultSet rs = null;
+        if (bannerBase64 != null && bannerBase64.length() > 22) {
+            query = query + updateBanner;
+        }
+        if (avartaBase64 != null && avartaBase64.length() > 22) {
+            query = query + updateAvatar;
+        }
+        query = query + condition;
         try {
             conn = getConnection();
             ps = conn.prepareStatement(query);
@@ -612,13 +619,21 @@ public class CandidateDAO extends DBContext implements ICandidate {
             ps.setString(2, lastName);
             ps.setString(3, dob);
             ps.setString(4, address);
-            ps.setString(5, avartaBase64);
-            ps.setBoolean(6, gender);
-            ps.setString(7, bannerBase64);
-            ps.setString(8, phoneNumber);
-            ps.setString(9, city);
-            ps.setInt(10, candidateId);
-            rs = ps.executeQuery();
+            ps.setBoolean(5, gender);
+            ps.setString(6, city);
+            ps.setString(7, phoneNumber);
+            int count = 8;
+            if (bannerBase64 != null && bannerBase64.length() > 22) {
+                ps.setString(count, bannerBase64);
+                count++;
+            }
+            if (avartaBase64 != null && avartaBase64.length() > 22) {
+                ps.setString(count, avartaBase64);
+                count++;
+            }
+            ps.setInt(count, candidateId);
+            ps.executeUpdate();
+
         } catch (Exception e) {
             System.out.println(e);
         }

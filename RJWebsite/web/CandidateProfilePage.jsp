@@ -43,12 +43,12 @@
                 <div class="container">
                     <!-- Banner -->
                     <div style="height: 20rem;margin-bottom: 1rem">
-                        <img src="${candidateInfo.getBanner()}" style="width:100%; height:100% ; border: 5px; object-fit: cover;" class="mb-3" alt="Responsive image">
+                        <img src="${banner}" style="width:100%; height:100% ; border: 5px; object-fit: cover;" class="mb-3" alt="Responsive image">
                     </div>
                     <!-- Header -->
                     <div class="d-flex justify-content-between" style="max-height: 160px">
                         <div class="d-flex justify-content-center py-0" style="height: inherit">
-                            <image src="${candidateInfo.getAvatar()}"  class="rounded-circle shadow" style="height: 14rem;position: relative; top: -4rem; left: 1rem ;max-width: 226px"/>
+                            <img src="${avatar}"  class="rounded-circle shadow" style="height: 14rem;position: relative; top: -4rem; left: 1rem ;max-width: 226px"/>
                             <i class="bi bi-archive"></i>
                             <div class="mt-3 ml-5" style="max-height: 152px">   
                                 <h2 class="display-5 font-weight-normal" style="position: relative; right: 0.2rem" >
