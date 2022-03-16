@@ -19,8 +19,8 @@ public class Validation {
             = Pattern.compile("^(84|0[3|5|7|8|9])+([0-9]{8})$", Pattern.CASE_INSENSITIVE);
     public static final Pattern VALID_PASSWORD_REGEX
             = Pattern.compile("^(?=.*[0-9])(?=.*[a-z])(?=\\S+$).{8,}$", Pattern.CASE_INSENSITIVE);
-    public static final Pattern VALID_ONLY_TEXT = Pattern.compile("^[A-Za-z ]*$", Pattern.CASE_INSENSITIVE);
-    public static final Pattern VALID_NAME_TEXT = Pattern.compile("^[A-Za-z ]{1,150}$", Pattern.CASE_INSENSITIVE);
+    public static final Pattern VALID_ONLY_TEXT = Pattern.compile("^[A-Za-z_ÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềềểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễếệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ ]*$", Pattern.CASE_INSENSITIVE);
+    public static final Pattern VALID_NAME_TEXT = Pattern.compile("^[A-Za-z_ÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềềểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễếệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ ]{1,150}$", Pattern.CASE_INSENSITIVE);
 
     /**
      * Check if the input email contains username, an @ symbol, domain name, a
@@ -81,7 +81,7 @@ public class Validation {
 
     public static void main(String[] args) {
         Validation v = new Validation();
-        System.out.println(v.nameValidation("m", "a"));
+        System.out.println(v.nameValidation("mad", "aad"));
         System.out.println(v.phoneNumberValidation("0969051715"));
     }
 }
