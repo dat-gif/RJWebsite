@@ -89,9 +89,9 @@
                             <div class="flex-column w-100">
                                 <div class="d-flex flex-row mt-2">
                                     <div>
-                                        <image src="https://picsum.photos/50/50" class="mt-2 mb-2" >
+                                        <i class="fa fa-paperclip" aria-hidden="true" class="mt-4" style="font-size: 2.5rem"></i>
                                     </div>
-                                    <div class="ml-4 mt-2">
+                                    <div class="ml-4 mt-2" >
                                         <h5>My CV</h5>
                                         <c:if test="${not empty cvLink}">
                                             <p class="text-secondary mb-1">Link CV: </p>
@@ -164,12 +164,13 @@
                             <div class="d-flex flex-row mt-3 justify-content-between">
                                 <div class="d-flex flex-row mt-2 flex-grow-1">
                                     <div>
-                                        <image src="https://picsum.photos/50/50" class="mt-2 mb-2" >
+                                        <i class="fa fa-graduation-cap" aria-hidden="true" style="font-size: 2.5rem"></i>
                                     </div>                                 
                                     <!-- Edu list -->
                                     <c:choose>
                                         <c:when test="${not empty eduList}">
                                             <div class="flex-column" style="flex: 1;">
+
                                                 <c:forEach items="${eduList}" var="edu">
                                                     <div class="d-flex flex-row justify-content-between">
                                                         <div class="ml-4 mt-2 ">
@@ -251,7 +252,6 @@
                                                             </div>
                                                         </div>
 
-
                                                         <div class="form-outline"style="flex-grow: 0">
                                                             <div class="form-group">
                                                                 <label for="recipient-name" class="col-form-label">Upload image:</label>
@@ -321,7 +321,7 @@
                             <div class="d-flex flex-row mt-3 justify-content-between">
                                 <div class="d-flex flex-row mt-2">
                                     <div>
-                                        <image src="https://picsum.photos/50/50" class="mt-2 mb-2" >
+                                        <i class="fa fa-suitcase" aria-hidden="true" style="font-size: 2.5rem"></i>
                                     </div>
 
                                     <!-- Experiecnce list -->
@@ -352,7 +352,7 @@
                             <div class="d-flex flex-row mt-3 justify-content-between">
                                 <div class="d-flex flex-row mt-2">
                                     <div>
-                                        <image src="https://picsum.photos/50/50" class="mt-2 mb-2" >
+                                        <i class="fa fa-desktop" aria-hidden="true" style="font-size: 2.5rem"></i>
                                     </div>
 
                                     <!-- Project list -->
@@ -384,7 +384,7 @@
                             <div class="d-flex flex-row mt-3 justify-content-between">
                                 <div class="d-flex flex-row mt-2">
                                     <div>
-                                        <image src="https://picsum.photos/50/50" class="mt-2 mb-2" >
+                                        <i class="fa fa-address-card-o" aria-hidden="true" style="font-size: 2.5rem"></i>
                                     </div>
                                     <!-- Certificate list -->
                                     <div class="d-flex flex-column">
