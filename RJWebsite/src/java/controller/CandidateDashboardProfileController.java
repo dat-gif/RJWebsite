@@ -66,15 +66,15 @@ public class CandidateDashboardProfileController extends HttpServlet {
         FileUtils fileUtils = new FileUtils();
 
         //Get candidate info 
-        Candidate candidateInfo = iCandidate.getCandidateProfileById(id);
+        Candidate candidateInfo = iCandidate.getCandidateProfileByCandidateId(id);
 
-        CandidateCV candidateCV = iCandidate.getCandidateCVByCandidateId(candidateInfo.getCandIdateId());
+        CandidateCV candidateCV = iCandidate.getCandidateCVByCandidateId(id);
         String cvImgDecode = "data:image/png;base64," + candidateCV.getOriginCv();
-        List< Education> educations = iCandidate.getEducationByCandidateId(candidateInfo.getCandIdateId());
-        List<Skill> listSkill = iCandidate.getSkillByCandidateId(candidateInfo.getCandIdateId());
-        List<Certificate> certificates = iCandidate.getCertificateByCandidateId(candidateInfo.getCandIdateId());
-        List<Experience> experiences = iCandidate.getExperienceByCandidateId(candidateInfo.getCandIdateId());
-        List<CandidateProject> projects = iCandidate.getCandidateProjectByCandidateId(candidateInfo.getCandIdateId());
+        List< Education> educations = iCandidate.getEducationByCandidateId(id);
+        List<Skill> listSkill = iCandidate.getSkillByCandidateId(id);
+        List<Certificate> certificates = iCandidate.getCertificateByCandidateId(id);
+        List<Experience> experiences = iCandidate.getExperienceByCandidateId(id);
+        List<CandidateProject> projects = iCandidate.getCandidateProjectByCandidateId(id);
 
         request.setAttribute("cvLink", candidateCV.getMediaCv());
         request.setAttribute("imgDecode", cvImgDecode);

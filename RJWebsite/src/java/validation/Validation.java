@@ -19,7 +19,6 @@ public class Validation {
             = Pattern.compile("^(84|0[3|5|7|8|9])+([0-9]{8})$", Pattern.CASE_INSENSITIVE);
     public static final Pattern VALID_PASSWORD_REGEX
             = Pattern.compile("^(?=.*[0-9])(?=.*[a-z])(?=\\S+$).{8,}$", Pattern.CASE_INSENSITIVE);
-
     /**
      * Check if the input email contains username, an @ symbol, domain name, a
      * dot, and the domain

@@ -36,6 +36,8 @@ public interface ICandidate {
 
     public List<Candidate> getCandidates(int index, int size);
 
+    public Candidate getCandidateProfileByCandidateId(int id);
+
     public Candidate getCandidateProfileById(int accountId);
 
     public CandidateCV getCandidateCVByCandidateId(int candidateId);

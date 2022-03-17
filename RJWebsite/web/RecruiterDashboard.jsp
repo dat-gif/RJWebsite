@@ -118,7 +118,7 @@
                                     <td>${r.phone}</td>
                                     <td>${r.address}</td>
                                     <td>${r.city}</td>
-                                    <td><a href="RecruiterDetailController?recruiterId=${r.recruiterId}" id ="a2">Details</a></td>
+                                    <th><a href="RecruiterDetailController?recruiterId=${r.recruiterId}" id ="a2">Details</a></th>
 
                                 </tr>
                             </c:forEach> 

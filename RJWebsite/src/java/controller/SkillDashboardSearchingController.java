@@ -43,6 +43,7 @@ public class SkillDashboardSearchingController extends HttpServlet {
                 index = Integer.parseInt(indexString);
             }
             String txtSearch = request.getParameter("txtSearch");
+            txtSearch = txtSearch.trim();
             if (txtSearch.trim().isEmpty()) {
                 txtSearch = "";
             }

@@ -65,23 +65,10 @@ public class DashboardJobDetailController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         IJob daoJob = new JobDAO();
-        String jobId = request.getParameter("jobId");
-        setJobDetailId(jobId);
+        int jobId = Integer.parseInt(request.getParameter("jobId"));
 
         try {
-            IAccount iAccount = new AccountDAO();
-            Job job = daoJob.getJobById(Integer.parseInt(jobId));
-            Account userAccount = AppUtils.getLoginedUser(request.getSession());
-            if (userAccount == null) {
-                request.setAttribute("jobApplyButton", "Apply");
-            } else {
-                Candidate candidate = iAccount.getCandidateInfoByAccountId(userAccount.getAccId());
-                if (daoJob.checkJobBeenApply(Integer.parseInt(jobId), candidate.getCandIdateId())) {
-                    request.setAttribute("jobApplyButton", "Apply");
-                } else {
-                    request.setAttribute("jobApplyButton", "Withdraw");
-                }
-            }
+            Job job = daoJob.getJobById(jobId);
             request.setAttribute("recruiterId", job.getRecruiter().getRecruiterId());
             request.setAttribute("avatar", job.getRecruiter().getAvatar());
             request.setAttribute("jobTile", job.getTitle());
@@ -93,7 +80,7 @@ public class DashboardJobDetailController extends HttpServlet {
             request.setAttribute("experience", job.getExperience());
             request.setAttribute("location", job.getLocation());
             request.setAttribute("description", job.getDescription());
-            request.setAttribute("skill", job.getSkillListName());
+            request.setAttribute("skill", daoJob.getSkillNameByJobId(jobId));
             request.setAttribute("recruiterId", job.getRecruiter().getRecruiterId());
             request.getRequestDispatcher("DashboardJobDetail.jsp").forward(request, response);
         } catch (Exception e) {
@@ -113,26 +100,7 @@ public class DashboardJobDetailController extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
-        String jobId = getJobDetailId();
-        IJob daoJob = new JobDAO();
-        IAccount iAccount = new AccountDAO();
-        try {
-            //Get account in session
-            Account userAccount = AppUtils.getLoginedUser(request.getSession());
-            if (userAccount == null) {
-                response.sendRedirect("login");
-            } else {
-                Candidate candidate = iAccount.getCandidateInfoByAccountId(AppUtils.getLoginedUser(request.getSession()).getAccId());
-                // Thêm check cv trống.
-                if (daoJob.checkJobBeenApply(Integer.parseInt(jobId), candidate.getCandIdateId())) {
-                    daoJob.createRequestApplyJob(Integer.parseInt(jobId), candidate.getCandIdateId());
-                } else {
-                    daoJob.deleteRequestApplyJob(Integer.parseInt(jobId), candidate.getCandIdateId());
-                }
-            }
-            response.sendRedirect("jobdetail?jobId=" + jobId);
-        } catch (Exception e) {
-        }
+        
     }
 
     /**

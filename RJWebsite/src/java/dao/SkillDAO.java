@@ -12,14 +12,56 @@ import entity.Skill;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
  * @author admin
  */
 public class SkillDAO extends DBContext implements ISkill {
+
+    /*
+     */
+    @Override
+    public void deleteSkill(int id) {
+        try {
+            Connection conn = getConnection();
+            PreparedStatement ps;
+            ps = conn.prepareStatement("DELETE FROM skill WHERE skill_id = ?");
+            ps.setInt(1, id);
+            ps.executeUpdate();
+        } catch (Exception e) {
+            System.out.println(" :" + e);
+        }
+    }
+@Override
+    public void deleteCandidateSkill(int id) {
+        try {
+            Connection conn = getConnection();
+            PreparedStatement ps;
+            ps = conn.prepareStatement("DELETE FROM candidate_skill WHERE skill_id = ?");
+            ps.setInt(1, id);
+            ps.executeUpdate();
+        } catch (Exception e) {
+            System.out.println(" :" + e);
+        }
+    }
+    @Override
+    public void deleteJobSkill(int id) {
+        try {
+            Connection conn = getConnection();
+            PreparedStatement ps;
+            ps = conn.prepareStatement("DELETE FROM job_skill WHERE skill_id = ?");
+            ps.setInt(1, id);
+            ps.executeUpdate();
+        } catch (Exception e) {
+            System.out.println(" :" + e);
+        }
+    }
 
     /*
      */

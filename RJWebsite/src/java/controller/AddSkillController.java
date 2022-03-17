@@ -46,11 +46,9 @@ public class AddSkillController extends HttpServlet {
         List<Skill> list = jdao.getAllSkill();
         String cName = name.toLowerCase();
         try {
-
             if (sDAO.checkExistedSkillName(cName)) {
                 request.setAttribute("error", "Skill name is already exist");
                 request.getRequestDispatcher("AddSkill.jsp").forward(request, response);
-
             } else {
                 skill.setName(name);
                 skill.setDepscription(description);

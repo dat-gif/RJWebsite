@@ -4,10 +4,8 @@
  */
 package controller;
 
-import dao.CandidateDAO;
-import dao.JobDAO;
-import dao.idao.ICandidate;
-import dao.idao.IJob;
+import dao.SkillDAO;
+import dao.idao.ISkill;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -20,8 +18,8 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author admin
  */
-@WebServlet(name = "SearchCandidateApplyController", urlPatterns = {"/SearchCandidateApplyController"})
-public class SearchCandidateApplyController extends HttpServlet {
+@WebServlet(name = "DeleteSkillDashboardController", urlPatterns = {"/DeleteSkillDashboardController"})
+public class DeleteSkillDashboardController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -34,38 +32,6 @@ public class SearchCandidateApplyController extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        request.setCharacterEncoding("UTF-8");
-        try {
-            int id = Integer.parseInt(request.getParameter("id"));
-            int index;
-            String indexString = request.getParameter("index");
-            if (indexString.isEmpty()) {
-                index = 1;
-            } else {
-                index = Integer.parseInt(indexString);
-            }
-            String txtSearch = request.getParameter("txtSearch");
-            txtSearch = txtSearch.trim();
-            if (txtSearch.trim().isEmpty()) {
-                txtSearch = "";
-            }
-            IJob cdao = new JobDAO();
-            int count = cdao.countTotalApplySearchRow(id, txtSearch);
-            int pageSize = 6;
-            int endPage = 0;
-            endPage = count / pageSize;
-            if (count % pageSize != 0) {
-                endPage++;
-            }
-            request.setAttribute("job_id", id);
-            request.setAttribute("index", index);
-            request.setAttribute("end", endPage);
-            request.setAttribute("list", cdao.getCandidateApplyJobSearch(id, txtSearch, index, pageSize));
-            request.setAttribute("save", txtSearch);
-            request.getRequestDispatcher("DashboardCandidateApplyJobPage.jsp").forward(request, response);
-        } catch (Exception e) {
-        }
 
     }
 
@@ -82,6 +48,15 @@ public class SearchCandidateApplyController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
+        response.setContentType("text/html;charset=UTF-8");
+        int id = Integer.parseInt(request.getParameter("id"));
+        String txtSearch = request.getParameter("txtSearch");
+        int index = Integer.parseInt(request.getParameter("index"));
+        ISkill sDao = new SkillDAO();
+        sDao.deleteCandidateSkill(id);
+        sDao.deleteJobSkill(id);
+        sDao.deleteSkill(id);
+        response.sendRedirect("SkillDashboardSearchingController?id=" + id + "&index=" + index + "&txtSearch=" + txtSearch);
     }
 
     /**
@@ -95,7 +70,6 @@ public class SearchCandidateApplyController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
     }
 
     /**

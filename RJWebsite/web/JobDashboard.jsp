@@ -118,7 +118,7 @@
                                             <td>${j.getRecruiter().name}</td>
                                             <td>${j.hireDate}</td>
                                             <td>${j.location}</td>
-                                            <td><a href="UpdateStatusController?id=${j.jId}&index=${index}&txtSearch=${save}">
+                                            <th><a href="UpdateStatusController?id=${j.jId}&index=${index}&txtSearch=${save}">
                                                     <c:choose>
                                                         <c:when test="${j.status}">
                                                             Deactivate
@@ -127,10 +127,10 @@
                                                             Activate
                                                         </c:otherwise>
                                                     </c:choose>
-                                                </a></td>
-                                            <td><a href="DashboardCandidateApplyJobController?id=${j.jId}&index=1" id="a1">Candidate Applied</a>
+                                                </a></th>
+                                            <th><a href="DashboardCandidateApplyJobController?id=${j.jId}&index=1" id="a1">Candidate Applied</a>&nbsp;
                                                 <a href="DashboardJobDetailController?jobId=${j.jId}" id ="a2">Details</a>
-                                            </td>
+                                            </th>
                                         </tr>
                                     </c:forEach> 
                                 </tbody>

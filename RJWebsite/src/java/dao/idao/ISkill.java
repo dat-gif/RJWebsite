@@ -17,6 +17,12 @@ import java.util.List;
  */
 public interface ISkill {
 
+    public void deleteCandidateSkill(int id);
+
+    public void deleteJobSkill(int id);
+
+    public void deleteSkill(int id);
+
     public void updateStatus(int id, boolean status);
 
     public int countTotalSkillSearch(String txtSearch);

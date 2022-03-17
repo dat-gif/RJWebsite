@@ -114,18 +114,19 @@
                                     <th scope="row">${s.name}</th>
                                     <td class="de"><p>${s.depscription}</p></td>
                                     <th scope="col"><a href="SkillStatusController?id=${s.id}&index=${index}&txtSearch=${save}">
-                                                    <c:choose>
-                                                        <c:when test="${s.status}">
-                                                            Activate
-                                                        </c:when>
-                                                        <c:otherwise>
-                                                            Deactivate
-                                                        </c:otherwise>
-                                                    </c:choose>
-                                                </a></th>
-                                    <td>
-                                        <a href ="EditSkillController?id=${s.id}&index=${index}&txtSearch=${save}" id ="a2" >Edit</a>
-                                    </td>
+                                            <c:choose>
+                                                <c:when test="${s.status}">
+                                                    Activate
+                                                </c:when>
+                                                <c:otherwise>
+                                                    Deactivate
+                                                </c:otherwise>
+                                            </c:choose>
+                                        </a></th>
+                                    <th>
+                                        <a href ="EditSkillController?id=${s.id}&index=${index}&txtSearch=${save}" id ="a2" >Edit</a>&nbsp;
+                                        <a href ="" id ="a2" data-toggle="modal" data-target="#exampleModal" data-id = "${s.id}">Delete</a>
+                                    </th>
                                 </tr>
                             </c:forEach>
                         </tbody>
@@ -146,6 +147,38 @@
                 </div>
             </div>
         </div>
+        <!-- Modal -->
+        <form action="DeleteSkillDashboardController" method="get">
+            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Confirmation</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                       
+                        <input type="hidden" id="id" name="id">
+                        <input type="hidden" value="${index}" name="index">
+                        <input type="hidden" value="${save}" name="txtSearch">
+                        <div class="modal-body">
+                            Are you sure you want to delete this skill?
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                            <button type="submit" class="btn btn-danger" >Yes</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <script>$('#exampleModal').on('show.bs.modal', function (event) {
+                var button = $(event.relatedTarget); // Button that triggered the modal
+                var recipient = button.data('id'); // Extract info from data-* attributes
+                var modal = $(this);
+                modal.find('#id').val(recipient);
+            });</script>
         <script src="bootstrap-4.6.1-dist/js/bootstrap.min.js"></script>
     </body>
     <footer> <jsp:include page="component/Footer.jsp"/></footer>
