@@ -84,7 +84,15 @@ public class CandidateProfileController extends HttpServlet {
         String bannerBase64 = candidateInfo.getBanner();
 
         CandidateCV candidateCV = iCandidate.getCandidateCVByCandidateId(candidateInfo.getCandIdateId());
-        String cvImgDecode = candidateCV.getOriginCv();
+        String cvImgDecode = "";
+        String cvLink = "";
+        if (candidateCV != null && !candidateCV.getOriginCv().isEmpty()) {
+            cvImgDecode = candidateCV.getOriginCv();
+        }
+        if (candidateCV != null && !candidateCV.getMediaCv().isEmpty()) {
+            cvLink = candidateCV.getMediaCv();
+        }
+
         List< Education> educations = iCandidate.getEducationByCandidateId(candidateInfo.getCandIdateId());
         List<Skill> listSkill = iCandidate.getSkillByCandidateId(candidateInfo.getCandIdateId());
         List<Certificate> certificates = iCandidate.getCertificateByCandidateId(candidateInfo.getCandIdateId());
@@ -95,7 +103,7 @@ public class CandidateProfileController extends HttpServlet {
         request.setAttribute("avatar", avatarBase64);
         request.setAttribute("listCity", listCity);
         request.setAttribute("citySelect", candidateInfo.getCity());
-        request.setAttribute("cvLink", candidateCV.getMediaCv());
+        request.setAttribute("cvLink", cvLink);
         request.setAttribute("imgDecode", cvImgDecode);
         request.setAttribute("eduList", educations);
         request.setAttribute("skillList", listSkill);
@@ -138,7 +146,14 @@ public class CandidateProfileController extends HttpServlet {
         String bannerBase64 = candidateInfo.getBanner();
 
         CandidateCV candidateCV = iCandidate.getCandidateCVByCandidateId(candidateInfo.getCandIdateId());
-        String cvImgDecode = candidateCV.getOriginCv();
+        String cvImgDecode = "";
+        String cvLink = "";
+        if (candidateCV != null && !candidateCV.getOriginCv().isEmpty()) {
+            cvImgDecode = candidateCV.getOriginCv();
+        }
+        if (candidateCV != null && !candidateCV.getMediaCv().isEmpty()) {
+            cvLink = candidateCV.getMediaCv();
+        }
         List< Education> educations = iCandidate.getEducationByCandidateId(candidateInfo.getCandIdateId());
         List<Skill> listSkill = iCandidate.getSkillByCandidateId(candidateInfo.getCandIdateId());
         List<Certificate> certificates = iCandidate.getCertificateByCandidateId(candidateInfo.getCandIdateId());
@@ -149,7 +164,7 @@ public class CandidateProfileController extends HttpServlet {
         request.setAttribute("avatar", avatarBase64);
         request.setAttribute("listCity", listCity);
         request.setAttribute("citySelect", candidateInfo.getCity());
-        request.setAttribute("cvLink", candidateCV.getMediaCv());
+        request.setAttribute("cvLink", cvLink);
         request.setAttribute("imgDecode", cvImgDecode);
         request.setAttribute("eduList", educations);
         request.setAttribute("skillList", listSkill);
