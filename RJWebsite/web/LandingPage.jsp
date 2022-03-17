@@ -34,6 +34,13 @@
                             <a class="btn btn-md btn-primary" href="register" role="button"
                                >Create profile</a
                             >
+
+
+                            <hr class="my-3 mt-4" style="height:0.5px;border-width:0.5;color:white;background-color:white">
+                            <form action="seachingjob" method="POST" class="d-flex">
+                                <input placeholder="Quick search job...." type="search" name="txtSearch" value="${txtSearch}" class="form-control  rounded border-secondary" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
+                                <button type="submit" class="btn btn-primary mx-3 d-inline ">search</button>
+                            </form>
                         </div>
                     </div>
                 </div>

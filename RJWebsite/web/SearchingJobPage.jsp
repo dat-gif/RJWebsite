@@ -77,7 +77,7 @@
                     </form>      
                 </div>
                 <div class="col p-0 align-self-center">
-                    <img src="https://picsum.photos/500/300" class="img-fluid w-100 " alt="alt"/>
+                    <img src="asset/376-500x300.jpg" class="img-fluid w-100 " alt="alt"/>
                 </div>
             </div>
             <hr class="my-4"/>

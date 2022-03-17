@@ -333,45 +333,47 @@ public class CandidateDAO extends DBContext implements ICandidate {
      */
     @Override
     public void editCandidateCVByCandidateId(int candidateId, String fileDataBase64, String link) {
-        String query = "IF EXISTS (\n"
+        String query = "DECLARE @MediaVariable AS VARCHAR(MAX)=?\n"
+                + "DECLARE @OriginVariable AS VARCHAR(MAX)=?\n"
+                + "DECLARE @ID AS int =?\n"
+                + "IF EXISTS (\n"
                 + " SELECT 1 \n"
                 + " FROM cv  \n"
                 + " inner join candidate on candidate.cv_manage_id= cv.id\n"
-                + " WHERE candidate.candidate_id=1)\n"
+                + " WHERE candidate.candidate_id= @ID)\n"
                 + " BEGIN\n"
                 + "     UPDATE cv \n"
-                + "     SET  media_cv = ISNULL(?,media_cv),\n"
-                + "	     origin_cv=ISNULL(?,origin_cv)\n"
+                + "     SET  media_cv = ISNULL( @MediaVariable,media_cv),\n"
+                + "	     origin_cv=ISNULL(@OriginVariable,origin_cv)\n"
                 + "     FROM cv\n"
                 + "     inner join candidate on candidate.cv_manage_id= cv.id\n"
-                + "     WHERE candidate.candidate_id=? ;\n"
+                + "     WHERE candidate.candidate_id=@ID ;\n"
                 + " END\n"
                 + " ELSE\n"
                 + " BEGIN\n"
                 + " INSERT INTO cv ([media_cv],[origin_cv])\n"
-                + " values (?, ?) \n"
+                + " values ( @MediaVariable, @OriginVariable) \n"
                 + " DECLARE @LASTID int\n"
                 + " SET @LASTID = IDENT_CURRENT('dbo.cv')\n"
                 + " Update candidate\n"
                 + " set cv_manage_id=isnull(@LASTID, cv_manage_id)\n"
-                + " where candidate.candidate_id=?\n"
+                + " where candidate.candidate_id=@ID\n"
                 + " end";
+
+        System.out.println("link: " + link);
+        System.out.println("encode: " + fileDataBase64.length());
         Connection conn = null;
         PreparedStatement ps = null;
-        ResultSet rs = null;
-        System.out.println("link: ");
-        System.out.println("link: " + link);
+
         try {
             conn = getConnection();
             ps = conn.prepareStatement(query);
-            ps.setInt(3, candidateId);
-            ps.setInt(6, candidateId);
             ps.setString(1, link);
-            ps.setString(4, link);
             ps.setString(2, fileDataBase64);
-            ps.setString(5, fileDataBase64);
+            ps.setInt(3, candidateId);
             ps.executeUpdate();
         } catch (Exception e) {
+            System.out.println(" editCandidateCVByCandidateId " + e);
             throw new Error();
         }
     }

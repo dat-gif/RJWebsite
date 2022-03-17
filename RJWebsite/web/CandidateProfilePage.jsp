@@ -117,10 +117,10 @@
                                                 <span aria-hidden="true">&times;</span>
                                             </button>
                                         </div>
-                                        <form action="updatecv" method="POST"  enctype="multipart/form-data">
+                                        <form action="updatecv" method="POST" enctype="multipart/form-data">
                                             <div class="modal-body">
                                                 <div class="form-group">
-                                                    <label for="recipient-name" class="col-form-label">Upload CV:</label>
+                                                    <label for="recipient-name" class="col-form-label" required>Upload CV:</label>
                                                     <input type="file" name="file" class="ml-2 align-content-center" id="recipient-name" accept="image/*">
                                                     <p class="text-danger small font-italic font-weight-light">*Please choose image under 5 MB</p>
                                                     <input type="text" class="form-control" name="cvLink" placeholder="Link CV if you has..." />
