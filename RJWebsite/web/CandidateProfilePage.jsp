@@ -43,12 +43,26 @@
                 <div class="container">
                     <!-- Banner -->
                     <div style="height: 20rem;margin-bottom: 1rem">
-                        <img src="${banner}" style="width:100%; height:100% ; border: 5px; object-fit: cover;" class="mb-3" alt="Responsive image">
+                        <c:choose>
+                            <c:when test="${not empty banner}">
+                                <img src="${banner}" style="width:100%; height:100% ; border: 5px; object-fit: cover;" class="mb-3" alt="Responsive image">
+                            </c:when>
+                            <c:otherwise>    
+                                <img src="asset/1067-1903x579.jpg" style="width:100%; height:100% ; border: 5px; object-fit: cover;" class="mb-3" alt="Responsive image">
+                            </c:otherwise>
+                        </c:choose>
                     </div>
                     <!-- Header -->
                     <div class="d-flex justify-content-between" style="max-height: 160px">
                         <div class="d-flex justify-content-center py-0" style="height: inherit">
-                            <img src="${avatar}"  class="rounded-circle shadow" style="height: 14rem;position: relative; top: -4rem; left: 1rem ;max-width: 226px"/>
+                            <c:choose>
+                                <c:when test="${not empty avatar}">
+                                    <img src="${avatar}" class="rounded-circle shadow" style="height: 14rem;position: relative; top: -4rem; left: 1rem ;max-width: 226px"/>
+                                </c:when>
+                                <c:otherwise>
+                                    <img src="asset/203-910x920.jpg" class="rounded-circle shadow" style="height: 14rem;position: relative; top: -4rem; left: 1rem ;max-width: 226px"/>
+                                </c:otherwise>
+                            </c:choose>
                             <i class="bi bi-archive"></i>
                             <div class="mt-3 ml-5" style="max-height: 152px">   
                                 <h2 class="display-5 font-weight-normal" style="position: relative; right: 0.2rem" >
@@ -100,11 +114,14 @@
 
                                     </div>
                                 </div>
-                                <input type="checkbox" id="btnControl"/>
-                                <label class="btn" for="btnControl">                            
-                                    <img src="${imgDecode}" alt="alt" class="img" style="max-width: 730px" id="btnLeft"/>
-                                </label>
-                                <p class="text-primary small font-italic font-weight-light">*Try click on to zoom image</p>
+                                <c:if test="${not empty imgDecode}">
+                                    <input type="checkbox" id="btnControl"/>
+                                    <label class="btn" for="btnControl">                                                              
+                                        <img src="${imgDecode}" alt="alt" class="img" style="max-width: 730px" id="btnLeft"/>
+                                    </label>
+                                    <p class="text-primary small font-italic font-weight-light">*Try click on to zoom image</p>
+                                </c:if>
+
                             </div>
 
                             <!-- CV Modal -->
@@ -164,7 +181,7 @@
                             <div class="d-flex flex-row mt-3 justify-content-between">
                                 <div class="d-flex flex-row mt-2 flex-grow-1">
                                     <div>
-                                        <i class="fa fa-graduation-cap" aria-hidden="true" style="font-size: 2.5rem"></i>
+                                        <i class="fa fa-graduation-cap" aria-hidden="true" style="font-size: 2.3rem"></i>
                                     </div>                                 
                                     <!-- Edu list -->
                                     <c:choose>
@@ -183,7 +200,7 @@
                                                             </div>
                                                             <hr>
                                                         </div>
-                                                        <button class="btn btn-primary btn-sm" style="max-height: 2.3rem" 
+                                                        <button class="btn btn-primary btn-sm" style="max-height: 2.5rem" 
                                                                 data-toggle="modal" data-target="#eduEdit" 
                                                                 data-majors="${edu.getField()}"
                                                                 data-degree="${edu.getDegree()}"
@@ -196,7 +213,7 @@
                                             </div>
                                         </c:when>
                                         <c:otherwise>
-                                            <h5 class="text-uppercase">List still empty</h5>
+                                            <h5 class="text-uppercase ml-4 mt-2">List still empty</h5>
                                         </c:otherwise>
                                     </c:choose>
                                 </div>
@@ -304,7 +321,7 @@
                                             </c:forEach>                
                                         </c:when>
                                         <c:otherwise>
-                                            <h5 class="text-uppercase">List still empty</h5>
+                                            <h5 class="text-uppercase ml-4 mt-2">List still empty</h5>
                                         </c:otherwise>
                                     </c:choose>
                                 </div>
@@ -323,21 +340,29 @@
                                     <div>
                                         <i class="fa fa-suitcase" aria-hidden="true" style="font-size: 2.5rem"></i>
                                     </div>
+                                    <c:choose>
+                                        <c:when test="${not empty expList}">
+                                            <!-- Experiecnce list -->
+                                            <div class="d-flex flex-column">
+                                                <c:forEach items="${expList}" var="exp">
+                                                    <div class="ml-4 mt-2">
+                                                        <h5 class="text-uppercase">${exp.getCompanyName()}</h5>
+                                                        <div style="font-size: 1rem; line-height: 1.6">
+                                                            <p class="lead mb-1">Position: ${exp.getWorkingRole()}</p>
+                                                            <p class="lead mb-1">From: ${exp.getStartTime()}-${exp.getStartTime()}</p>
+                                                            <p class="lead mb-1">Description:<br> ${exp.getDescription()}</p>
+                                                        </div>
+                                                        <hr>
+                                                    </div>   
+                                                </c:forEach>
+                                            </div>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <h5 class="text-uppercase ml-4 mt-2">List still empty</h5>
+                                        </c:otherwise>
+                                    </c:choose>
 
-                                    <!-- Experiecnce list -->
-                                    <div class="d-flex flex-column">
-                                        <c:forEach items="${expList}" var="exp">
-                                            <div class="ml-4 mt-2">
-                                                <h5 class="text-uppercase">${exp.getCompanyName()}</h5>
-                                                <div style="font-size: 1rem; line-height: 1.6">
-                                                    <p class="lead mb-1">Position: ${exp.getWorkingRole()}</p>
-                                                    <p class="lead mb-1">From: ${exp.getStartTime()}-${exp.getStartTime()}</p>
-                                                    <p class="lead mb-1">Description:<br> ${exp.getDescription()}</p>
-                                                </div>
-                                                <hr>
-                                            </div>   
-                                        </c:forEach>
-                                    </div>
+
                                 </div>
                                 <button class="btn btn-primary btn-sm" style="max-height: 2.3rem">Edit</button>
                             </div>
@@ -354,23 +379,29 @@
                                     <div>
                                         <i class="fa fa-desktop" aria-hidden="true" style="font-size: 2.5rem"></i>
                                     </div>
+                                    <c:choose>
+                                        <c:when test="${not empty projectList}">
+                                            <!-- Project list -->
+                                            <c:forEach items="${projectList}" var="project">
+                                                <div class="ml-4 mt-2">
+                                                    <h5 class="text-uppercase">${project.getName()}</h5>
+                                                    <div style="font-size: 1rem; line-height: 1.6">
+                                                        <p class="lead mb-1 text-capitalize">Position: ${project.getRole()}</p>
+                                                        <p class="lead mb-1">From: ${project.getStartTime()} - ${project.getEndTime()} </p>
+                                                        <p class="mb-1 text-secondary" style="font-size: 0.99rem">
+                                                            Description: ${project.getDescription()}</p>
+                                                    </div>
+                                                    <c:if test="${not empty project.getMedia()}">
+                                                        <image src="${project.getMedia()}" class="mt-2 mb-2" style="width: 470px; height: 300px">
+                                                    </c:if>
+                                                </div>
+                                            </c:forEach>                    
+                                        </c:when>
+                                        <c:otherwise>
+                                            <h5 class="text-uppercase ml-4 mt-2">List still empty</h5>
+                                        </c:otherwise>
+                                    </c:choose>
 
-                                    <!-- Project list -->
-                                    <c:forEach items="${projectList}" var="project">
-
-                                        <div class="ml-4 mt-2">
-                                            <h5 class="text-uppercase">${project.getName()}</h5>
-                                            <div style="font-size: 1rem; line-height: 1.6">
-                                                <p class="lead mb-1 text-capitalize">Position: ${project.getRole()}</p>
-                                                <p class="lead mb-1">From: ${project.getStartTime()} - ${project.getEndTime()} </p>
-                                                <p class="mb-1 text-secondary" style="font-size: 0.99rem">
-                                                    Description: ${project.getDescription()}</p>
-                                            </div>
-                                            <c:if test="${not empty project.getMedia()}">
-                                                <image src="${project.getMedia()}" class="mt-2 mb-2" style="width: 470px; height: 300px">
-                                            </c:if>
-                                        </div>
-                                    </c:forEach>
                                 </div>
                                 <button class="btn btn-primary btn-sm" style="max-height: 2.3rem">Edit</button>
                             </div>
@@ -386,20 +417,27 @@
                                     <div>
                                         <i class="fa fa-address-card-o" aria-hidden="true" style="font-size: 2.5rem"></i>
                                     </div>
-                                    <!-- Certificate list -->
-                                    <div class="d-flex flex-column">
-                                        <c:forEach items="${certList}" var="cert">
-                                            <div class="ml-4 mt-2">
-                                                <h5 class="text-uppercase">${cert.getName()}</h5>
-                                                <div style="font-size: 1rem; line-height: 1.6">
-                                                    <p class="lead mb-1">Organization: ${cert.getHost()}</p>
-                                                    <p class="lead mb-1">Date: ${cert.getCertificateTime()}</p>
-                                                    <a class="lead mb-1" href="${cert.getLink()}">Link: ${cert.getLink()}</a>
-                                                </div>
-                                                <image src="${cert.getMedia()}" class="mt-2 mb-2" style="width: 34rem; height: fit-content"  >
-                                            </div>
-                                        </c:forEach>
-                                    </div>
+                                    <c:choose>
+                                        <c:when test="${not empty certList}">
+                                            <!-- Certificate list -->
+                                            <div class="d-flex flex-column">
+                                                <c:forEach items="${certList}" var="cert">
+                                                    <div class="ml-4 mt-2">
+                                                        <h5 class="text-uppercase">${cert.getName()}</h5>
+                                                        <div style="font-size: 1rem; line-height: 1.6">
+                                                            <p class="lead mb-1">Organization: ${cert.getHost()}</p>
+                                                            <p class="lead mb-1">Date: ${cert.getCertificateTime()}</p>
+                                                            <a class="lead mb-1" href="${cert.getLink()}">Link: ${cert.getLink()}</a>
+                                                        </div>
+                                                        <image src="${cert.getMedia()}" class="mt-2 mb-2" style="width: 34rem; height: fit-content"  >
+                                                    </div>
+                                                </c:forEach>
+                                            </div>               
+                                        </c:when>
+                                        <c:otherwise>
+                                            <h5 class="text-uppercase ml-4 mt-2">List still empty</h5>
+                                        </c:otherwise>
+                                    </c:choose>
                                 </div>
                                 <button class="btn btn-primary btn-sm" style="max-height: 2.3rem">Edit</button>
                             </div>
