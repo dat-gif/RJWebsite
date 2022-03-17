@@ -540,9 +540,9 @@
                                                             <input class="form-control" 
                                                                    type="date" name="dob" 
                                                                    placeholder="dd-mm-yyyy" value="${dob}"
-                                                                   max="2030-12-31"
                                                                    style="min-width: 205px"
                                                                    id="dob"
+                                                                   onclick="dateClick()"
                                                                    >
                                                         </div>
                                                     </div>
@@ -608,10 +608,10 @@ $('#personnalModal').on('show.bs.modal', function (event) {
     var dobArray = button.data('dob').split("/");
     var dob = dobArray[2] + "-" + dobArray[1] + "-" + dobArray[0];
     var fname = button.data('fisrtname');
-    console.log();
+    console.log(dobArray);
     var modal = $(this);
     modal.find('#fisrtname').val(fname);
-    modal.find('#dob').val(dob);
+    modal.find('#dob').val(dobArray.toString());
     modal.find('#lastname').val(button.data('lastname'));
     modal.find('#phone').val(button.data('phone'));
     modal.find('#address').val(button.data('address'));
@@ -622,6 +622,7 @@ $('#personnalModal').on('show.bs.modal', function (event) {
     } else {
         modal.find('#checkFemale').checked;
     }
+
 
 });
 $('#eduEdit').on('show.bs.modal', function (event) {
@@ -643,6 +644,25 @@ $('#eduEdit').on('show.bs.modal', function (event) {
     modal.find('#enddate').val(endDate);
     modal.find('#description').val(description);
 });
+
+            </script>
+            <script  type="text/javascript">
+                function dateClick() {
+                    var today = new Date();
+                    var dd = today.getDate();
+                    var mm = today.getMonth() + 1; //January is 0!
+                    var yyyy = today.getFullYear();
+
+                    if (dd < 10) {
+                        dd = '0' + dd;
+                    }
+
+                    if (mm < 10) {
+                        mm = '0' + mm;
+                    }
+                    today = yyyy + '-' + mm + '-' + dd;
+                    document.getElementById("dob").setAttribute("max", today);
+                }
             </script>
         </main>
     </body>
