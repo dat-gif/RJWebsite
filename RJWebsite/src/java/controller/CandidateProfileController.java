@@ -242,6 +242,8 @@ public class CandidateProfileController extends HttpServlet {
                     request.setAttribute("degree", degree);
                     request.setAttribute("desrciption", desrciption);
                     request.getRequestDispatcher("CandidateProfilePage.jsp").forward(request, response);
+                } else {
+
                 }
 
             }
@@ -255,6 +257,9 @@ public class CandidateProfileController extends HttpServlet {
             request.getRequestDispatcher("CandidateProfilePage.jsp").forward(request, response);
         }
 
+    }
+
+    public void setAddButtonStatus() {
     }
 
     public boolean checkEduInfo(HttpServletRequest request, String degree, String majors, String startDate, String endDate, String description) {

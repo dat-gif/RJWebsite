@@ -202,6 +202,7 @@
                                                         </div>
                                                         <button class="btn btn-primary btn-sm" style="max-height: 2.5rem" 
                                                                 data-toggle="modal" data-target="#eduEdit" 
+                                                                data-schoolname="${edu.getSchool()}"
                                                                 data-majors="${edu.getField()}"
                                                                 data-degree="${edu.getDegree()}"
                                                                 data-startdate="${edu.getStartTime()}"
@@ -233,6 +234,14 @@
                                             <form action="candidateprofilecontroller" method="POST"  enctype="multipart/form-data">
                                                 <div class="modal-body">
                                                     <div class="form-group">                                         
+                                                        <div class="d-flex flex-row " style="gap: 10px">
+                                                            <div class="form-outline mb-4 flex-grow-1">
+                                                                <label class="form-label" for="form1Example1">School name</label>
+                                                                <input type="text" id="eduname" class="form-control degree" 
+                                                                       name="eduName">
+                                                                <p class="text-danger small font-italic font-weight-light">${degreeError}</p>
+                                                            </div>    
+                                                        </div>
                                                         <div class="d-flex flex-row " style="gap: 10px">
                                                             <div class="form-outline mb-4 flex-grow-1">
                                                                 <label class="form-label" for="form1Example1">Degree</label>
@@ -643,6 +652,7 @@
                                                                            var description = button.data('description');
                                                                            var modal = $(this);
                                                                            modal.find('#majors').val(majors);
+                                                                           modal.find('#eduname').val(button.data('schoolname'));
                                                                            modal.find('#degree').val(degree);
                                                                            modal.find('#startdate').val(startDate);
                                                                            modal.find('#enddate').val(endDate);

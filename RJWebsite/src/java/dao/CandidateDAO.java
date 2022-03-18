@@ -641,4 +641,77 @@ public class CandidateDAO extends DBContext implements ICandidate {
         }
     }
 
+    @Override
+    public void updateCandidateEducation(Education candidateEducation) {
+        String declareQuery = "DECLARE @school AS nvarchar(150)=?\n"
+                + "DECLARE @degree AS nvarchar(150)=?\n"
+                + "DECLARE @field AS nvarchar(300)=?\n"
+                + "DECLARE @start_time AS varchar(15)=?\n"
+                + "DECLARE @end_time AS varchar(15)=?\n"
+                + "DECLARE @description AS nvarchar(max)=?\n"
+                + "DECLARE @media AS VARCHAR(MAX)=?\n"
+                + "DECLARE @link AS VARCHAR(MAX)=?\n"
+                + "DECLARE @candidate_id AS int=?\n";
+        String updateQuery = "IF EXISTS (\n"
+                + " SELECT 1 \n"
+                + " from education\n"
+                + " where education.degree like @degree and education.field like @field and candidate_id=@candidate_id)\n"
+                + " Begin \n"
+                + " update education\n"
+                + " set \n"
+                + "school=ISNULL(@school, school),\n"
+                + "degree=isNull(@degree,degree),\n"
+                + "field=isNull(@field,field),\n"
+                + "start_time=isNull(@start_time,start_time),\n"
+                + "end_time = ISNULL(@end_time,end_time),\n"
+                + "description=ISNULL(@description,[description]),\n"
+                + "media=ISNULL(@media,media),\n"
+                + "link=ISNULL(@link,link)\n"
+                + "end\n"
+                + "else\n";
+        String insertQuery = "Begin\n"
+                + "INSERT INTO [dbo].[education]\n"
+                + "           ([school]\n"
+                + "           ,[degree]\n"
+                + "           ,[field]\n"
+                + "           ,[start_time]\n"
+                + "           ,[end_time]\n"
+                + "           ,[description]\n"
+                + "           ,[media]\n"
+                + "           ,[link]\n"
+                + "           ,[candidate_id])\n"
+                + "		    VALUES\n"
+                + "           (@school\n"
+                + "           ,@degree\n"
+                + "           ,@field\n"
+                + "           ,@start_time\n"
+                + "           ,@end_time\n"
+                + "           ,@description\n"
+                + "           ,@media\n"
+                + "           ,@link\n"
+                + "           ,@candidate_id)\n"
+                + " end";
+        String query = declareQuery + updateQuery + insertQuery;
+        Connection conn = null;
+        PreparedStatement ps = null;
+        try {
+            conn = getConnection();
+            ps = conn.prepareStatement(query);
+            ps.setString(1, candidateEducation.getSchool());
+            ps.setString(2, candidateEducation.getDegree());
+            ps.setString(3, candidateEducation.getField());
+            ps.setString(4, candidateEducation.getStartTime());
+            ps.setString(5, candidateEducation.getEndTime());
+            ps.setString(6, candidateEducation.getDescription());
+            ps.setString(7, candidateEducation.getMedia());
+            ps.setString(8, candidateEducation.getLink());
+            ps.executeUpdate();
+
+        } catch (Exception e) {
+            System.out.println("updateCandidateEducation: " + e);
+            throw new Error();
+        }
+
+    }
+
 }
