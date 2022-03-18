@@ -28,14 +28,19 @@
             <div class="card">
                 <div class="card-body">
                     <form action="AddSkillController" method="post">
+                        <fieldset class="form-group"><label>Icon</label>
+                            <input type="file"
+                                   class="form-control"
+                                   name="icon" accept="image/*"></fieldset>
                         <fieldset class="form-group">
-                            <label>Skill Name</label> <input type="text"
-                                                             class="form-control"
-                                                             name="name" required="required" maxlength="20">
+                            <label>Skill Name</label>
+                            <input type="text"
+                                   class="form-control"
+                                   name="name" required="required" maxlength="20">
                             <c:choose>
-                            <c:when test="${not empty error}">
-                            <p style="color: red" id="firstName-length-error" role="alert">${error}</p>
-                            </c:when>
+                                <c:when test="${not empty error}">
+                                    <p style="color: red" id="firstName-length-error" role="alert">${error}</p>
+                                </c:when>
                             </c:choose>
                         </fieldset>
 

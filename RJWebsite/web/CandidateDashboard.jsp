@@ -98,7 +98,7 @@
                     <table class="table">
                         <thead class="thead-dark">
                             <tr>
-                                <th scope="col">ID</th>
+                                <th scope="col"></th>
                                 <th scope="col">Name</th>
                                 <th scope="col">Date of birth</th>
                                 <th scope="col">Gender</th>
@@ -111,7 +111,7 @@
                         <tbody>
                             <c:forEach items="${canList}" var="c">
                                 <tr>
-                                    <td>${c.candIdateId}</td>
+                                    <td><image src="${c.avatar}" class="rounded-circle shadow" style="height: 70px"/></td>
                                     <th scope="row">${c.firstName}&nbsp;${c.lastName}</th>
                                     <td>${c.birthDate}</td>
                                     <td><c:choose>

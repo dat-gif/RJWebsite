@@ -100,7 +100,7 @@
                     <table class="table">
                         <thead class="thead-dark">
                             <tr>
-                                <th scope="col">ID</th>
+                                <th scope="col"></th>
                                 <th scope="col">Name</th>
                                 <th scope="col">Description</th>
                                 <th scope="col">Status</th>
@@ -110,7 +110,7 @@
                         <tbody>
                             <c:forEach items="${skills}" var="s">
                                 <tr>
-                                    <td>${s.id}</td>
+                                    <td><image src="${s.iconBase64}" class="rounded-circle shadow" style="height: 70px"/></td>
                                     <th scope="row">${s.name}</th>
                                     <td class="de"><p>${s.depscription}</p></td>
                                     <th scope="col"><a href="SkillStatusController?id=${s.id}&index=${index}&txtSearch=${save}">

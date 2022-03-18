@@ -96,22 +96,22 @@
 
                     </div>
                     <div class="row text-center">
-                        <div class="col">
-                            <div class="counter">
+                        <div class="col" >
+                            <div class="counter" style="background-color: #343A40; color: white">
                                 <i class="fa fa-code fa-2x"></i>
                                 <h2 class="timer count-title count-number" data-to="100" data-speed="1500">${totalRecruiter}</h2>
                                 <p class="count-text ">Number of Recruiters</p>
                             </div>
                         </div>
                         <div class="col">
-                            <div class="counter">
+                            <div class="counter" style="background-color: #343A40; color: white">
                                 <i class="fa fa-coffee fa-2x"></i>
                                 <h2 class="timer count-title count-number" data-to="1700" data-speed="1500">${totalCandidate}</h2>
                                 <p class="count-text ">Number of Candidates</p>
                             </div>
                         </div>
                         <div class="col">
-                            <div class="counter">
+                            <div class="counter" style="background-color: #343A40; color: white">
                                 <i class="fa fa-lightbulb-o fa-2x"></i>
                                 <h2 class="timer count-title count-number" data-to="11900" data-speed="1500">${totalJob}</h2>
                                 <p class="count-text ">Number of Job</p>

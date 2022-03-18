@@ -41,6 +41,7 @@ public class AddSkillController extends HttpServlet {
         IJob jdao = new JobDAO();
         ISkill sDAO = new SkillDAO();
         Skill skill = new Skill();
+        String icon = request.getParameter("icon");
         String name = request.getParameter("name");
         String description = request.getParameter("description");
         List<Skill> list = jdao.getAllSkill();
@@ -50,6 +51,7 @@ public class AddSkillController extends HttpServlet {
                 request.setAttribute("error", "Skill name is already exist");
                 request.getRequestDispatcher("AddSkill.jsp").forward(request, response);
             } else {
+                skill.setIconBase64(icon);
                 skill.setName(name);
                 skill.setDepscription(description);
                 sDAO.insertSkill(skill);

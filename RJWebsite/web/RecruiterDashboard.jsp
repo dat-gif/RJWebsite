@@ -99,7 +99,7 @@
                     <table class="table">
                         <thead class="thead-dark">
                             <tr>
-                                <th scope="col">ID</th>
+                                <th scope="col"></th>
                                 <th scope="col">Name</th>
                                 <th scope="col">Website</th>
                                 <th scope="col">Phone</th>
@@ -112,7 +112,7 @@
 
                             <c:forEach items ="${recruiters}" var="r">
                                 <tr>
-                                    <td>${r.recruiterId}</td>
+                                    <td><image src="${r.avatar}" class="rounded-circle shadow" style="height: 70px"/></td>
                                     <th scope="row">${r.name}</th>
                                     <td><a href="${r.website}">${r.website}</a></td>
                                     <td>${r.phone}</td>
