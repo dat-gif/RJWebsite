@@ -4,6 +4,8 @@
  */
 package validation;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -87,10 +89,18 @@ public class Validation {
             return string;
         }
     }
+    
+    static SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
-    public static void main(String[] args) {
+    public boolean checkDateStartEnd(String startDate, String endDate) throws ParseException {
+
+        return sdf.parse(startDate).getTime() < sdf.parse(endDate).getTime();
+    }
+
+    public static void main(String[] args) throws ParseException {
         Validation v = new Validation();
         System.out.println(v.nameValidation("mad", "aad"));
         System.out.println(v.phoneNumberValidation("0969051715"));
+        System.out.println(v.checkDateStartEnd("2016-10-13", "2014-05-13"));
     }
 }
