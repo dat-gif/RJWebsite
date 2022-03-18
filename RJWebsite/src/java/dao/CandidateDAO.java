@@ -667,6 +667,7 @@ public class CandidateDAO extends DBContext implements ICandidate {
                 + "description=ISNULL(@description,[description]),\n"
                 + "media=ISNULL(@media,media),\n"
                 + "link=ISNULL(@link,link)\n"
+                + "where education.degree = @degree and education.field = @field and candidate_id=@candidate_id\n"
                 + "end\n"
                 + "else\n";
         String insertQuery = "Begin\n"
@@ -704,7 +705,8 @@ public class CandidateDAO extends DBContext implements ICandidate {
             ps.setString(5, candidateEducation.getEndTime());
             ps.setString(6, candidateEducation.getDescription());
             ps.setString(7, candidateEducation.getMedia());
-            ps.setString(8, candidateEducation.getLink());
+            ps.setString(8, "");
+            ps.setInt(9, candidateEducation.getCandidateIntId());
             ps.executeUpdate();
 
         } catch (Exception e) {

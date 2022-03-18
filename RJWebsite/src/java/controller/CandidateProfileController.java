@@ -234,8 +234,11 @@ public class CandidateProfileController extends HttpServlet {
                 String majors = request.getParameter("majors");
                 String degree = request.getParameter("degree");
                 String desrciption = request.getParameter("desrciption");
+                String schoolName = request.getParameter("eduName");
                 Part fileWallpaper = request.getPart("fileEdu");
-                if (!checkEduInfo(request, degree, majors, startDate, endDate, desrciption)) {
+
+                String encodeFileEdu = null;
+                if (!checkEduInfo(request, schoolName, degree, majors, startDate, endDate, desrciption)) {
                     request.setAttribute("startDateEdu", startDate);
                     request.setAttribute("endDateEdu", endDate);
                     request.setAttribute("majors", majors);
@@ -243,7 +246,15 @@ public class CandidateProfileController extends HttpServlet {
                     request.setAttribute("desrciption", desrciption);
                     request.getRequestDispatcher("CandidateProfilePage.jsp").forward(request, response);
                 } else {
-
+                    Part fileEdu = request.getPart("fileEdu");
+                    String fileEduName = fileUtils.extractFileName(fileEdu);
+                    if (fileEduName != null && fileEduName.length() > 0) {
+                        InputStream is = fileEdu.getInputStream();
+                        long fileEduSize = fileEdu.getSize();
+                        encodeFileEdu = fileUtils.inputStreamToBase64(is, fileEduSize);
+                    }
+                    Education education = new Education(schoolName, degree, majors, startDate, endDate, desrciption, encodeFileEdu, cvLink, candidateInfo.getCandIdateId());
+                    iCandidate.updateCandidateEducation(education);
                 }
 
             }
@@ -262,7 +273,7 @@ public class CandidateProfileController extends HttpServlet {
     public void setAddButtonStatus() {
     }
 
-    public boolean checkEduInfo(HttpServletRequest request, String degree, String majors, String startDate, String endDate, String description) {
+    public boolean checkEduInfo(HttpServletRequest request, String schoolName, String degree, String majors, String startDate, String endDate, String description) {
         Validation validation = new Validation();
         boolean isDataCorrect = true;
         if (!validation.checkDateStartEnd(startDate, endDate)) {
@@ -287,6 +298,10 @@ public class CandidateProfileController extends HttpServlet {
         }
         if (majors.isEmpty()) {
             request.setAttribute("majorsError", "Majors name must not empty.");
+            isDataCorrect = false;
+        }
+        if (schoolName.isEmpty()) {
+            request.setAttribute("schoolNameError", "School Name name must not empty.");
             isDataCorrect = false;
         }
         if (!isDataCorrect) {

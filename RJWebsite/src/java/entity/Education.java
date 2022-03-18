@@ -21,8 +21,29 @@ public class Education {
     String media;
     String link;
     String candidateId;
+    int candidateIntId;
+
+    public int getCandidateIntId() {
+        return candidateIntId;
+    }
+
+    public void setCandidateIntId(int candidateIntId) {
+        this.candidateIntId = candidateIntId;
+    }
 
     public Education() {
+    }
+
+    public Education(String school, String degree, String field, String startTime, String endTime, String description, String media, String link, int candidateIntId) {
+        this.school = school;
+        this.degree = degree;
+        this.field = field;
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.description = description;
+        this.media = media;
+        this.link = link;
+        this.candidateIntId = candidateIntId;
     }
 
     public Education(int id, String school, String degree, String field, String startTime, String endTime, String description, String media, String link, String candidateId) {

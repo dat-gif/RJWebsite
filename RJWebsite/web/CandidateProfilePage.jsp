@@ -197,6 +197,7 @@
                                                                 <p class="lead mb-1">Degree: ${edu.getDegree()}</p>
                                                                 <p class="lead mb-1">From: ${edu.getStartTime()} - ${edu.getEndTime()}</p>
                                                                 <p class="lead mb-1">Description: ${edu.getDescription()}</p>
+                                                                <image src="${edu.getMedia()}" class="mt-2 mb-2" style="width: 34rem; height: fit-content"  >
                                                             </div>
                                                             <hr>
                                                         </div>
@@ -236,21 +237,21 @@
                                                     <div class="form-group">                                         
                                                         <div class="d-flex flex-row " style="gap: 10px">
                                                             <div class="form-outline mb-4 flex-grow-1">
-                                                                <label class="form-label" for="form1Example1">School name</label>
+                                                                <label class="form-label" for="form1Example1">School name<span class="text-danger">*</span> </label>
                                                                 <input type="text" id="eduname" class="form-control degree" 
                                                                        name="eduName">
-                                                                <p class="text-danger small font-italic font-weight-light">${degreeError}</p>
+                                                                <p class="text-danger small font-italic font-weight-light">${schoolNameError}</p>
                                                             </div>    
                                                         </div>
                                                         <div class="d-flex flex-row " style="gap: 10px">
                                                             <div class="form-outline mb-4 flex-grow-1">
-                                                                <label class="form-label" for="form1Example1">Degree</label>
+                                                                <label class="form-label" for="form1Example1">Degree<span class="text-danger">*</span> </label>
                                                                 <input type="text" id="degree" class="form-control degree" 
                                                                        name="degree">
                                                                 <p class="text-danger small font-italic font-weight-light">${degreeError}</p>
                                                             </div>    
                                                             <div class="form-outline mb-4 flex-grow-1">
-                                                                <label class="form-label" for="form1Example1">Majors</label>
+                                                                <label class="form-label" for="form1Example1">Majors<span class="text-danger">*</span> </label>
                                                                 <input type="text" id="majors" class="form-control" name="majors" />
                                                                 <p class="text-danger small font-italic font-weight-light">${majorsError}</p>
                                                             </div>
