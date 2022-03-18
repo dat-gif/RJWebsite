@@ -230,7 +230,7 @@
                                             </button>
                                         </div>
                                         <div class="modal-body">
-                                            <form action="" method="POST"  enctype="multipart/form-data">
+                                            <form action="candidateprofilecontroller" method="POST"  enctype="multipart/form-data">
                                                 <div class="modal-body">
                                                     <div class="form-group">                                         
                                                         <div class="d-flex flex-row " style="gap: 10px">
@@ -252,9 +252,9 @@
                                                                        type="date" name="startDate" 
                                                                        placeholder="dd/MM/yyyy"
                                                                        value="{{formatDate invoice.date 'YYYY-MM-DD'}}"
-                                                                       min="1997-01-01" max="2030-12-31"
                                                                        style="min-width: 205px"
                                                                        id="startdate"
+                                                                       onclick="dateClick()"
                                                                        >
                                                             </div>
                                                             <div class="form-outline mb-4 flex-grow-1">
@@ -262,9 +262,9 @@
                                                                 <input class="form-control" 
                                                                        type="date" name="endDate" 
                                                                        placeholder="dd/MM/yyyy"
-                                                                       min="1997-01-01" max="2030-12-31"
                                                                        style="min-width: 205px"
                                                                        id="enddate"
+                                                                       onclick="dateClick()"
                                                                        >
                                                             </div>
                                                         </div>
@@ -285,7 +285,7 @@
                                                 </div>
                                                 <div class="modal-footer">
                                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                                    <button type="submit" class="btn btn-primary">Save changes</button>
+                                                    <button type="submit" class="btn btn-primary"name="action" value="eduInfo">Save changes</button>
                                                 </div>
                                             </form>
                                         </div>
@@ -520,18 +520,18 @@
                                                     <hr>
                                                     <div class="d-flex flex-row " style="gap: 10px">
                                                         <div class="form-outline mb-4 flex-grow-1">
-                                                            <label class="form-label" for="form1Example1">First Name</label>
+                                                            <label class="form-label" for="form1Example1">First Name<span class="text-danger">*</span> </label>
                                                             <input type="text" id="fisrtname" class="form-control" name="fisrtname" value="${candidateTemp.getFirstName()}">
                                                         </div>    
                                                         <div class="form-outline mb-4 flex-grow-1">
-                                                            <label class="form-label" for="form1Example1">Last Name</label>
+                                                            <label class="form-label" for="form1Example1">Last Name<span class="text-danger">*</span> </label>
                                                             <input type="text" class="form-control" name="lastname" id="lastname" value="${candidateTemp.getLastName()}"/>
                                                         </div>
                                                     </div>
                                                     <p class="text-danger small font-italic font-weight-light">${nameErrorMesg}</p>
                                                     <div class="d-flex flex-row " style="gap: 10px">
                                                         <div class="form-outline mb-4 flex-grow-1">
-                                                            <label class="form-label" for="form1Example1">Phone number</label>
+                                                            <label class="form-label" for="form1Example1">Phone number<span class="text-danger">*</span> </label>
                                                             <input type="text"   class="form-control" name="phoneNumber" id="phone" value="${candidateTemp.getPhone()}" />
                                                             <p class="text-danger small font-italic font-weight-light">${phoneErrorMesg}</p>
                                                         </div>    
@@ -548,7 +548,7 @@
                                                     </div>
                                                     <div class="d-flex flex-row " style="gap: 10px">
                                                         <div class="form-outline mb-2" style="flex-grow: 2">
-                                                            <label class="form-label" for="form1Example1">Address</label>
+                                                            <label class="form-label" for="form1Example1">Address<span class="text-danger">*</span></label>
                                                             <input type="text"   class="form-control" name="address" value="${candidateTemp.getAddress()}" id="address"/>
                                                             <p class="text-danger small font-italic font-weight-light">${addressErrorMesg}</p>
                                                         </div> 
@@ -600,50 +600,50 @@
             <script src="bootstrap-4.6.1-dist/js/bootstrap.min.js"></script>
             <script>
 
-$('#personnalModal').modal({show:${isPersonalModalShow}});
-//$('#eduEdit').modal({show:${isShowEdu}});
+                                                                       $('#personnalModal').modal({show:${isPersonalModalShow}});
+                                                                       $('#eduEdit').modal({show:${isEduModalShow}});
 
-$('#personnalModal').on('show.bs.modal', function (event) {
-    var button = $(event.relatedTarget);
-    var dobArray = button.data('dob').split("/");
-    var dob = dobArray[2] + "-" + dobArray[1] + "-" + dobArray[0];
-    var fname = button.data('fisrtname');
-    console.log(dobArray);
-    var modal = $(this);
-    modal.find('#fisrtname').val(fname);
-    modal.find('#dob').val(dobArray.toString());
-    modal.find('#lastname').val(button.data('lastname'));
-    modal.find('#phone').val(button.data('phone'));
-    modal.find('#address').val(button.data('address'));
-    console.log(button.data('gender'));
-    if (button.data('gender')) {
-        modal.find('#checkMale').checked;
+                                                                       $('#personnalModal').on('show.bs.modal', function (event) {
+                                                                           var button = $(event.relatedTarget);
+                                                                           var dobArray = button.data('dob').split("/");
+                                                                           var dob = dobArray[2] + "-" + dobArray[1] + "-" + dobArray[0];
+                                                                           var fname = button.data('fisrtname');
+                                                                           console.log(dobArray);
+                                                                           var modal = $(this);
+                                                                           modal.find('#fisrtname').val(fname);
+                                                                           modal.find('#dob').val(dobArray.toString());
+                                                                           modal.find('#lastname').val(button.data('lastname'));
+                                                                           modal.find('#phone').val(button.data('phone'));
+                                                                           modal.find('#address').val(button.data('address'));
+                                                                           console.log(button.data('gender'));
+                                                                           if (button.data('gender')) {
+                                                                               modal.find('#checkMale').checked;
 
-    } else {
-        modal.find('#checkFemale').checked;
-    }
+                                                                           } else {
+                                                                               modal.find('#checkFemale').checked;
+                                                                           }
 
 
-});
-$('#eduEdit').on('show.bs.modal', function (event) {
-    var button = $(event.relatedTarget); // Button that triggered the modal
-    var majors = button.data('majors'); // Extract info from data-* attributes
-    var degree = button.data('degree');
-    console.log(button.data('startdate'));
-    var startDateArray = button.data('startdate').split("/");
-    var startDate = startDateArray[2] + "-" + startDateArray[1] + "-" + startDateArray[0];
-    startDate = startDate.replace(/\s/g, '');
-    var endDateArray = button.data('enddate').split("/");
-    var endDate = endDateArray[2] + "-" + endDateArray[1] + "-" + endDateArray[0];
-    endDate = endDate.replace(/\s/g, '');
-    var description = button.data('description');
-    var modal = $(this);
-    modal.find('#majors').val(majors);
-    modal.find('#degree').val(degree);
-    modal.find('#startdate').val(startDate);
-    modal.find('#enddate').val(endDate);
-    modal.find('#description').val(description);
-});
+                                                                       });
+                                                                       $('#eduEdit').on('show.bs.modal', function (event) {
+                                                                           var button = $(event.relatedTarget); // Button that triggered the modal
+                                                                           var majors = button.data('majors'); // Extract info from data-* attributes
+                                                                           var degree = button.data('degree');
+                                                                           console.log(button.data('startdate'));
+                                                                           var startDateArray = button.data('startdate').split("/");
+                                                                           var startDate = startDateArray[2] + "-" + startDateArray[1] + "-" + startDateArray[0];
+                                                                           startDate = startDate.replace(/\s/g, '');
+                                                                           var endDateArray = button.data('enddate').split("/");
+                                                                           var endDate = endDateArray[2] + "-" + endDateArray[1] + "-" + endDateArray[0];
+                                                                           endDate = endDate.replace(/\s/g, '');
+                                                                           var description = button.data('description');
+                                                                           var modal = $(this);
+                                                                           modal.find('#majors').val(majors);
+                                                                           modal.find('#degree').val(degree);
+                                                                           modal.find('#startdate').val(startDate);
+                                                                           modal.find('#enddate').val(endDate);
+                                                                           modal.find('#description').val(description);
+                                                                       });
 
             </script>
             <script  type="text/javascript">
@@ -662,6 +662,8 @@ $('#eduEdit').on('show.bs.modal', function (event) {
                     }
                     today = yyyy + '-' + mm + '-' + dd;
                     document.getElementById("dob").setAttribute("max", today);
+                    document.getElementById("startdate").setAttribute("max", today);
+                    document.getElementById("enddate").setAttribute("min", today);
                 }
             </script>
         </main>
