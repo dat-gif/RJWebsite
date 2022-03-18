@@ -238,10 +238,12 @@
                                                                 <label class="form-label" for="form1Example1">Degree</label>
                                                                 <input type="text" id="degree" class="form-control degree" 
                                                                        name="degree">
+                                                                <p class="text-danger small font-italic font-weight-light">${degreeError}</p>
                                                             </div>    
                                                             <div class="form-outline mb-4 flex-grow-1">
                                                                 <label class="form-label" for="form1Example1">Majors</label>
                                                                 <input type="text" id="majors" class="form-control" name="majors" />
+                                                                <p class="text-danger small font-italic font-weight-light">${majorsError}</p>
                                                             </div>
                                                         </div>
                                                         <div class="d-flex flex-row " style="gap: 10px">
@@ -249,9 +251,9 @@
                                                             <div class="form-outline mb-4 flex-grow-1">
                                                                 <label class="form-label" for="form1Example1">Start Date</label>
                                                                 <input class="form-control" 
-                                                                       type="date" name="startDate" 
+                                                                       type="date" name="startDateEdu" 
                                                                        placeholder="dd/MM/yyyy"
-                                                                       value="{{formatDate invoice.date 'YYYY-MM-DD'}}"
+
                                                                        style="min-width: 205px"
                                                                        id="startdate"
                                                                        onclick="dateClick()"
@@ -260,32 +262,34 @@
                                                             <div class="form-outline mb-4 flex-grow-1">
                                                                 <label class="form-label" for="form1Example1">End Date</label>
                                                                 <input class="form-control" 
-                                                                       type="date" name="endDate" 
+                                                                       type="date" name="endDateEdu" 
                                                                        placeholder="dd/MM/yyyy"
                                                                        style="min-width: 205px"
                                                                        id="enddate"
                                                                        onclick="dateClick()"
                                                                        >
                                                             </div>
+                                                            <p class="text-danger small font-italic font-weight-light">${dateError}</p>
                                                         </div>
 
                                                         <div class="form-outline"style="flex-grow: 0">
                                                             <div class="form-group">
                                                                 <label for="recipient-name" class="col-form-label">Upload image:</label>
-                                                                <input type="file" name="file" class="ml-2 align-content-center" id="recipient-name" accept="image/*">
+                                                                <input type="file" name="fileEdu" class="ml-2 align-content-center" id="recipient-name" accept="image/jpg">
                                                                 <p class="text-danger small font-italic font-weight-light m-0">*Please choose image under 5 MB</p>
                                                             </div>
                                                         </div> 
                                                         <div class="form-outline mb-4" style="flex-grow: 2">
                                                             <label class="form-label" for="form1Example1">Description</label>
-                                                            <textarea type="email" id="description" class="form-control" name="address" value="${description}"style="min-height: 150px" ></textarea>
+                                                            <p class="text-danger small font-italic font-weight-light">${descError}</p>
+                                                            <textarea type="email" id="description" class="form-control" name="desrciption" value="${description}"style="min-height: 150px" ></textarea>
                                                         </div> 
 
                                                     </div>
                                                 </div>
                                                 <div class="modal-footer">
                                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                                    <button type="submit" class="btn btn-primary"name="action" value="eduInfo">Save changes</button>
+                                                    <button type="submit" class="btn btn-primary" name="action" value="eduInfo">Save changes</button>
                                                 </div>
                                             </form>
                                         </div>
@@ -600,8 +604,8 @@
             <script src="bootstrap-4.6.1-dist/js/bootstrap.min.js"></script>
             <script>
 
-                                                                       $('#personnalModal').modal({show:${isPersonalModalShow}});
-                                                                       $('#eduEdit').modal({show:${isEduModalShow}});
+                                                                       $('#personnalModal').modal({show: '${isPersonalModalShow}' == "true"});
+                                                                       $('#eduEdit').modal({show: '${isEduModalShow}' == "true"});
 
                                                                        $('#personnalModal').on('show.bs.modal', function (event) {
                                                                            var button = $(event.relatedTarget);
