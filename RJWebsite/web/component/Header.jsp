@@ -18,7 +18,7 @@
         <title>Header</title>
     </head>
     <body>
-        <header class="position-fixed w-100" style="position: fixed; left: 0; top: 0; z-index: 1">
+        <header class="position-fixed w-100" style="position: fixed; left: 0; top: 0; z-index: 3">
             <nav class="navbar navbar-expand-lg navbar-light bg-light pl-5">
                 <a class="navbar-brand" href="landingpage">R & IT J </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
