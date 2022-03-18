@@ -6,6 +6,8 @@ package validation;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -89,12 +91,21 @@ public class Validation {
             return string;
         }
     }
-    
+
     static SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
-    public boolean checkDateStartEnd(String startDate, String endDate) throws ParseException {
+    public boolean checkDateStartEnd(String startDate, String endDate) {
+        boolean isTrue = true;
+        if (startDate.isEmpty() || endDate.isEmpty()) {
+            return isTrue;
+        }
+        try {
+            isTrue = sdf.parse(startDate).getTime() < sdf.parse(endDate).getTime();
+        } catch (ParseException ex) {
+            Logger.getLogger(Validation.class.getName()).log(Level.SEVERE, null, ex);
 
-        return sdf.parse(startDate).getTime() < sdf.parse(endDate).getTime();
+        }
+        return isTrue;
     }
 
     public static void main(String[] args) throws ParseException {

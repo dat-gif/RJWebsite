@@ -20,6 +20,7 @@ import entity.Experience;
 import entity.Skill;
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.ParseException;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
@@ -116,6 +117,7 @@ public class CandidateProfileController extends HttpServlet {
         //Seting modal display
         request.setAttribute("isShowEdu", "false");
         request.setAttribute("isPersonalModalShow", "false");
+        request.setAttribute("isEduModalShow", "false");
         request.getRequestDispatcher("CandidateProfilePage.jsp").forward(request, response);
     }
 
@@ -225,6 +227,24 @@ public class CandidateProfileController extends HttpServlet {
                 }
 
             }
+            System.out.println(action);
+            if (action.equalsIgnoreCase("eduInfo")) {
+                String startDate = request.getParameter("startDateEdu");
+                String endDate = request.getParameter("endDateEdu");
+                String majors = request.getParameter("majors");
+                String degree = request.getParameter("degree");
+                String desrciption = request.getParameter("desrciption");
+                Part fileWallpaper = request.getPart("fileEdu");
+                if (!checkEduInfo(request, degree, majors, startDate, endDate, desrciption)) {
+                    request.setAttribute("startDateEdu", startDate);
+                    request.setAttribute("endDateEdu", endDate);
+                    request.setAttribute("majors", majors);
+                    request.setAttribute("degree", degree);
+                    request.setAttribute("desrciption", desrciption);
+                    request.getRequestDispatcher("CandidateProfilePage.jsp").forward(request, response);
+                }
+
+            }
         } catch (IllegalStateException e) {
             request.setAttribute("isPersonalModalShow", "true");
             request.setAttribute("genderError", "File over size, please try smaller file.");
@@ -235,6 +255,45 @@ public class CandidateProfileController extends HttpServlet {
             request.getRequestDispatcher("CandidateProfilePage.jsp").forward(request, response);
         }
 
+    }
+
+    public boolean checkEduInfo(HttpServletRequest request, String degree, String majors, String startDate, String endDate, String description) {
+        Validation validation = new Validation();
+        boolean isDataCorrect = true;
+        if (!validation.checkDateStartEnd(startDate, endDate)) {
+            request.setAttribute("dateError", "Start date must not overpass end date.");
+            isDataCorrect = false;
+        }
+        if (description.length() > 301) {
+            request.setAttribute("descError", "Description is too long, max is 300 character.");
+            isDataCorrect = false;
+        }
+        if (degree.length() > 151) {
+            request.setAttribute("degreeError", "Dregree name is too long, max is 150 character.");
+            isDataCorrect = false;
+        }
+        if (degree.isEmpty()) {
+            request.setAttribute("degreeError", "Dregree name must not empty.");
+            isDataCorrect = false;
+        }
+        if (majors.length() > 151) {
+            request.setAttribute("majorsError", "Majors name is too long, max is 150 character.");
+            isDataCorrect = false;
+        }
+        if (majors.isEmpty()) {
+            request.setAttribute("majorsError", "Majors name must not empty.");
+            isDataCorrect = false;
+        }
+        if (!isDataCorrect) {
+            System.out.println("yes");
+            request.setAttribute("isEduModalShow", "true");
+            request.setAttribute("isPersonalModalShow", "false");
+        } else {
+            request.setAttribute("isEduModalShow", "false");
+
+        }
+        System.out.println("isDataCorrect" + isDataCorrect);
+        return isDataCorrect;
     }
 
     public boolean checkPersonalInfo(HttpServletRequest request, String fisrtName, String lastName, String phoneNumber, String dob, String address) {
@@ -255,6 +314,7 @@ public class CandidateProfileController extends HttpServlet {
         }
         if (!isDataCorrect) {
             request.setAttribute("isPersonalModalShow", "true");
+
         } else {
             request.setAttribute("isPersonalModalShow", "false");
         }
