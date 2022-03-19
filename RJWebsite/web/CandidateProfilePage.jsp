@@ -31,6 +31,21 @@
                 height:auto;
                 image-rendering: pixelated;
             }
+            .text-pop{
+                display: none;
+                text-align: center;
+                width: 120px;
+                padding: 5px;
+                background-color: #fcf8e3;
+                position: absolute;
+                color: #ffc107;
+                right: 40px;
+                margin-top: 3.2rem;
+
+            }
+            .btn--has-hover:hover .text-pop{
+                display: block;
+            }
         </style>
         <!-- Header.jsp -->
         <header>
@@ -155,30 +170,34 @@
 
                         <!-- Education -->
                         <div style="padding: 2.5rem 3rem" class="bg-light mb-2">
-                            <div class="d-flex flex-row justify-content-between">
+                            <div class="d-flex flex-row justify-content-between btn--has-hover">
                                 <h4 class="mt-2 mb-2" >Education</h4>
                                 <c:choose>
                                     <c:when test="${eduList.size() >= 5}">
-                                        <button class="btn btn-outline-primary btn-sm disabled" 
-                                                style="max-height: 2.6rem; min-width: 4rem">
+                                        <button class="btn btn-outline-secondary btn-sm disabled"  
+                                                style="min-height: 2.6rem; min-width: 4rem" disabled="true">
                                             Add
                                         </button>
+                                        <p class="text-pop">Max size of list is 5 item</p>
                                     </c:when>
                                     <c:otherwise>
-                                        <button class="btn btn-outline-primary btn-sm" style="max-height: 2.6rem; min-width: 4rem" 
-                                                data-toggle="modal" data-target="#eduEdit"
-                                                data-majors=""
-                                                data-degree=""
-                                                data-startdate=""
-                                                data-enddate=""
-                                                data-description="">
-                                            Add
-                                        </button>             
+                                        <div class="btn--has-hover">
+                                            <button class="btn btn-outline-primary btn-sm" style="min-height: 2.6rem; min-width: 4rem" 
+                                                    data-toggle="modal" data-target="#eduEdit"
+                                                    data-majors=""
+                                                    data-degree=""
+                                                    data-startdate=""
+                                                    data-enddate=""
+                                                    data-description=""
+                                                    data-eduid="">
+                                                Add
+                                            </button>   
+                                        </div>
                                     </c:otherwise>
                                 </c:choose>
 
                             </div>
-                            <div class="d-flex flex-row mt-3 justify-content-between">
+                            <div class="d-flex flex-row mt-3 justify-content-between" id="eduList">
                                 <div class="d-flex flex-row mt-2 flex-grow-1">
                                     <div>
                                         <i class="fa fa-graduation-cap" aria-hidden="true" style="font-size: 2.3rem"></i>
@@ -197,7 +216,10 @@
                                                                 <p class="lead mb-1">Degree: ${edu.getDegree()}</p>
                                                                 <p class="lead mb-1">From: ${edu.getStartTime()} - ${edu.getEndTime()}</p>
                                                                 <p class="lead mb-1">Description: ${edu.getDescription()}</p>
-                                                                <image src="${edu.getMedia()}" class="mt-2 mb-2" style="width: 34rem; height: fit-content"  >
+
+                                                                <c:if test="${not empty edu.getMedia()}">                                                          
+                                                                    <image src="${edu.getMedia()}" class="mt-2 mb-2" style="width: 34rem; height: fit-content"  >
+                                                                </c:if>
                                                             </div>
                                                             <hr>
                                                         </div>
@@ -209,6 +231,7 @@
                                                                 data-startdate="${edu.getStartTime()}"
                                                                 data-enddate="${edu.getEndTime()}"
                                                                 data-description="${edu.getDescription()}"
+                                                                data-eduid="${edu.getId()}"
                                                                 >Edit</button>
                                                     </div>  
                                                 </c:forEach>
@@ -297,10 +320,35 @@
 
                                                     </div>
                                                 </div>
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                                    <button type="submit" class="btn btn-primary" name="action" value="eduInfo">Save changes</button>
+                                                <div class="modal-footer justify-content-between">                                                   
+                                                    <button type="button" class="btn btn-danger" onclick="showDeleteModal()">Delete</button>
+                                                    <div>
+                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                        <button type="submit" class="btn btn-primary" name="action" value="eduInfo">Save changes</button>
+                                                    </div>
                                                 </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--Delete edu modal  -->
+                            <div class="modal fade" id="deleteEdu" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog showing" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">Confirm delete</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <span class="text-center">This education info will be delete and cannot recover</span>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <form action="candidateprofilecontroller" method="POST" >
+                                                <input type="hidden" id="idEdu" class="visible invisible" name="eduId">
+                                                <button type="submit" class="btn btn-danger" name="action" value="deleteInfo">Delete</button>
                                             </form>
                                         </div>
                                     </div>
@@ -658,6 +706,7 @@
                                                                            modal.find('#startdate').val(startDate);
                                                                            modal.find('#enddate').val(endDate);
                                                                            modal.find('#description').val(description);
+                                                                           document.getElementById('idEdu').setAttribute('value', button.data('eduid'));
                                                                        });
 
             </script>
@@ -679,6 +728,9 @@
                     document.getElementById("dob").setAttribute("max", today);
                     document.getElementById("startdate").setAttribute("max", today);
                     document.getElementById("enddate").setAttribute("min", today);
+                }
+                function showDeleteModal() {
+                    $('#deleteEdu').modal('show');
                 }
             </script>
         </main>

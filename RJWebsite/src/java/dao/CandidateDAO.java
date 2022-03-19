@@ -716,4 +716,29 @@ public class CandidateDAO extends DBContext implements ICandidate {
 
     }
 
+    @Override
+    public void deleteCandidateEducation(String eduId, int candidateId) {
+        String query = "delete from education where id=? and candidate_id=?";
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        try {
+            conn = getConnection();
+            ps = conn.prepareStatement(query);
+            ps.setString(1, eduId);
+            ps.setInt(2, candidateId);
+            ps.executeUpdate();
+        } catch (Exception e) {
+            System.out.println("deleteCandidateEducation " + e);
+            throw new Error();
+        } finally {
+            try {
+                closeConnection(rs, ps, conn);
+            } catch (SQLException ex) {
+                Logger.getLogger(JobDAO.class.getName()).log(Level.SEVERE, null, ex);
+                throw new Error(ex);
+            }
+        }
+    }
+
 }

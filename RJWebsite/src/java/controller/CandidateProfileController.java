@@ -238,7 +238,8 @@ public class CandidateProfileController extends HttpServlet {
                 Part fileWallpaper = request.getPart("fileEdu");
 
                 String encodeFileEdu = null;
-                if (!checkEduInfo(request, schoolName, degree, majors, startDate, endDate, desrciption)) {
+
+                if (!checkEduInfo(request, schoolName, degree, majors, startDate, endDate, desrciption) || educations.size() >= 5) {
                     request.setAttribute("startDateEdu", startDate);
                     request.setAttribute("endDateEdu", endDate);
                     request.setAttribute("majors", majors);
@@ -255,6 +256,19 @@ public class CandidateProfileController extends HttpServlet {
                     }
                     Education education = new Education(schoolName, degree, majors, startDate, endDate, desrciption, encodeFileEdu, cvLink, candidateInfo.getCandIdateId());
                     iCandidate.updateCandidateEducation(education);
+                    response.sendRedirect("candidateprofilecontroller#eduList");
+                }
+
+            }
+            if (action.equalsIgnoreCase("deleteInfo")) {
+                String eduId = request.getParameter("eduId");
+                try {
+                    System.out.println(eduId);
+                    iCandidate.deleteCandidateEducation(eduId, candidateInfo.getCandIdateId());
+                    response.sendRedirect("candidateprofilecontroller#eduList");
+                } catch (Exception e) {
+                    System.out.println(e);
+                    request.getRequestDispatcher("CandidateProfilePage.jsp").forward(request, response);
                 }
 
             }
@@ -301,7 +315,7 @@ public class CandidateProfileController extends HttpServlet {
             isDataCorrect = false;
         }
         if (schoolName.isEmpty()) {
-            request.setAttribute("schoolNameError", "School Name name must not empty.");
+            request.setAttribute("schoolNameError", "School name name must not empty.");
             isDataCorrect = false;
         }
         if (!isDataCorrect) {
