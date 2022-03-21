@@ -99,7 +99,7 @@ public class CandidateProfileController extends HttpServlet {
         List<Certificate> certificates = iCandidate.getCertificateByCandidateId(candidateInfo.getCandIdateId());
         List<Experience> experiences = iCandidate.getExperienceByCandidateId(candidateInfo.getCandIdateId());
         List<CandidateProject> projects = iCandidate.getCandidateProjectByCandidateId(candidateInfo.getCandIdateId());
-
+        request.setAttribute("account", loginedUser);
         request.setAttribute("banner", bannerBase64);
         request.setAttribute("avatar", avatarBase64);
         request.setAttribute("listCity", listCity);
@@ -162,6 +162,7 @@ public class CandidateProfileController extends HttpServlet {
         List<Experience> experiences = iCandidate.getExperienceByCandidateId(candidateInfo.getCandIdateId());
         List<CandidateProject> projects = iCandidate.getCandidateProjectByCandidateId(candidateInfo.getCandIdateId());
 //Set current user input data
+        request.setAttribute("account", loginedUser);
         request.setAttribute("banner", bannerBase64);
         request.setAttribute("avatar", avatarBase64);
         request.setAttribute("listCity", listCity);

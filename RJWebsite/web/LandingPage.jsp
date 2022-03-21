@@ -18,7 +18,10 @@
     </head>
     <body>
         <header> 
-            <jsp:include page="component/Header.jsp"/>
+            <jsp:include page="component/Header.jsp">  
+                <jsp:param name="account" value="${account}"/>
+            </jsp:include>
+
             <div
                 class="text-center bg-image"
                 style="

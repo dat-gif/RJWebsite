@@ -19,9 +19,10 @@
         <title>Searching Company</title>
     </head>
     <body>
-        <header> 
-            <jsp:include page="component/Header.jsp"/>
-
+        <header>
+            <jsp:include page="component/Header.jsp">  
+                <jsp:param name="account" value="${account}"/>
+            </jsp:include>
         </header>
         <hr style="margin: 1rem">
         <main class="container my-3 mt-4">

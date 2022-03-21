@@ -18,7 +18,9 @@
     </head>
     <body>
         <header >
-            <jsp:include page="component/Header.jsp"/>
+            <jsp:include page="component/Header.jsp">  
+                <jsp:param name="account" value="${account}"/>
+            </jsp:include>
         </header>
 
         <main class="container-fluid mb-3" style="margin-top: 3.5rem">

@@ -17,9 +17,10 @@
         <title>Searching Job</title>
     </head>
     <body>
-        <header> 
-            <jsp:include page="component/Header.jsp"/>
-
+        <header >
+            <jsp:include page="component/Header.jsp">  
+                <jsp:param name="account" value="${account}"/>
+            </jsp:include>
         </header>
         <hr style="margin: 2rem">
         <main class="container my-3">

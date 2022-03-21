@@ -49,10 +49,12 @@
         </style>
         <!-- Header.jsp -->
         <header>
-            <jsp:include page="component/Header.jsp"/>
+            <jsp:include page="component/Header.jsp">  
+                <jsp:param name="account" value="${account}"/>
+            </jsp:include>
         </header>
 
-        <main style="margin-top: 4.5rem">
+        <main style="margin-top: 2rem">
             <div style="background: white; margin-bottom: 1rem;padding-bottom: 1rem; padding-top: 0.5rem;">
                 <!-- Profile header -->
                 <div class="container">

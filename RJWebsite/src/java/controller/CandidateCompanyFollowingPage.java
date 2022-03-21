@@ -57,8 +57,10 @@ public class CandidateCompanyFollowingPage extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
+
             IRecruiter iRecruiter = new RecruiterDAO();
             Account loginedUser = AppUtils.getLoginedUser(request.getSession());
+            request.setAttribute("account", loginedUser);
             String currentPage = request.getParameter("page");
             if (currentPage != null) {
                 pageNumber = Integer.parseInt(currentPage);

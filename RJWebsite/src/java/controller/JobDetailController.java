@@ -72,6 +72,8 @@ public class JobDetailController extends HttpServlet {
             IAccount iAccount = new AccountDAO();
             Job job = daoJob.getJobById(Integer.parseInt(jobId));
             Account userAccount = AppUtils.getLoginedUser(request.getSession());
+            request.setAttribute("account", userAccount);
+
             if (userAccount == null) {
                 request.setAttribute("jobApplyButton", "Apply");
             } else {

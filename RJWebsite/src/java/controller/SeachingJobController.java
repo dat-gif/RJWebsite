@@ -9,6 +9,7 @@ import dao.idao.ICity;
 import dao.idao.IJob;
 import dao.CityDAO;
 import dao.JobDAO;
+import entity.Account;
 import entity.City;
 import entity.Job;
 import entity.Skill;
@@ -27,6 +28,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import utils.AppUtils;
 
 /**
  *
@@ -70,6 +72,8 @@ public class SeachingJobController extends HttpServlet {
         IJob daoJob = new JobDAO();
         ICity daoCity = new CityDAO();
         int totalRecordNumber = 1;
+        Account loginedUser = AppUtils.getLoginedUser(request.getSession());
+        request.setAttribute("account", loginedUser);
         try {
             //Get Cookie
             Cookie[] cookies = request.getCookies();
@@ -122,6 +126,7 @@ public class SeachingJobController extends HttpServlet {
 
 //Calculate total pagning
             totalPage = (int) Math.ceil((double) totalRecordNumber / recordNumber);
+            
             request.setAttribute("page", pageNumber);
             request.setAttribute("txtSearch", cookieSearch);
             request.setAttribute("citySelect", cookieCity);

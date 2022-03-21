@@ -66,6 +66,7 @@ public class CandidateApplyJobPageController extends HttpServlet {
             totalPage = (int) Math.ceil((double) totalRecordNumber / recordNumber);
 
             ArrayList<Job> listApplyJob = iJob.getApplyJobPangingByAccountId(loginedUser.getAccId(), pageNumber, recordNumber);
+            request.setAttribute("account", loginedUser);
             request.setAttribute("listApplyJob", listApplyJob);
             request.setAttribute("totalPage", totalPage);
             request.getRequestDispatcher("CandidateApplyJobPage.jsp").forward(request, response);
@@ -85,7 +86,7 @@ public class CandidateApplyJobPageController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-      
+
     }
 
     /**

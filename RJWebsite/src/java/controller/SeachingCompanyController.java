@@ -11,6 +11,7 @@ import static controller.SeachingJobController.recordNumber;
 import dao.CityDAO;
 import dao.JobDAO;
 import dao.RecruiterDAO;
+import entity.Account;
 import entity.City;
 import entity.Job;
 import entity.Recruiter;
@@ -30,6 +31,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import utils.AppUtils;
 
 /**
  *
@@ -74,6 +76,9 @@ public class SeachingCompanyController extends HttpServlet {
         String cookieSearch;
         String cookieCity;
         try {
+            Account loginedUser = AppUtils.getLoginedUser(request.getSession());
+            request.setAttribute("account", loginedUser);
+
             List<City> listCity = daoCity.getAllCity();
             //Get Cookie
             Cookie[] cookies = request.getCookies();
@@ -161,7 +166,8 @@ public class SeachingCompanyController extends HttpServlet {
         IRecruiter daoRecruiter = new RecruiterDAO();
         ICity daoCity = new CityDAO();
         try {
-
+            Account loginedUser = AppUtils.getLoginedUser(request.getSession());
+            request.setAttribute("account", loginedUser);
 //Get cookies
             Cookie[] cookies = request.getCookies();
             Map<String, String> cookieMap = new HashMap<>();
