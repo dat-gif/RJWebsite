@@ -31,7 +31,7 @@ public class EditCompanyProfile extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try {
             //chuyen huong den trang jsp dich
-            request.getRequestDispatcher("EditCompanyProfiile.jsp").forward(request, response);
+            request.getRequestDispatcher("EditCompanyProfile.jsp").forward(request, response);
         } catch (Exception e) {
             //neu co loi thi chuyen huong den trang bao loi
             request.setAttribute("error", e);
