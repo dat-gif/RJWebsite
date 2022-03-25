@@ -4,8 +4,6 @@
  */
 package controller;
 
-import dao.JobDAO;
-import dao.idao.IJob;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -17,7 +15,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author USE
  */
-public class DeleteRecruitmentController extends HttpServlet {
+public class EditCompanyProfile extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -32,18 +30,8 @@ public class DeleteRecruitmentController extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try {
-            //khoi dao obj dao
-            IJob ijob = new JobDAO();
-
-            //get jobid
-            String id = request.getParameter("jobId");
-            System.out.println("hello" +id);
-            int jobId = Integer.parseInt(id);
-
-            int total = ijob.deleteJob(jobId);
-
             //chuyen huong den trang jsp dich
-            request.getRequestDispatcher("ManageRecruitmentPostedController").forward(request, response);
+            request.getRequestDispatcher("EditCompanyProfiile.jsp").forward(request, response);
         } catch (Exception e) {
             //neu co loi thi chuyen huong den trang bao loi
             request.setAttribute("error", e);

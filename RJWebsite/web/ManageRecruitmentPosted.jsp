@@ -39,11 +39,34 @@
                         <td>${job.getLocation()}</td>
                         <td>${job.getSalaryRange()}</td>
                         <td><a href="UpdateRecruitmentController?jobId=${job.getjId()}">Edit</a></td>
-                        <td><a href="DeleteRecruitmentController?jobId=${job.getjId()}">Delete</a></td>
+                        <td><a data-toggle="modal" data-target="#exampleModal" data-id="${job.getjId()}" href="#">Delete</a></td>
                     </tr> 
                 </c:forEach>                              
             </table>
         </div>  
+        <form action="DeleteRecruitmentController" method="POST">  
+            
+            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Delete job confirm</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <input type="hidden" id="id" name="jobId"/>
+                        <p>Do you really want to delete</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Yes</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </form>       
         <div class="row justify-content-center">
             <c:if test="${maxPage < 1}">
                 <h3>No record</h3>
@@ -60,5 +83,12 @@
         <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>       
+        <script>$('#exampleModal').on('show.bs.modal', function (event) {
+                var button = $(event.relatedTarget); // Button that triggered the modal
+                var recipient = button.data('id'); // Extract info from data-* attributes
+                var modal = $(this);
+                modal.find('#id').val(recipient);
+            });</script>
     </body>
+
 </html>

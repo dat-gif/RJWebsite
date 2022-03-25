@@ -96,6 +96,10 @@
         <servlet-name>CandidateDetailController</servlet-name>
         <servlet-class>controller.CandidateDetailController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>EditCompanyProfile</servlet-name>
+        <servlet-class>controller.EditCompanyProfile</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>LandingPage</servlet-name>
         <url-pattern>/landingpage</url-pattern>
@@ -171,6 +175,10 @@
     <servlet-mapping>
         <servlet-name>CandidateDetailController</servlet-name>
         <url-pattern>/CandidateDetailController</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>EditCompanyProfile</servlet-name>
+        <url-pattern>/EditCompanyProfile</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
