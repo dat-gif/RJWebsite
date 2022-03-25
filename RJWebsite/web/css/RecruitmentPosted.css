@@ -44,7 +44,12 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to ed
     margin-right: 30px;
 }
 
-.content{
+img{
+    width: 200px;
+    height: 200px;
+}
+
+/*.content{
     width: 100%;
     height: auto;
     margin-left: 180px;
@@ -56,11 +61,6 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to ed
     margin-right: 80px;
 }
 
-.company img{
-    width: 200px;
-    height: 200px;
-}
-
 .candidate{
     display: inline-block;
     margin-right: 80px;
@@ -69,4 +69,4 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to ed
 .candidate img{
     width: 200px;
     height: 200px;
-}
+}*/

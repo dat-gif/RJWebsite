@@ -5,17 +5,10 @@
 package controller;
 
 import dao.CandidateDAO;
-import dao.CityDAO;
-import dao.JobDAO;
 import dao.idao.ICandidate;
-import dao.idao.ICity;
-import dao.idao.IJob;
 import entity.Candidate;
-import entity.City;
-import entity.Skill;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -25,7 +18,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author USE
  */
-public class SearchCandidateController extends HttpServlet {
+public class CandidateDetailController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -40,39 +33,12 @@ public class SearchCandidateController extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try {
-            request.setCharacterEncoding("UTF-8");
-            //get ve index page, txtSearch, city
-            String index = request.getParameter("index");
-            String txtSearch = request.getParameter("txtSearch");
-            String cityName = request.getParameter("cityName");
-
-            //neu index null thi trang khoi tao se là trang dau tien
-            if (index == null) {
-                index = "1";
-            }
-            int indexPage = Integer.parseInt(index);
-            ICity iCity = new CityDAO();
+            int candidateId = Integer.parseInt(request.getParameter("candidateId"));
             ICandidate iCandidate = new CandidateDAO();
-
-            //get ra listCandidate theo phan trang
-            List<Candidate> listCandidate = iCandidate.getCandidateSearchPaging(indexPage, txtSearch, cityName);
-
-            //get ra city cho dropdown list
-            List<City> listCity = iCity.getAllCity();
-
-            //get ra tong so trang theo dieu kien search
-            int maxPage = iCandidate.getNumberPageSearchCandidate(txtSearch, cityName);
-
-            //set cac attribute len trang jsp
-            request.setAttribute("listCity", listCity);
-            request.setAttribute("maxPage", maxPage);
-            request.setAttribute("listCandidate", listCandidate);
-            request.setAttribute("indexPage", indexPage);
-            request.setAttribute("cityName", cityName);
-            request.setAttribute("txtSearch", txtSearch);
-            
+            Candidate candidate = iCandidate.getCandidateById(candidateId);
+            request.setAttribute("candidate", candidate);
             //chuyen huong den trang jsp dich
-            request.getRequestDispatcher("SearchCandidate.jsp").forward(request, response);
+            request.getRequestDispatcher("CandidateDetail.jsp").forward(request, response);
         } catch (Exception e) {
             //neu co loi thi chuyen huong den trang bao loi
             request.setAttribute("error", e);

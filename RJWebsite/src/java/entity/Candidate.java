@@ -38,6 +38,18 @@ public class Candidate {
     public Candidate() {
     }
 
+    public Candidate(int candIdateId, int accountId, String firstName, String lastName, String birthDate, String address, String avatar, String phone, String city) {
+        this.candIdateId = candIdateId;
+        this.accountId = accountId;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.birthDate = birthDate;
+        this.address = address;
+        this.avatar = avatar;
+        this.phone = phone;
+        this.city = city;
+    }
+
     public Candidate(int candIdateId, int accountId, String firstName, String lastName, String birthDate, String address, String avatar, boolean gender, String banner, String phone, boolean findingJob, int cvManageId, int experienceManageId, int educationMangeId, int socialManageId, int projectManageId, int certificateManageId, int prizeManageId) {
         this.candIdateId = candIdateId;
         this.accountId = accountId;

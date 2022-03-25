@@ -1098,21 +1098,56 @@ public class JobDAO extends DBContext implements IJob {
         return total;
     }
 
-/**
-     * Get job theo recruiterID
+    /**
+     * get tong so page theo dieu kien search
      *
-     * @param recruiterId int
+     * @param txtSearch String
      * @return
      */
     @Override
-    public ArrayList<Job> getJobByRecruiterId(int recruiterId) {
+    public int getNumberPageManageRecruitment(int recruiter_id) {
+        int totalPage = 0;
+        String query = "select count(*) from job where recruiter_id = ? ";
+        try {
+
+            //mo ket noi, set du lieu vao cac dau ? va lay du lieu tra ve
+            Connection conn = getConnection();
+            PreparedStatement ps = conn.prepareStatement(query);
+            ps.setInt(1, recruiter_id);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                //page nay hien thi 7 record trong 1 trang nen neu record le thi + them 1 trang nua
+                totalPage = rs.getInt(1);
+                int countPage = 0;
+                countPage = totalPage / 7;
+                if (totalPage % 7 != 0) {
+                    countPage++;
+                }
+                return countPage;
+            }
+        } catch (Exception e) {
+            System.out.println("get skill :" + e);
+        }
+        return 0;
+    }
+
+    /**
+     * Get job theo recruiterID
+     *
+     * @param recruiterId int
+     * @param indexPage
+     * @return
+     */
+    @Override
+    public ArrayList<Job> getJobByRecruiterId(int recruiterId, int indexPage) {
         ArrayList<Job> listJob = new ArrayList<>();
-        String query = "select * from job where recruiter_id = ? ";
+        String query = "select * from job where recruiter_id = ? order by job_id offset ? rows fetch first 7 rows only";
         try {
             //mo ket noi, lay du lieu tra ve
             Connection conn = getConnection();
             PreparedStatement ps = conn.prepareStatement(query);
             ps.setInt(1, recruiterId);
+            ps.setInt(2, (indexPage - 1) * 7);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 Job job = new Job(rs.getInt("job_id"),
@@ -1157,8 +1192,9 @@ public class JobDAO extends DBContext implements IJob {
 
     public static void main(String[] args) {
         IJob jobDao = new JobDAO();
-        ArrayList<Job> listjob = jobDao.getJobByRecruiterId(1);
-        System.out.println(listjob);
+        int page = jobDao.getNumberPageManageRecruitment(1);
+        ArrayList<Job> listjob = jobDao.getJobByRecruiterId(1, 2);
+        System.out.println(page);
 
     }
 

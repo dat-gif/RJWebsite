@@ -10,28 +10,32 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>JSP Page</title>
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" />
         <link href="css/Header.css" rel="stylesheet" type="text/css"/>
     </head>
     <body>
         <div class="header">
-            <h2>R & IT J</h2>
+            <h2 class="mt-3">R & IT J</h2>
             <ul>
-                <li>
+                <li class="nav-item ml-3">
                     <a href="RecruitmentPostedController">Recruitment Posted</a>
                 </li>
-                <li>
+                <li class="nav-item ml-3">
                     <a href="SearchCandidateController">Searching Candidate</a>
                 </li>
-                <li>
+                <li class="nav-item ml-3">
                     <a href="ManageRecruitmentPostedController">Manage Recruitment</a>
                 </li>    
-                <li>
+                <li class="nav-item ml-3">
                     <a href="#">Company Profile</a>
                 </li>   
-            </ul>
-            <i class="far fa-user"></i>
+                <li class="nav-item ml-3">
+                    <a type="button" class="btn btn-primary" href="login" >Login</a>
+                </li>
+                <li class="nav-item ml-3">
+                    <a type="button" class="btn btn-primary" href="logout" >Logout</a>
+                </li>
+            </ul>            
         </div>
         <hr/>
-    </body>
+    </body> 
 </html>

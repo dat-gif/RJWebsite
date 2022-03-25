@@ -22,4 +22,8 @@ public interface ICandidate {
 
     public ArrayList<Candidate> getCandidateSearchPaging(int index, String txtSearch, String city);
 
+    public int changeStatusApply(String status, int candidateId, int jobId);
+
+    public Candidate getCandidateById(int candidateId);
+
 }

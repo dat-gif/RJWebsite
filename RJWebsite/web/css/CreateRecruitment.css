@@ -35,3 +35,14 @@ span{
     background-color: #1874CD;
     color: white;
 }
+
+.date{
+    width: 165px;
+}
+
+.form h2{
+    margin-top: 20px;
+    margin-left: 560px;
+    display: inline-block;
+    color: green;
+}

@@ -62,7 +62,7 @@
                             <a class="nav-link" href="#">Blog</a>
                         </li>
                         <li class="nav-item ml-3">
-                            <a class="nav-link" href="#">Recruitment Posted</a>
+                            <a class="nav-link" href="RecruitmentPostedController">Recruitment Posted</a>
                         </li>
                         <li class="nav-item ml-3">
                             <a class="nav-link" href="#">Searching Candidate</a>

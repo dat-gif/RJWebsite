@@ -35,6 +35,7 @@ public class UpdateRecruitmentController extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try {
+            request.setCharacterEncoding("UTF-8");
             //khoi dao obj dao
             IJob ijob = new JobDAO();
 
@@ -86,6 +87,8 @@ public class UpdateRecruitmentController extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
+            String msg = "";
+
             //khoi dao obj dao
             IJob ijob = new JobDAO();
 
@@ -103,27 +106,34 @@ public class UpdateRecruitmentController extends HttpServlet {
             String location = request.getParameter("location").trim();
             String description = request.getParameter("description").trim();
 
-            //update vao db voi data nhan lai o tren
-            int total = ijob.updateJob(jobId, jobName, description, salary, quantity, role, experience, location, hireDate);
+            jobName = jobName.replaceAll("\\s\\s+", " ").trim();
+            salary = salary.replaceAll("\\s\\s+", " ").trim();
+            quantity = quantity.replaceAll("\\s\\s+", " ").trim();
+            role = role.replaceAll("\\s\\s+", " ").trim();
+            experience = experience.replaceAll("\\s\\s+", " ").trim();
+            location = location.replaceAll("\\s\\s+", " ").trim();
+            description = description.replaceAll("\\s\\s+", " ").trim();
 
-            //neu update thanh cong hoac that bai thi hien thi message
-            if (total > 0) {
-                response.setContentType("text/html");
-                PrintWriter out = response.getWriter();
-                out.println("<script type=\"text/javascript\">");
-                out.println("alert('Update Successfull');");
-                out.println("location='UpdateRecruitment.jsp';");
-                out.println("</script>");
-                out.flush();
-            } else {
-                response.setContentType("text/html");
-                PrintWriter out = response.getWriter();
-                out.println("<script type=\"text/javascript\">");
-                out.println("alert('Update fail');");
-                out.println("location='UpdateRecruitment.jsp';");
-                out.println("</script>");
-                out.flush();
+            if (jobName.equals("") || salary.equals("") || quantity.equals("") || role.equals("") || experience.equals("") || location.equals("") || description.equals("")) {
+                request.setAttribute("error", "You have to fill something in the field!!!!");
+                //chuyen huong den trang jsp dich
+                request.getRequestDispatcher("UpdateRecruitment.jsp").forward(request, response);
             }
+
+            if (!jobName.equals("") || !salary.equals("") || !quantity.equals("") || !role.equals("") || !experience.equals("") || !location.equals("") || !description.equals("")) {
+                //update vao db voi data nhan lai o tren
+                int total = ijob.updateJob(jobId, jobName, description, salary, quantity, role, experience, location, hireDate);
+
+                //neu insert thanh cong hoac that bai thi hien thi message
+                if (total > 0) {
+                    msg = "Update Job Successfully";
+                } else {
+                    msg = "Update Job Failed";
+                }
+                request.setAttribute("msg", msg);
+            }
+            //chuyen huong den trang jsp dich
+            request.getRequestDispatcher("UpdateRecruitment.jsp").forward(request, response);
         } catch (Exception e) {
             //neu co loi thi chuyen huong den trang bao loi
             request.setAttribute("error", e);

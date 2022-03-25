@@ -19,15 +19,20 @@ public class Validation {
             = Pattern.compile("^(84|0[3|5|7|8|9])+([0-9]{8})$", Pattern.CASE_INSENSITIVE);
     public static final Pattern VALID_PASSWORD_REGEX
             = Pattern.compile("^(?=.*[0-9])(?=.*[a-z])(?=\\S+$).{8,}$", Pattern.CASE_INSENSITIVE);
+    public static final Pattern VALID_ONLY_TEXT = Pattern.compile("^[A-Za-z ]*$", Pattern.CASE_INSENSITIVE);
+    public static final Pattern VALID_NAME_TEXT = Pattern.compile("^[A-Za-z ]{1,150}$", Pattern.CASE_INSENSITIVE);
 
     /**
      * Check if the input email contains username, an @ symbol, domain name, a
      * dot, and the domain
      *
-     * @param inputEmail
+     * @param inputEmail String
      * @return
      */
     public boolean emailValidation(String inputEmail) {
+        if (inputEmail.isEmpty() || inputEmail.length() > 320) {
+            return false;
+        }
         Matcher m = VALID_EMAIL_ADDRESS_REGEX.matcher(inputEmail);
         return m.find();
     }
@@ -35,7 +40,7 @@ public class Validation {
     /**
      * Check if phone number in VietNam phone number format
      *
-     * @param inputPhoneNumber
+     * @param inputPhoneNumber String
      * @return
      */
     public boolean phoneNumberValidation(String inputPhoneNumber) {
@@ -47,7 +52,7 @@ public class Validation {
      * Check if the input password contains word, number and at least 8
      * character
      *
-     * @param inputPassword
+     * @param inputPassword String
      * @return
      */
     public boolean passwordValidation(String inputPassword) {
@@ -56,13 +61,27 @@ public class Validation {
     }
 
     public boolean checkConfirmPassword(String password, String confirmPassword) {
-       
+
         return password.equals(confirmPassword);
+    }
+
+    public boolean checkOnlyContainText(String string) {
+        Matcher m = VALID_ONLY_TEXT.matcher(string);
+        return m.find();
+    }
+
+    public boolean nameValidation(String firstName, String lastName) {
+        Matcher fname = VALID_NAME_TEXT.matcher(firstName);
+        Matcher lname = VALID_NAME_TEXT.matcher(lastName);
+        if (!fname.find() || !lname.find()) {
+            return false;
+        }
+        return true;
     }
 
     public static void main(String[] args) {
         Validation v = new Validation();
-        System.out.println(v.emailValidation("text@gmailom"));
+        System.out.println(v.nameValidation("m", "a"));
         System.out.println(v.phoneNumberValidation("0969051715"));
     }
 }

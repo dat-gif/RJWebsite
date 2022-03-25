@@ -68,7 +68,9 @@ public interface IJob {
 
     public int updateJob(int jobId, String title, String description, String salary, String quantity, String role, String experience, String location, String hiredDate);
 
-    public ArrayList<Job> getJobByRecruiterId(int recruiterId);
+    public int getNumberPageManageRecruitment(int recruiter_id);
+
+    public ArrayList<Job> getJobByRecruiterId(int recruiterId, int indexPage);
 
     public int deleteJob(int jobId);
 }

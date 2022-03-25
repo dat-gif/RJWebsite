@@ -9,6 +9,8 @@ import dao.idao.IJob;
 import entity.Skill;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -34,6 +36,7 @@ public class CreateRecruitmentController extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try {
+            request.setCharacterEncoding("UTF-8");
             //khoi dao obj dao
             IJob ijob = new JobDAO();
 
@@ -77,47 +80,55 @@ public class CreateRecruitmentController extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
+            String msg = "";
             //khoi dao obj dao
             IJob ijob = new JobDAO();
 
             //nhan lai value tu cac field tren form cua trang jsp
             int recruiterId = 1;
-            String jobName = request.getParameter("jobName").trim();
-            String salary = request.getParameter("salary").trim();
-            String quantity = request.getParameter("quantity").trim();
-            String role = request.getParameter("role").trim();
-            String experience = request.getParameter("experience").trim();
-            String hireDate = request.getParameter("hireDate").trim();
-            String location = request.getParameter("location").trim();
-            String description = request.getParameter("description").trim();
+            String jobName = request.getParameter("jobName");
+            String salary = request.getParameter("salary");
+            String quantity = request.getParameter("quantity");
+            String role = request.getParameter("role");
+            String experience = request.getParameter("experience");
+            String hireDate = request.getParameter("hireDate");
+            String location = request.getParameter("location");
+            String description = request.getParameter("description");
 
-            //insert vao db voi data nhan lai o tren
-            int total = ijob.insertRecruitment(recruiterId, role, description, salary, quantity, role, experience, location, hireDate);
+            jobName = jobName.replaceAll("\\s\\s+", " ").trim();
+            salary = salary.replaceAll("\\s\\s+", " ").trim();
+            quantity = quantity.replaceAll("\\s\\s+", " ").trim();
+            role = role.replaceAll("\\s\\s+", " ").trim();
+            experience = experience.replaceAll("\\s\\s+", " ").trim();
+            location = location.replaceAll("\\s\\s+", " ").trim();
+            description = description.replaceAll("\\s\\s+", " ").trim();
 
-            //insert vao job_skill
-            String skillPicked = request.getParameter("skill");
-            int skillId = Integer.parseInt(skillPicked);
-            int jobId = ijob.getLatestInsertedJobId();
-            ijob.insertJobSkill(jobId, skillId);
-
-            //neu insert thanh cong hoac that bai thi hien thi message
-            if (total > 0) {
-                response.setContentType("text/html");
-                PrintWriter out = response.getWriter();
-                out.println("<script type=\"text/javascript\">");
-                out.println("alert('Create Successfull');");
-                out.println("location='CreateRecruitment.jsp';");
-                out.println("</script>");
-                out.flush();
-            } else {
-                response.setContentType("text/html");
-                PrintWriter out = response.getWriter();
-                out.println("<script type=\"text/javascript\">");
-                out.println("alert('Create fail');");
-                out.println("location='CreateRecruitment.jsp';");
-                out.println("</script>");
-                out.flush();
+            if (jobName.equals("") || salary.equals("") || quantity.equals("") || role.equals("") || experience.equals("") || location.equals("") || description.equals("")) {
+                request.setAttribute("error", "You have to fill something in the field!!!!");
+                //chuyen huong den trang jsp dich
+                request.getRequestDispatcher("CreateRecruitment.jsp").forward(request, response);
             }
+
+            if (!jobName.equals("") || !salary.equals("") || !quantity.equals("") || !role.equals("") || !experience.equals("") || !location.equals("") || !description.equals("")) {
+                //insert vao db voi data nhan lai o tren
+                int total = ijob.insertRecruitment(recruiterId, role, description, salary, quantity, role, experience, location, hireDate);
+
+                //insert vao job_skill
+                String skillPicked = request.getParameter("skill");
+                int skillId = Integer.parseInt(skillPicked);
+                int jobId = ijob.getLatestInsertedJobId();
+                ijob.insertJobSkill(jobId, skillId);
+
+                //neu insert thanh cong hoac that bai thi hien thi message
+                if (total > 0) {
+                    msg = "Create Job Successfully";
+                } else {
+                    msg = "Create Job Failed";
+                }
+                request.setAttribute("msg", msg);
+            }
+            //chuyen huong den trang jsp dich
+            request.getRequestDispatcher("CreateRecruitment.jsp").forward(request, response);
         } catch (Exception e) {
             //neu co loi thi chuyen huong den trang bao loi
             request.setAttribute("error", e);

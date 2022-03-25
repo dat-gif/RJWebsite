@@ -7,16 +7,12 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to ed
     Author     : USE
 */
 
-body{
-    background-color: #D8D8D8;
-}
-
 .top{
     width: 100%;
     height: auto;
     display: flex;
     margin-top: 30px;
-    background-color: white;
+    background-color: #D8D8D8;
 }
 
 .top img{
@@ -38,20 +34,6 @@ body{
 
 .infor h2{
     margin-left: 0px;
-}
-
-button{
-    margin-left: 400px;
-    margin-top: 60px;
-    width: 50px;
-    height: 30px;
-    background-color: #1874CD;
-    color: white;
-}
-
-button a {
-    text-decoration: none;
-    color: white;
 }
 
 .content{
@@ -79,13 +61,13 @@ button a {
 .information{
     color: #1874CD;
     padding: 10px 20px;
-    background-color: white;
+    background-color: #D8D8D8;
     display: inline-block
 }
 
 .candidate{
     color: #1874CD;
-    background-color: #D8D8D8;
+    background-color: white;
     padding: 10px 20px;
     display: inline-block
 }
@@ -173,15 +155,5 @@ h3{
 
 .skill p {
     padding: 10px;
-    font-weight: bolder;
 }
 
-.location{
-    margin-top: 30px;
-    background-color: white;
-}
-
-.location p {
-    padding: 10px;
-    font-weight: bolder;
-}

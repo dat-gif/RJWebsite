@@ -36,15 +36,31 @@ public class ManageRecruitmentPostedController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+        request.setCharacterEncoding("UTF-8");
         try {
 //            String id = request.getParameter("recruiterId");
 //            int recruiterId = Integer.parseInt(id);
-
             int recruiterId = 1;
-            IJob iJob = new JobDAO();
-            List<Job> listJob = iJob.getJobByRecruiterId(recruiterId);
 
+            String index = request.getParameter("index");
+
+            //neu index null thi trang khoi tao se là trang dau tien
+            if (index == null) {
+                index = "1";
+            }
+            int indexPage = Integer.parseInt(index);
+
+            //get ra cac record va phan trang
+            IJob iJob = new JobDAO();
+            List<Job> listJob = iJob.getJobByRecruiterId(recruiterId, indexPage);
+
+            //get ra tong so trang theo dieu kien search
+            int maxPage = iJob.getNumberPageManageRecruitment(recruiterId);
+
+            //set cac attribute len trang jsp
             request.setAttribute("listJob", listJob);
+            request.setAttribute("indexPage", indexPage);
+            request.setAttribute("maxPage", maxPage);
 
             //chuyen huong den trang jsp dich
             request.getRequestDispatcher("ManageRecruitmentPosted.jsp").forward(request, response);

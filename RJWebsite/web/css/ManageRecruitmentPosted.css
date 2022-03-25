@@ -6,33 +6,6 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to ed
     Created on : Feb 7, 2022, 12:00:13 PM
     Author     : USE
 */
-.container{
-    width: 1000px;
-    height: auto;
-    margin: 50px auto;
-}
-
-.createRecruitment{
-    float: right;
-    height: 30px;
-    margin-bottom: 30px;
-    background-color: #1874CD;
-    color: white;
-    width: 200px;
-    cursor: pointer;
-}
-
-table{
-    margin: 40px auto;
-    width: 100%;
-    text-align: center;
-}
-
-thead{
-    background-color: lightslategrey;
-    height: 30px;
-    color: white;
-}
 
 a{
     text-decoration: none;
@@ -53,5 +26,16 @@ a{
     width: 40px;
     height: 30px;
     background-color: #E8E8E8;
+}
+
+.active{
+    padding-top: 12px;
+    margin-right: 5px;
+    text-align: center;
+    width: 40px;
+    height: 30px;
+    color: lightslategrey;
+    background-color: #E8E8E8;
+    pointer-events: none;
 }
 

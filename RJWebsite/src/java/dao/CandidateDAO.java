@@ -7,6 +7,7 @@ package dao;
 import context.DBContext;
 import dao.idao.ICandidate;
 import entity.Candidate;
+import entity.Recruiter;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -73,7 +74,7 @@ public class CandidateDAO extends DBContext implements ICandidate {
                 + "from candidate join candidate_job_apply on candidate.candidate_id = candidate_job_apply.candidate_id\n"
                 + "join job on candidate_job_apply.job_id = job.job_id\n"
                 + "join recruiter on job.recruiter_id = recruiter.recruiter_id\n"
-                + "where recruiter.recruiter_id = ?";
+                + "where recruiter.recruiter_id = ? and candidate_job_apply.[status] = 'PENDING'";
         try {
             //mo ket noi, set du lieu vao cac dau ? va lay du lieu tra ve
             Connection conn = getConnection();
@@ -200,11 +201,67 @@ public class CandidateDAO extends DBContext implements ICandidate {
         return candidateList;
     }
 
+    /**
+     * Change status apply
+     *
+     * @param status
+     * @param candidateId
+     * @param jobId
+     * @return
+     */
+    @Override
+    public int changeStatusApply(String status, int candidateId, int jobId) {
+        int total = 0;
+        String query = "update candidate_job_apply set [status] = ? where candidate_id = ? and job_id = ?";
+        try {
+            //mo ket noi, lay du lieu tra ve
+            Connection conn = getConnection();
+            PreparedStatement ps = conn.prepareStatement(query);
+            ps.setString(1, status);
+            ps.setInt(2, candidateId);
+            ps.setInt(3, jobId);
+            total = ps.executeUpdate();
+            return total;
+        } catch (Exception e) {
+            System.out.println("Bug delete apply job: " + e);
+        }
+        return total;
+    }
+
+    /**
+     * Change status apply
+     *
+     * @param candidateId
+     * @return
+     */
+    @Override
+    public Candidate getCandidateById(int candidateId) {
+        String query = "select * from candidate where candidate.candidate_id = ?";
+        try {
+            Connection conn = getConnection();
+            PreparedStatement ps = conn.prepareStatement(query);
+            ps.setInt(1, candidateId);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                return new Candidate(rs.getInt(1),
+                        rs.getInt(2),
+                        rs.getString(3),
+                        rs.getString(4),
+                        rs.getString(5),
+                        rs.getString(6),
+                        rs.getString(7),
+                        rs.getString(10),
+                        rs.getString("city"));
+            }
+        } catch (Exception e) {
+            System.err.println(e);
+        }
+        return null;
+    }
+
     public static void main(String[] args) {
         CandidateDAO dao = new CandidateDAO();
-        int totalPage = dao.getNumberPageSearchCandidate("ang", "All");
-        ArrayList<Candidate> candidateList = dao.getCandidateSearchPaging(3, "ang", "All");
-        System.out.println(candidateList);
-
+        Candidate c = dao.getCandidateById(1);
+        System.out.println(c);      
     }
 }
