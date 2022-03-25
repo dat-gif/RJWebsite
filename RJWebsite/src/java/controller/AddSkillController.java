@@ -10,20 +10,27 @@ import dao.idao.IJob;
 import dao.idao.ISkill;
 import entity.Skill;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.PrintWriter;
 import static java.util.Collections.list;
 import java.util.List;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.Part;
+import utils.FileUtils;
 
 /**
  *
  * @author admin
  */
 @WebServlet(name = "AddSkillController", urlPatterns = {"/AddSkillController"})
+@MultipartConfig(fileSizeThreshold = 1024 * 1024 * 5, // 2MB
+        maxFileSize = 1024 * 1024 * 8, // (1024 bytes = 1 KB) x (1024 = 1 MB) x 7 = 8 MB 
+        maxRequestSize = 1024 * 1024 * 15)//(1024 bytes = 1 KB) x (1024 = 1 MB) x 15 = 15 MB
 public class AddSkillController extends HttpServlet {
 
     /**
@@ -47,22 +54,40 @@ public class AddSkillController extends HttpServlet {
         List<Skill> list = jdao.getAllSkill();
         String cName = name.toLowerCase();
         try {
+
             if (sDAO.checkExistedSkillName(cName)) {
                 request.setAttribute("error", "Skill name is already exist");
                 request.getRequestDispatcher("AddSkill.jsp").forward(request, response);
+            } else if (name.isEmpty()) {
+                request.setAttribute("error", "Please fill out this field");
+                request.getRequestDispatcher("AddSkill.jsp").forward(request, response);
+            } else if (description.isEmpty()) {
+                request.setAttribute("error", "Please fill out this field");
+                request.getRequestDispatcher("AddSkill.jsp").forward(request, response);
             } else {
-                skill.setIconBase64(icon);
-                skill.setName(name);
-                skill.setDepscription(description);
+                FileUtils fileUtils = new FileUtils();
+                for (Part part : request.getParts()) {
+                    String fileName = fileUtils.extractFileName(part);
+                    if (fileName != null && fileName.length() > 0) {
+                        // Get data file.
+                        InputStream is = part.getInputStream();
+                        // Encode file to base64.
+                        long size = part.getSize();
+                        String encoded = fileUtils.inputStreamToBase64(is, size);
+                        skill.setIconBase64(encoded);
+                        skill.setName(name);
+                        skill.setDepscription(description);
+
+                    }
+                }
                 sDAO.insertSkill(skill);
                 request.getRequestDispatcher("SkillDashboard").forward(request, response);
             }
-
         } catch (Exception e) {
             System.out.println("error" + e);
         }
     }
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+// <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
 
     /**
      * Handles the HTTP <code>GET</code> method.

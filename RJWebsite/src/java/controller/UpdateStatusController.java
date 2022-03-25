@@ -5,8 +5,11 @@
 package controller;
 
 import dao.JobDAO;
+import dao.SkillDAO;
 import dao.idao.IJob;
+import dao.idao.ISkill;
 import entity.Job;
+import entity.Skill;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -35,11 +38,20 @@ public class UpdateStatusController extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         int id = Integer.parseInt(request.getParameter("id"));
-        IJob jdao = new JobDAO();
-        Job job = jdao.getJobById(id);
-        boolean status = job.isStatus();
-        jdao.updateStatus(id, status);
-        request.getRequestDispatcher("DashboardSearchingController").forward(request, response);
+        String action = request.getParameter("action");
+        if (action.equals("skill")) {
+            ISkill sdao = new SkillDAO();
+            Skill skill = sdao.getSkillById(id);
+            boolean status = skill.isStatus();
+            sdao.updateStatus(id, status);
+            request.getRequestDispatcher("SkillDashboardSearchingController").forward(request, response);
+        } else {
+            IJob jdao = new JobDAO();
+            Job job = jdao.getJobById(id);
+            boolean status = job.isStatus();
+            jdao.updateStatus(id, status);
+            request.getRequestDispatcher("DashboardSearchingController").forward(request, response);
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

@@ -118,7 +118,7 @@
                                             <td>${j.getRecruiter().name}</td>
                                             <td>${j.hireDate}</td>
                                             <td>${j.location}</td>
-                                            <th><a href="UpdateStatusController?id=${j.jId}&index=${index}&txtSearch=${save}">
+                                            <th><a href="UpdateStatusController?action=job&id=${j.jId}&index=${index}&txtSearch=${save}">
                                                     <c:choose>
                                                         <c:when test="${j.status}">
                                                             Deactivate

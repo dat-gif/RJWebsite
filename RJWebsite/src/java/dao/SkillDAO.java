@@ -38,7 +38,8 @@ public class SkillDAO extends DBContext implements ISkill {
             System.out.println(" :" + e);
         }
     }
-@Override
+
+    @Override
     public void deleteCandidateSkill(int id) {
         try {
             Connection conn = getConnection();
@@ -50,6 +51,7 @@ public class SkillDAO extends DBContext implements ISkill {
             System.out.println(" :" + e);
         }
     }
+
     @Override
     public void deleteJobSkill(int id) {
         try {
@@ -209,6 +211,7 @@ public class SkillDAO extends DBContext implements ISkill {
             ps.setString(1, s.getName());
             ps.setString(2, s.getDepscription());
             ps.setInt(3, s.getId());
+            ps.setString(4, s.getIconBase64());
             ps.executeUpdate();
         } catch (Exception e) {
             System.out.println("UpdateSkill() :" + e);

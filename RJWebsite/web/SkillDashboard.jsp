@@ -100,7 +100,7 @@
                     <table class="table">
                         <thead class="thead-dark">
                             <tr>
-                                <th scope="col"></th>
+                                <th scope="col">ID</th>
                                 <th scope="col">Name</th>
                                 <th scope="col">Description</th>
                                 <th scope="col">Status</th>
@@ -113,7 +113,7 @@
                                     <td><image src="${s.iconBase64}" class="rounded-circle shadow" style="height: 70px"/></td>
                                     <th scope="row">${s.name}</th>
                                     <td class="de"><p>${s.depscription}</p></td>
-                                    <th scope="col"><a href="SkillStatusController?id=${s.id}&index=${index}&txtSearch=${save}">
+                                    <th scope="col"><a href="UpdateStatusController?id=${s.id}&index=${index}&txtSearch=${save}&action=skill">
                                             <c:choose>
                                                 <c:when test="${s.status}">
                                                     Activate
@@ -159,9 +159,9 @@
                             </button>
                         </div>
                        
-                        <input type="hidden" id="id" name="id">
-                        <input type="hidden" value="${index}" name="index">
-                        <input type="hidden" value="${save}" name="txtSearch">
+                        <input type="hidden" id="id" name="id"/>
+                        <input type="hidden" value="${index}" name="index"/>
+                        <input type="hidden" value="${save}" name="txtSearch"/>
                         <div class="modal-body">
                             Are you sure you want to delete this skill?
                         </div>

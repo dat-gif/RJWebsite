@@ -314,28 +314,7 @@ public class CandidateDAO extends DBContext implements ICandidate {
 
     @Override
     public Candidate getCandidateProfileByCandidateId(int id) {
-        String query = "SELECT [candidate_id]\n"
-                + "      ,account.account_id\n"
-                + "      ,[first_name]\n"
-                + "      ,[last_name]\n"
-                + "      ,[birth_date]\n"
-                + "      ,[address]\n"
-                + "      ,[avatar]\n"
-                + "      ,[sex]\n"
-                + "      ,[banner]\n"
-                + "      ,account.phone\n"
-                + "      ,[finding_job]\n"
-                + "      ,[cv_manage_id]\n"
-                + "      ,[experience_manage_id]\n"
-                + "      ,[education_mange_id]\n"
-                + "      ,[social_manage_id]\n"
-                + "      ,[project_manage_id]\n"
-                + "      ,[certificate_manage_id]\n"
-                + "      ,[prize_manage_id]\n"
-                + "      ,[city]\n"
-                + "	  ,email\n"
-                + "  FROM [SWP391].[dbo].[candidate]\n"
-                + "  Where candidate_id=?";
+        String query = "Select * from candidate Where candidate_id =  ?";
         try {
             Connection conn = getConnection();
             PreparedStatement ps = conn.prepareStatement(query);
@@ -344,7 +323,6 @@ public class CandidateDAO extends DBContext implements ICandidate {
             while (rs.next()) {
                 Candidate candidate = new Candidate();
                 candidate.setCandIdateId(rs.getInt("candidate_id"));
-                candidate.setAccountId(rs.getInt("account_id"));
                 candidate.setFirstName(rs.getString("first_name"));
                 candidate.setLastName(rs.getString("last_name"));
                 candidate.setAvatar(rs.getString("avatar"));
@@ -712,9 +690,7 @@ public class CandidateDAO extends DBContext implements ICandidate {
 
     public static void main(String[] args) {
         CandidateDAO cDao = new CandidateDAO();
-        List<Candidate> list = cDao.getCandidateDashboardSearching("mi", 1, 6);
-        for (Candidate j : list) {
-            System.out.println(j.isGender());
-        }
+        Candidate c = cDao.getCandidateProfileByCandidateId(1);
+        System.out.println(c);
     }
 }

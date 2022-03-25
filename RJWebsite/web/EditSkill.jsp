@@ -29,9 +29,9 @@
                         <fieldset class="form-group">
                             <label>Skill Name</label>
                             <input type="text" value="${s.name}" maxlength="20"
-                                                             class="form-control"
-                                                             name="name" required="required">
-                            
+                                   class="form-control"
+                                   name="name" required="required">
+
                         </fieldset>
                         <fieldset class="form-group">
                             <label>Description</label><textarea type="text" value="${s.depscription}"
