@@ -70,4 +70,9 @@ public interface ICandidate {
 
     public List<CandidateProject> getCandidateProjectByCandidateId(int candidateId);
 
+    public void updateCandidatePersonalProfile(int candidateId, String bannerBase64, String avartaBase64, String fisrtName, String lastName, String address, String city, String phoneNumber, boolean gender, String dob);
+
+    public void updateCandidateEducation(Education candidateEducation);
+
+    public void deleteCandidateEducation(String eduId, int candidateId);
 }

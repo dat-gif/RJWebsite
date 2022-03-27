@@ -21,7 +21,11 @@
     </head>
 
     <body>
-        <header ><jsp:include page="component/Header.jsp"/></header>
+        <header>
+            <jsp:include page="component/Header.jsp">  
+                <jsp:param name="account" value="${account}"/>
+            </jsp:include>
+        </header>
         <main style="margin-top: 4.5rem">
             <!-- Header -->
             <div style="background: white; margin-bottom: 1rem;padding-bottom: 1rem; padding-top: 0.5rem;">

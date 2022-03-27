@@ -18,13 +18,15 @@
     </head>
     <body>
         <header >
-            <jsp:include page="component/Header.jsp"/>
+            <jsp:include page="component/Header.jsp">  
+                <jsp:param name="account" value="${account}"/>
+            </jsp:include>
         </header>
 
         <main class="container-fluid mb-3" style="margin-top: 3.5rem">
             <div class="row row-cols-2 justify-content-center align-items-center">
                 <div class="col no-gutters">
-                    <img src="https://picsum.photos/1000/1000" class="img-fluid w-100 p-2" alt="alt"/>
+                    <img src="asset/203-910x920.jpg" class="img-fluid w-100 p-2" alt="alt"/>
                 </div>
                 <div class="col-5 p-5 " >
                     <form class="w-75" action="login" method="POST">

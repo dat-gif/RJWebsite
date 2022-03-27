@@ -17,7 +17,11 @@
         <title>Apply Job</title>
     </head>
     <body>
-        <header><jsp:include page="component/Header.jsp"/></header>
+        <header>
+            <jsp:include page="component/Header.jsp">  
+                <jsp:param name="account" value="${account}"/>
+            </jsp:include>
+        </header>
         <main class="container">
             <h3 class="text-capitalize display-5 mb-4" style="margin-top: 5rem">Job you have applied for...</h3>
             <div class="row row-cols-4 align-content-center ">

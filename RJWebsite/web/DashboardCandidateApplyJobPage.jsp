@@ -114,7 +114,7 @@
                                     <td>${c.email}</td>
                                     <td>${c.phone}</td>                     
                                     <td><a href="url" id="a2">View Profile</a></td>
-                                    <td>${c.jobStatus}</td>
+                                    <th>${c.jobStatus}</th>
                                 </tr>
                             </c:forEach>
                         </tbody>

@@ -6,6 +6,7 @@ package controller;
 
 import dao.idao.IJob;
 import dao.JobDAO;
+import entity.Account;
 import entity.Job;
 import java.io.IOException;
 import java.util.List;
@@ -13,6 +14,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import utils.AppUtils;
 
 /**
  * Get data, handle the logic for the LandingPage page.
@@ -36,7 +38,8 @@ public class LandingPage extends HttpServlet {
         try {
             IJob daoJob = new JobDAO();
             List<Job> listJob = daoJob.getJobLandingPage();
-
+            Account loginedUser = AppUtils.getLoginedUser(request.getSession());
+            request.setAttribute("account", loginedUser);
             request.setAttribute("listJob", listJob);
 
             request.getRequestDispatcher("LandingPage.jsp").forward(request, response);

@@ -185,7 +185,9 @@ public class JobDAO extends DBContext implements IJob {
         try {
             Connection conn = getConnection();
             PreparedStatement ps = conn.prepareStatement("with x as(SELECT ROW_NUMBER() over (order by candidate.candidate_id asc) as r,\n"
-                    + "candidate.candidate_id, account_id, first_name, last_name,birth_date ,avatar, address, sex, phone, finding_job, city, email, status, job_id  from candidate join candidate_job_apply on candidate.candidate_id = candidate_job_apply.candidate_id\n"
+                    + "candidate.candidate_id, account_id, first_name, last_name,birth_date ,avatar, address, sex, phone, finding_job,\n"
+                    + "city, email, candidate_job_apply.status,\n"
+                    + "job_id  from candidate join candidate_job_apply on candidate.candidate_id = candidate_job_apply.candidate_id\n"
                     + "where job_id = ?)\n"
                     + "select * from x where r between ?*?-(?-1) and ?*?");
             ps.setInt(1, id);

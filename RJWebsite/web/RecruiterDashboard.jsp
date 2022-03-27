@@ -129,7 +129,7 @@
                                                 </c:otherwise>
                                             </c:choose>
                                         </a></th>
-                                    <th><a href="RecruiterDetailController?recruiterId=${r.recruiterId}&action=action" id ="a2">Details</a></th>
+                                    <th><a href="RecruiterDetailDashboardController?recruiterId=${r.recruiterId}" id ="a2">Details</a></th>
 
                                 </tr>
                             </c:forEach> 

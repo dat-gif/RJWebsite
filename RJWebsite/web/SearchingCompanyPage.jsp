@@ -19,9 +19,10 @@
         <title>Searching Company</title>
     </head>
     <body>
-        <header> 
-            <jsp:include page="component/Header.jsp"/>
-
+        <header>
+            <jsp:include page="component/Header.jsp">  
+                <jsp:param name="account" value="${account}"/>
+            </jsp:include>
         </header>
         <hr style="margin: 1rem">
         <main class="container my-3 mt-4">
@@ -55,7 +56,7 @@
                     </form>
                 </div>
                 <div class="col p-0 align-self-center">
-                    <img src="https://picsum.photos/500/300" class="img-fluid w-100 " alt="alt"/>
+                    <img src="asset/864-500x300.jpg" class="img-fluid w-100 " alt="alt"/>
                 </div>
             </div>
             <hr class="my-4"/>

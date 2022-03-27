@@ -82,6 +82,7 @@ public class RegisterController extends HttpServlet {
         processRequest(request, response);
         request.setCharacterEncoding("UTF-8");
         IAccount accountDao = new AccountDAO();
+        Validation validation = new Validation();
 
         String email = request.getParameter("email");
         String password = request.getParameter("password");
@@ -132,6 +133,11 @@ public class RegisterController extends HttpServlet {
                 if (role.equalsIgnoreCase("recruiter") && checkAccountAdditionalInformation(request, companyName, address, recruiterName)) {
                     registerAccount.setRoleId(1);
                     Recruiter recruiter = new Recruiter();
+
+                    companyName = validation.modifyString(companyName);
+                    address = validation.modifyString(address);
+                    recruiterName = validation.modifyString(recruiterName);
+
                     recruiter.setName(companyName);
                     recruiter.setAddress(address);
                     recruiter.setContacterName(recruiterName);

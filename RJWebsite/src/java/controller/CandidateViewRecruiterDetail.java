@@ -74,7 +74,8 @@ public class CandidateViewRecruiterDetail extends HttpServlet {
         int totalRecordNumber = 1;
         String currentPage = request.getParameter("page");
         try {
-
+            Account loginedUser = AppUtils.getLoginedUser(request.getSession());
+            request.setAttribute("account", loginedUser);
             Recruiter recruiter = iRecruiter.getRecruiterById(Integer.parseInt(recruiterId));
             IAccount iAccount = new AccountDAO();
             //Check if user are login
@@ -138,7 +139,7 @@ public class CandidateViewRecruiterDetail extends HttpServlet {
             } else {
                 Candidate candidate = iAccount.getCandidateInfoByAccountId(AppUtils.getLoginedUser(request.getSession()).getAccId());
                 boolean text = iRecruiter.checkRecruiterBeenFollowing(recruiterId, candidate.getCandIdateId());
-                System.out.println(text);
+
                 if (iRecruiter.checkRecruiterBeenFollowing(recruiterId, candidate.getCandIdateId())) {
                     iRecruiter.createRequestFollowingCompany(recruiterId, candidate.getCandIdateId());
                 } else {

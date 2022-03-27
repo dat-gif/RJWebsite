@@ -10,6 +10,7 @@ import entity.Skill;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
+import java.time.Clock;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
@@ -54,17 +55,17 @@ public class EditSkillController extends HttpServlet {
 
         if ("Update".equals(op)) {
             try {
-                System.out.println("icon: " + icon);
                 if (name.length() > 20) {
                     request.setAttribute("error", "Require maximum of 20 characters");
-                    request.getRequestDispatcher("AddSkill.jsp").forward(request, response);
+                    request.getRequestDispatcher("EditSkill.jsp").forward(request, response);
                 } else if (name.isEmpty()) {
                     request.setAttribute("error", "Please fill out this field");
-                    request.getRequestDispatcher("AddSkill.jsp").forward(request, response);
+                    request.getRequestDispatcher("EditSkill.jsp").forward(request, response);
                 } else if (description.isEmpty()) {
                     request.setAttribute("error", "Please fill out this field");
-                    request.getRequestDispatcher("AddSkill.jsp").forward(request, response);
+                    request.getRequestDispatcher("EditSkill.jsp").forward(request, response);
                 } else {
+                    System.out.println("icon: " + icon);
                     FileUtils fileUtils = new FileUtils();
                     for (Part part : request.getParts()) {
                         String fileName = fileUtils.extractFileName(part);
@@ -79,9 +80,11 @@ public class EditSkillController extends HttpServlet {
                     }
                     s.setId(id);
                     s.setName(name);
+                    System.out.println(name);
                     s.setDepscription(description);
                     sdao.updateSkill(s);
                 }
+
             } catch (Exception e) {
                 System.out.println("error" + e);
             }

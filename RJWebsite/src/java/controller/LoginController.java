@@ -55,6 +55,8 @@ public class LoginController extends HttpServlet {
             throws ServletException, IOException {
         try {
             request.getSession().invalidate();
+            Account loginedUser = AppUtils.getLoginedUser(request.getSession());
+            request.setAttribute("account", loginedUser);
             request.getRequestDispatcher("Login.jsp").forward(request, response);
         } catch (Exception e) {
             throw new Error(e);

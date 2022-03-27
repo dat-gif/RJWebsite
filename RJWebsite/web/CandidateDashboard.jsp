@@ -135,7 +135,7 @@
                                                 </c:otherwise>
                                             </c:choose>
                                         </a></th>
-                                    <th><a href="CandidateProfileController?id=${c.candIdateId}" id="a2">Details</a></th>
+                                    <th><a href="CandidateDashboardProfileController?id=${c.candIdateId}" id="a2">Details</a></th>
                                 </tr>
                             </c:forEach>
                         </tbody>

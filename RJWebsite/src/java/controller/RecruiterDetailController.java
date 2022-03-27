@@ -4,7 +4,6 @@
  */
 package controller;
 
-import com.sun.org.apache.bcel.internal.generic.AALOAD;
 import dao.CandidateDAO;
 import dao.RecruiterDAO;
 import dao.idao.ICandidate;
@@ -13,7 +12,6 @@ import entity.Candidate;
 import entity.Recruiter;
 import entity.Skill;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -39,7 +37,6 @@ public class RecruiterDetailController extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try {
-            String action = request.getParameter("action");
             //lay ve recruiterId tu trang RecruitmentPosted.jsp
             int recruiterId = Integer.parseInt(request.getParameter("recruiterId"));
             IRecruiter iRecruiter = new RecruiterDAO();
@@ -54,7 +51,6 @@ public class RecruiterDetailController extends HttpServlet {
             request.setAttribute("recruiter", recruiter);
             request.setAttribute("listSkill", listSkill);
             request.setAttribute("listCandidate", listCandidate);
-            request.setAttribute("action", action);
 
             //chuyen huong den trang jsp dich
             request.getRequestDispatcher("RecruiterDetail.jsp").forward(request, response);

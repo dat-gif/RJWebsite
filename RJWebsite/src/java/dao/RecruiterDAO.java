@@ -199,7 +199,7 @@ public class RecruiterDAO extends DBContext implements dao.idao.IRecruiter {
     }
 
     /**
-     * Count total number of row in ##TempRecruiterTable
+     * Count total number of row in Recruiter Table
      *
      * @return total int, total number row in recruiter table
      */
@@ -221,7 +221,7 @@ public class RecruiterDAO extends DBContext implements dao.idao.IRecruiter {
     }
 
     /**
-     * Count total number of row in Recruiter Table
+     * Count total number of row in ##TempRecruiterTable
      *
      * @return total int, total number row in recruiter table
      */
@@ -305,6 +305,13 @@ public class RecruiterDAO extends DBContext implements dao.idao.IRecruiter {
         return recruitersList;
     }
 
+    /**
+     * Get recruiter record in recruiter table with paging.
+     *
+     * @param pageNumber <code>int</code> current page number.
+     * @param recordNumber <code>int</code> total get record.
+     * @return
+     */
     @Override
     public ArrayList<Recruiter> getAllRecruiter(int pageNumber, int recordNumber) {
         ArrayList<Recruiter> recruitersList = new ArrayList<>();
@@ -444,6 +451,11 @@ public class RecruiterDAO extends DBContext implements dao.idao.IRecruiter {
         return skillList;
     }
 
+    /**
+     * Insert recruiter record to ##TempRecruiterTable with matcher city filter
+     *
+     * @param cityValue <code>String</code> name of city
+     */
     @Override
     public void insertRecruiterFilterByCity(String cityValue) {
         String clearQuery = "DELETE FROM ##TempRecruiterTable  \n ";
@@ -489,6 +501,12 @@ public class RecruiterDAO extends DBContext implements dao.idao.IRecruiter {
         }
     }
 
+    /**
+     * Get recruiter list of skill name
+     *
+     * @param recruiterId
+     * @return
+     */
     @Override
     public ArrayList<String> getSkillNameByRecruiterId(int recruiterId) {
 
@@ -546,6 +564,7 @@ public class RecruiterDAO extends DBContext implements dao.idao.IRecruiter {
     }
 
     /**
+     * Insert follow candidate following company request.
      *
      * @param recruiterId
      * @param candidateId
@@ -565,6 +584,12 @@ public class RecruiterDAO extends DBContext implements dao.idao.IRecruiter {
         }
     }
 
+    /**
+     * Remove follow candidate following company request.
+     *
+     * @param recruiterId
+     * @param candidateId
+     */
     @Override
     public void deleteRequestFollowingCompany(int recruiterId, int candidateId) {
         String query = "delete from  [SWP391].[dbo].[follow] where recruiter_id=? and candidate_id=?";
@@ -579,6 +604,14 @@ public class RecruiterDAO extends DBContext implements dao.idao.IRecruiter {
         }
     }
 
+    /**
+     * Get candidate recruiter
+     *
+     * @param accountId
+     * @param currentPage
+     * @param recordQuantity
+     * @return
+     */
     @Override
     public ArrayList<Recruiter> getCandidateFollowingRecruiterList(int accountId, int currentPage, int recordQuantity) {
         ArrayList<Recruiter> list = new ArrayList<>();
@@ -630,6 +663,7 @@ public class RecruiterDAO extends DBContext implements dao.idao.IRecruiter {
     }
 
     /**
+     * Get total number of recruiter candidate following
      *
      * @param candidateAccountId
      * @return
@@ -686,7 +720,13 @@ public class RecruiterDAO extends DBContext implements dao.idao.IRecruiter {
         }
         return recruitersList;
     }
-
+/**
+ * Get all recruimnet create by recruiter by recruiter id.
+ * @param recruiterId
+ * @param currentPage
+ * @param recordQuantity
+ * @return 
+ */
     @Override
     public ArrayList<Job> getRecruimnetByRecruiterIdPagening(String recruiterId, int currentPage, int recordQuantity) {
         String query = "DECLARE @PageNumber AS INT\n"

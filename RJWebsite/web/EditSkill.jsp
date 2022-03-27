@@ -32,7 +32,12 @@
                             </c:if>
                             <input type="file"
                                    class="form-control"
-                                   name="icon" placeholder="Upload Image here" accept="image/*"></fieldset>
+                                   name="icon" placeholder="Upload Image here" accept="image/*">
+                            <c:choose>
+                                <c:when test="${not empty error}">
+                                    <p style="color: red" id="firstName-length-error" role="alert">${error}</p>
+                                </c:when>
+                            </c:choose></fieldset>
                         <fieldset class="form-group">
                             <label>Skill Name</label>
                             <input type="text" value="${s.name}" maxlength="20"
@@ -44,6 +49,11 @@
                             <label>Description</label><textarea placeholder="Enter description..." type="text" value="${s.depscription}"
                                                                 class="form-control"
                                                                 name="description">${s.depscription}</textarea>
+                            <c:choose>
+                                <c:when test="${not empty error}">
+                                    <p style="color: red" id="firstName-length-error" role="alert">${error}</p>
+                                </c:when>
+                            </c:choose>
                         </fieldset>
                         <button type="submit" value="Update" name="op" class="btn btn-success">Edit</button>
                     </form>

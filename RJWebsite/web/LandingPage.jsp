@@ -18,15 +18,18 @@
     </head>
     <body>
         <header> 
-            <jsp:include page="component/Header.jsp"/>
+            <jsp:include page="component/Header.jsp">  
+                <jsp:param name="account" value="${account}"/>
+            </jsp:include>
+
             <div
                 class="text-center bg-image"
                 style="
-                background-image: url('https://mdbcdn.b-cdn.net/img/new/slides/041.webp');
+                background-image: url('asset/1067-1903x579.jpg');
                 background-size: cover;
                 "
                 >
-                <div class="mask" style="background-color: rgba(0, 0, 0, 0.6); height: 40rem; ">
+                <div class="mask" style="background-color: rgba(0, 0, 0, 0.3); height: 40rem; ">
                     <div class="d-flex justify-content-center align-items-center h-100">
                         <div class="text-white">
                             <h1 class="mb-3"> Thousand of IT job are waiting for you</h1>
@@ -34,6 +37,13 @@
                             <a class="btn btn-md btn-primary" href="register" role="button"
                                >Create profile</a
                             >
+
+
+                            <hr class="my-3 mt-4" style="height:0.5px;border-width:0.5;color:white;background-color:white">
+                            <form action="seachingjob" method="POST" class="d-flex">
+                                <input placeholder="Quick search job...." type="search" name="txtSearch" value="${txtSearch}" class="form-control  rounded border-secondary" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
+                                <button type="submit" class="btn btn-primary mx-3 d-inline ">search</button>
+                            </form>
                         </div>
                     </div>
                 </div>

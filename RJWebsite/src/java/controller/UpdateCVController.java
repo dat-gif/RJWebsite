@@ -29,9 +29,9 @@ import utils.FileUtils;
  * @author Admin
  */
 @WebServlet(name = "UpdateCVController", urlPatterns = {"/updatecv"})
-@MultipartConfig(fileSizeThreshold = 1024 * 1024 * 5, // 2MB
-        maxFileSize = 1024 * 1024 * 8, // (1024 bytes = 1 KB) x (1024 = 1 MB) x 7 = 8 MB 
-        maxRequestSize = 1024 * 1024 * 15)//(1024 bytes = 1 KB) x (1024 = 1 MB) x 15 = 15 MB
+@MultipartConfig(fileSizeThreshold = 1024 * 1024 * 2, // 2MB
+        maxFileSize = 1024 * 1024 * 6, // (1024 bytes = 1 KB) x (1024 = 1 MB) x 6 = 6 MB 
+        maxRequestSize = 1024 * 1024 * 10)//(1024 bytes = 1 KB) x (1024 = 1 MB) x 10 = 10 MB
 public class UpdateCVController extends HttpServlet {
 
     private static final long serialVersionUID = 1L;
@@ -76,34 +76,40 @@ public class UpdateCVController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        FileUtils fileUtils = new FileUtils();
-        ICandidate iCandidate = new CandidateDAO();
-        String cvLink = request.getParameter("cvLink");
-        Account loginedUser = AppUtils.getLoginedUser(request.getSession());
-        Candidate candidateInfo = iCandidate.getCandidateProfileById(loginedUser.getAccId());
-       
-        if (cvLink.isEmpty()) {
-            //Set null will not change data in database
-            cvLink = null;
-        }
         try {
-            for (Part part : request.getParts()) {
-                String fileName = fileUtils.extractFileName(part);
-                if (fileName != null && fileName.length() > 0) {
-                    // Get data file.
-                    InputStream is = part.getInputStream();
-                    // Encode file to base64.
-                    long size = part.getSize();
-                    String encoded = fileUtils.inputStreamToBase64(is, size);
 
-                    iCandidate.editCandidateCVByCandidateId(candidateInfo.getCandIdateId(), encoded, cvLink);
-                }
+            FileUtils fileUtils = new FileUtils();
+            ICandidate iCandidate = new CandidateDAO();
+            String cvLink = request.getParameter("cvLink");
+            Account loginedUser = AppUtils.getLoginedUser(request.getSession());
+            Candidate candidateInfo = iCandidate.getCandidateProfileById(loginedUser.getAccId());
+            String encoded = null;
+            if (cvLink.isEmpty()) {
+                //Set null will not change data in database
+                cvLink = null;
             }
-            response.sendRedirect("candidateprofilecontroller");
-        } catch (Exception e) {
-            throw new Error();
-        }
+            try {
+                for (Part part : request.getParts()) {
+                    String fileName = fileUtils.extractFileName(part);
+                    if (fileName != null && fileName.length() > 0) {
+                        // Get data file.
+                        InputStream is = part.getInputStream();
+                        // Encode file to base64.
+                        long size = part.getSize();
+                        encoded = fileUtils.inputStreamToBase64(is, size);
+                        is.close();
+                    }
+                }
 
+                iCandidate.editCandidateCVByCandidateId(candidateInfo.getCandIdateId(), encoded, cvLink);
+                response.sendRedirect("candidateprofilecontroller");
+            } catch (Exception e) {
+                response.sendRedirect("candidateprofilecontroller");
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+            response.sendRedirect("candidateprofilecontroller");
+        }
     }
 
     /**
