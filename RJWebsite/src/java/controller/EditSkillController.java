@@ -8,18 +8,25 @@ import dao.JobDAO;
 import dao.SkillDAO;
 import entity.Skill;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.Part;
+import utils.FileUtils;
 
 /**
  *
  * @author admin
  */
 @WebServlet(name = "EditSkillController", urlPatterns = {"/EditSkillController"})
+@MultipartConfig(fileSizeThreshold = 1024 * 1024 * 5, // 2MB
+        maxFileSize = 1024 * 1024 * 8, // (1024 bytes = 1 KB) x (1024 = 1 MB) x 7 = 8 MB 
+        maxRequestSize = 1024 * 1024 * 15)//(1024 bytes = 1 KB) x (1024 = 1 MB) x 15 = 15 MB
 public class EditSkillController extends HttpServlet {
 
     /**
@@ -36,22 +43,45 @@ public class EditSkillController extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         String op = request.getParameter("op");
         String name = request.getParameter("name");
-        String uid = request.getParameter("id");
+        String description = request.getParameter("description");
         int id = Integer.parseInt(request.getParameter("id"));
         SkillDAO sdao = new SkillDAO();
         Skill skill = sdao.getSkillById(id);
         String txtSearch = request.getParameter("txtSearch");
         int index = Integer.parseInt(request.getParameter("index"));
+        String icon = request.getParameter("icon");
+        Skill s = new Skill();
+
         if ("Update".equals(op)) {
             try {
-                int Id = Integer.parseInt(request.getParameter("id"));
-                String Name = request.getParameter("name");
-                String Description = request.getParameter("description");
-                Skill s = new Skill();
-                s.setId(Id);
-                s.setName(Name);
-                s.setDepscription(Description);
-                sdao.updateSkill(s);
+                System.out.println("icon: " + icon);
+                if (name.length() > 20) {
+                    request.setAttribute("error", "Require maximum of 20 characters");
+                    request.getRequestDispatcher("AddSkill.jsp").forward(request, response);
+                } else if (name.isEmpty()) {
+                    request.setAttribute("error", "Please fill out this field");
+                    request.getRequestDispatcher("AddSkill.jsp").forward(request, response);
+                } else if (description.isEmpty()) {
+                    request.setAttribute("error", "Please fill out this field");
+                    request.getRequestDispatcher("AddSkill.jsp").forward(request, response);
+                } else {
+                    FileUtils fileUtils = new FileUtils();
+                    for (Part part : request.getParts()) {
+                        String fileName = fileUtils.extractFileName(part);
+                        if (fileName != null && fileName.length() > 0) {
+                            // Get data file.
+                            InputStream is = part.getInputStream();
+                            // Encode file to base64.
+                            long size = part.getSize();
+                            String encoded = fileUtils.inputStreamToBase64(is, size);
+                            skill.setIconBase64(encoded);
+                        }
+                    }
+                    s.setId(id);
+                    s.setName(name);
+                    s.setDepscription(description);
+                    sdao.updateSkill(s);
+                }
             } catch (Exception e) {
                 System.out.println("error" + e);
             }

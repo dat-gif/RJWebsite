@@ -31,9 +31,18 @@ public class Recruiter {
     private List<String> skillListName;
     private Date createAt;
     private Date updateAt;
+    private boolean status;
 
     public List<String> getSkillListName() {
         return skillListName;
+    }
+
+    public boolean isStatus() {
+        return status;
+    }
+
+    public void setStatus(boolean status) {
+        this.status = status;
     }
 
     public void setSkillListName(List<String> skillListName) {
@@ -76,6 +85,22 @@ public class Recruiter {
         this.employeeQuantity = employeeQuantity;
         this.contacterName = contacterName;
         this.contacterPhone = contacterPhone;
+    }
+
+    public Recruiter(int recruiterId, String city, String name, String address, String avatar, String banner, String phone, String website, String description, String employeeQuantity, String contacterName, String contacterPhone, boolean status) {
+        this.recruiterId = recruiterId;
+        this.city = city;
+        this.name = name;
+        this.address = address;
+        this.avatar = avatar;
+        this.banner = banner;
+        this.phone = phone;
+        this.website = website;
+        this.description = description;
+        this.employeeQuantity = employeeQuantity;
+        this.contacterName = contacterName;
+        this.contacterPhone = contacterPhone;
+        this.status = status;
     }
 
     public Recruiter(int recruiterId, String name, String address, String avatar, String banner, String phone, String website, String description, String employeeQuantity, String contacterName, String contacterPhone, Date createAt, Date updateAt) {

@@ -26,15 +26,22 @@
                 <div class="card-body">
                     <form action="EditSkillController?id=${s.id}&index=${index}&txtSearch=${save}" method="post">
                         <Input type="hidden" value="${s.id}" name="id" class="form-control" id="recipient-name">
+                        <fieldset class="form-group"><label>Icon</label>
+                            <c:if test = "${s.iconBase64 != null}">
+                                <image src="${s.iconBase64}" class="rounded-circle shadow" style="height: 70px"/>
+                            </c:if>
+                            <input type="file"
+                                   class="form-control"
+                                   name="icon" placeholder="Upload Image here" accept="image/*"></fieldset>
                         <fieldset class="form-group">
                             <label>Skill Name</label>
                             <input type="text" value="${s.name}" maxlength="20"
                                    class="form-control"
-                                   name="name" required="required">
+                                   name="name" placeholder="Enter Title..." required="required">
 
                         </fieldset>
                         <fieldset class="form-group">
-                            <label>Description</label><textarea type="text" value="${s.depscription}"
+                            <label>Description</label><textarea placeholder="Enter description..." type="text" value="${s.depscription}"
                                                                 class="form-control"
                                                                 name="description">${s.depscription}</textarea>
                         </fieldset>

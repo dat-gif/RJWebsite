@@ -104,7 +104,7 @@
                                 <th scope="col">Gender</th>
                                 <th scope="col">Email</th>
                                 <th scope="col">Phone</th>
-
+                                <th scope="col">status</th>
                                 <th scope="col">Action</th>
                             </tr>
                         </thead>
@@ -124,8 +124,18 @@
                                         </c:choose>
                                     </td>
                                     <td>${c.email}</td>
-                                    <td>${c.phone}</td>                     
-                                    <th><a href="CandidateDashboardProfileController?id=${c.candIdateId}" id="a2">Details</a></th>
+                                    <td>${c.phone}</td>
+                                    <th scope="col"><a href="UpdateStatusController?id=${c.candIdateId}&index=${index}&txtSearch=${save}&action=candidate">
+                                            <c:choose>
+                                                <c:when test="${c.status}">
+                                                    Activate
+                                                </c:when>
+                                                <c:otherwise>
+                                                    Deactivate
+                                                </c:otherwise>
+                                            </c:choose>
+                                        </a></th>
+                                    <th><a href="CandidateProfileController?id=${c.candIdateId}" id="a2">Details</a></th>
                                 </tr>
                             </c:forEach>
                         </tbody>

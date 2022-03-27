@@ -28,6 +28,7 @@
             <div class="card">
                 <div class="card-body">
                     <form action="AddSkillController" method="post" enctype="multipart/form-data">
+                        
                         <fieldset class="form-group"><label>Icon</label>
                             <input type="file"
                                    class="form-control"
@@ -36,7 +37,7 @@
                             <label>Skill Name</label>
                             <input type="text"
                                    class="form-control"
-                                   name="name" maxlength="20">
+                                   name="name">
                             <c:choose>
                                 <c:when test="${not empty error}">
                                     <p style="color: red" id="firstName-length-error" role="alert">${error}</p>
@@ -48,6 +49,11 @@
                             <label>Description</label><textarea type="text"
                                                                 class="form-control"
                                                                 name="description" ></textarea>
+                            <c:choose>
+                                <c:when test="${not empty error2}">
+                                    <p style="color: red" id="firstName-length-error" role="alert">${error2}</p>
+                                </c:when>
+                            </c:choose>
                         </fieldset>
                         <button type="submit" class="btn btn-success">Add</button>
                     </form>

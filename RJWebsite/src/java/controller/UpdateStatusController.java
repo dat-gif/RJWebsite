@@ -4,11 +4,17 @@
  */
 package controller;
 
+import dao.CandidateDAO;
 import dao.JobDAO;
+import dao.RecruiterDAO;
 import dao.SkillDAO;
+import dao.idao.ICandidate;
 import dao.idao.IJob;
+import dao.idao.IRecruiter;
 import dao.idao.ISkill;
+import entity.Candidate;
 import entity.Job;
+import entity.Recruiter;
 import entity.Skill;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -45,6 +51,18 @@ public class UpdateStatusController extends HttpServlet {
             boolean status = skill.isStatus();
             sdao.updateStatus(id, status);
             request.getRequestDispatcher("SkillDashboardSearchingController").forward(request, response);
+        } else if (action.equals("candidate")) {
+            ICandidate cdao = new CandidateDAO();
+            Candidate candidate = cdao.getCandidateById(id);
+            boolean status = candidate.isStatus();
+            cdao.updateStatus(id, status);
+            request.getRequestDispatcher("CandidateDashboardSearchingController").forward(request, response);
+        } else if (action.equals("recruiter")) {
+            IRecruiter rdao = new RecruiterDAO();
+            Recruiter recruiter = rdao.getRecruiterByIdForStatus(id);
+            boolean status = recruiter.isStatus();
+            rdao.updateStatus(id, status);
+            request.getRequestDispatcher("RecruiterDashboardSearchingController").forward(request, response);
         } else {
             IJob jdao = new JobDAO();
             Job job = jdao.getJobById(id);
@@ -54,7 +72,7 @@ public class UpdateStatusController extends HttpServlet {
         }
     }
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+// <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
      *

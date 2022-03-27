@@ -5,6 +5,7 @@
 package dao;
 
 import context.DBContext;
+import entity.Candidate;
 import entity.Job;
 import entity.Recruiter;
 import entity.Skill;
@@ -748,12 +749,57 @@ public class RecruiterDAO extends DBContext implements dao.idao.IRecruiter {
 
     public static void main(String[] args) {
         RecruiterDAO rDao = new RecruiterDAO();
-        int count = rDao.countTotalRecruiterSearch("FPT");
-        List<Recruiter> list = rDao.getRecruiters(1, 6);
-        for (Recruiter s : list) {
-            System.out.println(s);
-        }
+        Recruiter r = rDao.getRecruiterByIdForStatus(1);
 
+        System.out.println(r);
+
+    }
+
+    @Override
+    public Recruiter getRecruiterByIdForStatus(int id) {
+        try {
+            Connection conn = getConnection();
+            PreparedStatement ps = conn.prepareStatement("SELECT * FROM recruiter WHERE recruiter_id = ?");
+            ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                Recruiter r = new Recruiter();
+                r.setRecruiterId(rs.getInt("recruiter_id"));
+                r.setCity(rs.getString("city"));
+                r.setName(rs.getString("name"));
+                r.setAddress(rs.getString("address"));
+                r.setAvatar(rs.getString("avatar"));
+                r.setBanner(rs.getString("banner"));
+                r.setPhone(rs.getString("phone"));
+                r.setWebsite(rs.getString("website"));
+                r.setDescription(rs.getString("description"));
+                r.setEmployeeQuantity(rs.getString("employee_quantity"));
+                r.setContacterName(rs.getString("contacter_name"));
+                r.setContacterPhone(rs.getString("contacter_phone"));
+                r.setStatus(rs.getBoolean("status"));
+                return r;
+            }
+        } catch (Exception e) {
+            System.err.println(e);
+        }
+        return null;
+    }
+
+    public void updateStatus(int id, boolean status
+    ) {
+        try {
+            Connection conn = getConnection();
+            PreparedStatement ps;
+            if (status) {
+                ps = conn.prepareStatement("UPDATE recruiter SET status = 0 where recruiter_id = ?");
+            } else {
+                ps = conn.prepareStatement("UPDATE recruiter SET status = 1 where recruiter_id = ?");
+            }
+            ps.setInt(1, id);
+            ps.executeUpdate();
+        } catch (Exception e) {
+            System.out.println(" :" + e);
+        }
     }
 
     @Override
@@ -781,7 +827,8 @@ public class RecruiterDAO extends DBContext implements dao.idao.IRecruiter {
                         rs.getString("description"),
                         rs.getString("employee_quantity"),
                         rs.getString("contacter_name"),
-                        rs.getString("contacter_phone")
+                        rs.getString("contacter_phone"),
+                        rs.getBoolean("status")
                 );
                 list.add(r);
             }
@@ -819,7 +866,8 @@ public class RecruiterDAO extends DBContext implements dao.idao.IRecruiter {
                         rs.getString("description"),
                         rs.getString("employee_quantity"),
                         rs.getString("contacter_name"),
-                        rs.getString("contacter_phone")
+                        rs.getString("contacter_phone"),
+                        rs.getBoolean("status")
                 );
                 list.add(r);
             }

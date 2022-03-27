@@ -70,7 +70,7 @@ public class CandidateDashboardProfileController extends HttpServlet {
 
         CandidateCV candidateCV = iCandidate.getCandidateCVByCandidateId(id);
         String cvImgDecode = "data:image/png;base64," + candidateCV.getOriginCv();
-        List< Education> educations = iCandidate.getEducationByCandidateId(id);
+        List<Education> educations = iCandidate.getEducationByCandidateId(id);
         List<Skill> listSkill = iCandidate.getSkillByCandidateId(id);
         List<Certificate> certificates = iCandidate.getCertificateByCandidateId(id);
         List<Experience> experiences = iCandidate.getExperienceByCandidateId(id);

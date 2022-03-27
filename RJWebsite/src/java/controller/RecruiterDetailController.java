@@ -39,6 +39,7 @@ public class RecruiterDetailController extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try {
+            String action = request.getParameter("action");
             //lay ve recruiterId tu trang RecruitmentPosted.jsp
             int recruiterId = Integer.parseInt(request.getParameter("recruiterId"));
             IRecruiter iRecruiter = new RecruiterDAO();
@@ -53,6 +54,7 @@ public class RecruiterDetailController extends HttpServlet {
             request.setAttribute("recruiter", recruiter);
             request.setAttribute("listSkill", listSkill);
             request.setAttribute("listCandidate", listCandidate);
+            request.setAttribute("action", action);
 
             //chuyen huong den trang jsp dich
             request.getRequestDispatcher("RecruiterDetail.jsp").forward(request, response);

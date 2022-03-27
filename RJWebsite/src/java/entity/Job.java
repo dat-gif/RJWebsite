@@ -32,6 +32,18 @@ public class Job {
     public Job() {
     }
 
+    public Job(int jId, String title, String description, String salaryRange, String quantity, String role, String experience, String location, String hireDate) {
+        this.jId = jId;
+        this.title = title;
+        this.description = description;
+        this.salaryRange = salaryRange;
+        this.quantity = quantity;
+        this.role = role;
+        this.experience = experience;
+        this.location = location;
+        this.hireDate = hireDate;
+    }
+
     public Job(int jId, String title, String description, String salaryRange, String quantity, String role, String experience, String location, String hireDate, boolean status) {
         this.jId = jId;
         this.title = title;

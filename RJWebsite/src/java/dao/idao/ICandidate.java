@@ -28,6 +28,10 @@ import java.util.List;
  */
 public interface ICandidate {
 
+    public Candidate getCandidateById(int id);
+
+    public void updateStatus(int id, boolean status);
+
     public int countTotalCandidateSearch(String txtSearch);
 
     public int countTotalCandidate();

@@ -102,7 +102,7 @@ public class SkillDAO extends DBContext implements ISkill {
                 Skill s = new Skill();
                 s.setId(rs.getInt("skill_id"));
                 s.setName(rs.getString("name"));
-                s.setIconBase64("icon");
+                s.setIconBase64(rs.getString("icon"));
                 s.setDepscription(rs.getString("description"));
                 s.setStatus(rs.getBoolean("status"));
                 return s;
@@ -207,11 +207,11 @@ public class SkillDAO extends DBContext implements ISkill {
     public void updateSkill(Skill s) {
         try {
             Connection conn = getConnection();
-            PreparedStatement ps = conn.prepareStatement("UPDATE skill SET name = ?, description = ? where skill_id = ?");
+            PreparedStatement ps = conn.prepareStatement("UPDATE skill SET name = ?, description = ?, icon = ? where skill_id = ?");
             ps.setString(1, s.getName());
             ps.setString(2, s.getDepscription());
-            ps.setInt(3, s.getId());
-            ps.setString(4, s.getIconBase64());
+            ps.setInt(4, s.getId());
+            ps.setString(3, s.getIconBase64());
             ps.executeUpdate();
         } catch (Exception e) {
             System.out.println("UpdateSkill() :" + e);

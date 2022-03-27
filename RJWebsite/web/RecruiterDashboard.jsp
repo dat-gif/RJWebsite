@@ -105,6 +105,7 @@
                                 <th scope="col">Phone</th>
                                 <th scope="col">Address</th>
                                 <th scope="col">City</th>
+                                <th scope="col">Status</th>
                                 <th scope="col">Action</th>
                             </tr>
                         </thead>
@@ -118,7 +119,17 @@
                                     <td>${r.phone}</td>
                                     <td>${r.address}</td>
                                     <td>${r.city}</td>
-                                    <th><a href="RecruiterDetailController?recruiterId=${r.recruiterId}" id ="a2">Details</a></th>
+                                    <th scope="col"><a href="UpdateStatusController?id=${r.recruiterId}&index=${index}&txtSearch=${save}&action=recruiter">
+                                            <c:choose>
+                                                <c:when test="${r.status}">
+                                                    Activate
+                                                </c:when>
+                                                <c:otherwise>
+                                                    Deactivate
+                                                </c:otherwise>
+                                            </c:choose>
+                                        </a></th>
+                                    <th><a href="RecruiterDetailController?recruiterId=${r.recruiterId}&action=action" id ="a2">Details</a></th>
 
                                 </tr>
                             </c:forEach> 

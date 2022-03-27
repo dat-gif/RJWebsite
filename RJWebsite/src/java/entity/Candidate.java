@@ -23,6 +23,7 @@ public class Candidate {
     private String banner;
     private String phone;
     private boolean findingJob;
+    private boolean status;
     private int cvManageId;
     private int experienceManageId;
     private int educationMangeId;
@@ -48,7 +49,7 @@ public class Candidate {
     public Candidate() {
     }
 
-    public Candidate(int candIdateId, String firstName, String lastName, String birthDate, String address, boolean gender, String phone, String email, String jobStatus, int job_id) {
+    public Candidate(int candIdateId, String firstName, String lastName, String birthDate, String address, boolean gender, String phone, String email, String jobStatus, int job_id, boolean status) {
         this.candIdateId = candIdateId;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -59,6 +60,7 @@ public class Candidate {
         this.email = email;
         this.jobStatus = jobStatus;
         this.job_id = job_id;
+        this.status = status;
     }
 
     public Candidate(int candIdateId, int accountId, String firstName, String lastName, String birthDate, String address, String avatar, boolean gender, String banner, String phone, boolean findingJob, int cvManageId, int experienceManageId, int educationMangeId, int socialManageId, int projectManageId, int certificateManageId, int prizeManageId) {
@@ -109,6 +111,14 @@ public class Candidate {
         this.certificateManageId = certificateManageId;
         this.prizeManageId = prizeManageId;
         this.city = city;
+    }
+
+    public boolean isStatus() {
+        return status;
+    }
+
+    public void setStatus(boolean status) {
+        this.status = status;
     }
 
     public String getCity() {

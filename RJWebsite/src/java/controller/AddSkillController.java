@@ -48,21 +48,22 @@ public class AddSkillController extends HttpServlet {
         IJob jdao = new JobDAO();
         ISkill sDAO = new SkillDAO();
         Skill skill = new Skill();
-        String icon = request.getParameter("icon");
         String name = request.getParameter("name");
         String description = request.getParameter("description");
         List<Skill> list = jdao.getAllSkill();
         String cName = name.toLowerCase();
         try {
-
-            if (sDAO.checkExistedSkillName(cName)) {
+            if (name.length() > 20) {
+                request.setAttribute("error", "Require maximum of 20 characters");
+                request.getRequestDispatcher("AddSkill.jsp").forward(request, response);
+            } else if (sDAO.checkExistedSkillName(cName)) {
                 request.setAttribute("error", "Skill name is already exist");
                 request.getRequestDispatcher("AddSkill.jsp").forward(request, response);
             } else if (name.isEmpty()) {
                 request.setAttribute("error", "Please fill out this field");
                 request.getRequestDispatcher("AddSkill.jsp").forward(request, response);
             } else if (description.isEmpty()) {
-                request.setAttribute("error", "Please fill out this field");
+                request.setAttribute("error2", "Please fill out this field");
                 request.getRequestDispatcher("AddSkill.jsp").forward(request, response);
             } else {
                 FileUtils fileUtils = new FileUtils();
@@ -75,11 +76,10 @@ public class AddSkillController extends HttpServlet {
                         long size = part.getSize();
                         String encoded = fileUtils.inputStreamToBase64(is, size);
                         skill.setIconBase64(encoded);
-                        skill.setName(name);
-                        skill.setDepscription(description);
-
                     }
                 }
+                skill.setName(name);
+                skill.setDepscription(description);
                 sDAO.insertSkill(skill);
                 request.getRequestDispatcher("SkillDashboard").forward(request, response);
             }

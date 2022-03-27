@@ -17,6 +17,10 @@ import java.util.List;
  */
 public interface IRecruiter {
 
+    public Recruiter getRecruiterByIdForStatus(int id);
+
+    public void updateStatus(int id, boolean status);
+
     public int countTotalRecruiterSearch(String txtSearch);
 
     public int countTotalRecruiter();

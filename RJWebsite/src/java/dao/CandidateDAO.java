@@ -150,6 +150,24 @@ public class CandidateDAO extends DBContext implements ICandidate {
         return 0;
     }
 
+    @Override
+    public void updateStatus(int id, boolean status
+    ) {
+        try {
+            Connection conn = getConnection();
+            PreparedStatement ps;
+            if (status) {
+                ps = conn.prepareStatement("UPDATE candidate SET status = 0 where candidate_id = ?");
+            } else {
+                ps = conn.prepareStatement("UPDATE candidate SET status = 1 where candidate_id = ?");
+            }
+            ps.setInt(1, id);
+            ps.executeUpdate();
+        } catch (Exception e) {
+            System.out.println(" :" + e);
+        }
+    }
+
     /**
      * get all candidates from Record;
      *
@@ -182,6 +200,7 @@ public class CandidateDAO extends DBContext implements ICandidate {
                 can.setPhone(rs.getString("phone"));
                 can.setEmail(rs.getString("email"));
                 can.setFindingJob(rs.getBoolean("finding_job"));
+                can.setStatus(rs.getBoolean("status"));
                 list.add(can);
             }
         } catch (Exception e) {
@@ -189,6 +208,34 @@ public class CandidateDAO extends DBContext implements ICandidate {
         }
 
         return list;
+    }
+
+    public Candidate getCandidateById(int id) {
+
+        try {
+            Connection conn = getConnection();
+            PreparedStatement ps = conn.prepareStatement("SELECT * FROM candidate WHERE candidate_id = ?");
+            ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                Candidate can = new Candidate();
+                can.setCandIdateId(rs.getInt("candidate_id"));
+                can.setFirstName(rs.getString("first_name"));
+                can.setLastName(rs.getString("last_name"));
+                can.setBirthDate(rs.getString("birth_date"));
+                can.setAddress(rs.getString("address"));
+                can.setAvatar(rs.getString("avatar"));
+                can.setGender(rs.getBoolean("sex"));
+                can.setPhone(rs.getString("phone"));
+                can.setEmail(rs.getString("email"));
+                can.setFindingJob(rs.getBoolean("finding_job"));
+                can.setStatus(rs.getBoolean("status"));
+                return can;
+            }
+        } catch (Exception e) {
+            System.out.println("getJobs() :" + e);
+        }
+        return null;
     }
 
     @Override
@@ -218,6 +265,7 @@ public class CandidateDAO extends DBContext implements ICandidate {
                 can.setPhone(rs.getString("phone"));
                 can.setEmail(rs.getString("email"));
                 can.setFindingJob(rs.getBoolean("finding_job"));
+                can.setStatus(rs.getBoolean("status"));
                 list.add(can);
             }
         } catch (Exception e) {
@@ -314,7 +362,29 @@ public class CandidateDAO extends DBContext implements ICandidate {
 
     @Override
     public Candidate getCandidateProfileByCandidateId(int id) {
-        String query = "Select * from candidate Where candidate_id =  ?";
+        String query = "SELECT [candidate_id]\n"
+                + "      ,[candidate].[account_id]\n"
+                + "      ,[first_name]\n"
+                + "      ,[last_name]\n"
+                + "      ,[birth_date]\n"
+                + "      ,[address]\n"
+                + "      ,[avatar]\n"
+                + "      ,[sex]\n"
+                + "      ,[banner]\n"
+                + "      ,[candidate].[phone]\n"
+                + "      ,[finding_job]\n"
+                + "      ,[cv_manage_id]\n"
+                + "      ,[experience_manage_id]\n"
+                + "      ,[education_mange_id]\n"
+                + "      ,[social_manage_id]\n"
+                + "      ,[project_manage_id]\n"
+                + "      ,[certificate_manage_id]\n"
+                + "      ,[prize_manage_id]\n"
+                + "      ,[city]\n"
+                + "      , [candidate].[email]\n"
+                + "      ,[candidate].[status]\n"
+                + "  FROM [SWP391].[dbo].[candidate]\n"
+                + "  inner join account on account.account_id = candidate.account_id Where candidate.candidate_id = 1";
         try {
             Connection conn = getConnection();
             PreparedStatement ps = conn.prepareStatement(query);
@@ -690,7 +760,8 @@ public class CandidateDAO extends DBContext implements ICandidate {
 
     public static void main(String[] args) {
         CandidateDAO cDao = new CandidateDAO();
-        Candidate c = cDao.getCandidateProfileByCandidateId(1);
+        List<Candidate> list = cDao.getCandidates(1, 6);
+        Candidate c = cDao.getCandidateById(2);
         System.out.println(c);
     }
 }
