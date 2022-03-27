@@ -4,6 +4,7 @@
  */
 package controller;
 
+import com.sun.xml.internal.bind.v2.runtime.output.Encoded;
 import dao.JobDAO;
 import dao.SkillDAO;
 import entity.Skill;
@@ -50,22 +51,43 @@ public class EditSkillController extends HttpServlet {
         Skill skill = sdao.getSkillById(id);
         String txtSearch = request.getParameter("txtSearch");
         int index = Integer.parseInt(request.getParameter("index"));
-        String icon = request.getParameter("icon");
-        Skill s = new Skill();
-
+        String sName = request.getParameter("sName");
         if ("Update".equals(op)) {
             try {
                 if (name.length() > 20) {
-                    request.setAttribute("error", "Require maximum of 20 characters");
+                    request.setAttribute("error", "Require maximum of 20 characters!");
+                    request.setAttribute("index", index);
+                    request.setAttribute("sName", sName);
+                    request.setAttribute("txtSearch", txtSearch);
+                    request.setAttribute("skill", skill);
                     request.getRequestDispatcher("EditSkill.jsp").forward(request, response);
-                } else if (name.isEmpty()) {
-                    request.setAttribute("error", "Please fill out this field");
+                }
+                if (sdao.checkExistedSkillName(name.toLowerCase())) {
+                    if (!name.equals(sName)) {
+                        request.setAttribute("error", "Skill name has already existed!");
+                        request.setAttribute("index", index);
+                        request.setAttribute("sName", sName);
+                        request.setAttribute("txtSearch", txtSearch);
+                        request.setAttribute("skill", skill);
+                        request.getRequestDispatcher("EditSkill.jsp").forward(request, response);
+                    }
+                }
+                if (name.isEmpty()) {
+                    request.setAttribute("error", "Please fill out this field!");
+                    request.setAttribute("index", index);
+                    request.setAttribute("sName", sName);
+                    request.setAttribute("txtSearch", txtSearch);
+                    request.setAttribute("skill", skill);
                     request.getRequestDispatcher("EditSkill.jsp").forward(request, response);
-                } else if (description.isEmpty()) {
-                    request.setAttribute("error", "Please fill out this field");
+                }
+                if (description.isEmpty()) {
+                    request.setAttribute("error2", "Please fill out this field!");
+                    request.setAttribute("index", index);
+                    request.setAttribute("sName", sName);
+                    request.setAttribute("txtSearch", txtSearch);
+                    request.setAttribute("skill", skill);
                     request.getRequestDispatcher("EditSkill.jsp").forward(request, response);
                 } else {
-                    System.out.println("icon: " + icon);
                     FileUtils fileUtils = new FileUtils();
                     for (Part part : request.getParts()) {
                         String fileName = fileUtils.extractFileName(part);
@@ -78,18 +100,18 @@ public class EditSkillController extends HttpServlet {
                             skill.setIconBase64(encoded);
                         }
                     }
-                    s.setId(id);
-                    s.setName(name);
-                    System.out.println(name);
-                    s.setDepscription(description);
-                    sdao.updateSkill(s);
+                    skill.setId(id);
+                    skill.setName(name);
+                    skill.setDepscription(description);
+                    sdao.updateSkill(skill);
+                    request.getRequestDispatcher("SkillDashboardSearchingController").forward(request, response);
                 }
 
             } catch (Exception e) {
                 System.out.println("error" + e);
             }
-            request.getRequestDispatcher("SkillDashboardSearchingController").forward(request, response);
         } else {
+            request.setAttribute("sName", sName);
             request.setAttribute("index", index);
             request.setAttribute("txtSearch", txtSearch);
             request.setAttribute("skill", skill);

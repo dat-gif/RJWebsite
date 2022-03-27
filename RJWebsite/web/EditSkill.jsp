@@ -19,13 +19,14 @@
         <link rel="stylesheet" href="adminstyle/CandidateDashboard.css">
         <title>Edit Skill</title>
     </head>
-    <body>
+    <body><jsp:include page="component/Adminheader.jsp"/>
         <c:set var="s" value="${skill}"/>
         <div class="container col-md-5">
             <div class="card">
                 <div class="card-body">
-                    <form action="EditSkillController?id=${s.id}&index=${index}&txtSearch=${save}" method="post">
+                    <form action="EditSkillController?id=${s.id}&index=${index}&txtSearch=${txtSearch}" method="post" enctype="multipart/form-data">
                         <Input type="hidden" value="${s.id}" name="id" class="form-control" id="recipient-name">
+                        <Input type="hidden" value="${sName}" name="sName" class="form-control" id="recipient-name">
                         <fieldset class="form-group"><label>Icon</label>
                             <c:if test = "${s.iconBase64 != null}">
                                 <image src="${s.iconBase64}" class="rounded-circle shadow" style="height: 70px"/>
@@ -33,25 +34,25 @@
                             <input type="file"
                                    class="form-control"
                                    name="icon" placeholder="Upload Image here" accept="image/*">
+                        </fieldset>
+                        <fieldset class="form-group">
+                            <label>Skill Name</label>
+                            <input type="text" value="${s.name}"
+                                   class="form-control"
+                                   name="name" placeholder="Enter Title...">
                             <c:choose>
                                 <c:when test="${not empty error}">
                                     <p style="color: red" id="firstName-length-error" role="alert">${error}</p>
                                 </c:when>
-                            </c:choose></fieldset>
-                        <fieldset class="form-group">
-                            <label>Skill Name</label>
-                            <input type="text" value="${s.name}" maxlength="20"
-                                   class="form-control"
-                                   name="name" placeholder="Enter Title..." required="required">
-
+                            </c:choose>
                         </fieldset>
                         <fieldset class="form-group">
                             <label>Description</label><textarea placeholder="Enter description..." type="text" value="${s.depscription}"
                                                                 class="form-control"
                                                                 name="description">${s.depscription}</textarea>
                             <c:choose>
-                                <c:when test="${not empty error}">
-                                    <p style="color: red" id="firstName-length-error" role="alert">${error}</p>
+                                <c:when test="${not empty error2}">
+                                    <p style="color: red" id="firstName-length-error" role="alert">${error2}</p>
                                 </c:when>
                             </c:choose>
                         </fieldset>
@@ -59,6 +60,6 @@
                     </form>
                 </div>
             </div>
-
+        </div>
     </body>
 </html>

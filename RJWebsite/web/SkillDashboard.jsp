@@ -124,7 +124,7 @@
                                             </c:choose>
                                         </a></th>
                                     <th>
-                                        <a href ="EditSkillController?id=${s.id}&index=${index}&txtSearch=${save}" id ="a2" >Edit</a>&nbsp;
+                                        <a href ="EditSkillController?id=${s.id}&index=${index}&txtSearch=${save}&sName=${s.name}" id ="a2" >Edit</a>&nbsp;
                                         <a href ="" id ="a2" data-toggle="modal" data-target="#exampleModal" data-id = "${s.id}">Delete</a>
                                     </th>
                                 </tr>
